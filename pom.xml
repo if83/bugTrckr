@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.softserverinc.edu</groupId>
-    <artifactId>agiledev</artifactId>
+    <artifactId>AgileSoftware</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>agiledev Webapp</name>
@@ -81,21 +81,21 @@
                 <configuration>
                     <!-- Web.xml is not required with Servlet 3.0+ specification -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warSourceDirectory>src/main/webapp/WEB-INFF</warSourceDirectory>
+                    <warSourceDirectory>${project.basedir}/src/main/webapp/WEB-INF</warSourceDirectory>
                     <webResources>
                         <resource>
                             <!-- this is relative to the pom.xml directory -->
-                            <directory>src/main/webapp/WEB-INF/resoures</directory>
+                            <directory>${project.basedir}/src/main/webapp/WEB-INF/resources</directory>
                             <targetPath>WEB-INF/resources</targetPath>
                         </resource>
                         <resource>
                             <!-- this is relative to the pom.xml directory -->
-                            <directory>src/main/webapp/WEB-INF/layouts</directory>
+                            <directory>${project.basedir}/src/main/webapp/WEB-INF/layouts</directory>
                             <targetPath>WEB-INF/layouts</targetPath>
                         </resource>
                         <resource>
                             <!-- this is relative to the pom.xml directory -->
-                            <directory>src/main/webapp/WEB-INF/views</directory>
+                            <directory>${project.basedir}/src/main/webapp/WEB-INF/views</directory>
                             <targetPath>WEB-INF/views</targetPath>
                         </resource>
                     </webResources>
