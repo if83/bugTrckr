@@ -15,8 +15,17 @@
         <jstl-version>1.2</jstl-version>
         <apache-tiles-version>3.0.5</apache-tiles-version>
         <spring-version>4.3.1.RELEASE</spring-version>
+
+        <!--Logging-->
         <logback-classic-version>1.1.7</logback-classic-version>
         <slf4j-version>1.7.21</slf4j-version>
+
+        <!--Database-->
+        <jdbc-driver-version>6.0.3</jdbc-driver-version>
+        <spring-data-jpa-version>1.10.2.RELEASE</spring-data-jpa-version>
+        <hibernate-version>5.2.1.Final</hibernate-version>
+
+        <!--Maven plugins-->
         <maven-war-plugin-version>2.6</maven-war-plugin-version>
         <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
     </properties>
@@ -66,6 +75,67 @@
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-extras</artifactId>
             <version>${apache-tiles-version}</version>
+        </dependency>
+
+        <!--Database-->
+
+        <!-- MySQL JDBC connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${jdbc-driver-version}</version>
+        </dependency>
+
+        <!-- Spring -->
+        <!-- This library responsible for:
+        Open the connection.
+        Prepare and execute the statement.
+        Process any exception.
+        Handle transactions.
+        Close the connection, statement and resultset. -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+
+        <!--
+           It  supports integration with Hibernate, Java Persistence API (JPA) and Java Data Objects (JDO)
+            for resource management, data access object (DAO) implementations, and transaction strategies.
+            Benefits of using it
+               Common data access exceptions. Spring can wrap exceptions from your ORM tool
+               General resource management. Spring application contexts can handle the location
+                and configuration of Hibernate SessionFactory instances, JPA EntityManagerFactory instances,
+               JDBC DataSource instances,
+        -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+
+        <!-- Spring Data Jpa -->
+        <!--
+            makes it easy to easily implement JPA based repositories.
+            This module deals with enhanced support for JPA based data access layers
+            Simplifying to execute simple queries as well as perform pagination, and auditing
+        -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa-version}</version>
+        </dependency>
+
+        <!-- Hibernate -->
+        <!--
+        It standardizes the basic APIs and the metadata needed for any object/relational persistence mechanism.
+        Hibernate EntityManager implements the programming interfaces and lifecycle rules as defined
+        by the JPA 2.0 specification (transparent object/relational mapping)
+        -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate-version}</version>
         </dependency>
 
     </dependencies>
