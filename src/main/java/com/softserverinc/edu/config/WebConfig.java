@@ -20,22 +20,11 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.softserverinc.edu"})
-@Import({DBConfig.class})
+@Import({DBConfig.class, TilesConfig.class})
 @PropertySource("classpath:application.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     public  static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
-
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-
-        // TODO: 18.07.16 rest views mapping
-        //default URI /  ->  index.jsp
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/login").setViewName("index");
-    }
 
     /**
      * Make resources aviable to web client. Spring handle the folders starting from WEB-INF
@@ -47,29 +36,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
         registry.addResourceHandler("/fonts/**").addResourceLocations("/resources/fonts/");
         registry.addResourceHandler("/images/**").addResourceLocations("/resources/images/");
-    }
-
-    /**
-     * Let to rosolve of views to Tiles templating framework
-     * @return
-     */
-    @Bean
-    public UrlBasedViewResolver viewResolver() {
-        UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
-        viewResolver.setViewClass(TilesView.class);
-        return viewResolver;
-    }
-
-    /**
-     * Tells to the Tiles context a configuration file
-     * @return
-     */
-    @Bean
-    public TilesConfigurer tilesConfigurer(){
-        TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/layouts/tiles-definitions.xml"});
-        tilesConfigurer.setCheckRefresh(true);
-        return tilesConfigurer;
     }
 
     /**
