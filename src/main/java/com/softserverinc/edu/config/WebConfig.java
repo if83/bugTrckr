@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.softserverinc.edu"})
-@Import({DBConfig.class})
+@Import({DBConfig.class, TilesConfig.class})
 @PropertySource("classpath:application.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
