@@ -6,6 +6,12 @@ body {
     background-color: #fff;
 }
 
+/*For form validation*/
+
+ .margin-left-5 {
+     margin-left: 5px;
+ }
+
 /*Header bar begin*/
 
 .topbar {
