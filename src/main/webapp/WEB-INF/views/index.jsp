@@ -17,7 +17,7 @@
 <c:if test="${empty loginForm.email}">
     <div class="row">
         <div class="col-sm-5 col-md-3">
-            <form:form commandName="loginForm" modelAttribute="loginForm" action="/" class="reg-page" method="POST">
+            <form:form commandName="loginForm" modelAttribute="loginForm" action="/" id="loginform" class="reg-page" method="POST">
                 <div class="reg-header">
                     <h4>Login to your account</h4>
                 </div>
@@ -33,7 +33,7 @@
 
                 <div class="input-group <c:out value='${errorClass}' />">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <form:input path="email" type="email" placeholder="Email" class="form-control"
+                    <form:input path="email" name="email" type="email" placeholder="Email" class="form-control"
                                 required="" pattern=".{5,}"/>
                     <span class="help-block margin-left-5">
                         <form:errors path="email"/>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="input-group <c:out value='${errorClass}' />">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <form:input path="password" type="password" placeholder="Password" class="form-control"
+                    <form:input path="password" name="password" type="password" placeholder="Password" class="form-control"
                                 required="" pattern=".{6,}"/>
                     <span class="help-block margin-left-5">
                         <form:errors path="password"/>
