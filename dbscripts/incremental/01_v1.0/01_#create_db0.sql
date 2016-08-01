@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS `agilesoftware` DEFAULT CHARACTER SET utf8 ;
+
 CREATE TABLE `Users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `firstName` varchar(25) NOT NULL,
