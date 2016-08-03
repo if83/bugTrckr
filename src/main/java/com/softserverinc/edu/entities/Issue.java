@@ -1,4 +1,5 @@
-package com.softserverinc.edu.entity;
+
+package com.softserverinc.edu.entities;
 
 import com.softserverinc.edu.entity.enums.Priority;
 import com.softserverinc.edu.entity.enums.IssueStatus;
@@ -12,6 +13,7 @@ import java.util.Date;
 /**
  * Created by pasha on 8/3/16.
  */
+
 @Entity
 @Table(name = "Issue")
 public class Issue {
@@ -99,3 +101,4 @@ public class Issue {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 }
+*/

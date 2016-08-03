@@ -1,4 +1,4 @@
-package com.softserverinc.edu.config;
+package com.softserverinc.edu.configs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

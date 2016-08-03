@@ -1,4 +1,4 @@
-package com.softserverinc.edu.config;
+package com.softserverinc.edu.configs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +72,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Hibernate Manager configuration. For this config it needs JpaVendorAdapter instance
+     * Hibernate Manager configuration. For this configs it needs JpaVendorAdapter instance
      * @return
      */
     @Bean
@@ -81,7 +81,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
         //Scan package for existing entities
-        entityManagerFactory.setPackagesToScan("com.softserverinc.edu.entity");
+        entityManagerFactory.setPackagesToScan("com.softserverinc.edu.entities");
         //For JPA properties
         Properties properties = new Properties();
         //create tables based on Java objects, first drop

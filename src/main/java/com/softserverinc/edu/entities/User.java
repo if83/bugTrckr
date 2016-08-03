@@ -1,4 +1,4 @@
-package com.softserverinc.edu.entity;
+package com.softserverinc.edu.entities;
 
 import javax.persistence.*;
 
