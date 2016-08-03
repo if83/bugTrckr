@@ -1,4 +1,4 @@
-package com.softserverinc.edu.controller;
+package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.form.LoginForm;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 /**
  * Created by volodymyr on 7/30/16.

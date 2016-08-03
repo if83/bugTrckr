@@ -1,4 +1,4 @@
-package com.softserverinc.edu.config;
+package com.softserverinc.edu.configs;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
