@@ -1,9 +1,7 @@
 
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.entity.enums.Priority;
-import com.softserverinc.edu.entity.enums.IssueStatus;
-import com.softserverinc.edu.entity.enums.Type;
+import com.softserverinc.edu.entities.enums.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -101,4 +99,3 @@ public class Issue {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 }
-*/
