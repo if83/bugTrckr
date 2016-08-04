@@ -15,14 +15,15 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @Configuration
 public class TilesConfig extends WebMvcConfigurerAdapter {
 
-    public  static final Logger LOGGER = LoggerFactory.getLogger(TilesConfig.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TilesConfig.class);
 
     /**
      * Tells to the Tiles context a configuration file
+     *
      * @return
      */
     @Bean
-    public TilesConfigurer tilesConfigurer(){
+    public TilesConfigurer tilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
         tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/layouts/tiles-definitions.xml"});
         tilesConfigurer.setCheckRefresh(true);
@@ -31,6 +32,7 @@ public class TilesConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Let to rosolve of views to Tiles templating framework
+     *
      * @return
      */
     @Bean

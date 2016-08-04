@@ -13,9 +13,9 @@
       -->
 
     <definition name="abstractDefaultTemplate" template="/WEB-INF/layouts/template.jsp">
-        <put-attribute name="header" value="/WEB-INF/layouts/header.jsp" />
-        <put-attribute name="menu" value="/WEB-INF/layouts/menu.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp" />
+        <put-attribute name="header" value="/WEB-INF/layouts/header.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/layouts/menu.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp"/>
         <put-list-attribute name="stylesheets">
             <add-attribute value="/css/bootstrap.min.css"/>
             <add-attribute value="/css/bootstrap-theme.min.css"/>
@@ -30,8 +30,8 @@
     </definition>
 
     <definition name="index" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="My first page" />
-        <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
+        <put-attribute name="title" value="My first page"/>
+        <put-attribute name="content" value="/WEB-INF/views/index.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/login.css"/>
         </put-list-attribute>

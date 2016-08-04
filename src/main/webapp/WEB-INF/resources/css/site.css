@@ -1,5 +1,5 @@
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
@@ -8,9 +8,9 @@ body {
 
 /*Margins*/
 
- .margin-left-5 {
-     margin-left: 5px;
- }
+.margin-left-5 {
+    margin-left: 5px;
+}
 
  .margin-bottom-60 {
      margin-bottom: 60px;
@@ -49,6 +49,7 @@ body {
     font-size: 12px;
     text-transform: uppercase;
 }
+
 /*Header bar end*/
 
 /*Menu begin*/
@@ -69,6 +70,7 @@ body {
     table-layout: fixed;
 
 }
+
 /*Navbar Menu*/
 
 .top-main-menu .navbar-nav > li > a {
@@ -83,8 +85,7 @@ body {
 
 .top-main-menu .navbar-nav > .active > a,
 .top-main-menu .navbar-nav > .active > a:hover,
-.top-main-menu .navbar-nav > .active > a:focus
-{
+.top-main-menu .navbar-nav > .active > a:focus {
     color: #4765a0;
     background: none;
     border-top-color: #784A3B;

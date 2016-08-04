@@ -1,9 +1,5 @@
 package com.softserverinc.edu.configs;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
@@ -11,12 +7,16 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 /**
  * Created by ihorlt on 18.07.16.
  */
 public class WebAppInitializer implements WebApplicationInitializer {
 
-    public  static final Logger LOGGER = LoggerFactory.getLogger(WebAppInitializer.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(WebAppInitializer.class);
 
     @Override
     public void onStartup(ServletContext container) throws ServletException {
