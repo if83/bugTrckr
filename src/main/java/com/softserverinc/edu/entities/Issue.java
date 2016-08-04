@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "issue")
+@Table(name = "Issues")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

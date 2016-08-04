@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "project_release")
+@Table(name = "Releases")
 public class Release {
 
     @Id
