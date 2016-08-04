@@ -89,7 +89,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         Properties properties = new Properties();
         //create tables based on Java objects, first drop
         properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        entityManagerFactory.setJpaProperties(properties);
+        //entityManagerFactory.setJpaProperties(properties);
         return entityManagerFactory;
     }
 
