@@ -12,13 +12,9 @@ import java.io.Serializable;
  */
 
 @Entity
-<<<<<<< HEAD
 @Table(name = "Release")
-public class Release {
-=======
-@Table(name = "Releases")
-public class Release  implements Serializable {
->>>>>>> 0e85b18fe0c43977109bd8bf6797916bd9aafe63
+public class Release implements Serializable  {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
