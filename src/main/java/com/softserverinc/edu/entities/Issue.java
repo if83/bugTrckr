@@ -15,7 +15,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "Issues")
+@Table(name = "Issue")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

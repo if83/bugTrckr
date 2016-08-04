@@ -15,9 +15,9 @@ public class History {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    /*@OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
-    private Issue issue;*/
+    private Issue issue;
 
     @Column(name = "parentId", nullable = false)
     private int parentId;
