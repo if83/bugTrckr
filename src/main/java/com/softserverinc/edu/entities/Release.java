@@ -10,32 +10,31 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table
+@Table(name = "project_release")
 public class Release {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    /*@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
-    private Project project;
+    private Project project;*/
 
-    @Column(nullable = false, length = 32)
+    @Column(name = "version", nullable = false, length = 32)
     private String version;
 
-    @Column(nullable = false, length = 25)
+    @Column(name = "status", nullable = false, length = 25)
     private String status;
 
-    @Column(nullable = false, length = 10000)
+    @Column(name = "description", nullable = false, length = 65535)
     private String description;
 
     public Release() {
     }
 
-    public Release(Project project, String version, String status, String description) {
-        this.project = project;
+    public Release(String version, String status, String description) {
         this.version = version;
         this.status = status;
         this.description = description;
@@ -47,14 +46,6 @@ public class Release {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     public String getVersion() {

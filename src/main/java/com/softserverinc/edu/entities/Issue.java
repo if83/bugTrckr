@@ -13,31 +13,40 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "Issue")
+@Table(name = "issue")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private int id;
+
     @Column(name = "title", nullable = false, length = 25)
     private String title;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
+
     @Column(name = "issueStatus", nullable = false)
     @Enumerated(EnumType.STRING)
     private IssueStatus issueStatus;
+
     @Column(name = "priority", nullable = false)
     @Enumerated(EnumType.STRING)
     private Priority priority;
+
     @Column(name = "createTime", nullable = false)
     private Date createTime;
+
     @Column(name = "dueTime")
     private Date dueTime;
+
     @Column(name = "lastUpdateTime")
     private Date lastUpdateTime;
+
     @Column(name = "estimateTime")
     private long estimateTime;
+
     public String getTitle() {
         return title;
     }
