@@ -1,77 +1,90 @@
-CREATE DATABASE IF NOT EXISTS `agilesoftware` DEFAULT CHARACTER SET utf8;
-USE agilesoftware;
+CREATE TABLE `User` (
+	`id` INT NOT NULL,
+	`firstName` varchar(25) NOT NULL,
+	`lastName` varchar(25) NOT NULL,
+	`email` varchar(32) NOT NULL,
+	`password` varchar(32) NOT NULL,
+	`role` varchar(15) NOT NULL,
+	`projectId` INT,
+	`description` TEXT(10000),
+	PRIMARY KEY (`id`)
+);
 
-CREATE TABLE `Users` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(25) NOT NULL,
-  `lastName` varchar(25) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(512) NOT NULL,
-  `role` varchar(15) NOT NULL,
-  `description` TEXT,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
+CREATE TABLE `Project` (
+	`id` INT NOT NULL,
+	`title` varchar(100) NOT NULL,
+	`projectManagerId` INT NOT NULL,
+	`guestView` BOOLEAN NOT NULL,
+	`guestCreateIssues` BOOLEAN NOT NULL,
+	`guestAddComment` BOOLEAN NOT NULL,
+	`description` varchar(10000),
+	PRIMARY KEY (`id`)
+);
 
-CREATE TABLE `Projects` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `projectManagerId` INT NOT NULL,
-  `guestView` BOOLEAN NOT NULL DEFAULT FALSE,
-  `guestCreateIssues` BOOLEAN NOT NULL DEFAULT FALSE,
-  `guestAddComment` BOOLEAN NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
+CREATE TABLE `Release` (
+	`id` INT NOT NULL,
+	`projectId` INT NOT NULL,
+	`vesrion` varchar(32) NOT NULL,
+	`status` varchar(25) NOT NULL,
+	`description` varchar(10000),
+	PRIMARY KEY (`id`)
+);
 
-CREATE TABLE `Releases` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `projectId` INT NOT NULL,
-  `vesrion` varchar(10) NOT NULL,
-  `status` varchar(6) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
+CREATE TABLE `Issue` (
+	`id` INT NOT NULL,
+	`title` varchar(25) NOT NULL,
+	`type` varchar(25) NOT NULL,
+	`priority` varchar(25) NOT NULL,
+	`status` VARCHAR(255) NOT NULL,
+	`projectId` INT NOT NULL,
+	`assigneeId` INT NOT NULL,
+	`createTime` DATE NOT NULL,
+	`dueDate` DATE NOT NULL,
+	`lastUpdateDate` DATE NOT NULL,
+	`estimateTime` INT NOT NULL,
+	PRIMARY KEY (`id`)
+);
 
-CREATE TABLE `Issues` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `type` varchar(25) NOT NULL,
-  `priority` varchar(10) NOT NULL,
-  `projectId` INT NOT NULL,
-  `assigneeId` INT NOT NULL,
-  `createTime` DATE NOT NULL,
-  `dueDate` DATE NOT NULL,
-  `lastUpdateDate` DATE NOT NULL,
-  `estimateTime` INT NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
-
-CREATE TABLE `Labels` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `issueId` INT NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
+CREATE TABLE `Label` (
+	`id` INT NOT NULL,
+	`title` varchar(25) NOT NULL,
+	`issueId` INT NOT NULL,
+	PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `History` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `issueId` INT NOT NULL,
-  `userId` INT NOT NULL,
-  `parentId` INT NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
+	`id` INT NOT NULL,
+	`issueId` INT NOT NULL,
+	`assigneeId` INT NOT NULL,
+	`parentId` INT NOT NULL,
+	`changedById` INT NOT NULL,
+	`status` varchar(10) NOT NULL,
+	PRIMARY KEY (`id`)
+);
 
-CREATE TABLE `WorkLogs` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `issueId` INT NOT NULL,
-  `userId` INT NOT NULL,
-  `time` DATE NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB;
+CREATE TABLE `WorkLog` (
+	`id` INT NOT NULL,
+	`issueId` INT NOT NULL,
+	`userId` INT NOT NULL,
+	`time` DATE NOT NULL,
+	`amount` INT NOT NULL,
+	PRIMARY KEY (`id`)
+);
 
+ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
 
-ALTER TABLE `Projects` ADD CONSTRAINT `Projects_fk0` FOREIGN KEY (`projectManagerId`) REFERENCES `Users`(`id`);
-ALTER TABLE `Releases` ADD CONSTRAINT `Releases_fk0` FOREIGN KEY (`projectId`) REFERENCES `Projects`(`id`);
-ALTER TABLE `Issues` ADD CONSTRAINT `Issues_fk0` FOREIGN KEY (`projectId`) REFERENCES `Projects`(`id`);
-ALTER TABLE `Issues` ADD CONSTRAINT `Issues_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `Users`(`id`);
-ALTER TABLE `Labels` ADD CONSTRAINT `Labels_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issues`(`id`);
-ALTER TABLE `WorkLogs` ADD CONSTRAINT `WorkLogs_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issues`(`id`);
-ALTER TABLE `WorkLogs` ADD CONSTRAINT `WorkLogs_fk1` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`);
+ALTER TABLE `Project` ADD CONSTRAINT `Project_fk0` FOREIGN KEY (`projectManagerId`) REFERENCES `User`(`id`);
+
+ALTER TABLE `Release` ADD CONSTRAINT `Release_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
+
+ALTER TABLE `Issue` ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
+
+ALTER TABLE `Issue` ADD CONSTRAINT `Issue_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `User`(`id`);
+
+ALTER TABLE `Label` ADD CONSTRAINT `Label_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue`(`id`);
+
+ALTER TABLE `History` ADD CONSTRAINT `History_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue`(`id`);
+
+ALTER TABLE `WorkLog` ADD CONSTRAINT `WorkLog_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue`(`id`);
+
+ALTER TABLE `WorkLog` ADD CONSTRAINT `WorkLog_fk1` FOREIGN KEY (`userId`) REFERENCES `User`(`id`);
