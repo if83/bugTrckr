@@ -6,13 +6,19 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by ihorlt on 28.07.16.
  */
 @Entity
+<<<<<<< HEAD
 @Table(name = "User")
 public class User {
+=======
+@Table(name = "Users")
+public class User implements Serializable {
+>>>>>>> 0e85b18fe0c43977109bd8bf6797916bd9aafe63
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

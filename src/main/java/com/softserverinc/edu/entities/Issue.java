@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,8 +16,14 @@ import java.util.Date;
  */
 
 @Entity
+<<<<<<< HEAD
 @Table(name = "Issue")
 public class Issue {
+=======
+@Table(name = "Issues")
+public class Issue implements Serializable {
+
+>>>>>>> 0e85b18fe0c43977109bd8bf6797916bd9aafe63
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
