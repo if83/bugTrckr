@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "Releases")
+@Table(name = "Release")
 public class Release {
 
     @Id
@@ -19,9 +19,9 @@ public class Release {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    /*@ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
-    private Project project;*/
+    private Project project;
 
     @Column(name = "version", nullable = false, length = 32)
     private String version;

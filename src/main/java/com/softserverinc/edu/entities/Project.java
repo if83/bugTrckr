@@ -5,12 +5,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by volodymyr on 8/3/16.
  */
 @Entity
-@Table(name = "Projects")
+@Table(name = "Project")
 public class Project {
 
     @Id
@@ -21,12 +22,12 @@ public class Project {
     @Column(name = "title", nullable = false, length = 100)
     private String title;
 
-   /* @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
-    private User projectManager;*/
+    private User projectManager;
 
-    /*@OneToMany(fetch = FetchType.EAGER)
-    private Set<Release> releases;*/
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Release> releases;
 
     @Column(name = "guestView", nullable = false)
     private boolean guestView;
@@ -43,8 +44,9 @@ public class Project {
     public Project() {
     }
 
-    public Project(String title, boolean guestView, boolean guestCreateIssues, boolean guestAddComment, String description) {
+    public Project(String title, User projectManager, boolean guestView, boolean guestCreateIssues, boolean guestAddComment, String description) {
         this.title = title;
+        this.projectManager = projectManager;
         this.guestView = guestView;
         this.guestCreateIssues = guestCreateIssues;
         this.guestAddComment = guestAddComment;
@@ -97,6 +99,22 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getProjectManager() {
+        return projectManager;
+    }
+
+    public void setProjectManager(User projectManager) {
+        this.projectManager = projectManager;
+    }
+
+    public Set<Release> getReleases() {
+        return releases;
+    }
+
+    public void setReleases(Set<Release> releases) {
+        this.releases = releases;
     }
 
     @Override
