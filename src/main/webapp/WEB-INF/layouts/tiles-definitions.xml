@@ -40,5 +40,96 @@
         </put-list-attribute>
     </definition>
 
+    <definition name="about" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="About" />
+        <put-attribute name="content" value="/WEB-INF/views/about.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/about.css"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--WorkLog-->
+    <definition name="worklog" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="WorkLog page" />
+        <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--Label-->
+    <definition name="label" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Label page" />
+        <put-attribute name="content" value="/WEB-INF/views/label.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--History-->
+    <definition name="history" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="History page" />
+        <put-attribute name="content" value="/WEB-INF/views/history.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--Issue-->
+    <definition name="issue" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Issue page" />
+        <put-attribute name="content" value="/WEB-INF/views/issue.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--Project-->
+    <definition name="project" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Project page" />
+        <put-attribute name="content" value="/WEB-INF/views/project.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--Release-->
+    <definition name="release" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Release page" />
+        <put-attribute name="content" value="/WEB-INF/views/release.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <!--User-->
+    <definition name="user" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="User page" />
+        <put-attribute name="content" value="/WEB-INF/views/user.jsp" />
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/login.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/index-page.js"/>
+        </put-list-attribute>
+    </definition>
 
 </tiles-definitions>

@@ -5,19 +5,20 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "History")
-public class History {
+public class History implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    /*@OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
-    private Issue issue;*/
+    private Issue issue;
 
     @Column(name = "parentId", nullable = false)
     private int parentId;

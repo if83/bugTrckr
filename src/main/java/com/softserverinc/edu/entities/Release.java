@@ -5,23 +5,25 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Stinio on 02.08.2016.
  */
 
 @Entity
-@Table(name = "Releases")
-public class Release {
+@Table(name = "Release")
+public class Release implements Serializable  {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    /*@ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
-    private Project project;*/
+    private Project project;
 
     @Column(name = "version", nullable = false, length = 32)
     private String version;
