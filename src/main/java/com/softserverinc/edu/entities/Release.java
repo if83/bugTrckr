@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by Stinio on 02.08.2016.
@@ -25,6 +26,9 @@ public class Release implements Serializable  {
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
     private Project project;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Issue> issues;
+
     @Column(name = "version", nullable = false, length = 32)
     private String version;
 
@@ -37,7 +41,9 @@ public class Release implements Serializable  {
     public Release() {
     }
 
-    public Release(String version, String status, String description) {
+    public Release(Project project, Set<Issue> issues, String version, String status, String description) {
+        this.project = project;
+        this.issues = issues;
         this.version = version;
         this.status = status;
         this.description = description;

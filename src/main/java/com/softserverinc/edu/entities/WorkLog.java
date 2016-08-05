@@ -34,6 +34,16 @@ public class WorkLog {
     @Column(name = "amount" )
     private int amount;
 
+    public WorkLog() {
+    }
+
+    public WorkLog(Issue issueId, User userId, Date time, int amount) {
+        this.issueId = issueId;
+        this.userId = userId;
+        this.time = time;
+        this.amount = amount;
+    }
+
     public long getId() {
         return id;
     }
