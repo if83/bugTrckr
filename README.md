@@ -52,6 +52,8 @@
    # Developing
    
    ## Database
+
+   Create manually MySQL database "bugtrckr"
    
    For creating empty tables, please, issue command from project root dir
    
