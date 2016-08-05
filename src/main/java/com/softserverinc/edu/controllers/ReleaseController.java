@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/release")
 public class ReleaseController {
 
-    public String worklogIndex() {
+    public String Index() {
         return "release";
     }
 
