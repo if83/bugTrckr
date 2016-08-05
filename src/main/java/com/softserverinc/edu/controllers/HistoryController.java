@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //@RequestMapping(value = "/history", method = RequestMethod.GET)
 public class HistoryController {
 
-    public String worklogIndex() {
+    public String Index() {
         return "history";
     }
 
