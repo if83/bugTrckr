@@ -1,0 +1,1 @@
+<h2>Label page</h2>
