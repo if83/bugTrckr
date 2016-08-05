@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/label")
 public class LabelController {
 
-    public String worklogIndex() {
+    public String Index() {
         return "label";
     }
 
