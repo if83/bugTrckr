@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/project")
 public class ProjectController {
 
-    public String worklogIndex() {
+    public String Index() {
         return "project";
     }
 
