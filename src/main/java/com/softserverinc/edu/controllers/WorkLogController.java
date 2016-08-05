@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/worklog")
 public class WorkLogController {
 
-    public String worklogIndex() {
+    public String Index() {
         return "worklog";
     }
 
