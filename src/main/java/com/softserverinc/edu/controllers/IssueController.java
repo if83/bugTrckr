@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/issue")
 public class IssueController {
 
-    public String worklogIndex() {
+    public String Index() {
         return "issue";
     }
 
