@@ -25,10 +25,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Menu 1 <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Menu 2</a></li>
-                <li><a href="#">Menu 3</a></li>
-                <li><a href="/about">About</a></li>
+                <li class="active"><a href="<spring:url value='/'/>">Home<span class="sr-only">(current)</span></a></li>
+                <li><a href="<spring:url value='/project'/>">Project</a></li>
+                <li><a href="<spring:url value='/release'/>">Release</a></li>
+                <li><a href="<spring:url value='/issue'/>">Issue</a></li>
+                <li><a href="<spring:url value='/history'/>">History</a></li>
+                <li><a href="<spring:url value='/user'/>">User</a></li>
+                <li><a href="<spring:url value='/about'/>">About</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

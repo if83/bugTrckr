@@ -48,5 +48,46 @@
         </put-list-attribute>
     </definition>
 
+    <!--WorkLog-->
+    <definition name="worklog" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="WorkLog page" />
+        <put-attribute name="content" value="/WEB-INF/views/worklog.jsp" />
+    </definition>
+
+    <!--Label-->
+    <definition name="label" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Label page" />
+        <put-attribute name="content" value="/WEB-INF/views/label.jsp" />
+    </definition>
+
+    <!--History-->
+    <definition name="history" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="History page" />
+        <put-attribute name="content" value="/WEB-INF/views/history.jsp" />
+    </definition>
+
+    <!--Issue-->
+    <definition name="issue" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Issue page" />
+        <put-attribute name="content" value="/WEB-INF/views/issue.jsp" />
+    </definition>
+
+    <!--Project-->
+    <definition name="project" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Project page" />
+        <put-attribute name="content" value="/WEB-INF/views/project.jsp" />
+    </definition>
+
+    <!--Release-->
+    <definition name="release" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Release page" />
+        <put-attribute name="content" value="/WEB-INF/views/release.jsp" />
+    </definition>
+
+    <!--User-->
+    <definition name="user" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="User page" />
+        <put-attribute name="content" value="/WEB-INF/views/user.jsp" />
+    </definition>
 
 </tiles-definitions>
