@@ -48,12 +48,12 @@ public class WorkLog {
         return id;
     }
 
-    public Issue getIssueIdById() {
+    public Issue getIssueId() {
         return issueId;
     }
 
-    public void setIssueIdById(Issue issueIdById) {
-        this.issueId = issueIdById;
+    public void setIssueId(Issue issueId) {
+        this.issueId = issueId;
     }
 
     public User getUserIdById() {
