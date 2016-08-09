@@ -8,10 +8,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * Created by ihorlt on 18.07.16.
  * Configuration class dispatcher-servlet
  */
 
@@ -34,20 +32,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
         registry.addViewController("/about");
         registry.addViewController("/history");
-		registry.addViewController("/issue");
-		registry.addViewController("/project");
-		registry.addViewController("/release");
-		registry.addViewController("/user");
-		registry.addViewController("/label");
-		registry.addViewController("/worklog");
+        registry.addViewController("/issue");
+        registry.addViewController("/project");
+        registry.addViewController("/release");
+        registry.addViewController("/user");
+        registry.addViewController("/label");
+        registry.addViewController("/worklog");
     }
-
 
     /**
      * Make resources aviable to web client. Spring handle the folders starting from WEB-INF

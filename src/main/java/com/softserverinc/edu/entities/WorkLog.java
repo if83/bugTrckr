@@ -8,10 +8,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by 37.0 on 03.08.2016.
- */
-
 @Entity(name = "WorkLog")
 public class WorkLog {
 
@@ -31,7 +27,7 @@ public class WorkLog {
     @Column(name = "time", nullable = false)
     private Date time;
 
-    @Column(name = "amount" )
+    @Column(name = "amount")
     private int amount;
 
     public WorkLog() {

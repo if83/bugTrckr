@@ -9,9 +9,6 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 
-/**
- * Created by volodymyr on 7/30/16.
- */
 @Configuration
 public class TilesConfig extends WebMvcConfigurerAdapter {
 
@@ -31,7 +28,7 @@ public class TilesConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Let to rosolve of views to Tiles templating framework
+     * Let to resolve of views to Tiles templating framework
      *
      * @return
      */

@@ -17,13 +17,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
  * Configuration for database, Hibernate, transactions
- * Created by ihorlt on 28.07.16.
  */
-
 
 @EnableTransactionManagement
 @Configuration
@@ -86,10 +83,6 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         //Scan package for existing entities
         entityManagerFactory.setPackagesToScan("com.softserverinc.edu.entities");
         //For JPA properties
-        Properties properties = new Properties();
-        //create tables based on Java objects, first drop
-//        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        //entityManagerFactory.setJpaProperties(properties);
         return entityManagerFactory;
     }
 

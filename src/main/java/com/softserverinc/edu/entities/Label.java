@@ -6,11 +6,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Created by 37.0 on 02.08.2016.
- */
 @Entity(name = "Label")
 public class Label {
 

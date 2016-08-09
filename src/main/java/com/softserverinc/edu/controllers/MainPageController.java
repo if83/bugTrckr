@@ -14,14 +14,11 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 
-/**
- * Created by volodymyr on 7/30/16.
- */
 @Controller
 @SessionAttributes("loginForm")
 public class MainPageController {
 
-    public  static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
