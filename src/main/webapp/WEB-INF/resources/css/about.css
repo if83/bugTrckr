@@ -18,7 +18,7 @@
     height: 100%;
     content: " ";
     position: absolute;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .breadcrumbs h1 {
@@ -35,7 +35,6 @@
     margin-bottom: 0;
     text-transform: uppercase;
 }
-
 
 .headline-center {
     text-align: center;
@@ -71,7 +70,6 @@
     text-align: center;
     background: #f7f7f7;
 }
-
 
 .service-block .service-inner {
     padding: 80px 40px;

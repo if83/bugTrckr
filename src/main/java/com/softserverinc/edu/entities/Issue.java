@@ -1,16 +1,15 @@
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.entities.enums.*;
+import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.Priority;
+import com.softserverinc.edu.entities.enums.Type;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-/**
- * Created by pasha on 8/3/16.
- */
 
 @Entity
 @Table(name = "Issue")

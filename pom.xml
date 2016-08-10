@@ -208,7 +208,6 @@
             </plugin>
 
 
-
             <plugin>
                 <groupId>org.dbmaintain</groupId>
                 <artifactId>dbmaintain-maven-plugin</artifactId>

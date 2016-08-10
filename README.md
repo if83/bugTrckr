@@ -28,7 +28,7 @@
 1. Make directory **java**  as Sources Root
 
 1. In **config** package create classes
-     **WebAppInitializer**
+     **WebAppInitializer**rt
      **WebConfig**
      
 1. Delete file src/main/webapp/index.jsp

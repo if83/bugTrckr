@@ -1,7 +1,3 @@
-<%--
-  User: ihorlt
-  Date: 04.08.16
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="breadcrumbs img-bg">

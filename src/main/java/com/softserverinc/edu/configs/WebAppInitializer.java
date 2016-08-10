@@ -11,9 +11,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-/**
- * Created by ihorlt on 18.07.16.
- */
 public class WebAppInitializer implements WebApplicationInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(WebAppInitializer.class);

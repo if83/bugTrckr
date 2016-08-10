@@ -1,8 +1,3 @@
-/**
- * Created by ihorlt on 02.08.16.
- */
-
-
 $(document).ready(function () {
 
     //form login validation

@@ -8,12 +8,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by ihorlt on 28.07.16.
- */
 @Entity
 @Table(name = "User")
-public class User implements Serializable  {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

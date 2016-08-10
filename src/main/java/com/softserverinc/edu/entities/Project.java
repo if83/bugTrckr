@@ -8,12 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-/**
- * Created by volodymyr on 8/3/16.
- */
 @Entity
 @Table(name = "Project")
-public class Project implements Serializable  {
+public class Project implements Serializable {
 
 
     @Id
