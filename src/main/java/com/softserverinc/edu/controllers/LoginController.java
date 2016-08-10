@@ -16,10 +16,9 @@ import javax.validation.Valid;
 
 @Controller
 @SessionAttributes("loginForm")
-public class MainPageController {
+public class LoginController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
-
+    public static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loginForm(Model model) {
@@ -30,8 +29,6 @@ public class MainPageController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String loginPost(@Valid @ModelAttribute("loginForm") LoginForm loginForm,
                             BindingResult result, Model model) {
-
-
         if (result.hasErrors()) {
             return "index";
         }
