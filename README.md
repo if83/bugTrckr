@@ -42,7 +42,7 @@
    Click right on **agiledev:war exploded**
    Double click right on **WEB-INF** folder to open it than on **+** sign and choose **Directory Content** and choose **WEB-INF** folder. This will include WEB-INF subfolders in war file
    
-   # Working with DBmaintain
+   # Working with Database
    
    ## Database
    
@@ -53,23 +53,8 @@
    
    ## Database
 
-   Create manually MySQL database "bugtrckr"
-   
-   For creating empty tables, please, issue command from project root dir
-   
-   **mvn dbmaintain:updateDatabase@db-update-create**
-   
-   For creating tables and populating them with some reference data, please, issue command from project root dir
-   
-   **mvn dbmaintain:updateDatabase@db-update-refdata**
-   
-   For dropping a database is a Maven command issued from project root dir
-   
-   **mvn dbmaintain:clearDatabase**
-   
-   For removing the data of all database tables
-   
-   **mvn dbmaintain:cleanDatabase**
+   Create manually MySQL database "bugtrckr" and do:
+   Maven Project -> BugTrckr -> Lifecycle -> package
    
    
    # Troubleshooting
