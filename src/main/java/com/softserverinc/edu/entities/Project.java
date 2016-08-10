@@ -5,58 +5,46 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "Project")
-public class Project implements Serializable {
-
+public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
+    private Long id;
 
-    @Column(name = "title", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
     private User projectManager;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Release> releases;
 
-    @Column(name = "guestView", nullable = false)
+    @Column(nullable = false)
     private boolean guestView;
 
-    @Column(name = "guestCreateIssues", nullable = false)
+    @Column(nullable = false)
     private boolean guestCreateIssues;
 
-    @Column(name = "guestAddComment", nullable = false)
+    @Column(nullable = false)
     private boolean guestAddComment;
 
-    @Column(name = "description", nullable = true, length = 10000)
+    @Column(length = 10000)
     private String description;
 
     public Project() {
     }
 
-    public Project(String title, User projectManager, boolean guestView, boolean guestCreateIssues, boolean guestAddComment, String description) {
-        this.title = title;
-        this.projectManager = projectManager;
-
-        this.guestView = guestView;
-        this.guestCreateIssues = guestCreateIssues;
-        this.guestAddComment = guestAddComment;
-        this.description = description;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,6 +54,22 @@ public class Project implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public User getProjectManager() {
+        return projectManager;
+    }
+
+    public void setProjectManager(User projectManager) {
+        this.projectManager = projectManager;
+    }
+
+    public Set<Release> getReleases() {
+        return releases;
+    }
+
+    public void setReleases(Set<Release> releases) {
+        this.releases = releases;
     }
 
     public boolean isGuestView() {
@@ -98,22 +102,6 @@ public class Project implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getProjectManager() {
-        return projectManager;
-    }
-
-    public void setProjectManager(User projectManager) {
-        this.projectManager = projectManager;
-    }
-
-    public Set<Release> getReleases() {
-        return releases;
-    }
-
-    public void setReleases(Set<Release> releases) {
-        this.releases = releases;
     }
 
     @Override

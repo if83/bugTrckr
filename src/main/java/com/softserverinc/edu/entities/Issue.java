@@ -8,75 +8,63 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "Issue")
-public class Issue implements Serializable {
+public class Issue {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
-    private int id;
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
+    private Long id;
 
-    @Column(name = "title", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     private String title;
 
-    @Column(name = "type", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @Column(name = "issueStatus", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
-    private IssueStatus issueStatus;
+    private IssueStatus status;
 
-    @Column(name = "priority", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "releaseId", referencedColumnName = "id", nullable = false)
-    private Release releaseId;
+    private Release release;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
-    private User assigneeId;
+    private User assignee;
 
-    @Column(name = "createTime", nullable = false)
+    @Column(nullable = false)
     private Date createTime;
 
-    @Column(name = "dueTime")
+    @Column(nullable = false)
     private Date dueTime;
 
-    @Column(name = "lastUpdateTime")
+    @Column(nullable = false)
     private Date lastUpdateTime;
 
-    @Column(name = "estimateTime")
-    private long estimateTime;
+    @Column(nullable = false)
+    private Long estimateTime;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "parentId", referencedColumnName = "id")
-    private Issue parentId;
-
-    public Issue(String title, Type type, IssueStatus issueStatus, Priority priority, Release releaseId, User assigneeId, Date createTime) {
-        this.title = title;
-        this.type = type;
-        this.issueStatus = issueStatus;
-        this.priority = priority;
-        this.releaseId = releaseId;
-        this.assigneeId = assigneeId;
-        this.createTime = createTime;
-    }
+    private Issue parent;
 
     public Issue() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -96,12 +84,12 @@ public class Issue implements Serializable {
         this.type = type;
     }
 
-    public IssueStatus getIssueStatus() {
-        return issueStatus;
+    public IssueStatus getStatus() {
+        return status;
     }
 
-    public void setIssueStatus(IssueStatus issueStatus) {
-        this.issueStatus = issueStatus;
+    public void setStatus(IssueStatus status) {
+        this.status = status;
     }
 
     public Priority getPriority() {
@@ -112,20 +100,20 @@ public class Issue implements Serializable {
         this.priority = priority;
     }
 
-    public Release getReleaseId() {
-        return releaseId;
+    public Release getRelease() {
+        return release;
     }
 
-    public void setReleaseId(Release releaseId) {
-        this.releaseId = releaseId;
+    public void setRelease(Release release) {
+        this.release = release;
     }
 
-    public User getAssigneeId() {
-        return assigneeId;
+    public User getAssignee() {
+        return assignee;
     }
 
-    public void setAssigneeId(User assigneeId) {
-        this.assigneeId = assigneeId;
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
     }
 
     public Date getCreateTime() {
@@ -160,12 +148,12 @@ public class Issue implements Serializable {
         this.estimateTime = estimateTime;
     }
 
-    public Issue getParentId() {
-        return parentId;
+    public Issue getParent() {
+        return parent;
     }
 
-    public void setParentId(Issue parentId) {
-        this.parentId = parentId;
+    public void setParent(Issue parent) {
+        this.parent = parent;
     }
 
     @Override

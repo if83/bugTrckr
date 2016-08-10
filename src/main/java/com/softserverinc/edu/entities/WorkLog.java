@@ -8,40 +8,37 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "WorkLog")
+@Entity
 public class WorkLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private Issue issueId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private User userId;
 
-    @Column(name = "time", nullable = false)
+    @Column(nullable = false)
     private Date time;
 
     @Column(name = "amount")
-    private int amount;
+    private Long amount;
 
     public WorkLog() {
     }
 
-    public WorkLog(Issue issueId, User userId, Date time, int amount) {
-        this.issueId = issueId;
-        this.userId = userId;
-        this.time = time;
-        this.amount = amount;
+    public Long getId() {
+        return id;
     }
 
-    public long getId() {
-        return id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Issue getIssueId() {
@@ -52,12 +49,12 @@ public class WorkLog {
         this.issueId = issueId;
     }
 
-    public User getUserIdById() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserIdById(User userIdById) {
-        this.userId = userIdById;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     public Date getTime() {
@@ -68,11 +65,11 @@ public class WorkLog {
         this.time = time;
     }
 
-    public int getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

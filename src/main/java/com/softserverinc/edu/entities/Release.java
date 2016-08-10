@@ -5,44 +5,33 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "Release")
-public class Release implements Serializable {
-
+public class Release {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
     private Project project;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Issue> issues;
 
-    @Column(name = "version", nullable = false, length = 32)
+    @Column(nullable = false, length = 32)
     private String version;
 
-    @Column(name = "status", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     private String status;
 
-    @Column(name = "description", nullable = false, length = 65535)
+    @Column(length = 65535)
     private String description;
 
     public Release() {
-    }
-
-    public Release(Project project, Set<Issue> issues, String version, String status, String description) {
-        this.project = project;
-        this.issues = issues;
-        this.version = version;
-        this.status = status;
-        this.description = description;
     }
 
     public Long getId() {
@@ -51,6 +40,22 @@ public class Release implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
     }
 
     public String getVersion() {

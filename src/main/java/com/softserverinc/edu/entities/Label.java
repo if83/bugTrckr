@@ -9,33 +9,31 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "Label")
+@Entity
 public class Label {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
-    private long id;
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
+    private Long id;
 
-    @Column(name = "title", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    // FIXME: Is Label has a set of Issues or backwards?
+    @OneToMany
     @JoinColumn(referencedColumnName = "id", nullable = false)
-    private Set<Issue> issueIdSet;
+    private Set<Issue> issues;
 
     public Label() {
-
     }
 
-    public Label(String title, Set<Issue> issueIdSet) {
-        this.title = title;
-        this.issueIdSet = issueIdSet;
-    }
-
-
-    public Long getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -46,15 +44,12 @@ public class Label {
         this.title = title;
     }
 
-    public Set<Issue> getIssueIdSet() {
-        if (this.issueIdSet == null) {
-            this.issueIdSet = new HashSet<Issue>();
-        }
-        return this.issueIdSet;
+    public Set<Issue> getIssues() {
+        return issues;
     }
 
-    public void setIssueIdSet(Set<Issue> issueIdSet) {
-        this.issueIdSet = issueIdSet;
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
     }
 
     @Override

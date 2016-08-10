@@ -5,74 +5,32 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "History")
-public class History implements Serializable {
+public class History {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    @Column(name = "parentId", nullable = false)
-    private int parentId;
+    @Column(nullable = false)
+    private Long parentId;
 
     @Column(name = "assigneeId", nullable = false)
-    private int assigneeId;
+    private Long assigneeId;
 
     @Column(name = "changeById", nullable = false)
-    private int changeById;
+    private Long changeById;
 
-    @Column(name = "status", nullable = false, length = 10)
+    @Column(nullable = false, length = 10)
     private String status;
 
     public History() {
-    }
-
-    public History(int parentId, int assigneeId, int changeById, String status) {
-
-        this.parentId = parentId;
-        this.assigneeId = assigneeId;
-        this.changeById = changeById;
-        this.status = status;
-    }
-
-    public int getChangeById() {
-        return changeById;
-    }
-
-    public void setChangeById(int changeById) {
-        this.changeById = changeById;
-    }
-
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
-    }
-
-    public int getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(int assigneeId) {
-        this.assigneeId = assigneeId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Long getId() {
@@ -81,6 +39,46 @@ public class History implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public Long getAssigneeId() {
+        return assigneeId;
+    }
+
+    public void setAssigneeId(Long assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
+    public Long getChangeById() {
+        return changeById;
+    }
+
+    public void setChangeById(Long changeById) {
+        this.changeById = changeById;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -97,4 +95,5 @@ public class History implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
+
 }

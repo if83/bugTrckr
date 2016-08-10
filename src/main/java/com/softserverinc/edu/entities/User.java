@@ -6,44 +6,33 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "User")
-public class User implements Serializable {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "firstName", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     private String firstName;
 
-    @Column(name = "lastName", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     private String lastName;
 
-    @Column(name = "email", unique = true, nullable = false, length = 100)
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "role", nullable = false, length = 15)
+    @Column(nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "description", nullable = true, length = 65535)
+    @Column(length = 65535)
     private String description;
-
-    public User(String firstName, String lastName, String email, String password, UserRole role, String description) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.description = description;
-    }
 
     public User() {
     }
@@ -112,7 +101,6 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         return EqualsBuilder.reflectionEquals(this, o);
-
     }
 
     @Override
