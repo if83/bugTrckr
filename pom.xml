@@ -28,8 +28,8 @@
         <!--Maven plugins-->
         <maven-war-plugin-version>2.6</maven-war-plugin-version>
         <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
-
-        <apache.commons-version>3.0</apache.commons-version>
+        <maven-sql-plugin-version>1.5</maven-sql-plugin-version>
+        <commons-lang3-version>3.0</commons-lang3-version>
     </properties>
 
     <dependencies>
@@ -78,8 +78,6 @@
             <artifactId>tiles-extras</artifactId>
             <version>${apache-tiles-version}</version>
         </dependency>
-
-        <!--Database-->
 
         <!-- MySQL JDBC connector -->
         <dependency>
@@ -158,14 +156,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${apache.commons-version}</version>
+            <version>${commons-lang3-version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
-        <finalName>bugtrckr</finalName>
-
         <plugins>
 
             <!--Properties-maven-plugin-->
@@ -187,6 +183,7 @@
                     </execution>
                 </executions>
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -227,94 +224,11 @@
                 </configuration>
             </plugin>
 
-
+            <!--Sql-maven-plugin-->
             <plugin>
-                <groupId>org.dbmaintain</groupId>
-                <artifactId>dbmaintain-maven-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <scriptLocations>${project.basedir}/dbscripts</scriptLocations>
-                    <archiveFileName>bugtrckr_db.jar</archiveFileName>
-                    <autoCreateDbMaintainScriptsTable>true</autoCreateDbMaintainScriptsTable>
-                    <fromScratchEnabled>true</fromScratchEnabled>
-                    <qualifiers>
-                        create,refdata
-                    </qualifiers>
-                    <databases>
-                        <database>
-                            <driverClassName>${jdbc.driverClass}</driverClassName>
-                            <url>${jdbc.url}</url>
-                            <userName>${jdbc.username}</userName>
-                            <password>${jdbc.password}</password>
-                            <schemaNames>bugtrckr</schemaNames>
-                        </database>
-                    </databases>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>db-jar</id>
-                        <goals>
-                            <goal>createScriptArchive</goal>
-                        </goals>
-                    </execution>
-
-                    <execution>
-                        <id>db-clear</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>clearDatabase</goal>
-                        </goals>
-                    </execution>
-
-                    <execution>
-                        <id>db-uptodate-create</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>markDatabaseAsUpToDate</goal>
-                        </goals>
-                        <configuration>
-                            <includedQualifiers>create</includedQualifiers>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>db-update-create</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>updateDatabase</goal>
-                        </goals>
-                        <configuration>
-                            <includedQualifiers>create</includedQualifiers>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>db-update-refdata</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>updateDatabase</goal>
-                        </goals>
-                        <configuration>
-                            <includedQualifiers>create,refdata</includedQualifiers>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>db-drop-constraints</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>disableConstraints</goal>
-                        </goals>
-                    </execution>
-
-                    <execution>
-                        <id>db-clean</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>cleanDatabase</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>${maven-sql-plugin-version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
@@ -322,9 +236,29 @@
                         <version>${jdbc-driver-version}</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <driver>${jdbc.driverClass}</driver>
+                    <url>${jdbc.url}</url>
+                    <username>${jdbc.username}</username>
+                    <password>${jdbc.password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-tables</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <autocommit>true</autocommit>
+                            <fileset>
+                                <basedir>${basedir}/dbscripts/incremental/01_v1.0</basedir>
+                            </fileset>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
-
     </build>
 </project>
