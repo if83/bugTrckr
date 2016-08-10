@@ -1,0 +1,1 @@
+INSERT INTO bugtrckr.User (id, firstName, lastName, email, password, role, description) VALUES (1, 'admin', 'admin', 'admin@ss.com', 'admin', 'admin', 'first');

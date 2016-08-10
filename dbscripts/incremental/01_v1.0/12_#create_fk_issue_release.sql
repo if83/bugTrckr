@@ -1,1 +1,0 @@
-ALTER TABLE `Issue` ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`releaseId`) REFERENCES `Release`(`id`);

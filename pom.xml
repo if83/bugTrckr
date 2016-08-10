@@ -168,6 +168,26 @@
 
         <plugins>
 
+            <!--Properties-maven-plugin-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>src/main/resources/application.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -222,10 +242,10 @@
                     </qualifiers>
                     <databases>
                         <database>
-                            <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
-                            <userName>root</userName>
-                            <password>root</password>
-                            <url>jdbc:mysql://localhost:3306/bugtrckr?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</url>
+                            <driverClassName>${jdbc.driverClass}</driverClassName>
+                            <url>${jdbc.url}</url>
+                            <userName>${jdbc.username}</userName>
+                            <password>${jdbc.password}</password>
                             <schemaNames>bugtrckr</schemaNames>
                         </database>
                     </databases>
