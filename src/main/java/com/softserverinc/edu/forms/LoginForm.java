@@ -1,4 +1,4 @@
-package com.softserverinc.edu.form;
+package com.softserverinc.edu.forms;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

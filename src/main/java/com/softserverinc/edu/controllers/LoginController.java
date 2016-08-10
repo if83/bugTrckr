@@ -1,6 +1,6 @@
 package com.softserverinc.edu.controllers;
 
-import com.softserverinc.edu.form.LoginForm;
+import com.softserverinc.edu.forms.LoginForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
