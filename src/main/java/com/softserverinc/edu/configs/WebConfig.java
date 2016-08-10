@@ -10,14 +10,12 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Configuration class dispatcher-servlet
+ * Configuration of Spring MVC
  */
-
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.softserverinc.edu"})
 @Import({DBConfig.class, TilesConfig.class})
-@PropertySource("classpath:application.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
@@ -30,19 +28,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-        registry.addViewController("/about");
-        registry.addViewController("/history");
-        registry.addViewController("/issue");
-        registry.addViewController("/project");
-        registry.addViewController("/release");
-        registry.addViewController("/user");
-        registry.addViewController("/label");
-        registry.addViewController("/worklog");
     }
 
     /**

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -21,14 +22,16 @@ import javax.sql.DataSource;
 /**
  * Configuration for database, Hibernate, transactions
  */
-
-@EnableTransactionManagement
 @Configuration
+@EnableTransactionManagement
+@PropertySource("classpath:application.properties")
 public class DBConfig extends WebMvcConfigurerAdapter {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(DBConfig.class);
 
-    //getting properties data from bean created in WebConfig class
+    /**
+     * getting properties data from bean
+     */
     @Autowired
     private Environment environment;
 
@@ -39,7 +42,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
      */
     @Bean
     public DataSource dataSource() {
-        //Spring-jdbc library
+        // Simple implementation of the standard JDBC DataSource interface
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("jdbc.driverClass"));
         dataSource.setUrl(environment.getProperty("jdbc.url"));
@@ -52,7 +55,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
      * Add Support of transactions. It is need @EnableTransactionManagement annotation
      *
      * @param entityManagerFactory
-     * @return
+     * @return jpaTransactionManager
      */
     @Bean
     public JpaTransactionManager jpaTransactionManager(EntityManagerFactory entityManagerFactory) {
@@ -61,7 +64,11 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return jpaTransactionManager;
     }
 
-
+    /**
+     * Specify JPA engine-specific vendor
+     *
+     * @return JPA vendor Hibernate
+     */
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
@@ -73,16 +80,15 @@ public class DBConfig extends WebMvcConfigurerAdapter {
     /**
      * Hibernate Manager configuration. For this configs it needs JpaVendorAdapter instance
      *
-     * @return
+     * @return entityManagerFactory
      */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
-        //Scan package for existing entities
+        // Scan package for existing entities
         entityManagerFactory.setPackagesToScan("com.softserverinc.edu.entities");
-        //For JPA properties
         return entityManagerFactory;
     }
 
