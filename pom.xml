@@ -138,7 +138,6 @@
             <version>${hibernate-version}</version>
         </dependency>
 
-
         <!--Bean and form validation enabled by spring @EnableWebMvc annotation-->
         <dependency>
             <groupId>javax.validation</groupId>
@@ -183,7 +182,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

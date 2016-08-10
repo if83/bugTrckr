@@ -1,66 +1,19 @@
-# Creating a project
+# Running project locally:
 
-1. Create in IntelliJ Maven based application based on **maven-archetype-webapp**  Archetype
- groupId is com.softserverinc.edu
- artifactId  agiledev
+1. clone the project;
+2. open project in IDE;
+3. create manually database _bugtrckr_ (in MySQL-server the command: `CREATE DATABASE IF NOT EXISTS bugtrckr;`);
+4. in the file *AgileSoftware/src/main/resources/application.properties* change properties (*jdbc.username* and *jdbc.password*) to your own;
+5. run maven goal `mvn clean package` for execute database-scripts and create war-package;
+6. run the project in the local server (for example *Tomcat*)
 
-1. Modify **pom.xml** file for Spring MVC with no **web.xml** configuration
 
-1. Issue command **Maven->Reimport**
+In the Database will be user with admin rights, e-mail: admin@ss.com, and password: admin
 
-1. Delete **web.xml** file
+### Troubleshooting
 
-1. Create directories
-
-      src/main/webapp/WEB-INF/resoures
-      src/main/webapp/WEB-INF/layouts
-      src/main/webapp/WEB-INF/views
-
-1. Put files in above directories. These files are responsibile for web interface
-
-1. Put file **logback.xml** in resources directory
-
-1. In **main** directory create packages  java.com.softserverinc.edu
-
-1. In **edu** package create packages
-      **config**
-
-1. Make directory **java**  as Sources Root
-
-1. In **config** package create classes
-     **WebAppInitializer**rt
-     **WebConfig**
-     
-1. Delete file src/main/webapp/index.jsp
-
-1. Create local server Tomcat
-    1. Add Deployment agiledev:war exploded
-	1. Remove a folder there if it exists
-	1. Add in Before lunch: Build agiledev:war exploded artifact
-
-1. Go to in main menu  File->Project Structure->Artifacts.
-   Click right on **agiledev:war exploded**
-   Double click right on **WEB-INF** folder to open it than on **+** sign and choose **Directory Content** and choose **WEB-INF** folder. This will include WEB-INF subfolders in war file
-   
-   # Working with Database
-   
-   ## Database
-   
-   In a Database will be user with admin rights, e-mail:  **admin@ss.com**, and password:  **admin**
-   
-   
-   # Developing
-   
-   ## Database
-
-   Create manually MySQL database "bugtrckr" and do:
-   Maven Project -> BugTrckr -> Lifecycle -> package
-   
-   
-   # Troubleshooting
-   
    In case a Tomcat will give you a warning like org.apache.catalina.webresources.Cache.getResource Unable to add the resource ... to the cache because there was insufficient free space
-   
-   Please, In your $CATALINA_BASE/conf/context.xml add block before </Context>
-   
-   &lt;Resources cachingAllowed="true" cacheMaxSize="100000" /&gt;
+
+   Please, In your *$CATALINA_BASE/conf/context.xml* add block before `</Context>`
+
+   `&lt;Resources cachingAllowed="true" cacheMaxSize="100000" /&gt;`
