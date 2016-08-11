@@ -1,8 +1,11 @@
 package com.softserverinc.edu.configs;
 
+import com.softserverinc.edu.services.UserService;
+import com.softserverinc.edu.services.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -60,6 +63,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
      * @return jpaTransactionManager
      */
     @Bean
+    @Qualifier("transactionManager")
     public JpaTransactionManager jpaTransactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
@@ -92,6 +96,15 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         // Scan package for existing entities
         entityManagerFactory.setPackagesToScan("com.softserverinc.edu.entities");
         return entityManagerFactory;
+    }
+
+    /**
+     * User service bean
+     * @return UserService implementations
+     */
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl();
     }
 
 }

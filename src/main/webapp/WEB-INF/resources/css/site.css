@@ -121,6 +121,10 @@ i.icon-bg-u {
     color: white;
 }
 
+i.icon-table-u {
+    color: #784A3B;
+}
+
 i.icon-md {
     width: 55px;
     height: 55px;
@@ -133,4 +137,36 @@ i.icon-md {
 
 .rounded-x {
     border-radius: 50%;
+}
+
+
+/*Breadcrumb*/
+
+.breadcrumbs {
+    overflow: hidden;
+    padding: 10px 0 6px;
+    border-bottom: solid 1px #eee;
+    background: url(../images/breadcrumbs.png) repeat;
+}
+
+.breadcrumbs h1 {
+    color: #666;
+    font-size: 22px;
+    margin-top: 8px;
+}
+
+.breadcrumb {
+    top: 10px;
+    z-index: 1;
+    padding-right: 0;
+    background: none;
+    position: relative;
+}
+.breadcrumb a {
+    color: #777;
+}
+.breadcrumb li.active,
+.breadcrumb li a:hover {
+    color: #784A3B;
+    text-decoration: none;
 }

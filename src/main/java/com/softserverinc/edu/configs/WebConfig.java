@@ -31,6 +31,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
+     * Configure implisite controllers for views
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        super.addViewControllers(registry);
+
+        registry.addViewController("/about");
+    }
+
+    /**
      * Make resources aviable to web client. Spring handle the folders starting from WEB-INF
      *
      * @param registry

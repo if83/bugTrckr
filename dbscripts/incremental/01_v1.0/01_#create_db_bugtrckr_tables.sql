@@ -8,10 +8,10 @@ CREATE TABLE  `User` (
 	`projectId` INT,
 	`description` TEXT(10000),
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 CREATE TABLE `Project` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`title` varchar(100) NOT NULL,
 	`projectManagerId` INT NOT NULL,
 	`guestView` BOOLEAN NOT NULL,
@@ -19,19 +19,19 @@ CREATE TABLE `Project` (
 	`guestAddComment` BOOLEAN NOT NULL,
 	`description` varchar(10000),
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 CREATE TABLE `Release` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`projectId` INT NOT NULL,
 	`vesrion` varchar(32) NOT NULL,
 	`status` varchar(25) NOT NULL,
 	`description` varchar(10000),
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 CREATE TABLE `Issue` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`title` varchar(25) NOT NULL,
 	`type` varchar(25) NOT NULL,
 	`priority` varchar(25) NOT NULL,
@@ -44,33 +44,33 @@ CREATE TABLE `Issue` (
 	`estimateTime` INT NOT NULL,
 	`parentId` INT,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 CREATE TABLE `Label` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`title` varchar(25) NOT NULL,
 	`issueId` INT NOT NULL,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 CREATE TABLE `History` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`issueId` INT NOT NULL,
 	`assigneeId` INT NOT NULL,
 	`parentId` INT NOT NULL,
 	`changedById` INT NOT NULL,
 	`status` varchar(10) NOT NULL,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 CREATE TABLE `WorkLog` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`issueId` INT NOT NULL,
 	`userId` INT NOT NULL,
 	`time` DATE NOT NULL,
 	`amount` INT NOT NULL,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;;
 
 ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
 
