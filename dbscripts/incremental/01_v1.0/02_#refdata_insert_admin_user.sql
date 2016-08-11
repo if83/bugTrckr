@@ -1,1 +1,6 @@
-INSERT INTO bugtrckr.User (id, firstName, lastName, email, password, role, description) VALUES (1, 'admin', 'admin', 'admin@ss.com', 'admin', 'admin', 'first');
+INSERT INTO bugtrckr.User (firstName, lastName, email, password, role, description) VALUES ('admin', 'admin', 'admin@ss.com', 'admin', 'admin', 'first');
+INSERT INTO bugtrckr.User (firstName, lastName, email, password, role, description) VALUES ('manager', 'manager', 'manager@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'PROJECT_MANAGER', 'pm');
+INSERT INTO bugtrckr.User (firstName, lastName, email, password, role, description) VALUES ('developer', 'developer', 'developer@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'DEVELOPER', 'developer');
+INSERT INTO bugtrckr.User (firstName, lastName, email, password, role, description) VALUES ('quality_e', 'quality_e', 'quality_e@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'QA', 'qa');
+INSERT INTO bugtrckr.User (firstName, lastName, email, password, role, description) VALUES ('user', 'user', 'user@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'USER', 'user');
+INSERT INTO bugtrckr.User (firstName, lastName, email, password, role, description) VALUES ('guest', 'guest', 'guest@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'GUEST', 'guest');
