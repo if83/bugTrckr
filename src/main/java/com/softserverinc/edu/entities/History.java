@@ -18,17 +18,19 @@ public class History {
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    @Column(nullable = false)
+    @Column
     private Long parentId;
 
-    @Column(name = "assigneeId", nullable = false)
+    @Column(nullable = false)
     private Long assigneeId;
 
-    @Column(name = "changeById", nullable = false)
+    @Column
     private Long changeById;
 
-    @Column(nullable = false, length = 10)
-    private String status;
+    // Fixme: use status field from Issue
+    @OneToOne
+    @JoinColumn(referencedColumnName = "status", nullable = false)
+    private Issue issueStatus;
 
     public History() {
     }
@@ -73,12 +75,12 @@ public class History {
         this.changeById = changeById;
     }
 
-    public String getStatus() {
-        return status;
+    public Issue getStatus() {
+        return issueStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(Issue issueStatus) {
+        this.issueStatus = issueStatus;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.softserverinc.edu.entities;
 
+import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,7 +27,8 @@ public class Release {
     private String version;
 
     @Column(nullable = false, length = 25)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ReleaseStatus releaseStatus;
 
     @Column(length = 65535)
     private String description;
@@ -66,12 +68,12 @@ public class Release {
         this.version = version;
     }
 
-    public String getStatus() {
-        return status;
+    public ReleaseStatus getReleaseStatus() {
+        return releaseStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setReleaseStatus(ReleaseStatus releaseStatus) {
+        this.releaseStatus = releaseStatus;
     }
 
     public String getDescription() {

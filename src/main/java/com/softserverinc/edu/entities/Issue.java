@@ -1,14 +1,13 @@
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.entities.enums.IssueStatus;
-import com.softserverinc.edu.entities.enums.Priority;
-import com.softserverinc.edu.entities.enums.Type;
+import com.softserverinc.edu.entities.enums.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Issue {
@@ -23,7 +22,7 @@ public class Issue {
 
     @Column(nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private IssueType type;
 
     @Column(nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
@@ -31,7 +30,7 @@ public class Issue {
 
     @Column(nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
-    private Priority priority;
+    private IssuePriority priority;
 
     @ManyToOne
     @JoinColumn(name = "releaseId", referencedColumnName = "id", nullable = false)
@@ -40,6 +39,10 @@ public class Issue {
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
+
+    @ManyToMany
+    @JoinColumn(referencedColumnName = "id")
+    private Set<Label> labels;
 
     @Column(nullable = false)
     private Date createTime;
@@ -76,11 +79,11 @@ public class Issue {
         this.title = title;
     }
 
-    public Type getType() {
+    public IssueType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(IssueType type) {
         this.type = type;
     }
 
@@ -92,11 +95,11 @@ public class Issue {
         this.status = status;
     }
 
-    public Priority getPriority() {
+    public IssuePriority getPriority() {
         return priority;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(IssuePriority priority) {
         this.priority = priority;
     }
 
@@ -114,6 +117,14 @@ public class Issue {
 
     public void setAssignee(User assignee) {
         this.assignee = assignee;
+    }
+
+    public Set<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Set<Label> labels) {
+        this.labels = labels;
     }
 
     public Date getCreateTime() {
@@ -140,11 +151,11 @@ public class Issue {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public long getEstimateTime() {
+    public Long getEstimateTime() {
         return estimateTime;
     }
 
-    public void setEstimateTime(long estimateTime) {
+    public void setEstimateTime(Long estimateTime) {
         this.estimateTime = estimateTime;
     }
 

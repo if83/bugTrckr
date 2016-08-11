@@ -1,5 +1,5 @@
 package com.softserverinc.edu.entities.enums;
 
-public enum Priority {
+public enum IssuePriority {
     LOW, MEDIUM, HIGH, CRITICAL, BLOCKER;
 }

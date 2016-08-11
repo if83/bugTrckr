@@ -21,18 +21,18 @@ public class Label {
     private String title;
 
     // FIXME: Is Label has a set of Issues or backwards?
-    @OneToMany
+    @ManyToMany
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private Set<Issue> issues;
 
     public Label() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -24,7 +24,7 @@ public class User {
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @Column(nullable = false, length = 15)
@@ -33,6 +33,10 @@ public class User {
 
     @Column(length = 65535)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
+    private Project projectId;
 
     public User() {
     }
@@ -91,6 +95,14 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Project getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Project projectId) {
+        this.projectId = projectId;
     }
 
     @Override

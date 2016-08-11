@@ -18,9 +18,14 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
+    // FIXME: We should have Set of users or only one projectManager??
     @OneToOne
     @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
     private User projectManager;
+
+    @OneToMany
+    @JoinColumn(referencedColumnName = "id", nullable = false)
+    private Set<User> users;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Release> releases;
@@ -102,6 +107,14 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

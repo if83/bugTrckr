@@ -31,7 +31,7 @@ public class TilesConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Let to resolve of views to Tiles templating framework
+     * Let to resolve of views to Tiles template framework
      *
      * @return viewResolver
      */
