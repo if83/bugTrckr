@@ -239,6 +239,7 @@
                     <url>${jdbc.url}</url>
                     <username>${jdbc.username}</username>
                     <password>${jdbc.password}</password>
+                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>
