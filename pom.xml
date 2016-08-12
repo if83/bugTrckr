@@ -15,7 +15,6 @@
         <jstl-version>1.2</jstl-version>
         <apache-tiles-version>3.0.5</apache-tiles-version>
         <spring-version>4.3.1.RELEASE</spring-version>
-        <spring.data-version>1.10.1.RELEASE</spring.data-version>
 
         <!--Logging-->
         <logback-classic-version>1.1.7</logback-classic-version>
@@ -31,6 +30,8 @@
         <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
         <maven-sql-plugin-version>1.5</maven-sql-plugin-version>
         <commons-lang3-version>3.0</commons-lang3-version>
+        <!-- TestNG -->
+        <testng-version>6.9.10</testng-version>
     </properties>
 
     <dependencies>
@@ -159,12 +160,13 @@
             <version>${commons-lang3-version}</version>
         </dependency>
 
-        <!-- Spring Data JPA-->
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${spring.data-version}</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng-version}</version>
         </dependency>
+
 
     </dependencies>
 
@@ -247,6 +249,7 @@
                     <url>${jdbc.url}</url>
                     <username>${jdbc.username}</username>
                     <password>${jdbc.password}</password>
+                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>

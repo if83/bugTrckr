@@ -2,7 +2,10 @@ package com.softserverinc.edu.configs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -28,6 +31,23 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    /**
+     * Configure implisite controllers for views
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        super.addViewControllers(registry);
+        registry.addViewController("/history");
+        registry.addViewController("/issue");
+        registry.addViewController("/project");
+        registry.addViewController("/release");
+        registry.addViewController("/user");
+        registry.addViewController("/label");
+        registry.addViewController("/worklog");
+        registry.addViewController("/about");
     }
 
     /**
