@@ -33,19 +33,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-        registry.addViewController("/about");
-        registry.addViewController("/history");
-        registry.addViewController("/issue");
-        registry.addViewController("/project");
-        registry.addViewController("/release");
-        registry.addViewController("/user");
-        registry.addViewController("/label");
-        registry.addViewController("/worklog");
-    }
-
     /**
      * Configure implisite controllers for views
      * @param registry
@@ -53,7 +40,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-
+        registry.addViewController("/history");
+        registry.addViewController("/issue");
+        registry.addViewController("/project");
+        registry.addViewController("/release");
+        registry.addViewController("/user");
+        registry.addViewController("/label");
+        registry.addViewController("/worklog");
         registry.addViewController("/about");
     }
 
