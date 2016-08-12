@@ -30,6 +30,8 @@
         <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
         <maven-sql-plugin-version>1.5</maven-sql-plugin-version>
         <commons-lang3-version>3.0</commons-lang3-version>
+        <!-- TestNG -->
+        <testng-version>6.9.10</testng-version>
     </properties>
 
     <dependencies>
@@ -157,6 +159,14 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3-version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng-version}</version>
+        </dependency>
+
 
     </dependencies>
 
