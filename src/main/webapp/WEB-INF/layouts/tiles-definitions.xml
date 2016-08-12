@@ -90,4 +90,24 @@
         <put-attribute name="content" value="/WEB-INF/views/user.jsp"/>
     </definition>
 
+    <definition name="useradd" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="User add"/>
+        <put-attribute name="breadcrumsname" value="User add" type="string" cascade="true"/>
+        <put-attribute name="content" value="/WEB-INF/views/userform.jsp"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user_form.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="useredit" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="User edit" type="string"/>
+        <put-attribute name="breadcrumsname" value="User edit" type="string" cascade="true"/>
+        <put-attribute name="content" value="/WEB-INF/views/userform.jsp"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user_form.js"/>
+        </put-list-attribute>
+    </definition>
+
 </tiles-definitions>

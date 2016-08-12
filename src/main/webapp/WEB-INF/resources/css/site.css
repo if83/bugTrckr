@@ -12,6 +12,10 @@ body {
     margin-left: 5px;
 }
 
+.margin-top-30 {
+    margin-top: 30px;
+}
+
 .margin-bottom-60 {
     margin-bottom: 60px;
 }
@@ -107,6 +111,20 @@ body {
     padding: 20px 0;
     margin-top: 40px;
     color: #eee;
+}
+
+.abtn-u-white {
+    text-decoration: none;
+    background-color: #784A3B;
+    border: 0;
+    color: #fff;
+    padding: 6px 13px;
+}
+
+.abtn-u-white:hover, .abtn-u-white:focus {
+    text-decoration: none;
+    background-color: #784A3B;
+    color: #fff;
 }
 
 .btn-u {

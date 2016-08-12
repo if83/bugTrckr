@@ -4,6 +4,7 @@ import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class Release {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "projectId", referencedColumnName = "id")
     private Project project;
 
     @OneToMany(fetch = FetchType.EAGER)

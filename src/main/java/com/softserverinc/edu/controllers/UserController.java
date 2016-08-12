@@ -1,5 +1,6 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,19 @@ public class UserController {
     public String removeUser(@PathVariable("id") long id){
         this.userService.delete(id);
         return "redirect:/user";
+    }
+
+
+    @RequestMapping(value = "/user/edit/{id}")
+    public String editUser(@PathVariable("id") long id, Model model) {
+//        User user = userService.getOne(id);
+//        model.addAttribute("user", user);
+        return "useredit";
+    }
+
+    @RequestMapping(value = "/user/add/")
+    public String addUser(Model model) {
+        return "useradd";
     }
 
 }

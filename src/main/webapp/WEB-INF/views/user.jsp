@@ -17,8 +17,13 @@
     </div>
 </div>
 
-<br/><br/><br/>
-<div class="table-responsive">
+<div class="margin-top-30 row">
+    <div class="col-sm-2 col-sm-offset-1">
+        <a href="<spring:url value='/user/add/' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add user</a>
+    </div>
+</div>
+
+<div class="margin-top-30">
     <table class="table table-hover">
         <thead>
         <tr>
@@ -39,7 +44,10 @@
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${user.description}"/></td>
-                <td><a href="<c:url value='/user/remove/${user.id}' />" ><i class="fa fa-remove icon-table-u"></i></a></td>
+                <td>
+                    <a href="<spring:url value='/user/remove/${user.id}' />" ><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='/user/edit/${user.id}' />" ><i class="fa fa-edit icon-table-u"></i></a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

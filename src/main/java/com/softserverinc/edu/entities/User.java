@@ -4,6 +4,7 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
@@ -35,7 +36,7 @@ public class User {
     private String description;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name="projectId", referencedColumnName = "id")
     private Project projectId;
 
     public User() {

@@ -11,7 +11,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><tiles:insertAttribute name="title"/></title>
+    <title><tiles:insertAttribute name="title" flush="true"/></title>
     <!-- stylesheets -->
     <c:forEach var="css" items="${stylesheets}">
         <link rel="stylesheet" type="text/css" href="<spring:url value="${css}"/>">

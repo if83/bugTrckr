@@ -3,23 +3,32 @@ package com.softserverinc.edu.services.impl;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(propagation= Propagation.REQUIRED, readOnly = true)
 public class UserServiceImpl implements UserService {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
+    @Transactional
     public User getOne(Long id) {
         return userRepository.getOne(id);
     }
 
     @Override
+    @Transactional(readOnly=false)
     public User save(User user) {
         return userRepository.saveAndFlush(user);
     }
@@ -30,6 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly=false)
     public User update(User user) {
         return userRepository.saveAndFlush(user);
     }
