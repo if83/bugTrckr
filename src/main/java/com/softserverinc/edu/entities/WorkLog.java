@@ -17,12 +17,12 @@ public class WorkLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id", nullable = false)
-    private Issue issueId;
+    @JoinColumn(name = "issueId" ,referencedColumnName = "id", nullable = false)
+    private Issue issue;
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
-    private User userId;
+    private User user;
 
     @Column(nullable = false)
     private Date time;
@@ -41,20 +41,20 @@ public class WorkLog {
         this.id = id;
     }
 
-    public Issue getIssueId() {
-        return issueId;
+    public Issue getIssue() {
+        return issue;
     }
 
     public void setIssueId(Issue issueId) {
-        this.issueId = issueId;
+        this.issue = issueId;
     }
 
     public User getUserId() {
-        return userId;
+        return user;
     }
 
     public void setUserId(User userId) {
-        this.userId = userId;
+        this.user = userId;
     }
     public Date getTime() {
         return time;
