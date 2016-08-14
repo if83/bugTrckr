@@ -13,17 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/project")
 public class ProjectController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.class);
 
     @Autowired
     ProjectService projectService;
-
-    public String index() {
-        return "project";
-    }
 
     @RequestMapping(value = "/project", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model) {

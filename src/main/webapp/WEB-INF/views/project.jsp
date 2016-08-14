@@ -3,8 +3,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-
-
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
@@ -13,46 +11,46 @@
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
-                <li class="active">Project</li>
+                <li class="active">Projects</li>
             </ol>
         </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h4>List of projects</h4>
-            <div class="table-responsive">
-                <table id="mytable" class="table table-bordred table-striped">
-
-                    <thead>
-                    <th>Project Name</th>
-                    <th>Project Manager</th>
-                    <th>Releases </th>
-                    <th>Description</th>
-                    <th>Free to join</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                    </thead>
-
-                    <tbody>
-                        <c:forEach items="${projectList}" var="projectList">
-                            <tr>
-                                <td>${projectList.title}</td>
-                                <td>${projectList.projectManager.firstName + " " +projectList.projectManager.secondName}</td>
-                                <%--add releases--%>
-                                <td></td>
-                                <td>${projectList.description}</td>
-                                <td>${projects.guestView}</td>
-                                <%--add references to edit and delete project--%>
-                                <td>edit</td>
-                                <td>delete</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="margin-top-30 row">
+    <div class="col-sm-2 col-sm-offset-1">
+        <a href="<spring:url value='' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add project</a>
     </div>
+</div>
+
+<div class=class="margin-top-30">
+    <table class="table table-hover">
+
+        <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>Description</th>
+            <th>Free to view</th>
+            <th>Free to comment</th>
+            <th>Free to add Issue</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <c:forEach var="project" items="${projectList}">
+            <tr>
+                <td><c:out value="${project.title}"/></td>
+                <td><c:out value="${project.description}"/></td>
+                <td><c:out value="${project.guestView}"/></td>
+                <td><c:out value="${project.guestAddComment}"/></td>
+                <td><c:out value="${project.guestCreateIssues}"/></td>
+                <td>
+                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='' />" ><i class="fa fa-edit icon-table-u"></i></a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
