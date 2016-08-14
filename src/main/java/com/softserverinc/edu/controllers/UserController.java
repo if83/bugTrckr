@@ -40,7 +40,7 @@ public class UserController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String userForm(Model model) {
-        model.addAttribute("userList", this.userService.getAll());
+        model.addAttribute("userList", this.userService.findAll());
         LOGGER.debug("User list");
         return "users";
     }
@@ -97,7 +97,7 @@ public class UserController {
             }
         }
 
-        userService.saveOrUpdate(user);
+        userService.save(user);
 
         LOGGER.debug("User updated or saved " + user.getId());
         return "redirect:/users";
