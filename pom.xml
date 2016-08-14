@@ -255,7 +255,7 @@
                     <url>${jdbc.url}</url>
                     <username>${jdbc.username}</username>
                     <password>${jdbc.password}</password>
-                    <skip>true</skip>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -267,7 +267,7 @@
                         <configuration>
                             <autocommit>true</autocommit>
                             <fileset>
-                                <basedir>${basedir}/dbscripts/incremental/01_v1.0</basedir>
+                                <basedir>${project.basedir}/dbscripts/incremental/01_v1.0</basedir>
                             </fileset>
                         </configuration>
                     </execution>

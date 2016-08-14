@@ -19,7 +19,7 @@ public class Release {
 
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id")
-    private Project project;
+    private Project projectId;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Issue> issues;
@@ -45,12 +45,12 @@ public class Release {
         this.id = id;
     }
 
-    public Project getProject() {
-        return project;
+    public Project getProjectId() {
+        return projectId;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setProjectId(Project projectId) {
+        this.projectId = projectId;
     }
 
     public Set<Issue> getIssues() {

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -32,12 +32,27 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(length = 65535)
+    @Column(length = 10000)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name="projectId", referencedColumnName = "id")
-    private Project projectId;
+    //TODO:Lyutak add constrain that does not cause an error by userService.findOne(id). It conflicts with Release ProjectId constraint.
+
+    /*@ManyToOne
+    @JoinColumn(name="`projectId`", referencedColumnName = "`id`")
+    private Project projectId;*/
+
+    /**
+     * form:input - confirmPassword
+     */
+    @Transient
+    String confirmPassword;
+
+    /**
+     * For saveAndUpdate method
+     */
+    @Transient
+    public boolean newuser;
+
 
     public User() {
     }
@@ -82,6 +97,14 @@ public class User {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public UserRole getRole() {
         return role;
     }
@@ -98,12 +121,16 @@ public class User {
         this.description = description;
     }
 
-    public Project getProjectId() {
+   /* public Project getProjectId() {
         return projectId;
     }
 
     public void setProjectId(Project projectId) {
         this.projectId = projectId;
+    }*/
+
+    public boolean isNewuser() {
+        return (this.id == null);
     }
 
     @Override

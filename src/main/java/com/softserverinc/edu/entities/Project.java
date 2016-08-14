@@ -24,9 +24,10 @@ public class Project {
     @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
     private User projectManager;
 
-    @OneToMany
-    @JoinColumn(referencedColumnName = "id", nullable = false)
-    private Set<User> users;
+    //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors
+//    @OneToMany
+//    @JoinColumn(referencedColumnName = "id", nullable = false)
+//    private Set<User> users;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Release> releases;
@@ -110,13 +111,13 @@ public class Project {
         this.description = description;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
 
     @Override
     public String toString() {

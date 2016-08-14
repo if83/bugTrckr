@@ -17,6 +17,20 @@
     </div>
 </div>
 
+<c:if test="${not empty msg}">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+            <div class="alert alert-${css} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>${msg}</strong>
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
         <a href="<spring:url value='/user/add/' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add user</a>
@@ -45,8 +59,9 @@
                 <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${user.description}"/></td>
                 <td>
-                    <a href="<spring:url value='/user/remove/${user.id}' />" ><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
-                    <a href="<spring:url value='/user/edit/${user.id}' />" ><i class="fa fa-edit icon-table-u"></i></a>
+                    <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='/user/${user.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>

@@ -21,7 +21,7 @@ public class WorkLog {
     private Issue issueId;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User userId;
 
     @Column(nullable = false)
@@ -56,7 +56,6 @@ public class WorkLog {
     public void setUserId(User userId) {
         this.userId = userId;
     }
-
     public Date getTime() {
         return time;
     }

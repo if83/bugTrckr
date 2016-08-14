@@ -1,13 +1,12 @@
 CREATE TABLE  `User` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`firstName` varchar(25) NOT NULL,
 	`lastName` varchar(25) NOT NULL,
 	`email` varchar(32) NOT NULL,
 	`password` varchar(64) NOT NULL,
 	`role` varchar(15) NOT NULL,
-	`projectId` INT,
-	`description` TEXT(10000),
-	PRIMARY KEY (`id`)
+# 	`projectId` INT,
+	`description` TEXT(10000)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Project` (
@@ -72,7 +71,7 @@ CREATE TABLE `WorkLog` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
+# ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
 
 ALTER TABLE `Project` ADD CONSTRAINT `Project_fk0` FOREIGN KEY (`projectManagerId`) REFERENCES `User`(`id`);
 

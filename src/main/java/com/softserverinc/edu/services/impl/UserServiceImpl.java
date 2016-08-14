@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -34,6 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly=false)
     public void delete(Long id) {
         userRepository.delete(id);
     }
@@ -45,7 +45,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    @Transactional
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
+
+
+    /**
+     * Perform save or update transaction
+     * @param user
+     */
+    @Override
+    @Transactional(readOnly=false)
+    public void saveOrUpdate(User user) {
+
+        if (findOne(user.getId())==null) {
+            save(user);
+        } else {
+            update(user);
+        }
+    }
+
 }
