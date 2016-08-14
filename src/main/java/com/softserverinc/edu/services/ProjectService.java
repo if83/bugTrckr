@@ -12,9 +12,10 @@ public interface ProjectService {
 
     Project findByTitle(String title);
 
-    Project findByProjectManager(User projectManager);
+   /* Project findByProjectManager(User projectManager);*/
 
-    Project findByUser(User user);
+    //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors when adding a new user
+    /*Project findByUser(User user);*/
 
     Project findByRelease(Release release);
 
