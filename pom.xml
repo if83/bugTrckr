@@ -267,7 +267,7 @@
                         <configuration>
                             <autocommit>true</autocommit>
                             <fileset>
-                                <basedir>${project.basedir}/dbscripts/incremental/01_v1.0</basedir>
+                                <basedir>${project.basedir}/src/main/resources/dbscripts</basedir>
                             </fileset>
                         </configuration>
                     </execution>

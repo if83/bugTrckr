@@ -12,7 +12,6 @@ CREATE TABLE  `User` (
 CREATE TABLE `Project` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`title` varchar(100) NOT NULL,
-	`projectManagerId` INT NOT NULL,
 	`guestView` BOOLEAN NOT NULL,
 	`guestCreateIssues` BOOLEAN NOT NULL,
 	`guestAddComment` BOOLEAN NOT NULL,
@@ -72,8 +71,6 @@ CREATE TABLE `WorkLog` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 # ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
-
-ALTER TABLE `Project` ADD CONSTRAINT `Project_fk0` FOREIGN KEY (`projectManagerId`) REFERENCES `User`(`id`);
 
 ALTER TABLE `Release` ADD CONSTRAINT `Release_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project`(`id`);
 

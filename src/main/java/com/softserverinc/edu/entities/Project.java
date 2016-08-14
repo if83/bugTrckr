@@ -3,7 +3,6 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -29,7 +28,8 @@ public class Project {
 //    @JoinColumn(referencedColumnName = "id", nullable = false)
 //    private Set<User> users;
 
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "id")
     private Set<Release> releases;
 
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class Project {
     @Column(nullable = false)
     private boolean guestAddComment;
 
-    @Column(length = 10000)
+    @Column(length = 10000,nullable = false)
     private String description;
 
     public Project() {
@@ -61,14 +61,6 @@ public class Project {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public User getProjectManager() {
-        return projectManager;
-    }
-
-    public void setProjectManager(User projectManager) {
-        this.projectManager = projectManager;
     }
 
     public Set<Release> getReleases() {

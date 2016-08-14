@@ -21,9 +21,6 @@ public class Release {
     @JoinColumn(name = "projectId", referencedColumnName = "id")
     private Project projectId;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Issue> issues;
-
     @Column(nullable = false, length = 32)
     private String version;
 
@@ -31,8 +28,11 @@ public class Release {
     @Enumerated(EnumType.STRING)
     private ReleaseStatus releaseStatus;
 
-    @Column(length = 65535)
+    @Column(length = 10000)
     private String description;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    private Set<Issue> issues;
 
     public Release() {
     }
