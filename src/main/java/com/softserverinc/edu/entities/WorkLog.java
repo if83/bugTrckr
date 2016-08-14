@@ -45,16 +45,16 @@ public class WorkLog {
         return issue;
     }
 
-    public void setIssueId(Issue issueId) {
-        this.issue = issueId;
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
 
-    public User getUserId() {
+    public User getUser() {
         return user;
     }
 
-    public void setUserId(User userId) {
-        this.user = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
     public Date getTime() {
         return time;
