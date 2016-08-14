@@ -37,9 +37,9 @@ public class User {
 
     //TODO:Lyutak add constrain that does not cause an error by userService.findOne(id). It conflicts with Release ProjectId constraint.
 
-    /*@ManyToOne
-    @JoinColumn(name="`projectId`", referencedColumnName = "`id`")
-    private Project projectId;*/
+    @ManyToOne
+    @JoinColumn(name="projectId", referencedColumnName = "id")
+    private Project projectId;
 
     /**
      * form:input - confirmPassword
@@ -121,16 +121,16 @@ public class User {
         this.description = description;
     }
 
-   /* public Project getProjectId() {
+    public Project getProjectId() {
         return projectId;
     }
 
     public void setProjectId(Project projectId) {
         this.projectId = projectId;
-    }*/
+    }
 
     public boolean isNewuser() {
-        return (this.id == null);
+        return (this.id == null || this.id == 0L);
     }
 
     @Override

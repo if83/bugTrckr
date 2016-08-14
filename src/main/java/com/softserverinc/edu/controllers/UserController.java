@@ -70,7 +70,9 @@ public class UserController {
 
     @RequestMapping(value = "/user/add", method = RequestMethod.GET)
     public String addUser(Model model) {
-        model.addAttribute("user", new User());
+        User user = new User();
+        user.setId(0L);
+        model.addAttribute("user", user);
         model.addAttribute("formaction", "new");
         populateDefaultModel(model);
         LOGGER.debug("User add form");

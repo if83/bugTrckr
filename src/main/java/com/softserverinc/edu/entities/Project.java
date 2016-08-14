@@ -19,9 +19,9 @@ public class Project {
     private String title;
 
     // FIXME: We should have Set of users or only one projectManager??
-    @OneToOne
-    @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
-    private User projectManager;
+//    @OneToOne
+//    @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
+//    private User projectManager;
 
     //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors
 //    @OneToMany

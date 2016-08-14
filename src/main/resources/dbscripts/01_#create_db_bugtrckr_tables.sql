@@ -5,7 +5,7 @@ CREATE TABLE  `User` (
 	`email` varchar(32) NOT NULL,
 	`password` varchar(64) NOT NULL,
 	`role` varchar(15) NOT NULL,
-# 	`projectId` INT,
+	`projectId` INT,
 	`description` TEXT(10000)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
