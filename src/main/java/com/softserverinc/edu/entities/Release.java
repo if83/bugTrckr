@@ -4,7 +4,6 @@ import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class Release {
 
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id")
-    private Project projectId;
+    private Project project;
 
     @Column(nullable = false, length = 32)
     private String version;
@@ -45,12 +44,12 @@ public class Release {
         this.id = id;
     }
 
-    public Project getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(Project projectId) {
-        this.projectId = projectId;
+    public void setProject(Project projectId) {
+        this.project = project;
     }
 
     public Set<Issue> getIssues() {

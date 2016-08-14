@@ -19,14 +19,14 @@ public class Project {
     private String title;
 
     // FIXME: We should have Set of users or only one projectManager??
-//    @OneToOne
-//    @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
-//    private User projectManager;
+    @OneToOne
+    @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
+    private User projectManager;
 
     //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors
-//    @OneToMany
-//    @JoinColumn(referencedColumnName = "id", nullable = false)
-//    private Set<User> users;
+    @OneToMany
+    @JoinColumn(referencedColumnName = "id", nullable = false)
+    private Set<User> users;
 
 
     @OneToMany(mappedBy = "id")
@@ -61,6 +61,14 @@ public class Project {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public User getProjectManager() {
+        return projectManager;
+    }
+
+    public void setProjectManager(User projectManager) {
+        this.projectManager = projectManager;
     }
 
     public Set<Release> getReleases() {
@@ -103,13 +111,13 @@ public class Project {
         this.description = description;
     }
 
-//    public Set<User> getUsers() {
-//        return users;
-//    }
+    public Set<User> getUsers() {
+        return users;
+    }
 //
-//    public void setUsers(Set<User> users) {
-//        this.users = users;
-//    }
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     @Override
     public String toString() {
