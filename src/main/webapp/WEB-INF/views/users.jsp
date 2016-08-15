@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="breadcrumbs">
     <div class="row">
@@ -57,7 +58,7 @@
                 <td><c:out value="${user.lastName}"/></td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
-                <td><c:out value="${user.description}"/></td>
+                <td><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                 <td>
                     <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp&nbsp&nbsp
                     <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp&nbsp&nbsp

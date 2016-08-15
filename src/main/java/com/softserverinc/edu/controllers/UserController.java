@@ -3,6 +3,7 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.UserFormValidator;
+import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,14 +39,14 @@ public class UserController {
         binder.setValidator(userFormValidator);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping(value = "/users")
     public String userForm(Model model) {
         model.addAttribute("userList", this.userService.findAll());
         LOGGER.debug("User list");
         return "users";
     }
 
-    @RequestMapping(value = "/user/{id}/remove")
+    @GetMapping(value = "/user/{id}/remove")
     public String removeUser(@PathVariable("id") long id, final RedirectAttributes redirectAttributes){
 
         this.userService.delete(id);
@@ -58,7 +59,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/user/{id}/edit", method = RequestMethod.GET)
+    @GetMapping(value = "/user/{id}/edit")
     public String editUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", this.userService.findOne(id));
         model.addAttribute("formaction", "edit");
@@ -68,7 +69,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.GET)
+    @GetMapping(value = "/user/add")
     public String addUser(Model model) {
         User user = new User();
         user.setId(0L);
@@ -79,7 +80,7 @@ public class UserController {
         return "userform";
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    @PostMapping(value = "/user/add")
     public String addUserPost(@ModelAttribute("user") @Validated User user, BindingResult result, Model model,
                               final RedirectAttributes redirectAttributes) {
 
@@ -104,7 +105,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/user/{id}/view", method = RequestMethod.GET)
+    @PostMapping(value = "/user/{id}/view")
     public String viewUser(@PathVariable("id") long id, Model model) {
 
         LOGGER.debug("viewUser() id: {}", id);

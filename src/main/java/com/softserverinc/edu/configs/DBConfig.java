@@ -104,14 +104,4 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return entityManagerFactory;
     }
 
-    /**
-     * User service bean
-     * @return UserService implementations
-     */
-    @Bean
-    public UserService userService() {
-        return new UserServiceImpl();
-    }
-
-
 }
