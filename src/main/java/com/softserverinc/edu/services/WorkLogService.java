@@ -19,6 +19,8 @@ public interface WorkLogService {
 
     List<WorkLog> findByAmount(Long amount);
 
+    List<WorkLog> findByIsDeleted(Boolean isDeleted);
+
     List<WorkLog> findAll();
 
     WorkLog save(WorkLog workLog);

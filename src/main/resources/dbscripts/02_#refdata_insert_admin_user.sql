@@ -1,3 +1,4 @@
+/*
 INSERT INTO User (firstName, lastName, email, password, role, description) VALUES ('admin', 'admin', 'admin@ss.com', 'admin', 'ADMIN', 'first');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description) VALUES ('project_1',  '1', '0', '0', 'description to project 1');
@@ -34,3 +35,4 @@ INSERT INTO User (firstName, lastName, email, password, role, description) VALUE
 INSERT INTO User (firstName, lastName, email, password, role, description) VALUES ('guest6', 'guest6', 'guest6@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'GUEST', 'guest6');
 INSERT INTO User (firstName, lastName, email, password, role, description) VALUES ('guest7', 'guest7', 'guest7@ss.com', '$1$SaltSalt$0q0ukNZ1NsFH8OwYrVbaD1', 'GUEST', 'guest7');
 
+*/

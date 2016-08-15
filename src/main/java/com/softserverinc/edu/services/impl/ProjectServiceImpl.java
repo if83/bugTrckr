@@ -27,10 +27,10 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findByTitle(title);
     }
 
-    /*@Override
+    @Override
     public Project findByProjectManager(User projectManager) {
         return projectRepository.findByProjectManager(projectManager);
-    }*/
+    }
 
     @Override
     public Project findByUser(User user) {
@@ -74,6 +74,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> findByIsDeleted(Boolean isDeleted) {
+        return projectRepository.findByIsDeleted(isDeleted);
+    }
+
+    @Override
     public List<Project> findAll() {
         return projectRepository.findAll();
     }
@@ -87,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public void delete(Long id) {
-
+        projectRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

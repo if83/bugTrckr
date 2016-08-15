@@ -39,4 +39,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     Issue findByParent(Issue parent);
 
+    List<Issue> findByIsDeleted(Boolean isDeleted);
+
 }

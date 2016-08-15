@@ -4,7 +4,6 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
@@ -36,8 +35,8 @@ public class User {
     private String description;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    private Project projectId;
+    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    private Project project;
 
     @Column
     private boolean isDeleted;
@@ -121,12 +120,12 @@ public class User {
         this.description = description;
     }
 
-    public Project getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
     public void setProjectId(Project projectId) {
-        this.projectId = projectId;
+        this.project = projectId;
     }
 
     public boolean isNewuser() {

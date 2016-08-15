@@ -44,6 +44,11 @@ public class WorkLogServiceImpl implements WorkLogService {
     }
 
     @Override
+    public List<WorkLog> findByIsDeleted(Boolean isDeleted) {
+        return workLogRepository.findByIsDeleted(isDeleted);
+    }
+
+    @Override
     public List<WorkLog> findAll() {
         return workLogRepository.findAll();
     }
@@ -57,7 +62,7 @@ public class WorkLogServiceImpl implements WorkLogService {
     @Override
     @Transactional
     public void delete(Long id) {
-        workLogRepository.delete(id);
+        workLogRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

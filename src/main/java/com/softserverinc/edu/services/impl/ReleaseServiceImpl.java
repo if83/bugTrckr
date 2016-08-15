@@ -51,6 +51,10 @@ public class ReleaseServiceImpl implements ReleaseService {
         return releaseRepository.findByReleaseStatus(releaseStatus);
     }
 
+    public List<Release> findByIsDeleted(Boolean isDeleted) {
+        return releaseRepository.findByIsDeleted(isDeleted);
+    }
+
     @Override
     public List<Release> findAll() {
         return releaseRepository.findAll();
@@ -65,7 +69,7 @@ public class ReleaseServiceImpl implements ReleaseService {
     @Transactional
     @Override
     public void delete(Long id) {
-        releaseRepository.delete(id);
+        releaseRepository.findOne(id).setIsDeleted(true);
     }
 
     @Transactional

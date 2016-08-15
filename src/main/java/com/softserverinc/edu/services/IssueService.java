@@ -39,6 +39,8 @@ public interface IssueService {
 
     Issue findByParent(Issue parent);
 
+    List<Issue> findByIsDeleted(Boolean isDeleted);
+
     List<Issue> findAll();
 
     Issue save(Issue issue);
