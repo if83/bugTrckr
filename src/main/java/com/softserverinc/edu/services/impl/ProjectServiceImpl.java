@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findByProjectManager(projectManager);
     }*/
 
-    /*@Override
+    @Override
     public Project findByUser(User user) {
         Project project = null;
         List<Project> listOfProjects = projectRepository.findAll();
@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         return project;
-    }*/
+    }
 
     @Override
     public Project findByRelease(Release release) {

@@ -24,9 +24,8 @@ public class Project {
     private User projectManager;*/
 
     //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors when adding a new user
-    /*@OneToMany
-    @JoinColumn(referencedColumnName = "id", nullable = false)
-    private Set<User> users;*/
+    @OneToMany(mappedBy = "projectId")
+    private Set<User> users;
 
 
     @OneToMany(mappedBy = "id")
@@ -111,13 +110,13 @@ public class Project {
         this.description = description;
     }
 
-/*    public Set<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
-//
+
     public void setUsers(Set<User> users) {
         this.users = users;
-    }*/
+    }
 
     @Override
     public String toString() {
