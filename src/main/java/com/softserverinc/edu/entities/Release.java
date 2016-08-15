@@ -23,15 +23,19 @@ public class Release {
     @Column(nullable = false, length = 32)
     private String version;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 11)
     @Enumerated(EnumType.STRING)
     private ReleaseStatus releaseStatus;
 
     @Column(length = 10000)
     private String description;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private Set<Issue> issues;
+
+    @Column
+    private boolean isDeleted;
 
     public Release() {
     }
@@ -82,6 +86,14 @@ public class Release {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
