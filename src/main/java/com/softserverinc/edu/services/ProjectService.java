@@ -15,7 +15,7 @@ public interface ProjectService {
    /* Project findByProjectManager(User projectManager);*/
 
     //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors when adding a new user
-    /*Project findByUser(User user);*/
+    Project findByUser(User user);
 
     Project findByRelease(Release release);
 
