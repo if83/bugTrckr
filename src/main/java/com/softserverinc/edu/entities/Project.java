@@ -18,17 +18,16 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
-    // FIXME: We should have Set of users or only one projectManager??
-    /*@OneToOne
+    @OneToOne
     @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
-    private User projectManager;*/
+    private User projectManager;
 
-    //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors when adding a new user
-    @OneToMany(mappedBy = "projectId")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private Set<User> users;
 
-
-    @OneToMany(mappedBy = "id")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private Set<Release> releases;
 
     @Column(nullable = false)
@@ -40,8 +39,11 @@ public class Project {
     @Column(nullable = false)
     private boolean guestAddComment;
 
-    @Column(length = 10000,nullable = false)
+    @Column(length = 10000, nullable = false)
     private String description;
+
+    @Column
+    private boolean isDeleted;
 
     public Project() {
     }
@@ -62,13 +64,13 @@ public class Project {
         this.title = title;
     }
 
-    /*public User getProjectManager() {
+    public User getProjectManager() {
         return projectManager;
     }
 
     public void setProjectManager(User projectManager) {
         this.projectManager = projectManager;
-    }*/
+    }
 
     public Set<Release> getReleases() {
         return releases;
@@ -116,6 +118,14 @@ public class Project {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

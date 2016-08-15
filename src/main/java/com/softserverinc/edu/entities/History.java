@@ -18,19 +18,20 @@ public class History {
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    @Column
-    private Long parentId;
-
-    @Column(nullable = false)
-    private Long assigneeId;
-
-    @Column
-    private Long changeById;
-
-    // Fixme: use status field from Issue
     @OneToOne
-    @JoinColumn(referencedColumnName = "status", nullable = false)
-    private Issue issueStatus;
+    @JoinColumn(name = "parentId", referencedColumnName = "id")
+    private History parent;
+
+    @OneToOne
+    @JoinColumn(name = "assignedToUserId", referencedColumnName = "id", nullable = false)
+    private User assignedToUser;
+
+    @OneToOne
+    @JoinColumn(name = "changedByUserId", referencedColumnName = "id", nullable = false)
+    private User changedByUser;
+
+    @Column
+    private boolean isDeleted;
 
     public History() {
     }
@@ -51,36 +52,36 @@ public class History {
         this.issue = issue;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public History getParent() {
+        return parent;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParent(History parent) {
+        this.parent = parent;
     }
 
-    public Long getAssigneeId() {
-        return assigneeId;
+    public User getAssignedToUser() {
+        return assignedToUser;
     }
 
-    public void setAssigneeId(Long assigneeId) {
-        this.assigneeId = assigneeId;
+    public void setAssignedToUser(User assignedToUser) {
+        this.assignedToUser = assignedToUser;
     }
 
-    public Long getChangeById() {
-        return changeById;
+    public User getChangedByUser() {
+        return changedByUser;
     }
 
-    public void setChangeById(Long changeById) {
-        this.changeById = changeById;
+    public void setChangedByUser(User changedByUser) {
+        this.changedByUser = changedByUser;
     }
 
-    public Issue getStatus() {
-        return issueStatus;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setStatus(Issue issueStatus) {
-        this.issueStatus = issueStatus;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

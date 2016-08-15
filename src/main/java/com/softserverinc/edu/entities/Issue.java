@@ -17,18 +17,18 @@ public class Issue {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     private String title;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueType type;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueStatus status;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
@@ -47,18 +47,21 @@ public class Issue {
     @Column(nullable = false)
     private Date createTime;
 
-    @Column(nullable = false)
+    @Column
     private Date dueTime;
 
     @Column(nullable = false)
     private Date lastUpdateTime;
 
-    @Column(nullable = false)
+    @Column
     private Long estimateTime;
 
     @OneToOne
     @JoinColumn(name = "parentId", referencedColumnName = "id")
     private Issue parent;
+
+    @Column
+    private boolean isDeleted;
 
     public Issue() {
     }
@@ -165,6 +168,14 @@ public class Issue {
 
     public void setParent(Issue parent) {
         this.parent = parent;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
