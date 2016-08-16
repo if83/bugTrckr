@@ -25,10 +25,10 @@ public class WorkLog {
     private User user;
 
     @Column(nullable = false)
-    private Date time;
+    private Date startTime;
 
-    @Column(name = "amount")
-    private Long amount;
+    @Column
+    private Long amountOfTime;
 
     @Column
     private boolean isDeleted;
@@ -60,20 +60,20 @@ public class WorkLog {
         this.user = user;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Long getAmountOfTime() {
+        return amountOfTime;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setAmountOfTime(Long amountOfTime) {
+        this.amountOfTime = amountOfTime;
     }
 
     public boolean isDeleted() {

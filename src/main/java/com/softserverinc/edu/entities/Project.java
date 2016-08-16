@@ -18,10 +18,6 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @OneToOne
-    @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
-    private User projectManager;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
     private Set<User> users;
@@ -62,14 +58,6 @@ public class Project {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public User getProjectManager() {
-        return projectManager;
-    }
-
-    public void setProjectManager(User projectManager) {
-        this.projectManager = projectManager;
     }
 
     public Set<Release> getReleases() {
