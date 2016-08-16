@@ -3,7 +3,6 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,16 +18,12 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
-    // FIXME: We should have Set of users or only one projectManager??
-    @OneToOne
-    @JoinColumn(name = "projectManagerId", referencedColumnName = "id", nullable = false)
-    private User projectManager;
-
-    @OneToMany
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private Set<Release> releases;
 
     @Column(nullable = false)
@@ -40,8 +35,11 @@ public class Project {
     @Column(nullable = false)
     private boolean guestAddComment;
 
-    @Column(length = 10000)
+    @Column(length = 10000, nullable = false)
     private String description;
+
+    @Column
+    private boolean isDeleted;
 
     public Project() {
     }
@@ -60,14 +58,6 @@ public class Project {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public User getProjectManager() {
-        return projectManager;
-    }
-
-    public void setProjectManager(User projectManager) {
-        this.projectManager = projectManager;
     }
 
     public Set<Release> getReleases() {
@@ -116,6 +106,14 @@ public class Project {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

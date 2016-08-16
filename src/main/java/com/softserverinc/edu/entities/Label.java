@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,13 +16,15 @@ public class Label {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     private String title;
 
-    // FIXME: Is Label has a set of Issues or backwards?
     @ManyToMany
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private Set<Issue> issues;
+
+    @Column
+    private boolean isDeleted;
 
     public Label() {
     }
@@ -50,6 +51,14 @@ public class Label {
 
     public void setIssues(Set<Issue> issues) {
         this.issues = issues;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

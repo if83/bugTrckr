@@ -1,51 +1,71 @@
 package com.softserverinc.edu.services.impl;
 
+import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional(propagation= Propagation.REQUIRED, readOnly = true)
 public class UserServiceImpl implements UserService {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    @Transactional
-    public User getOne(Long id) {
-        return userRepository.getOne(id);
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
     }
 
     @Override
-    @Transactional(readOnly=false)
+    public List<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findByRole(UserRole role) {
+        return userRepository.findByRole(role);
+    }
+
+    public List<User> findByProject(Project project) {
+        return userRepository.findByProject(project);
+    }
+
+    @Override
+    public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
+        return userRepository.findByFirstNameOrLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<User> findByIsDeleted(Boolean isDeleted) {
+        return userRepository.findByIsDeleted(isDeleted);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    @Transactional
     public User save(User user) {
         return userRepository.saveAndFlush(user);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        userRepository.delete(id);
+        userRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional
     public User update(User user) {
         return userRepository.saveAndFlush(user);
-    }
-
-    @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
     }
 }

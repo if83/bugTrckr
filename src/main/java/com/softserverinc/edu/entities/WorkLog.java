@@ -17,18 +17,21 @@ public class WorkLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id", nullable = false)
-    private Issue issueId;
+    @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
+    private Issue issue;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
-    private Date time;
+    private Date startTime;
 
-    @Column(name = "amount")
-    private Long amount;
+    @Column
+    private Long amountOfTime;
+
+    @Column
+    private boolean isDeleted;
 
     public WorkLog() {
     }
@@ -41,36 +44,44 @@ public class WorkLog {
         this.id = id;
     }
 
-    public Issue getIssueId() {
-        return issueId;
+    public Issue getIssue() {
+        return issue;
     }
 
-    public void setIssueId(Issue issueId) {
-        this.issueId = issueId;
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Long getAmountOfTime() {
+        return amountOfTime;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setAmountOfTime(Long amountOfTime) {
+        this.amountOfTime = amountOfTime;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

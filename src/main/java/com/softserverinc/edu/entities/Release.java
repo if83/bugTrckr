@@ -4,7 +4,6 @@ import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,18 +20,22 @@ public class Release {
     @JoinColumn(name = "projectId", referencedColumnName = "id")
     private Project project;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Issue> issues;
-
     @Column(nullable = false, length = 32)
     private String version;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 11)
     @Enumerated(EnumType.STRING)
     private ReleaseStatus releaseStatus;
 
-    @Column(length = 65535)
+    @Column(length = 10000)
     private String description;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
+    private Set<Issue> issues;
+
+    @Column
+    private boolean isDeleted;
 
     public Release() {
     }
@@ -49,7 +52,7 @@ public class Release {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(Project projectId) {
         this.project = project;
     }
 
@@ -83,6 +86,14 @@ public class Release {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

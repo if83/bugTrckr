@@ -193,6 +193,7 @@
                         <configuration>
                             <files>
                                 <file>src/main/resources/application.properties</file>
+                                <file>src/main/resources/sql_maven_plugin.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -255,9 +256,38 @@
                     <url>${jdbc.url}</url>
                     <username>${jdbc.username}</username>
                     <password>${jdbc.password}</password>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
+                    <execution>
+                        <id>drop-database</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${drop-database}</skip>
+                            <autocommit>true</autocommit>
+                            <url>${jdbc.service.url}</url>
+                            <srcFiles>
+                                <srcFile>${project.basedir}/src/main/resources/dbscripts/drop_db_bugtrckr.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-database</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${create-database}</skip>
+                            <autocommit>true</autocommit>
+                            <url>${jdbc.service.url}</url>
+                            <srcFiles>
+                                <srcFile>${project.basedir}/src/main/resources/dbscripts/create_db_bugtrckr.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>create-tables</id>
                         <phase>compile</phase>
@@ -265,10 +295,25 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
+                            <skip>${create-tables}</skip>
                             <autocommit>true</autocommit>
-                            <fileset>
-                                <basedir>${basedir}/dbscripts/incremental/01_v1.0</basedir>
-                            </fileset>
+                            <srcFiles>
+                                <srcFile>${project.basedir}/src/main/resources/dbscripts/01_#create_db_bugtrckr_tables.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>fill-in-the-tables</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${fill-in-the-tables}</skip>
+                            <autocommit>true</autocommit>
+                            <srcFiles>
+                                <srcFile>${project.basedir}/src/main/resources/dbscripts/02_#refdata_insert_admin_user.sql</srcFile>
+                            </srcFiles>
                         </configuration>
                     </execution>
                 </executions>

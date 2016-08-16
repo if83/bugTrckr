@@ -1,6 +1,8 @@
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.entities.enums.*;
+import com.softserverinc.edu.entities.enums.IssuePriority;
+import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -17,18 +19,18 @@ public class Issue {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     private String title;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueType type;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueStatus status;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
@@ -47,18 +49,21 @@ public class Issue {
     @Column(nullable = false)
     private Date createTime;
 
-    @Column(nullable = false)
-    private Date dueTime;
+    @Column
+    private Date dueDate;
 
     @Column(nullable = false)
-    private Date lastUpdateTime;
+    private Date lastUpdateDate;
 
-    @Column(nullable = false)
+    @Column
     private Long estimateTime;
 
     @OneToOne
     @JoinColumn(name = "parentId", referencedColumnName = "id")
     private Issue parent;
+
+    @Column
+    private boolean isDeleted;
 
     public Issue() {
     }
@@ -135,20 +140,20 @@ public class Issue {
         this.createTime = createTime;
     }
 
-    public Date getDueTime() {
-        return dueTime;
+    public Date getDueDate() {
+        return dueDate;
     }
 
-    public void setDueTime(Date dueTime) {
-        this.dueTime = dueTime;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
     public Long getEstimateTime() {
@@ -165,6 +170,18 @@ public class Issue {
 
     public void setParent(Issue parent) {
         this.parent = parent;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

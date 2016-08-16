@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<spring:url value='/'/>">
-                <img alt="Brand" src="<spring:url value="images/AS.png"/>" style="width: 100px;">
+                <img alt="Brand" src="<spring:url value='images/AS.png'/>" style="width: 100px;">
             </a>
         </div>
 
@@ -26,7 +26,7 @@
                 <li><a href="<spring:url value='/release'/>">Release</a></li>
                 <li><a href="<spring:url value='/issue'/>">Issue</a></li>
                 <li><a href="<spring:url value='/history'/>">History</a></li>
-                <li><a href="<spring:url value='/user'/>">User</a></li>
+                <li><a href="<spring:url value='/users'/>">User</a></li>
                 <li><a href="<spring:url value='/about'/>">About</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
