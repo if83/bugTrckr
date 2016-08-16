@@ -1,26 +1,24 @@
 CREATE TABLE `User` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`firstName` varchar(32) NOT NULL,
 	`lastName` varchar(32) NOT NULL,
 	`email` varchar(64) NOT NULL UNIQUE,
-	`password` varchar(32),
+	`password` varchar(64),
 	`role` varchar(15) NOT NULL,
 	`projectId` INT,
 	`description` TEXT,
-	`isDeleted` BOOLEAN NOT NULL DEFAULT '0',
-	PRIMARY KEY (`id`)
+	`isDeleted` BOOLEAN NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Project` (
-	`id` INT NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`title` varchar(100) NOT NULL,
-	`projectManagerId` INT NOT NULL,
+	`projectManagerId` INT NOT NULL DEFAULT '1',
 	`guestView` BOOLEAN NOT NULL,
 	`guestCreateIssues` BOOLEAN NOT NULL,
 	`guestAddComment` BOOLEAN NOT NULL,
 	`description` TEXT,
-	`isDeleted` BOOLEAN NOT NULL DEFAULT '0',
-	PRIMARY KEY (`id`)
+	`isDeleted` BOOLEAN NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Release` (

@@ -188,3 +188,9 @@ i.icon-md {
     color: #784A3B;
     text-decoration: none;
 }
+
+/*actionButtons*/
+
+div .actionButtons a {
+    padding: 5px 10px;
+}

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -105,7 +106,7 @@ public class UserController {
     }
 
 
-    @PostMapping(value = "/user/{id}/view")
+    @GetMapping(value = "/user/{id}/view")
     public String viewUser(@PathVariable("id") long id, Model model) {
 
         LOGGER.debug("viewUser() id: {}", id);
@@ -119,6 +120,21 @@ public class UserController {
 
         return "userview";
 
+    }
+
+    @PostMapping(value = "/user/searchByName/{firstName}")
+    public String userSearchByName(@PathVariable(value = "firstName") String firstName, Model model) {
+        model.addAttribute("userList", this.userService.findByFirstNameOrLastName(firstName, ""));
+        LOGGER.debug("User search list");
+        return "users";
+    }
+
+    @PostMapping(value = "/user/searchByEmail")
+    public String userSearchByEmail(@RequestParam(value = "email") String email) {
+        Model model = new ExtendedModelMap();
+        model.addAttribute("userList", this.userService.findByEmail(email));
+        LOGGER.debug("User search list");
+        return "users";
     }
 
     /**

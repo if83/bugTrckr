@@ -52,6 +52,23 @@
         </thead>
 
         <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <form:form action="/user/searchByEmail" method="POST" cssClass="form-inline">
+                    <div class="input-group">
+                        <form:input path="email" type="email" cssClass="form-control form-text" id="emailInput" placeholder="Email"/>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </form:form>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         <c:forEach var="user" items="${userList}">
             <tr>
                 <td><c:out value="${user.firstName}"/></td>
@@ -60,9 +77,11 @@
                 <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                 <td>
-                    <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp&nbsp&nbsp
-                    <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp&nbsp&nbsp
+                    <div class="actionButtons">
+                    <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp
+                    <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp
                     <a href="<spring:url value='/user/${user.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
+                    </div>
                 </td>
             </tr>
         </c:forEach>
