@@ -157,7 +157,6 @@ i.icon-md {
     border-radius: 50%;
 }
 
-
 /*Breadcrumb*/
 
 .breadcrumbs {
@@ -180,9 +179,11 @@ i.icon-md {
     background: none;
     position: relative;
 }
+
 .breadcrumb a {
     color: #777;
 }
+
 .breadcrumb li.active,
 .breadcrumb li a:hover {
     color: #784A3B;

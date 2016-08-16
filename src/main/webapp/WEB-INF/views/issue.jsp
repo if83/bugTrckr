@@ -17,6 +17,51 @@
     </div>
 </div>
 
+<div class="margin-top-30 row">
+    <div class="col-sm-2 col-sm-offset-1">
+        <a href="<spring:url value='' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
+    </div>
+</div>
+<div class=class="margin-top-30">
+    <table class="table table-hover">
+
+        <thead>
+        <tr>
+            <th>Issue name</th>
+            <th>Type</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Release</th>
+            <th>Assigned User</th>
+            <th>Create time</th>
+            <th>Finish time</th>
+            <th>Last updated</th>
+            <th>Estimate time</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <c:forEach var="issue" items="${issueList}">
+            <tr>
+                <td><c:out value="${issue.title}"/></td>
+                <td><c:out value="${issue.type}"/></td>
+                <td><c:out value="${issue.priority}"/></td>
+                <td><c:out value="${issue.status}"/></td>
+                <td><c:out value="${issue.realeseId}"/></td>
+                <td><c:out value="${issue.assigneeId}"/></td>
+                <td><c:out value="${issue.createTime}"/></td>
+                <td><c:out value="${issue.dueDate}"/></td>
+                <td><c:out value="${issue.lastUpdateDate}"/></td>
+                <td><c:out value="${issue.estimateTime}"/></td>
+                <td>
+                    <a href="<spring:url value='' />"><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='' />"><i class="fa fa-edit icon-table-u"></i></a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 
 <div class="row">
     <div class="col-sm-12">

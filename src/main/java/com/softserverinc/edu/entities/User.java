@@ -10,48 +10,38 @@ import javax.persistence.*;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue
-    @Column(unique = true, nullable = false)
-    private Long id;
-
-    @Column(nullable = false, length = 25)
-    private String firstName;
-
-    @Column(nullable = false, length = 32)
-    private String lastName;
-
-    @Column(unique = true, nullable = false, length = 64)
-    private String email;
-
-    @Column(length = 32)
-    private String password;
-
-    @Column(nullable = false, length = 15)
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
-    @Column(length = 10000)
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id")
-    private Project project;
-
-    @Column
-    private boolean isDeleted;
-
-    /**
-     * form:input - confirmPassword
-     */
-    @Transient
-    String confirmPassword;
-
     /**
      * For saveAndUpdate method
      */
     @Transient
     public boolean newuser;
+    /**
+     * form:input - confirmPassword
+     */
+    @Transient
+    String confirmPassword;
+    @Id
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
+    private Long id;
+    @Column(nullable = false, length = 25)
+    private String firstName;
+    @Column(nullable = false, length = 32)
+    private String lastName;
+    @Column(unique = true, nullable = false, length = 64)
+    private String email;
+    @Column(length = 32)
+    private String password;
+    @Column(nullable = false, length = 15)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+    @Column(length = 10000)
+    private String description;
+    @ManyToOne
+    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    private Project project;
+    @Column
+    private boolean isDeleted;
 
     public User() {
     }

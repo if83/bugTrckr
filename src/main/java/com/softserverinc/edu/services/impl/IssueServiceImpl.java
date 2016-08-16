@@ -75,13 +75,13 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public List<Issue> findByDueTime(Date dueTime) {
-        return issueRepository.findByDueTime(dueTime);
+    public List<Issue> findByDueDate(Date dueDate) {
+        return issueRepository.findByDueDate(dueDate);
     }
 
     @Override
-    public List<Issue> findByLastUpdateTime(Date lastUpdateTime) {
-        return issueRepository.findByLastUpdateTime(lastUpdateTime);
+    public List<Issue> findByLastUpdateDate(Date lastUpdateDate) {
+        return issueRepository.findByLastUpdateDate(lastUpdateDate);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.entities.enums.*;
+import com.softserverinc.edu.entities.enums.IssuePriority;
+import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -48,10 +50,10 @@ public class Issue {
     private Date createTime;
 
     @Column
-    private Date dueTime;
+    private Date dueDate;
 
     @Column(nullable = false)
-    private Date lastUpdateTime;
+    private Date lastUpdateDate;
 
     @Column
     private Long estimateTime;
@@ -138,20 +140,20 @@ public class Issue {
         this.createTime = createTime;
     }
 
-    public Date getDueTime() {
-        return dueTime;
+    public Date getDueDate() {
+        return dueDate;
     }
 
-    public void setDueTime(Date dueTime) {
-        this.dueTime = dueTime;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
     public Long getEstimateTime() {
@@ -172,6 +174,10 @@ public class Issue {
 
     public boolean isDeleted() {
         return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public void setIsDeleted(boolean isDeleted) {

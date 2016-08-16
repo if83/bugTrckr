@@ -30,12 +30,12 @@ public class LabelServiceImpl implements LabelService {
     public List<Label> findByIssue(Issue issue) {
         List<Label> listOfAllLabels = labelRepository.findAll();
         List<Label> listOfLabels = null;
-            for (Label labelIterator : listOfAllLabels) {
-                if (labelIterator.getIssues().contains(issue)) {
-                    listOfLabels.add(labelIterator);
-                }
+        for (Label labelIterator : listOfAllLabels) {
+            if (labelIterator.getIssues().contains(issue)) {
+                listOfLabels.add(labelIterator);
             }
-            return listOfLabels;
+        }
+        return listOfLabels;
     }
 
     @Override
@@ -65,7 +65,6 @@ public class LabelServiceImpl implements LabelService {
     public Label update(Label label) {
         return labelRepository.saveAndFlush(label);
     }
-
 
 
 }
