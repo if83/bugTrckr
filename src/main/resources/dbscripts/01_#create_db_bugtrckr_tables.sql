@@ -1,5 +1,5 @@
 CREATE TABLE `User` (
-  `id`          INT         NOT NULL,
+  `id`          INT         NOT NULL AUTO_INCREMENT,
   `firstName`   VARCHAR(32) NOT NULL,
   `lastName`    VARCHAR(32) NOT NULL,
   `email`       VARCHAR(64) NOT NULL UNIQUE,
@@ -15,9 +15,9 @@ CREATE TABLE `User` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Project` (
-  `id`                INT          NOT NULL,
+  `id`                INT          NOT NULL AUTO_INCREMENT,
   `title`             VARCHAR(100) NOT NULL,
-  `projectManagerId`  INT          NOT NULL,
+  `projectManagerId`  INT          NOT NULL DEFAULT '1',
   `guestView`         BOOLEAN      NOT NULL,
   `guestCreateIssues` BOOLEAN      NOT NULL,
   `guestAddComment`   BOOLEAN      NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `Project` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Release` (
-  `id`          INT         NOT NULL,
+  `id`          INT         NOT NULL AUTO_INCREMENT,
   `projectId`   INT         NOT NULL,
   `vesrion`     VARCHAR(32) NOT NULL,
   `status`      VARCHAR(11) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `Release` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Issue` (
-  `id`             INT         NOT NULL,
+  `id`             INT         NOT NULL AUTO_INCREMENT,
   `title`          VARCHAR(32) NOT NULL,
   `type`           VARCHAR(32) NOT NULL,
   `priority`       VARCHAR(32) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `Issue` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Label` (
-  `id`        INT         NOT NULL,
+  `id`        INT         NOT NULL AUTO_INCREMENT,
   `title`     VARCHAR(32) NOT NULL,
   `isDeleted` BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -73,7 +73,7 @@ CREATE TABLE `Label` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `History` (
-  `id`               INT     NOT NULL,
+  `id`               INT     NOT NULL AUTO_INCREMENT,
   `issueId`          INT     NOT NULL,
   `assignedToUserId` INT     NOT NULL,
   `parentId`         INT,
@@ -86,7 +86,7 @@ CREATE TABLE `History` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `WorkLog` (
-  `id`        INT     NOT NULL,
+  `id`        INT     NOT NULL AUTO_INCREMENT,
   `issueId`   INT     NOT NULL,
   `userId`    INT     NOT NULL,
   `time`      DATE    NOT NULL,
