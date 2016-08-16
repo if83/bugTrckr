@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Issue controller
+ */
+
 @Controller
-@Transactional
 public class ProjectController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.class);

@@ -36,6 +36,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Configure implisite controllers for views
+     *
      * @param registry
      */
     @Override
@@ -65,12 +66,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Set properties file for validation
+     *
      * @return resource bundle
      */
     @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
-        rb.setBasenames(new String[] { "validation" });
+        rb.setBasenames(new String[]{"validation"});
         return rb;
     }
 

@@ -33,7 +33,8 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='/user/add/' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add user</a>
+        <a href="<spring:url value='/user/add/' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add
+            user</a>
     </div>
 </div>
 
@@ -59,9 +60,12 @@
                 <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${user.description}"/></td>
                 <td>
-                    <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp&nbsp&nbsp
-                    <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp&nbsp&nbsp
-                    <a href="<spring:url value='/user/${user.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
+                    <a href="<spring:url value='/user/${user.id}/view' />"><i class="fa fa-eye icon-table-u"></i></a>
+                    &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='/user/${user.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
+                    &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='/user/${user.id}/remove' />"><i
+                            class="fa fa-remove icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>

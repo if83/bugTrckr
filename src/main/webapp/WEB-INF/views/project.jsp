@@ -19,7 +19,7 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add project</a>
+        <a href="<spring:url value='' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add project</a>
     </div>
 </div>
 
@@ -47,8 +47,7 @@
                 <td><c:out value="${project.guestView}"/></td>
                 <td><c:out value="${project.guestAddComment}"/></td>
                 <td><c:out value="${project.guestCreateIssues}"/></td>
-                <td>
-                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
+                <td><a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
                     <a href="<spring:url value='' />" ><i class="fa fa-edit icon-table-u"></i></a>
                     <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
                 </td>
