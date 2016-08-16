@@ -98,8 +98,6 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return entityManagerFactory;
     }
 
-<<<<<<< HEAD
-=======
     /**
      * User service bean
      *
@@ -110,6 +108,4 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return new UserServiceImpl();
     }
 
-
->>>>>>> refs/remotes/origin/dev
 }
