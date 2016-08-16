@@ -14,7 +14,7 @@ import java.util.List;
 public class LabelServiceImpl implements LabelService {
 
     @Autowired
-    LabelRepository labelRepository;
+    private LabelRepository labelRepository;
 
     @Override
     public Label findOne(Long id) {

@@ -16,7 +16,7 @@ import java.util.List;
 public class ReleaseServiceImpl implements ReleaseService {
 
     @Autowired
-    ReleaseRepository releaseRepository;
+    private ReleaseRepository releaseRepository;
 
     @Override
     public Release findById(Long id) {

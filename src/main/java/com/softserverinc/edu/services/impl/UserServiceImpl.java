@@ -15,8 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
-
+    private UserRepository userRepository;
 
     @Override
     public User findOne(Long id) {
