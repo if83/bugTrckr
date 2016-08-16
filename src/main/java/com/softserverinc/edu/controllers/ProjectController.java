@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Issue controller
+ * Project controller
  */
 
 @Controller
@@ -33,24 +33,20 @@ public class ProjectController {
     @RequestMapping(value = "/project", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model) {
         model.addAttribute("projectList", projectService.findAll());
-        LOGGER.debug("List of users");
         return "project";
     }
 
     @RequestMapping(value = "/project/{id}/usersOnProject", method = RequestMethod.GET)
     public String viewUserOnProject(@PathVariable("id") int id, Model model) {
-
-        LOGGER.debug("viewUser() id: {}", id);
         List<Project> projects = projectService.findAll();
-        Set<User> users = projects.get(id-1).getUsers();
-        String projectTitle = projects.get(id-1).getTitle();
+        Set<User> users = projects.get(id - 1).getUsers();
+        String projectTitle = projects.get(id - 1).getTitle();
         if (users == null) {
             model.addAttribute("css", "danger");
             model.addAttribute("msg", "Users not found");
         }
         model.addAttribute("users", users);
         model.addAttribute("name", projectTitle);
-        LOGGER.debug("viewUserOnProject() id: {}", id);
         return "project_users";
     }
 }

@@ -193,6 +193,7 @@
                         <configuration>
                             <files>
                                 <file>src/main/resources/application.properties</file>
+                                <file>src/main/resources/sql_maven_plugin.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -264,7 +265,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>${drop-database}</skip>
                             <autocommit>true</autocommit>
                             <url>${jdbc.service.url}</url>
                             <srcFiles>
@@ -279,7 +280,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>${create-database}</skip>
                             <autocommit>true</autocommit>
                             <url>${jdbc.service.url}</url>
                             <srcFiles>
@@ -294,7 +295,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>${create-tables}</skip>
                             <autocommit>true</autocommit>
                             <srcFiles>
                                 <srcFile>${project.basedir}/src/main/resources/dbscripts/01_#create_db_bugtrckr_tables.sql</srcFile>
@@ -308,7 +309,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>${fill-in-the-tables}</skip>
                             <autocommit>true</autocommit>
                             <srcFiles>
                                 <srcFile>${project.basedir}/src/main/resources/dbscripts/02_#refdata_insert_admin_user.sql</srcFile>
