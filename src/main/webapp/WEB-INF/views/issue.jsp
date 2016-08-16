@@ -19,7 +19,7 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
+        <a href="<spring:url value='' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
     </div>
 </div>
 <div class=class="margin-top-30">
@@ -54,8 +54,8 @@
                 <td><c:out value="${issue.lastUpdateDate}"/></td>
                 <td><c:out value="${issue.estimateTime}"/></td>
                 <td>
-                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
-                    <a href="<spring:url value='' />" ><i class="fa fa-edit icon-table-u"></i></a>
+                    <a href="<spring:url value='' />"><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='' />"><i class="fa fa-edit icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>

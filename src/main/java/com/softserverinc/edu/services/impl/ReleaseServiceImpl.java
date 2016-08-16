@@ -29,10 +29,10 @@ public class ReleaseServiceImpl implements ReleaseService {
     }
 
     @Override
-    public Release findByIssue(Issue issue){
+    public Release findByIssue(Issue issue) {
         Release release = null;
         List<Release> listOfReleases = releaseRepository.findAll();
-        for(Release releaseIterator: listOfReleases){
+        for (Release releaseIterator : listOfReleases) {
             if (releaseIterator.getIssues().contains(issue)) {
                 release = releaseIterator;
                 break;

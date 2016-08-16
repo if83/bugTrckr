@@ -35,63 +35,67 @@
 
 <div class="margin-top-30 row">
     <form:form action="/user/add" modelAttribute="user" method="POST">
-    <div class="col-sm-12 col-md-5 col-md-offset-1">
+        <div class="col-sm-12 col-md-5 col-md-offset-1">
 
-        <spring:bind path="firstName">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <label for="firstNameInput">First name</label>
-            <form:input path="firstName" type="text" class="form-control" id="firstNameInput" placeholder="First name"/>
-            <form:errors path="firstName" class="control-label" />
+            <spring:bind path="firstName">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <label for="firstNameInput">First name</label>
+                    <form:input path="firstName" type="text" class="form-control" id="firstNameInput"
+                                placeholder="First name"/>
+                    <form:errors path="firstName" class="control-label"/>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="email">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <label for="emailInput">E-mail</label>
+                    <form:input path="email" type="email" class="form-control" id="emailInput" placeholder="E-mail"/>
+                    <form:errors path="email" class="control-label"/>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="password">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <label for="passwordInput">Password</label>
+                    <form:input path="password" type="password" class="form-control" id="passwordInput"
+                                placeholder="Password"/>
+                    <form:errors path="password" class="control-label"/>
+                </div>
+            </spring:bind>
+
         </div>
-        </spring:bind>
+        <div class="col-sm-12 col-md-5">
 
-        <spring:bind path="email">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <label for="emailInput">E-mail</label>
-            <form:input path="email" type="email" class="form-control" id="emailInput" placeholder="E-mail"/>
-            <form:errors path="email" class="control-label" />
+            <spring:bind path="lastName">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <label for="lastNameInput">Last name</label>
+                    <form:input path="lastName" type="text" class="form-control" id="lastNameInput"
+                                placeholder="Last name"/>
+                    <form:errors path="lastName" class="control-label"/>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="role">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <label for="roleInput">Role</label>
+                    <form:select path="role" type="text" class="form-control" id="roleInput" placeholder="Role">
+                        <form:option value="" label="  Select a role"/>
+                        <form:options items="${roles}"/>
+                    </form:select>
+                    <form:errors path="role" class="control-label"/>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="confirmPassword">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <label for="confirmPasswordInput">Confirm password</label>
+                    <form:input path="confirmPassword" type="password" class="form-control" id="confirmPasswordInput"
+                                placeholder="Confirm password"/>
+                    <form:errors path="confirmPassword" class="control-label"/>
+                </div>
+            </spring:bind>
+
         </div>
-        </spring:bind>
-
-        <spring:bind path="password">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <label for="passwordInput">Password</label>
-            <form:input path="password" type="password" class="form-control" id="passwordInput" placeholder="Password"/>
-            <form:errors path="password" class="control-label" />
-        </div>
-        </spring:bind>
-
-    </div>
-    <div class="col-sm-12 col-md-5">
-
-        <spring:bind path="lastName">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <label for="lastNameInput">Last name</label>
-            <form:input path="lastName" type="text" class="form-control" id="lastNameInput" placeholder="Last name"/>
-            <form:errors path="lastName" class="control-label" />
-        </div>
-        </spring:bind>
-
-        <spring:bind path="role">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <label for="roleInput">Role</label>
-            <form:select path="role" type="text" class="form-control" id="roleInput" placeholder="Role">
-                <form:option value="" label="  Select a role" />
-                <form:options items="${roles}" />
-            </form:select>
-            <form:errors path="role" class="control-label" />
-        </div>
-        </spring:bind>
-
-        <spring:bind path="confirmPassword">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <label for="confirmPasswordInput">Confirm password</label>
-                <form:input path="confirmPassword" type="password" class="form-control" id="confirmPasswordInput" placeholder="Confirm password"/>
-                <form:errors path="confirmPassword" class="control-label" />
-            </div>
-        </spring:bind>
-
-    </div>
         <div class="col-sm-10 col-sm-offset-1">
             <label for="editor1">Description</label>
         </div>
@@ -102,7 +106,7 @@
         <form:hidden path="id"/>
 
         <div class="col-sm-10 col-sm-offset-1">
-            <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right" />
+            <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
         </div>
     </form:form>
 

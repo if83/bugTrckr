@@ -1,6 +1,8 @@
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.entities.enums.*;
+import com.softserverinc.edu.entities.enums.IssuePriority;
+import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -154,10 +156,6 @@ public class Issue {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
     public Long getEstimateTime() {
         return estimateTime;
     }
@@ -176,6 +174,10 @@ public class Issue {
 
     public boolean isDeleted() {
         return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public void setIsDeleted(boolean isDeleted) {

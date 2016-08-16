@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 
 @Controller
-/*@RequestMapping(value = "/issue", method = RequestMethod.GET)*/
 public class IssueController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
@@ -28,9 +27,4 @@ public class IssueController {
         LOGGER.debug("Issue list");
         return "issue";
     }
-
-    /*public String index() {
-        return "issue";
-    }*/
-
 }
