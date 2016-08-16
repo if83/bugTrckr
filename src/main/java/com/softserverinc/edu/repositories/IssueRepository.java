@@ -31,9 +31,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     List<Issue> findByCreateTime(Date createTime);
 
-    List<Issue> findByDueTime(Date dueTime);
+    List<Issue> findByDueDate(Date dueDate);
 
-    List<Issue> findByLastUpdateTime(Date lastUpdateTime);
+    List<Issue> findByLastUpdateDate(Date lastUpdateDate);
 
     List<Issue> findByEstimateTime(Date estimateTime);
 
