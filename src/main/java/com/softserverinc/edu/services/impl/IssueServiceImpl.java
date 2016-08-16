@@ -95,6 +95,11 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
+    public List<Issue> findByIsDeleted(Boolean isDeleted) {
+        return issueRepository.findByIsDeleted(isDeleted);
+    }
+
+    @Override
     public List<Issue> findAll() {
         return issueRepository.findAll();
     }
@@ -108,7 +113,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     @Transactional
     public void delete(Long id) {
-        issueRepository.delete(id);
+        issueRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

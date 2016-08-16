@@ -14,9 +14,11 @@ public interface UserService {
 
     List<User> findByRole(UserRole role);
 
-    List<User> findByProjectId(Project projectId);
+    List<User> findByProject(Project project);
 
     List<User> findByFirstNameOrLastName(String firstName, String lastName);
+
+    List<User> findByIsDeleted(Boolean isDeleted);
 
     List<User> findAll();
 

@@ -12,7 +12,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Project findByTitle(String title);
 
-    /*Project findByProjectManager(User projectManager);*/
+    Project findByProjectManager(User projectManager);
 
     /*set users
     set releases*/
@@ -22,5 +22,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByGuestCreateIssues(Boolean guestCreateIssues);
 
     List<Project> findByGuestAddComment(Boolean guestAddComment);
+
+    List<Project> findByIsDeleted(Boolean isDeleted);
 
 }

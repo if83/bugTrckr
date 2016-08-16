@@ -19,6 +19,8 @@ public interface ReleaseService {
 
     List<Release> findByReleaseStatus(ReleaseStatus releaseStatus);
 
+    List<Release> findByIsDeleted(Boolean isDeleted);
+
     List<Release> findAll();
 
     Release save(Release user);

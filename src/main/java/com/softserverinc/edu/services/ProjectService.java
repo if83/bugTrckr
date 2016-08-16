@@ -12,9 +12,8 @@ public interface ProjectService {
 
     Project findByTitle(String title);
 
-   /* Project findByProjectManager(User projectManager);*/
+    Project findByProjectManager(User projectManager);
 
-    //TODO:Lyutak it creates a column in user table named as users_id, and it causes errors when adding a new user
     Project findByUser(User user);
 
     Project findByRelease(Release release);
@@ -24,6 +23,8 @@ public interface ProjectService {
     List<Project> findByGuestCreateIssues(Boolean guestCreateIssues);
 
     List<Project> findByGuestAddComment(Boolean guestAddComment);
+
+    List<Project> findByIsDeleted(Boolean isDeleted);
 
     List<Project> findAll();
 

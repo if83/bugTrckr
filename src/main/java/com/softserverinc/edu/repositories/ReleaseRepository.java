@@ -19,4 +19,6 @@ public interface ReleaseRepository extends JpaRepository<Release, Long> {
 
     List<Release> findByReleaseStatus(ReleaseStatus releaseStatus);
 
+    List<Release> findByIsDeleted(Boolean isDeleted);
+
 }

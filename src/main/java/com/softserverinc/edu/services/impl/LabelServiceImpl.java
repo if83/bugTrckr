@@ -38,6 +38,10 @@ public class LabelServiceImpl implements LabelService {
             return listOfLabels;
     }
 
+    @Override
+    public List<Label> findByIsDeleted(Boolean isDeleted) {
+        return labelRepository.findByIsDeleted(isDeleted);
+    }
 
     @Override
     public List<Label> findAll() {
@@ -53,7 +57,7 @@ public class LabelServiceImpl implements LabelService {
     @Override
     @Transactional
     public void delete(Long id) {
-        labelRepository.delete(id);
+        labelRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

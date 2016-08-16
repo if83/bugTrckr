@@ -30,6 +30,9 @@ public class WorkLog {
     @Column(name = "amount")
     private Long amount;
 
+    @Column
+    private boolean isDeleted;
+
     public WorkLog() {
     }
 
@@ -70,6 +73,14 @@ public class WorkLog {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

@@ -13,6 +13,8 @@ public interface LabelService {
 
     List<Label> findByIssue(Issue issue);
 
+    List<Label> findByIsDeleted(Boolean isDeleted);
+
     List<Label> findAll();
 
     Label save(Label label);

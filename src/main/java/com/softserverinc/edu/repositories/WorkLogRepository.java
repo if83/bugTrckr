@@ -18,4 +18,6 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
     List<WorkLog> findByAmount(Long amount);
 
+    List<WorkLog> findByIsDeleted(Boolean isDeleted);
+
 }

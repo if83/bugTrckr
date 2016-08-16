@@ -4,7 +4,6 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
@@ -12,20 +11,20 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false, length = 25)
     private String firstName;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, length = 32)
     private String lastName;
 
-    @Column(unique = true, nullable = false, length = 100)
+    @Column(unique = true, nullable = false, length = 64)
     private String email;
 
-    @Column
+    @Column(length = 32)
     private String password;
 
     @Column(nullable = false, length = 15)
@@ -35,11 +34,12 @@ public class User {
     @Column(length = 10000)
     private String description;
 
-    //TODO:Lyutak add constrain that does not cause an error by userService.findOne(id). It conflicts with Release ProjectId constraint.
-
     @ManyToOne
-    @JoinColumn(name="projectId", referencedColumnName = "id")
-    private Project projectId;
+    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    private Project project;
+
+    @Column
+    private boolean isDeleted;
 
     /**
      * form:input - confirmPassword
@@ -52,7 +52,6 @@ public class User {
      */
     @Transient
     public boolean newuser;
-
 
     public User() {
     }
@@ -121,16 +120,24 @@ public class User {
         this.description = description;
     }
 
-    public Project getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
     public void setProjectId(Project projectId) {
-        this.projectId = projectId;
+        this.project = projectId;
     }
 
     public boolean isNewuser() {
         return (this.id == null || this.id == 0L);
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
