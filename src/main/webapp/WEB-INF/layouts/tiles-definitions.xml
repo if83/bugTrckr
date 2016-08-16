@@ -84,10 +84,10 @@
     </definition>
 
 
-    <!--Release-->
-    <definition name="release" extends="abstractDefaultTemplate">
+    <!--ProjectRelease-->
+    <definition name="projectRelease" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Release page"/>
-        <put-attribute name="content" value="/WEB-INF/views/release.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/projectRelease.jsp"/>
     </definition>
 
     <!--User-->

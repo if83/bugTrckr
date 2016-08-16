@@ -28,13 +28,16 @@ CREATE TABLE `Project` (
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `Release` (
-  `id`          INT         NOT NULL AUTO_INCREMENT,
-  `projectId`   INT         NOT NULL,
-  `version`     VARCHAR(32) NOT NULL,
-  `status`      VARCHAR(11) NOT NULL,
-  `description` TEXT,
-  `isDeleted`   BOOLEAN     NOT NULL DEFAULT '0',
+# Words such as ProjectRelease and status are reserved in MySQL
+# https://dev.mysql.com/doc/refman/5.7/en/keywords.html
+
+CREATE TABLE `ProjectRelease` (
+  `id`               INT         NOT NULL AUTO_INCREMENT,
+  `projectId`        INT         NOT NULL,
+  `version`          VARCHAR(32) NOT NULL,
+  `releaseStatus`    VARCHAR(11) NOT NULL,
+  `description`      TEXT,
+  `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -47,7 +50,7 @@ CREATE TABLE `Issue` (
   `type`           VARCHAR(32) NOT NULL,
   `priority`       VARCHAR(32) NOT NULL,
   `status`         VARCHAR(32) NOT NULL,
-  `releaseId`      INT         NOT NULL,
+  `projectReleaseId`      INT         NOT NULL,
   `assigneeId`     INT         NOT NULL,
   `createTime`     DATE        NOT NULL,
   `dueDate`        DATE,
@@ -108,11 +111,11 @@ CREATE TABLE `LabelIssue` (
 ALTER TABLE `User`
   ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
 
-ALTER TABLE `Release`
-  ADD CONSTRAINT `Release_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
+ALTER TABLE `ProjectRelease`
+  ADD CONSTRAINT `ProjectRelease_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`releaseId`) REFERENCES `Release` (`id`);
+  ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`projectReleaseId`) REFERENCES `ProjectRelease` (`id`);
 
 ALTER TABLE `Issue`
   ADD CONSTRAINT `Issue_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `User` (`id`);

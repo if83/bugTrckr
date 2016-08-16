@@ -869,7 +869,7 @@ Version 1.1
 
      1.10. "Original Code" means Source Code of computer software code
      which is described in the Source Code notice required by Exhibit A as
-     Original Code, and which, at the time of its release under this
+     Original Code, and which, at the time of its projectRelease under this
      License is not already Covered Code governed by this License.
 
      1.10.1. "Patent Claims" means any patent claim(s), now owned or

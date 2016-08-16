@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-sm-12">
             <h1 class="text-center">The #1 software development tool</h1>
-            <p class="text-center">For to plan, track, and release great software</p>
+            <p class="text-center">For to plan, track, and projectRelease great software</p>
         </div>
     </div>
 </div>

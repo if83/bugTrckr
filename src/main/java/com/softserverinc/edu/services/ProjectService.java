@@ -1,7 +1,7 @@
 package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public interface ProjectService {
 
     Project findByTitle(String title);
 
-    Project findByUser(User user);
+    Project findByUsers(User user);
 
-    Project findByRelease(Release release);
+    Project findByProjectRelease(ProjectRelease projectRelease);
 
     List<Project> findByGuestView(Boolean guestView);
 

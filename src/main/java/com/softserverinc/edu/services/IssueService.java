@@ -2,7 +2,7 @@ package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Label;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
@@ -23,11 +23,11 @@ public interface IssueService {
 
     List<Issue> findByPriority(IssuePriority priority);
 
-    Issue findByRelease(Release release);
+    Issue findByProjectRelease(ProjectRelease projectRelease);
 
     Issue findByAssignee(User assignee);
 
-    List<Issue> findByLabel(Label label);
+    List<Issue> findByLabels(Label label);
 
     List<Issue> findByCreateTime(Date createTime);
 

@@ -2,7 +2,7 @@ package com.softserverinc.edu.services.impl;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.repositories.ReleaseRepository;
 import com.softserverinc.edu.services.ReleaseService;
@@ -19,51 +19,51 @@ public class ReleaseServiceImpl implements ReleaseService {
     private ReleaseRepository releaseRepository;
 
     @Override
-    public Release findById(Long id) {
+    public ProjectRelease findById(Long id) {
         return releaseRepository.findOne(id);
     }
 
     @Override
-    public List<Release> findByProject(Project project) {
+    public List<ProjectRelease> findByProject(Project project) {
         return releaseRepository.findByProject(project);
     }
 
     @Override
-    public Release findByIssue(Issue issue) {
-        Release release = null;
-        List<Release> listOfReleases = releaseRepository.findAll();
-        for (Release releaseIterator : listOfReleases) {
-            if (releaseIterator.getIssues().contains(issue)) {
-                release = releaseIterator;
+    public ProjectRelease findByIssue(Issue issue) {
+        ProjectRelease projectRelease = null;
+        List<ProjectRelease> listOfProjectReleases = releaseRepository.findAll();
+        for (ProjectRelease projectReleaseIterator : listOfProjectReleases) {
+            if (projectReleaseIterator.getIssues().contains(issue)) {
+                projectRelease = projectReleaseIterator;
                 break;
             }
         }
-        return release;
+        return projectRelease;
     }
 
     @Override
-    public List<Release> findByVersion(String version) {
+    public List<ProjectRelease> findByVersion(String version) {
         return releaseRepository.findByVersion(version);
     }
 
     @Override
-    public List<Release> findByReleaseStatus(ReleaseStatus releaseStatus) {
+    public List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus) {
         return releaseRepository.findByReleaseStatus(releaseStatus);
     }
 
-    public List<Release> findByIsDeleted(Boolean isDeleted) {
+    public List<ProjectRelease> findByIsDeleted(Boolean isDeleted) {
         return releaseRepository.findByIsDeleted(isDeleted);
     }
 
     @Override
-    public List<Release> findAll() {
+    public List<ProjectRelease> findAll() {
         return releaseRepository.findAll();
     }
 
     @Transactional
     @Override
-    public Release save(Release release) {
-        return releaseRepository.saveAndFlush(release);
+    public ProjectRelease save(ProjectRelease projectRelease) {
+        return releaseRepository.saveAndFlush(projectRelease);
     }
 
     @Transactional
@@ -74,8 +74,8 @@ public class ReleaseServiceImpl implements ReleaseService {
 
     @Transactional
     @Override
-    public Release update(Release release) {
-        return releaseRepository.saveAndFlush(release);
+    public ProjectRelease update(ProjectRelease projectRelease) {
+        return releaseRepository.saveAndFlush(projectRelease);
     }
 
 }

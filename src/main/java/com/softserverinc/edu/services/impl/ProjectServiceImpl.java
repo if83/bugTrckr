@@ -1,7 +1,7 @@
 package com.softserverinc.edu.services.impl;
 
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.repositories.ProjectRepository;
 import com.softserverinc.edu.services.ProjectService;
@@ -28,7 +28,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findByUser(User user) {
+    public Project findByUsers(User user) {
         Project project = null;
         List<Project> listOfProjects = projectRepository.findAll();
         for (Project releaseIterator : listOfProjects) {
@@ -41,11 +41,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findByRelease(Release release) {
+    public Project findByProjectRelease(ProjectRelease projectRelease) {
         Project project = null;
         List<Project> listOfProjects = projectRepository.findAll();
         for (Project releaseIterator : listOfProjects) {
-            if (releaseIterator.getReleases().contains(release)) {
+            if (releaseIterator.getProjectRelease().contains(projectRelease)) {
                 project = releaseIterator;
                 break;
             }

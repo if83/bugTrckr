@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Release {
+public class ProjectRelease {
 
     @Id
     @GeneratedValue
@@ -37,7 +37,7 @@ public class Release {
     @Column
     private boolean isDeleted;
 
-    public Release() {
+    public ProjectRelease() {
     }
 
     public Long getId() {

@@ -35,8 +35,8 @@ public class Issue {
     private IssuePriority priority;
 
     @ManyToOne
-    @JoinColumn(name = "releaseId", referencedColumnName = "id", nullable = false)
-    private Release release;
+    @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
+    private ProjectRelease projectRelease;
 
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
@@ -108,12 +108,12 @@ public class Issue {
         this.priority = priority;
     }
 
-    public Release getRelease() {
-        return release;
+    public ProjectRelease getProjectRelease() {
+        return projectRelease;
     }
 
-    public void setRelease(Release release) {
-        this.release = release;
+    public void setProjectRelease(ProjectRelease projectRelease) {
+        this.projectRelease = projectRelease;
     }
 
     public User getAssignee() {

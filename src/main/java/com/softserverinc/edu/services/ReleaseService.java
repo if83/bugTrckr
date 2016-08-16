@@ -2,31 +2,31 @@ package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
 
 import java.util.List;
 
 public interface ReleaseService {
 
-    Release findById(Long id);
+    ProjectRelease findById(Long id);
 
-    List<Release> findByProject(Project project);
+    List<ProjectRelease> findByProject(Project project);
 
-    Release findByIssue(Issue issue);
+    ProjectRelease findByIssue(Issue issue);
 
-    List<Release> findByVersion(String version);
+    List<ProjectRelease> findByVersion(String version);
 
-    List<Release> findByReleaseStatus(ReleaseStatus releaseStatus);
+    List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus);
 
-    List<Release> findByIsDeleted(Boolean isDeleted);
+    List<ProjectRelease> findByIsDeleted(Boolean isDeleted);
 
-    List<Release> findAll();
+    List<ProjectRelease> findAll();
 
-    Release save(Release user);
+    ProjectRelease save(ProjectRelease user);
 
     void delete(Long id);
 
-    Release update(Release user);
+    ProjectRelease update(ProjectRelease user);
 
 }

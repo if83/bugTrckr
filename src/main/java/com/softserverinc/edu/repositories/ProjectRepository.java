@@ -1,7 +1,7 @@
 package com.softserverinc.edu.repositories;
 
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,9 +13,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Project findByTitle(String title);
 
-    Project findByUser(User user);
+    Project findByUsers(User user);
 
-    Project findByRelease(Release release);
+    Project findByProjectRelease(ProjectRelease projectRelease);
 
     List<Project> findByGuestView(Boolean guestView);
 

@@ -2,7 +2,7 @@ package com.softserverinc.edu.services.impl;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Label;
-import com.softserverinc.edu.entities.Release;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
@@ -48,8 +48,8 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public Issue findByRelease(Release release) {
-        return issueRepository.findByRelease(release);
+    public Issue findByProjectRelease(ProjectRelease projectRelease) {
+        return issueRepository.findByProjectRelease(projectRelease);
     }
 
     @Override
