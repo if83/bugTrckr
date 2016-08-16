@@ -12,11 +12,13 @@ public interface HistoryService {
 
     List<History> findByIssue(Issue issue);
 
-    History findByParentId(Long parentId);
+    History findByParent(History parent);
 
-    List<History> findByAssigneeId(User assigneeId);
+    List<History> findByAssignedToUser(User assignedToUser);
 
-    History findByChangeById(Long changeById);
+    History findByChangedByUser(User changedByUser);
+
+    List<History> findByIsDeleted(Boolean isDeleted);
 
     History save(History history);
 

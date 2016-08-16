@@ -16,7 +16,7 @@ import java.util.List;
 public class ReleaseServiceImpl implements ReleaseService {
 
     @Autowired
-    ReleaseRepository releaseRepository;
+    private ReleaseRepository releaseRepository;
 
     @Override
     public Release findById(Long id) {
@@ -29,10 +29,10 @@ public class ReleaseServiceImpl implements ReleaseService {
     }
 
     @Override
-    public Release findByIssue(Issue issue){
+    public Release findByIssue(Issue issue) {
         Release release = null;
         List<Release> listOfReleases = releaseRepository.findAll();
-        for(Release releaseIterator: listOfReleases){
+        for (Release releaseIterator : listOfReleases) {
             if (releaseIterator.getIssues().contains(issue)) {
                 release = releaseIterator;
                 break;
@@ -51,6 +51,10 @@ public class ReleaseServiceImpl implements ReleaseService {
         return releaseRepository.findByReleaseStatus(releaseStatus);
     }
 
+    public List<Release> findByIsDeleted(Boolean isDeleted) {
+        return releaseRepository.findByIsDeleted(isDeleted);
+    }
+
     @Override
     public List<Release> findAll() {
         return releaseRepository.findAll();
@@ -65,7 +69,7 @@ public class ReleaseServiceImpl implements ReleaseService {
     @Transactional
     @Override
     public void delete(Long id) {
-        releaseRepository.delete(id);
+        releaseRepository.findOne(id).setIsDeleted(true);
     }
 
     @Transactional

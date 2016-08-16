@@ -15,9 +15,11 @@ public interface WorkLogService {
 
     List<WorkLog> findByIssue(Issue issue);
 
-    List<WorkLog> findByTime(Date time);
+    List<WorkLog> findByStartTime(Date startTime);
 
-    List<WorkLog> findByAmount(Long amount);
+    List<WorkLog> findByAmountOfTime(Long amountOfTime);
+
+    List<WorkLog> findByIsDeleted(Boolean isDeleted);
 
     List<WorkLog> findAll();
 

@@ -16,7 +16,7 @@ import java.util.List;
 public class WorkLogServiceImpl implements WorkLogService {
 
     @Autowired
-    WorkLogRepository workLogRepository;
+    private WorkLogRepository workLogRepository;
 
     @Override
     public WorkLog findOne(Long id) {
@@ -34,13 +34,18 @@ public class WorkLogServiceImpl implements WorkLogService {
     }
 
     @Override
-    public List<WorkLog> findByTime(Date time) {
-        return workLogRepository.findByTime(time);
+    public List<WorkLog> findByStartTime(Date startTime) {
+        return workLogRepository.findByStartTime(startTime);
     }
 
     @Override
-    public List<WorkLog> findByAmount(Long amount) {
-        return workLogRepository.findByAmount(amount);
+    public List<WorkLog> findByAmountOfTime(Long amountOfTime) {
+        return workLogRepository.findByAmountOfTime(amountOfTime);
+    }
+
+    @Override
+    public List<WorkLog> findByIsDeleted(Boolean isDeleted) {
+        return workLogRepository.findByIsDeleted(isDeleted);
     }
 
     @Override
@@ -57,7 +62,7 @@ public class WorkLogServiceImpl implements WorkLogService {
     @Override
     @Transactional
     public void delete(Long id) {
-        workLogRepository.delete(id);
+        workLogRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

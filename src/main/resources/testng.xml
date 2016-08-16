@@ -5,13 +5,13 @@
 
     <test name="exampleWebAppInitializerTest">
         <classes>
-            <class name="com.softserverinc.edu.configs.WebAppInitializerTest" />
+            <class name="com.softserverinc.edu.configs.WebAppInitializerTest"/>
         </classes>
     </test>
 
     <test name="exampleDBConfigTest">
         <classes>
-            <class name="com.softserverinc.edu.configs.DBConfigTest" />
+            <class name="com.softserverinc.edu.configs.DBConfigTest"/>
         </classes>
     </test>
 

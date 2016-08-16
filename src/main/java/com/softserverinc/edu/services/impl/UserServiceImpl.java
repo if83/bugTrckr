@@ -15,8 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
-
+    private UserRepository userRepository;
 
     @Override
     public User findOne(Long id) {
@@ -33,13 +32,18 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRole(role);
     }
 
-    public List<User> findByProjectId(Project projectId) {
-        return userRepository.findByProjectId(projectId);
+    public List<User> findByProject(Project project) {
+        return userRepository.findByProject(project);
     }
 
     @Override
     public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameOrLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<User> findByIsDeleted(Boolean isDeleted) {
+        return userRepository.findByIsDeleted(isDeleted);
     }
 
     @Override
@@ -56,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(Long id) {
-        userRepository.delete(id);
+        userRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

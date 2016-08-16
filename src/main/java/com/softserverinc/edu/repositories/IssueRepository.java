@@ -1,6 +1,7 @@
 package com.softserverinc.edu.repositories;
 
 import com.softserverinc.edu.entities.Issue;
+import com.softserverinc.edu.entities.Label;
 import com.softserverinc.edu.entities.Release;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssuePriority;
@@ -27,16 +28,18 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     Issue findByAssignee(User assignee);
 
-    /*set labels*/
+    List<Issue> findByLabel(Label label);
 
     List<Issue> findByCreateTime(Date createTime);
 
-    List<Issue> findByDueTime(Date dueTime);
+    List<Issue> findByDueDate(Date dueDate);
 
-    List<Issue> findByLastUpdateTime(Date lastUpdateTime);
+    List<Issue> findByLastUpdateDate(Date lastUpdateDate);
 
     List<Issue> findByEstimateTime(Date estimateTime);
 
     Issue findByParent(Issue parent);
+
+    List<Issue> findByIsDeleted(Boolean isDeleted);
 
 }

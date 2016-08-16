@@ -15,7 +15,7 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Override
     public Project findById(Long id) {
@@ -26,11 +26,6 @@ public class ProjectServiceImpl implements ProjectService {
     public Project findByTitle(String title) {
         return projectRepository.findByTitle(title);
     }
-
-    /*@Override
-    public Project findByProjectManager(User projectManager) {
-        return projectRepository.findByProjectManager(projectManager);
-    }*/
 
     @Override
     public Project findByUser(User user) {
@@ -74,6 +69,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> findByIsDeleted(Boolean isDeleted) {
+        return projectRepository.findByIsDeleted(isDeleted);
+    }
+
+    @Override
     public List<Project> findAll() {
         return projectRepository.findAll();
     }
@@ -87,7 +87,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public void delete(Long id) {
-
+        projectRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

@@ -34,7 +34,8 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='/user/add/' />"  class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add user</a>
+        <a href="<spring:url value='/user/add/' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add
+            user</a>
     </div>
 </div>
 
@@ -82,6 +83,7 @@
                     <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp
                     <a href="<spring:url value='/user/${user.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
                     </div>
+
                 </td>
             </tr>
         </c:forEach>

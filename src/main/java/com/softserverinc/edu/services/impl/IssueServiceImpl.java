@@ -20,7 +20,7 @@ import java.util.List;
 public class IssueServiceImpl implements IssueService {
 
     @Autowired
-    IssueRepository issueRepository;
+    private IssueRepository issueRepository;
 
     @Override
     public Issue findById(Long id) {
@@ -75,13 +75,13 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public List<Issue> findByDueTime(Date dueTime) {
-        return issueRepository.findByDueTime(dueTime);
+    public List<Issue> findByDueDate(Date dueDate) {
+        return issueRepository.findByDueDate(dueDate);
     }
 
     @Override
-    public List<Issue> findByLastUpdateTime(Date lastUpdateTime) {
-        return issueRepository.findByLastUpdateTime(lastUpdateTime);
+    public List<Issue> findByLastUpdateDate(Date lastUpdateDate) {
+        return issueRepository.findByLastUpdateDate(lastUpdateDate);
     }
 
     @Override
@@ -92,6 +92,11 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue findByParent(Issue parent) {
         return issueRepository.findByParent(parent);
+    }
+
+    @Override
+    public List<Issue> findByIsDeleted(Boolean isDeleted) {
+        return issueRepository.findByIsDeleted(isDeleted);
     }
 
     @Override
@@ -108,7 +113,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     @Transactional
     public void delete(Long id) {
-        issueRepository.delete(id);
+        issueRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

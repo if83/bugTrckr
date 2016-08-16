@@ -10,8 +10,8 @@
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
-                <li><a href="<spring:url value='/' />" >Home</a></li>
-                <li><a href="<spring:url value='/users' />" >Users</a></li>
+                <li><a href="<spring:url value='/' />">Home</a></li>
+                <li><a href="<spring:url value='/users' />">Users</a></li>
                 <li class="active"> User Detail</li>
             </ol>
         </div>

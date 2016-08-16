@@ -14,7 +14,7 @@ import java.util.List;
 public class LabelServiceImpl implements LabelService {
 
     @Autowired
-    LabelRepository labelRepository;
+    private LabelRepository labelRepository;
 
     @Override
     public Label findOne(Long id) {
@@ -30,14 +30,18 @@ public class LabelServiceImpl implements LabelService {
     public List<Label> findByIssue(Issue issue) {
         List<Label> listOfAllLabels = labelRepository.findAll();
         List<Label> listOfLabels = null;
-            for (Label labelIterator : listOfAllLabels) {
-                if (labelIterator.getIssues().contains(issue)) {
-                    listOfLabels.add(labelIterator);
-                }
+        for (Label labelIterator : listOfAllLabels) {
+            if (labelIterator.getIssues().contains(issue)) {
+                listOfLabels.add(labelIterator);
             }
-            return listOfLabels;
+        }
+        return listOfLabels;
     }
 
+    @Override
+    public List<Label> findByIsDeleted(Boolean isDeleted) {
+        return labelRepository.findByIsDeleted(isDeleted);
+    }
 
     @Override
     public List<Label> findAll() {
@@ -53,7 +57,7 @@ public class LabelServiceImpl implements LabelService {
     @Override
     @Transactional
     public void delete(Long id) {
-        labelRepository.delete(id);
+        labelRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override
@@ -61,7 +65,6 @@ public class LabelServiceImpl implements LabelService {
     public Label update(Label label) {
         return labelRepository.saveAndFlush(label);
     }
-
 
 
 }

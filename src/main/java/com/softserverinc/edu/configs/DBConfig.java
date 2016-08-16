@@ -1,12 +1,9 @@
 package com.softserverinc.edu.configs;
 
-import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.services.UserService;
 import com.softserverinc.edu.services.impl.UserServiceImpl;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,19 +12,16 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
  * Configuration for database, Hibernate, transactions
@@ -104,4 +98,18 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return entityManagerFactory;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * User service bean
+     *
+     * @return UserService implementations
+     */
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl();
+    }
+
+
+>>>>>>> refs/remotes/origin/dev
 }

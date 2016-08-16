@@ -15,7 +15,7 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
-    HistoryRepository historyRepository;
+    private HistoryRepository historyRepository;
 
     @Override
     public History findOne(Long id) {
@@ -28,18 +28,23 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public History findByParentId(Long parentId) {
-        return historyRepository.findByParentId(parentId);
+    public History findByParent(History parent) {
+        return historyRepository.findByParent(parent);
     }
 
     @Override
-    public List<History> findByAssigneeId(User assigneeId) {
-        return historyRepository.findByAssigneeId(assigneeId);
+    public List<History> findByAssignedToUser(User assignedToUser) {
+        return historyRepository.findByAssignedToUser(assignedToUser);
     }
 
     @Override
-    public History findByChangeById(Long changeById) {
-        return historyRepository.findByChangeById(changeById);
+    public History findByChangedByUser(User changedByUser) {
+        return historyRepository.findByChangedByUser(changedByUser);
+    }
+
+    @Override
+    public List<History> findByIsDeleted(Boolean isDeleted) {
+        return historyRepository.findByIsDeleted(isDeleted);
     }
 
     @Override
@@ -56,7 +61,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     @Transactional
     public void delete(Long id) {
-        historyRepository.delete(id);
+        historyRepository.findOne(id).setIsDeleted(true);
     }
 
     @Override

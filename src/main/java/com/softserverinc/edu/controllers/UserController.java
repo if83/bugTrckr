@@ -33,6 +33,7 @@ public class UserController {
 
     /**
      * Set a form validator
+     *
      * @param binder
      */
     @InitBinder
@@ -92,9 +93,9 @@ public class UserController {
 
             // Add message to flash scope
             redirectAttributes.addFlashAttribute("css", "success");
-            if(user.isNewuser()){
+            if (user.isNewuser()) {
                 redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
             }
         }
@@ -139,6 +140,7 @@ public class UserController {
 
     /**
      * Set default values
+     *
      * @param model
      */
     private void populateDefaultModel(Model model) {
