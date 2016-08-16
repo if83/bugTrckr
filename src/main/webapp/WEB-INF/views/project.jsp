@@ -30,6 +30,7 @@
         <tr>
             <th>Project Name</th>
             <th>Description</th>
+            <th>List of users</th>
             <th>Free to view</th>
             <th>Free to comment</th>
             <th>Free to add Issue</th>
@@ -42,12 +43,14 @@
             <tr>
                 <td><c:out value="${project.title}"/></td>
                 <td><c:out value="${project.description}"/></td>
+                <td><a href="<spring:url value='/project/${project.id}/usersOnProject'/>" ><i class="fa fa-eye icon-table-u"></i></a></td>
                 <td><c:out value="${project.guestView}"/></td>
                 <td><c:out value="${project.guestAddComment}"/></td>
                 <td><c:out value="${project.guestCreateIssues}"/></td>
                 <td>
-                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
+                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
                     <a href="<spring:url value='' />" ><i class="fa fa-edit icon-table-u"></i></a>
+                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>
