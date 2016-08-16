@@ -78,6 +78,12 @@
         <put-attribute name="content" value="/WEB-INF/views/project.jsp"/>
     </definition>
 
+    <definition name="project_users" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Project /usersOnProject"/>
+        <put-attribute name="content" value="/WEB-INF/views/project_users.jsp"/>
+    </definition>
+
+
     <!--Release-->
     <definition name="release" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Release page"/>
