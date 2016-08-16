@@ -15,7 +15,7 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Override
     public Project findById(Long id) {
@@ -25,11 +25,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findByTitle(String title) {
         return projectRepository.findByTitle(title);
-    }
-
-    @Override
-    public Project findByProjectManager(User projectManager) {
-        return projectRepository.findByProjectManager(projectManager);
     }
 
     @Override

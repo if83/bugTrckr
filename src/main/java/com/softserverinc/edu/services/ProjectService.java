@@ -12,8 +12,6 @@ public interface ProjectService {
 
     Project findByTitle(String title);
 
-    Project findByProjectManager(User projectManager);
-
     Project findByUser(User user);
 
     Project findByRelease(Release release);

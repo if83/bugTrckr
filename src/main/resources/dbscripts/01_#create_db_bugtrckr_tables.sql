@@ -1,5 +1,5 @@
 CREATE TABLE `User` (
-  `id`          INT         NOT NULL,
+  `id`          INT         NOT NULL AUTO_INCREMENT,
   `firstName`   VARCHAR(32) NOT NULL,
   `lastName`    VARCHAR(32) NOT NULL,
   `email`       VARCHAR(64) NOT NULL UNIQUE,
@@ -15,9 +15,8 @@ CREATE TABLE `User` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Project` (
-  `id`                INT          NOT NULL,
+  `id`                INT          NOT NULL AUTO_INCREMENT,
   `title`             VARCHAR(100) NOT NULL,
-  `projectManagerId`  INT          NOT NULL,
   `guestView`         BOOLEAN      NOT NULL,
   `guestCreateIssues` BOOLEAN      NOT NULL,
   `guestAddComment`   BOOLEAN      NOT NULL,
@@ -30,7 +29,7 @@ CREATE TABLE `Project` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Release` (
-  `id`          INT         NOT NULL,
+  `id`          INT         NOT NULL AUTO_INCREMENT,
   `projectId`   INT         NOT NULL,
   `vesrion`     VARCHAR(32) NOT NULL,
   `status`      VARCHAR(11) NOT NULL,
@@ -43,7 +42,7 @@ CREATE TABLE `Release` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Issue` (
-  `id`             INT         NOT NULL,
+  `id`             INT         NOT NULL AUTO_INCREMENT,
   `title`          VARCHAR(32) NOT NULL,
   `type`           VARCHAR(32) NOT NULL,
   `priority`       VARCHAR(32) NOT NULL,
@@ -63,7 +62,7 @@ CREATE TABLE `Issue` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Label` (
-  `id`        INT         NOT NULL,
+  `id`        INT         NOT NULL AUTO_INCREMENT,
   `title`     VARCHAR(32) NOT NULL,
   `isDeleted` BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -73,7 +72,7 @@ CREATE TABLE `Label` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `History` (
-  `id`               INT     NOT NULL,
+  `id`               INT     NOT NULL AUTO_INCREMENT,
   `issueId`          INT     NOT NULL,
   `assignedToUserId` INT     NOT NULL,
   `parentId`         INT,
@@ -86,11 +85,11 @@ CREATE TABLE `History` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `WorkLog` (
-  `id`        INT     NOT NULL,
+  `id`        INT     NOT NULL AUTO_INCREMENT,
   `issueId`   INT     NOT NULL,
   `userId`    INT     NOT NULL,
-  `time`      DATE    NOT NULL,
-  `amount`    INT     NOT NULL,
+  `startTime`      DATE    NOT NULL,
+  `amountOfTime`    INT     NOT NULL,
   `isDeleted` BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
@@ -107,44 +106,44 @@ CREATE TABLE `LabelIssue` (
   DEFAULT CHARSET = utf8;
 
 ALTER TABLE `User`
-  ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
+  ADD CONSTRAINT `User_Project_fk` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
 
 ALTER TABLE `Project`
-  ADD CONSTRAINT `Project_fk0` FOREIGN KEY (`projectManagerId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `Project_User_fk` FOREIGN KEY (`projectManagerId`) REFERENCES `User` (`id`);
 
 ALTER TABLE `Release`
-  ADD CONSTRAINT `Release_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
+  ADD CONSTRAINT `Release_Project_fk` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`releaseId`) REFERENCES `Release` (`id`);
+  ADD CONSTRAINT `Issue_Release_fk` FOREIGN KEY (`releaseId`) REFERENCES `Release` (`id`);
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `Issue_User_fk` FOREIGN KEY (`assigneeId`) REFERENCES `User` (`id`);
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk2` FOREIGN KEY (`parentId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `Issue_Issue_fk` FOREIGN KEY (`parentId`) REFERENCES `Issue` (`id`);
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `History_Issue_fk` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`);
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk1` FOREIGN KEY (`assignedToUserId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `History_User_fk` FOREIGN KEY (`assignedToUserId`) REFERENCES `User` (`id`);
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk2` FOREIGN KEY (`parentId`) REFERENCES `History` (`id`);
+  ADD CONSTRAINT `History_History_fk` FOREIGN KEY (`parentId`) REFERENCES `History` (`id`);
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk3` FOREIGN KEY (`changedByUserId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `History_User_fk` FOREIGN KEY (`changedByUserId`) REFERENCES `User` (`id`);
 
 ALTER TABLE `WorkLog`
-  ADD CONSTRAINT `WorkLog_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `WorkLog_Issue_fk` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`);
 
 ALTER TABLE `WorkLog`
-  ADD CONSTRAINT `WorkLog_fk1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `WorkLog_User_fk` FOREIGN KEY (`userId`) REFERENCES `User` (`id`);
 
 ALTER TABLE `LabelIssue`
-  ADD CONSTRAINT `LabelIssue_fk0` FOREIGN KEY (`labelId`) REFERENCES `Label` (`id`);
+  ADD CONSTRAINT `LabelIssue_Label_fk` FOREIGN KEY (`labelId`) REFERENCES `Label` (`id`);
 
 ALTER TABLE `LabelIssue`
-  ADD CONSTRAINT `LabelIssue_fk1` FOREIGN KEY (`IssueId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `LabelIssue_Issue_fk` FOREIGN KEY (`IssueId`) REFERENCES `Issue` (`id`);
 

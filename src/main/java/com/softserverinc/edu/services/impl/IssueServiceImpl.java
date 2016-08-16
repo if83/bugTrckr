@@ -20,7 +20,7 @@ import java.util.List;
 public class IssueServiceImpl implements IssueService {
 
     @Autowired
-    IssueRepository issueRepository;
+    private IssueRepository issueRepository;
 
     @Override
     public Issue findById(Long id) {

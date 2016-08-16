@@ -15,7 +15,7 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
-    HistoryRepository historyRepository;
+    private HistoryRepository historyRepository;
 
     @Override
     public History findOne(Long id) {
