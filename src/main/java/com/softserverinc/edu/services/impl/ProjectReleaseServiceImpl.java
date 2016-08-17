@@ -16,21 +16,22 @@ import java.util.List;
 public class ProjectReleaseServiceImpl implements ProjectReleaseService {
 
     @Autowired
-    private ProjectReleaseRepository releaseRepository;
+    private ProjectReleaseRepository projectReleaseRepository;
 
     @Override
     public ProjectRelease findById(Long id) {
-        return releaseRepository.findOne(id);
+        return projectReleaseRepository.findOne(id);
     }
 
     @Override
     public List<ProjectRelease> findByProject(Project project) {
-        return releaseRepository.findByProject(project);
+        return projectReleaseRepository.findByProject(project);
     }
 
     @Override
-    public ProjectRelease findByIssue(Issue issue) {
-        ProjectRelease projectRelease = null;
+    public ProjectRelease findByIssues(Issue issue) {
+        return projectReleaseRepository.findByIssues(issue);
+        /*ProjectRelease projectRelease = null;
         List<ProjectRelease> listOfProjectReleases = releaseRepository.findAll();
         for (ProjectRelease projectReleaseIterator : listOfProjectReleases) {
             if (projectReleaseIterator.getIssues().contains(issue)) {
@@ -38,44 +39,44 @@ public class ProjectReleaseServiceImpl implements ProjectReleaseService {
                 break;
             }
         }
-        return projectRelease;
+        return projectRelease;*/
     }
 
     @Override
     public List<ProjectRelease> findByVersion(String version) {
-        return releaseRepository.findByVersion(version);
+        return projectReleaseRepository.findByVersion(version);
     }
 
     @Override
     public List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus) {
-        return releaseRepository.findByReleaseStatus(releaseStatus);
+        return projectReleaseRepository.findByReleaseStatus(releaseStatus);
     }
 
     public List<ProjectRelease> findByIsDeleted(Boolean isDeleted) {
-        return releaseRepository.findByIsDeleted(isDeleted);
+        return projectReleaseRepository.findByIsDeleted(isDeleted);
     }
 
     @Override
     public List<ProjectRelease> findAll() {
-        return releaseRepository.findAll();
+        return projectReleaseRepository.findAll();
     }
 
     @Transactional
     @Override
     public ProjectRelease save(ProjectRelease projectRelease) {
-        return releaseRepository.saveAndFlush(projectRelease);
+        return projectReleaseRepository.saveAndFlush(projectRelease);
     }
 
     @Transactional
     @Override
     public void delete(Long id) {
-        releaseRepository.findOne(id).setIsDeleted(true);
+        projectReleaseRepository.findOne(id).setIsDeleted(true);
     }
 
     @Transactional
     @Override
     public ProjectRelease update(ProjectRelease projectRelease) {
-        return releaseRepository.saveAndFlush(projectRelease);
+        return projectReleaseRepository.saveAndFlush(projectRelease);
     }
 
 }
