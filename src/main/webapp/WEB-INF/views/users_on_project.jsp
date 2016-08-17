@@ -3,17 +3,16 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left"> Users on <c:out value="${name}"/></h1>
+            <h1 class="pull-left"> Users in ${project.title}</h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
-                <li><a href="<spring:url value='/' />" >Home</a></li>
-                <li><a href="<spring:url value='/project' />" >Project</a></li>
-                <li class="active"> Users on <c:out value="${name}"/></li>
+                <li><a href="<spring:url value='/' />">Home</a></li>
+                <li><a href="<spring:url value='/project'/>">Project</a></li>
+                <li class="active"> Users in ${project.title} </li>
             </ol>
         </div>
     </div>
@@ -33,7 +32,7 @@
         </thead>
 
         <tbody>
-        <c:forEach var="users" items="${users}">
+        <c:forEach var="users" items="${usersList}">
             <tr>
                 <td><c:out value="${users.firstName}"/></td>
                 <td><c:out value="${users.lastName}"/></td>
@@ -41,9 +40,9 @@
                 <td><c:out value="${users.role}"/></td>
                 <td><c:out value="${users.description}"/></td>
                 <td>
-                    <a href="<spring:url value='/user/${users.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>
-                    <a href="<spring:url value='/user/${users.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>
-                    <a href="<spring:url value='/user/${users.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
+                    <a href="<spring:url value='/user/${users.id}/view' />"><i class="fa fa-eye icon-table-u"></i></a>
+                    <a href="<spring:url value='/user/${users.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
+                    <a href="<spring:url value='/user/${users.id}/remove' />"><i class="fa fa-remove icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>

@@ -25,31 +25,53 @@
 
 <div class=class="margin-top-30">
     <table class="table table-hover">
-
         <thead>
         <tr>
             <th>Project Name</th>
             <th>Description</th>
-            <th>List of users</th>
             <th>Free to view</th>
             <th>Free to comment</th>
             <th>Free to add Issue</th>
-            <th>Action</th>
         </tr>
         </thead>
-
         <tbody>
-        <c:forEach var="project" items="${projectList}">
+        <c:forEach var="project" items="${listOfProjects}">
             <tr>
-                <td><c:out value="${project.title}"/></td>
-                <td><c:out value="${project.description}"/></td>
-                <td><a href="<spring:url value='/project/${project.id}/usersOnProject'/>" ><i class="fa fa-eye icon-table-u"></i></a></td>
-                <td><c:out value="${project.guestView}"/></td>
-                <td><c:out value="${project.guestAddComment}"/></td>
-                <td><c:out value="${project.guestCreateIssues}"/></td>
-                <td><a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
-                    <a href="<spring:url value='' />" ><i class="fa fa-edit icon-table-u"></i></a>
-                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
+                <td>
+                    <a href="<spring:url value='/project/${project.id}/usersOnProject'/>">
+                        <c:out value="${project.title}"/></a>
+                </td>
+                <td>
+                    <c:out value="${project.description}"/>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${project.guestView == true}">
+                            <i class="glyphicon glyphicon-ok"/>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="glyphicon glyphicon-remove"/>
+                        </c:otherwise>
+                    </c:choose>
+                <td>
+                    <c:choose>
+                        <c:when test="${project.guestAddComment == true}">
+                            <i class="glyphicon glyphicon-ok"/>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="glyphicon glyphicon-remove"/>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${project.guestCreateIssues == true}">
+                            <i class="glyphicon glyphicon-ok"/>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="glyphicon glyphicon-remove"/>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
         </c:forEach>

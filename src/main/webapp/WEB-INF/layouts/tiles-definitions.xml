@@ -30,7 +30,7 @@
     </definition>
 
     <definition name="index" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="My first page"/>
+        <put-attribute name="title" value="BugTrckr software"/>
         <put-attribute name="content" value="/WEB-INF/views/index.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/login.css"/>
@@ -78,11 +78,10 @@
         <put-attribute name="content" value="/WEB-INF/views/project.jsp"/>
     </definition>
 
-    <definition name="project_users" extends="abstractDefaultTemplate">
+    <definition name="users_on_project" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Project /usersOnProject"/>
-        <put-attribute name="content" value="/WEB-INF/views/project_users.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/users_on_project.jsp"/>
     </definition>
-
 
     <!--ProjectRelease-->
     <definition name="release" extends="abstractDefaultTemplate">

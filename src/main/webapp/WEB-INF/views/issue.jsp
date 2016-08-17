@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <div class="breadcrumbs">
     <div class="row">
@@ -31,7 +32,7 @@
             <th>Type</th>
             <th>Priority</th>
             <th>Status</th>
-            <th>Release</th>
+            <th>ProjectRelease</th>
             <th>Assigned User</th>
             <th>Create time</th>
             <th>Finish time</th>
@@ -39,7 +40,6 @@
             <th>Estimate time</th>
         </tr>
         </thead>
-
         <tbody>
         <c:forEach var="issue" items="${issueList}">
             <tr>
@@ -47,8 +47,16 @@
                 <td><c:out value="${issue.type}"/></td>
                 <td><c:out value="${issue.priority}"/></td>
                 <td><c:out value="${issue.status}"/></td>
-                <td><c:out value="${issue.realeseId}"/></td>
-                <td><c:out value="${issue.assigneeId}"/></td>
+                <td>
+                    <a href="<spring:url value='/release'/>">
+                        <i class="fa fa-eye icon-table-u"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="<spring:url value='/user/${issue.id}/view'/>">
+                        <i class="fa fa-eye icon-table-u"></i>
+                    </a>
+                </td>
                 <td><c:out value="${issue.createTime}"/></td>
                 <td><c:out value="${issue.dueDate}"/></td>
                 <td><c:out value="${issue.lastUpdateDate}"/></td>
@@ -74,4 +82,3 @@
         <h2 class=""><a href="<spring:url value='/label'/>">Label</a></h2>
     </div>
 </div>
-
