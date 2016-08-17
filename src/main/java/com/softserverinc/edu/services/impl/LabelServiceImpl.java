@@ -27,15 +27,16 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public List<Label> findByIssue(Issue issue) {
-        List<Label> listOfAllLabels = labelRepository.findAll();
+    public List<Label> findByIssues(Issue issue) {
+        return labelRepository.findByIssues(issue);
+        /*List<Label> listOfAllLabels = labelRepository.findAll();
         List<Label> listOfLabels = null;
         for (Label labelIterator : listOfAllLabels) {
             if (labelIterator.getIssues().contains(issue)) {
                 listOfLabels.add(labelIterator);
             }
         }
-        return listOfLabels;
+        return listOfLabels;*/
     }
 
     @Override

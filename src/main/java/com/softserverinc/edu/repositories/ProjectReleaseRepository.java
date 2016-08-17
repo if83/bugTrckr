@@ -1,5 +1,6 @@
 package com.softserverinc.edu.repositories;
 
+import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReleaseRepository extends JpaRepository<ProjectRelease, Long> {
+public interface ProjectReleaseRepository extends JpaRepository<ProjectRelease, Long> {
 
     List<ProjectRelease> findByProject(Project project);
 
-    /*set issues*/
+    ProjectRelease findByIssues(Issue issue);
 
     List<ProjectRelease> findByVersion(String version);
 

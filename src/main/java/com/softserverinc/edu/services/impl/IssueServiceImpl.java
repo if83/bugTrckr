@@ -59,14 +59,15 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<Issue> findByLabels(Label label) {
-        List<Issue> listOfAllIssues = issueRepository.findAll();
+        return issueRepository.findByLabels(label);
+        /*List<Issue> listOfAllIssues = issueRepository.findAll();
         List<Issue> listOfIssues = null;
         for (Issue issueIterator : listOfAllIssues) {
             if (issueIterator.getLabels().contains(label)) {
                 listOfIssues.add(issueIterator);
             }
         }
-        return listOfIssues;
+        return listOfIssues;*/
     }
 
     @Override
