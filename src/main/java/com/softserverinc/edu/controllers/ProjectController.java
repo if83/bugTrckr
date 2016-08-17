@@ -29,17 +29,16 @@ public class ProjectController {
 
     @RequestMapping(value = "/project", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model) {
-        model.addAttribute("projectList", projectService.findAll());
+        model.addAttribute("listOfProjects", projectService.findAll());
         return "project";
     }
 
     @RequestMapping(value = "/project/{id}/usersOnProject", method = RequestMethod.GET)
-    public String viewUserOnProject(@PathVariable("id") int id, Model model) {
-        List<Project> projects = projectService.findAll();
-        String projectTitle = projects.get(id - 1).getTitle();
-        List<User> users = userService.findByProject(projects.get(id - 1));
+    public String viewUserOnProject(@PathVariable("id") Long id, Model model) {
+        Project project = projectService.findById(id);
+        List<User> users = userService.findByProject(project);
         model.addAttribute("usersList", users);
-        model.addAttribute("name", projectTitle);
+        model.addAttribute("project", project);
         return "users_on_project";
     }
 }
