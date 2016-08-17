@@ -53,23 +53,7 @@
         </thead>
 
         <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td>
-                <form:form action="/user/searchByEmail" method="POST" cssClass="form-inline">
-                    <div class="input-group">
-                        <form:input path="email" type="email" cssClass="form-control form-text" id="emailInput" placeholder="Email"/>
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </span>
-                    </div>
-                </form:form>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+
         <c:forEach var="user" items="${userList}">
             <tr>
                 <td><c:out value="${user.firstName}"/></td>

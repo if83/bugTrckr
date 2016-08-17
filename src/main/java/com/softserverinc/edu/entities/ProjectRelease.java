@@ -17,7 +17,7 @@ public class ProjectRelease {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable=false, updatable=false)
     private Project project;
 
     @Column(nullable = false, length = 32)
@@ -30,8 +30,8 @@ public class ProjectRelease {
     @Column(length = 10000)
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "projectRelease")
+//    @JoinColumn(referencedColumnName = "id")
     private Set<Issue> issues;
 
     @Column
