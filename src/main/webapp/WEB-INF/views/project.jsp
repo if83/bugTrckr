@@ -25,7 +25,6 @@
 
 <div class=class="margin-top-30">
     <table class="table table-hover">
-
         <thead>
         <tr>
             <th>Project Name</th>
@@ -37,19 +36,22 @@
             <th>Action</th>
         </tr>
         </thead>
-
         <tbody>
         <c:forEach var="project" items="${projectList}">
             <tr>
                 <td><c:out value="${project.title}"/></td>
                 <td><c:out value="${project.description}"/></td>
-                <td><a href="<spring:url value='/project/${project.id}/usersOnProject'/>" ><i class="fa fa-eye icon-table-u"></i></a></td>
+                <td>
+                    <a href="<spring:url value='/project/${project.id}/usersOnProject'/>">
+                        <i class="fa fa-eye icon-table-u"></i>
+                    </a>
+                </td>
                 <td><c:out value="${project.guestView}"/></td>
                 <td><c:out value="${project.guestAddComment}"/></td>
                 <td><c:out value="${project.guestCreateIssues}"/></td>
-                <td><a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
-                    <a href="<spring:url value='' />" ><i class="fa fa-edit icon-table-u"></i></a>
-                    <a href="<spring:url value='' />" ><i class="fa fa-remove icon-table-u"></i></a>
+                <td><a href="<spring:url value='' />"><i class="fa fa-eye icon-table-u"></i></a>
+                    <a href="<spring:url value='' />"><i class="fa fa-edit icon-table-u"></i></a>
+                    <a href="<spring:url value='' />"><i class="fa fa-remove icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>

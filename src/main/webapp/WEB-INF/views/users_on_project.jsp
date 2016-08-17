@@ -3,7 +3,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
@@ -33,7 +32,7 @@
         </thead>
 
         <tbody>
-        <c:forEach var="users" items="${users}">
+        <c:forEach var="users" items="${usersList}">
             <tr>
                 <td><c:out value="${users.firstName}"/></td>
                 <td><c:out value="${users.lastName}"/></td>
