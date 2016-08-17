@@ -20,8 +20,9 @@ public class User {
      */
     @Transient
     String confirmPassword;
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -45,7 +46,7 @@ public class User {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable=false, updatable=false)
     private Project project;
 
     @Column

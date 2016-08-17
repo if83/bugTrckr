@@ -18,12 +18,15 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "id")
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+//    @JoinColumn(referencedColumnName = "id")
+    @OneToMany
+    @JoinColumn(name="projectId")
     private Set<User> users;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "id")
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+    @OneToMany
+    @JoinColumn(name="projectId")
     private Set<ProjectRelease> projectRelease;
 
     @Column(nullable = false)
