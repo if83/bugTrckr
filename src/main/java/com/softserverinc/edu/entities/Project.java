@@ -27,7 +27,7 @@ public class Project {
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
     @OneToMany
     @JoinColumn(name="projectId")
-    private Set<ProjectRelease> projectRelease;
+    private Set<ProjectRelease> projectReleases;
 
     @Column(nullable = false)
     private boolean guestView;
@@ -64,11 +64,11 @@ public class Project {
     }
 
     public Set<ProjectRelease> getProjectRelease() {
-        return projectRelease;
+        return projectReleases;
     }
 
-    public void setProjectRelease(Set<ProjectRelease> projectRelease) {
-        this.projectRelease = projectRelease;
+    public void setProjectRelease(Set<ProjectRelease> projectReleases) {
+        this.projectReleases = projectReleases;
     }
 
     public boolean isGuestView() {
