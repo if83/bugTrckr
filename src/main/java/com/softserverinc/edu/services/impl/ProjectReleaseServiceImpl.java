@@ -4,8 +4,8 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
-import com.softserverinc.edu.repositories.ReleaseRepository;
-import com.softserverinc.edu.services.ReleaseService;
+import com.softserverinc.edu.repositories.ProjectReleaseRepository;
+import com.softserverinc.edu.services.ProjectReleaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ReleaseServiceImpl implements ReleaseService {
+public class ProjectReleaseServiceImpl implements ProjectReleaseService {
 
     @Autowired
-    private ReleaseRepository releaseRepository;
+    private ProjectReleaseRepository releaseRepository;
 
     @Override
     public ProjectRelease findById(Long id) {

@@ -11,7 +11,7 @@ public interface LabelService {
 
     Label findByTitle(String title);
 
-    List<Label> findByIssue(Issue issue);
+    List<Label> findByIssues(Issue issue);
 
     List<Label> findByIsDeleted(Boolean isDeleted);
 

@@ -29,20 +29,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project findByUsers(User user) {
-        Project project = null;
+        return projectRepository.findByUsers(user);
+        /*Project project = null;
         List<Project> listOfProjects = projectRepository.findAll();
-        for (Project releaseIterator : listOfProjects) {
-            if (releaseIterator.getUsers().contains(user)) {
-                project = releaseIterator;
+        for (Project projectIterator : listOfProjects) {
+            if (projectIterator.getUsers().contains(user)) {
+                project = projectIterator;
                 break;
             }
         }
-        return project;
+        return project;*/
     }
 
     @Override
-    public Project findByProjectRelease(ProjectRelease projectRelease) {
-        Project project = null;
+    public Project findByProjectReleases(ProjectRelease projectRelease) {
+        return projectRepository.findByProjectReleases(projectRelease);
+        /*Project project = null;
         List<Project> listOfProjects = projectRepository.findAll();
         for (Project releaseIterator : listOfProjects) {
             if (releaseIterator.getProjectRelease().contains(projectRelease)) {
@@ -50,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
                 break;
             }
         }
-        return project;
+        return project;*/
     }
 
     @Override

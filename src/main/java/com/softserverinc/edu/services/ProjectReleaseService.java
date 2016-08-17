@@ -7,7 +7,7 @@ import com.softserverinc.edu.entities.enums.ReleaseStatus;
 
 import java.util.List;
 
-public interface ReleaseService {
+public interface ProjectReleaseService {
 
     ProjectRelease findById(Long id);
 

@@ -14,7 +14,7 @@ public interface ProjectService {
 
     Project findByUsers(User user);
 
-    Project findByProjectRelease(ProjectRelease projectRelease);
+    Project findByProjectReleases(ProjectRelease projectRelease);
 
     List<Project> findByGuestView(Boolean guestView);
 
