@@ -136,7 +136,7 @@ public class UserController {
             model.addAttribute("userList", this.userService.findByFirstNameContaining(firstName));
         else
             model.addAttribute("userList", this.userService.findByLastNameContaining(lastName));
-
+        populateDefaultModel(model);
         LOGGER.debug("User search list ByName");
         return "users";
     }
@@ -144,6 +144,7 @@ public class UserController {
     @PostMapping(value = "/users/searchByEmail")
     public String userSearchByEmailPost (@RequestParam(value = "email") String userEmail, Model model) {
         model.addAttribute("userList", this.userService.findByEmailContaining(userEmail));
+        populateDefaultModel(model);
         LOGGER.debug("User search list ByEmail");
         return "users";
     }

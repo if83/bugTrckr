@@ -102,7 +102,11 @@
         </tr>
         <c:forEach var="user" items="${userList}">
             <tr>
-                <td><c:out value="${user.firstName}"/></td>
+                <td>
+                    <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
+                    <c:out value="${user.firstName}"/>
+                    </a>
+                </td>
                 <td><c:out value="${user.lastName}"/></td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
