@@ -12,11 +12,19 @@ public interface UserService {
 
     List<User> findByEmail(String email);
 
+    List<User> findByEmailContaining(String email);
+
     List<User> findByRole(UserRole role);
 
     List<User> findByProject(Project project);
 
     List<User> findByFirstNameOrLastName(String firstName, String lastName);
+
+    List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);
+
+    List<User> findByFirstNameContaining(String firstName);
+
+    List<User> findByLastNameContaining(String lastName);
 
     List<User> findByIsDeleted(Boolean isDeleted);
 

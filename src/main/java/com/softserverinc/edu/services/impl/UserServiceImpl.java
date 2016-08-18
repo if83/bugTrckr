@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findByEmailContaining(String email) {
+        return userRepository.findByEmailContaining(email);
+    }
+
+    @Override
     public List<User> findByRole(UserRole role) {
         return userRepository.findByRole(role);
     }
@@ -39,6 +44,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameOrLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName) {
+        return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
+    }
+
+    @Override
+    public List<User> findByFirstNameContaining(String firstName) {
+        return userRepository.findByFirstNameContaining(firstName);
+    }
+
+    @Override
+    public List<User> findByLastNameContaining(String lastName) {
+        return userRepository.findByLastNameContaining(lastName);
     }
 
     @Override

@@ -19,12 +19,14 @@
         <put-list-attribute name="stylesheets">
             <add-attribute value="/css/bootstrap.min.css"/>
             <add-attribute value="/css/bootstrap-theme.min.css"/>
+            <add-attribute value="/css/select2.min.css"/>
             <add-attribute value="/css/font-awesome.min.css"/>
             <add-attribute value="/css/site.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts">
             <add-attribute value="/js/jquery-2.2.4.min.js"/>
             <add-attribute value="/js/bootstrap.min.js"/>
+            <add-attribute value="/js/select2.full.min.js"/>
             <add-attribute value="/js/jquery.validate.min.js"/>
         </put-list-attribute>
     </definition>
@@ -93,20 +95,32 @@
     <definition name="users" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="User page"/>
         <put-attribute name="content" value="/WEB-INF/views/users.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/user/list.js"/>
+        </put-list-attribute>
     </definition>
 
     <definition name="userform" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="User add/edit"/>
         <put-attribute name="content" value="/WEB-INF/views/userform.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user_form.js"/>
+            <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
     </definition>
 
     <definition name="userview" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="User add/edit"/>
         <put-attribute name="content" value="/WEB-INF/views/userview.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
     </definition>
 
 </tiles-definitions>

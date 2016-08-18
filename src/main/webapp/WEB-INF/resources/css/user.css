@@ -1,0 +1,5 @@
+ span.select2-container .select2-selection{
+    height: 34px!important;
+     border-top-right-radius: 0;
+     border-bottom-right-radius: 0;
+}

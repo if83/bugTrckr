@@ -54,19 +54,49 @@
 
         <tbody>
         <tr>
-            <td></td>
-            <td></td>
+            <form action="/users/searchByName" method="POST" class="form-inline">
             <td>
-                <form:form action="/user/searchByEmail" method="POST" cssClass="form-inline">
+                <div class="input-group">
+                    <input name="firstName" type="text" class="form-control form-text" placeholder="First name"/>
+                    <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                </div>
+            </td>
+            <td>
+                <div class="input-group">
+                    <input name="lastName" type="text" class="form-control form-text" placeholder="Last name"/>
+                    <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                </div>
+            </td>
+            </form>
+
+            <td>
+                <form action="/users/searchByEmail" method="POST" class="form-inline">
                     <div class="input-group">
-                        <form:input path="email" type="email" cssClass="form-control form-text" id="emailInput" placeholder="Email"/>
+                        <input name="email" type="text" class="form-control form-text" required="required" placeholder="Email"/>
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                         </span>
                     </div>
-                </form:form>
+                </form>
             </td>
-            <td></td>
+            <td>
+                <form action="/users/searchByRole" modelAttribute="roles" method="POST" class="form-inline">
+                    <div class="input-group">
+                        <select name="role" type="text" class="form-control" id="roleInput">
+                            <c:forEach var="role" items="${roles}">
+                                <option><c:out value="${role}"/></option>
+                            </c:forEach>
+                        </select>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </form>
+            </td>
             <td></td>
             <td></td>
         </tr>
@@ -90,4 +120,5 @@
         </tbody>
 
     </table>
+
 </div>
