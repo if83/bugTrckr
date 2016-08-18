@@ -9,10 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * Issue controller
- */
-
 @Controller
 public class IssueController {
 
@@ -23,7 +19,7 @@ public class IssueController {
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String listOfIssues(ModelMap model) {
-        model.addAttribute("issueList", this.issueService.findAll());
+        model.addAttribute("listOfIssues", this.issueService.findAll());
         LOGGER.debug("Issue list");
         return "issue";
     }

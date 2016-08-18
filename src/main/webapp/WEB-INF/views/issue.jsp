@@ -41,7 +41,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="issue" items="${issueList}">
+        <c:forEach var="issue" items="${listOfIssues}">
             <tr>
                 <td><c:out value="${issue.title}"/></td>
                 <td><c:out value="${issue.type}"/></td>
@@ -53,8 +53,8 @@
                     </a>
                 </td>
                 <td>
-                    <a href="<spring:url value='/user/${issue.id}/view'/>">
-                        <i class="fa fa-eye icon-table-u"></i>
+                    <a href="<spring:url value='/user/${issue.assignee.id}/view'/>">
+                            ${issue.assignee.firstName} ${issue.assignee.lastName}
                     </a>
                 </td>
                 <td><c:out value="${issue.createTime}"/></td>

@@ -3,7 +3,6 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.UserFormValidator;
-import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/{id}/remove")
-    public String removeUser(@PathVariable("id") long id, final RedirectAttributes redirectAttributes){
+    public String removeUser(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
 
         this.userService.delete(id);
 
