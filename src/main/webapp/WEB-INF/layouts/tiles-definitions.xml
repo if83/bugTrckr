@@ -75,14 +75,14 @@
     </definition>
 
     <!--Project-->
-    <definition name="project" extends="abstractDefaultTemplate">
+    <definition name="projects" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Project page"/>
-        <put-attribute name="content" value="/WEB-INF/views/project.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/projects.jsp"/>
     </definition>
 
-    <definition name="users_on_project" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Project /usersOnProject"/>
-        <put-attribute name="content" value="/WEB-INF/views/users_on_project.jsp"/>
+    <definition name="project" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Projects/project"/>
+        <put-attribute name="content" value="/WEB-INF/views/project.jsp"/>
     </definition>
 
     <!--ProjectRelease-->

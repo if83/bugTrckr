@@ -27,18 +27,18 @@ public class ProjectController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/project", method = RequestMethod.GET)
+    @RequestMapping(value = "/projects", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model) {
         model.addAttribute("listOfProjects", projectService.findAll());
-        return "project";
+        return "projects";
     }
 
-    @RequestMapping(value = "/project/{id}/usersOnProject", method = RequestMethod.GET)
-    public String viewUserOnProject(@PathVariable("id") Long id, Model model) {
+    @RequestMapping(value = "/projects/project{id}", method = RequestMethod.GET)
+    public String projectById(@PathVariable("id") Long id, Model model) {
         Project project = projectService.findById(id);
         List<User> users = userService.findByProject(project);
         model.addAttribute("usersList", users);
         model.addAttribute("project", project);
-        return "users_on_project";
+        return "project";
     }
 }
