@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,4 +42,15 @@ public class ProjectController {
         model.addAttribute("project", project);
         return "project";
     }
+
+    @GetMapping(value = "/projects/add")
+    public String addUser(Model model) {
+        Project project = new Project();
+        project.setId(0L);
+        model.addAttribute("project", project);
+        model.addAttribute("formaction", "new");
+        LOGGER.debug("Project add form");
+        return "project_form";
+    }
+
 }

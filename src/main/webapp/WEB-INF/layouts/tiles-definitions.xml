@@ -85,6 +85,11 @@
         <put-attribute name="content" value="/WEB-INF/views/project.jsp"/>
     </definition>
 
+    <definition name="project_form" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Projects add/edit"/>
+        <put-attribute name="content" value="/WEB-INF/views/project_form.jsp"/>
+    </definition>
+
     <!--ProjectRelease-->
     <definition name="release" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Release page"/>
