@@ -34,12 +34,12 @@ CREATE TABLE `Project` (
 # https://dev.mysql.com/doc/refman/5.7/en/keywords.html
 
 CREATE TABLE `ProjectRelease` (
-  `id`               INT         NOT NULL AUTO_INCREMENT,
-  `projectId`        INT         NOT NULL,
-  `version`          VARCHAR(32) NOT NULL,
-  `releaseStatus`    VARCHAR(11) NOT NULL,
-  `description`      TEXT,
-  `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
+  `id`            INT         NOT NULL AUTO_INCREMENT,
+  `projectId`     INT         NOT NULL,
+  `version`       VARCHAR(32) NOT NULL,
+  `releaseStatus` VARCHAR(11) NOT NULL,
+  `description`   TEXT,
+  `isDeleted`     BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -47,19 +47,19 @@ CREATE TABLE `ProjectRelease` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `Issue` (
-  `id`             INT         NOT NULL AUTO_INCREMENT,
-  `title`          VARCHAR(32) NOT NULL,
-  `type`           VARCHAR(32) NOT NULL,
-  `priority`       VARCHAR(32) NOT NULL,
-  `status`         VARCHAR(32) NOT NULL,
-  `projectReleaseId`      INT         NOT NULL,
-  `assigneeId`     INT         NOT NULL,
-  `createTime`     DATE        NOT NULL,
-  `dueDate`        DATE,
-  `lastUpdateDate` DATE        NOT NULL,
-  `estimateTime`   INT         NOT NULL,
-  `parentId`       INT,
-  `isDeleted`      BOOLEAN     NOT NULL DEFAULT '0',
+  `id`               INT         NOT NULL AUTO_INCREMENT,
+  `title`            VARCHAR(32) NOT NULL,
+  `type`             VARCHAR(32) NOT NULL,
+  `priority`         VARCHAR(32) NOT NULL,
+  `status`           VARCHAR(32) NOT NULL,
+  `projectReleaseId` INT         NOT NULL,
+  `assigneeId`       INT         NOT NULL,
+  `createTime`       DATE        NOT NULL,
+  `dueDate`          DATE,
+  `lastUpdateDate`   DATE        NOT NULL,
+  `estimateTime`     INT         NOT NULL,
+  `parentId`         INT,
+  `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -90,12 +90,12 @@ CREATE TABLE `History` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `WorkLog` (
-  `id`        INT     NOT NULL AUTO_INCREMENT,
-  `issueId`   INT     NOT NULL,
-  `userId`    INT     NOT NULL,
-  `startTime`      DATE    NOT NULL,
-  `amountOfTime`    INT     NOT NULL,
-  `isDeleted` BOOLEAN NOT NULL DEFAULT '0',
+  `id`           INT     NOT NULL AUTO_INCREMENT,
+  `issueId`      INT     NOT NULL,
+  `userId`       INT     NOT NULL,
+  `startTime`    DATE    NOT NULL,
+  `amountOfTime` INT     NOT NULL,
+  `isDeleted`    BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -111,40 +111,66 @@ CREATE TABLE `LabelIssue` (
   DEFAULT CHARSET = utf8;
 
 ALTER TABLE `User`
-  ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
+  ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `ProjectRelease`
-  ADD CONSTRAINT `ProjectRelease_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`);
+  ADD CONSTRAINT `ProjectRelease_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`projectReleaseId`) REFERENCES `ProjectRelease` (`id`);
+  ADD CONSTRAINT `Issue_fk0` FOREIGN KEY (`projectReleaseId`) REFERENCES `ProjectRelease` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `Issue_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `User` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk2` FOREIGN KEY (`parentId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `Issue_fk2` FOREIGN KEY (`parentId`) REFERENCES `Issue` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `History_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk1` FOREIGN KEY (`assignedToUserId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `History_fk1` FOREIGN KEY (`assignedToUserId`) REFERENCES `User` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk2` FOREIGN KEY (`parentId`) REFERENCES `History` (`id`);
+  ADD CONSTRAINT `History_fk2` FOREIGN KEY (`parentId`) REFERENCES `History` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk3` FOREIGN KEY (`changedByUserId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `History_fk3` FOREIGN KEY (`changedByUserId`) REFERENCES `User` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `WorkLog`
-  ADD CONSTRAINT `WorkLog_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `WorkLog_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `WorkLog`
-  ADD CONSTRAINT `WorkLog_fk1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`);
+  ADD CONSTRAINT `WorkLog_fk1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `LabelIssue`
-  ADD CONSTRAINT `LabelIssue_fk0` FOREIGN KEY (`labelId`) REFERENCES `Label` (`id`);
+  ADD CONSTRAINT `LabelIssue_fk0` FOREIGN KEY (`labelId`) REFERENCES `Label` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 ALTER TABLE `LabelIssue`
-  ADD CONSTRAINT `LabelIssue_fk1` FOREIGN KEY (`IssueId`) REFERENCES `Issue` (`id`);
+  ADD CONSTRAINT `LabelIssue_fk1` FOREIGN KEY (`IssueId`) REFERENCES `Issue` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;

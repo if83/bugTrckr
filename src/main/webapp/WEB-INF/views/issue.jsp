@@ -48,8 +48,8 @@
                 <td><c:out value="${issue.priority}"/></td>
                 <td><c:out value="${issue.status}"/></td>
                 <td>
-                    <a href="<spring:url value='/release'/>">
-                        <i class="fa fa-eye icon-table-u"></i>
+                    <a href="<spring:url value='/projects/project${issue.projectRelease.project.id}'/>">
+                            ${issue.projectRelease.project.title}
                     </a>
                 </td>
                 <td>
@@ -62,8 +62,12 @@
                 <td><c:out value="${issue.lastUpdateDate}"/></td>
                 <td><c:out value="${issue.estimateTime}"/></td>
                 <td>
-                    <a href="<spring:url value='' />"><i class="fa fa-remove icon-table-u"></i></a> &nbsp&nbsp&nbsp
-                    <a href="<spring:url value='' />"><i class="fa fa-edit icon-table-u"></i></a>
+                    <div class="actionButtons">
+                        <a href="<spring:url value='/issue/${issue.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
+                        &nbsp
+                        <a href="<spring:url value='/issue/${issue.id}/remove' />"><i
+                                class="fa fa-remove icon-table-u"></i></a>
+                    </div>
                 </td>
             </tr>
         </c:forEach>

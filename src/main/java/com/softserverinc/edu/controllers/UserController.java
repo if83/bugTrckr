@@ -1,6 +1,5 @@
 package com.softserverinc.edu.controllers;
 
-import com.mysql.cj.mysqlx.protobuf.MysqlxDatatypes;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.UserFormValidator;
@@ -9,16 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 /**
  * User controller
@@ -130,7 +125,7 @@ public class UserController {
     public String userSearchByName(@RequestParam(value = "firstName") String firstName,
                                    @RequestParam(value = "lastName") String lastName,
                                    Model model) {
-        if(!firstName.isEmpty() && !lastName.isEmpty())
+        if (!firstName.isEmpty() && !lastName.isEmpty())
             model.addAttribute("userList", this.userService.findByFirstNameContainingAndLastNameContaining(firstName, lastName));
         else if (!firstName.isEmpty())
             model.addAttribute("userList", this.userService.findByFirstNameContaining(firstName));
@@ -142,7 +137,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/searchByEmail")
-    public String userSearchByEmailPost (@RequestParam(value = "email") String userEmail, Model model) {
+    public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
         model.addAttribute("userList", this.userService.findByEmailContaining(userEmail));
         populateDefaultModel(model);
         LOGGER.debug("User search list ByEmail");
@@ -151,7 +146,7 @@ public class UserController {
 
 
     @PostMapping(value = "/users/searchByRole")
-    public String userSearchByRole (@RequestParam(value = "role") UserRole role, Model model) {
+    public String userSearchByRole(@RequestParam(value = "role") UserRole role, Model model) {
         model.addAttribute("userList", this.userService.findByRole(role));
         populateDefaultModel(model);
         LOGGER.debug("User search list ByRole POST");

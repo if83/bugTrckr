@@ -1,7 +1,9 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
@@ -27,18 +29,36 @@ public class ProjectController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/project", method = RequestMethod.GET)
+    @Autowired
+    private ProjectReleaseService releaseService;
+
+    @RequestMapping(value = "/projects", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model) {
         model.addAttribute("listOfProjects", projectService.findAll());
+        return "projects";
+    }
+
+    @RequestMapping(value = "/projects/project/{id}", method = RequestMethod.GET)
+    public String projectById(@PathVariable("id") Long id, Model model) {
+        Project project = projectService.findById(id);
+        List<User> users = userService.findByProject(project);
+        List<ProjectRelease> releases = releaseService.findByProject(project);
+        model.addAttribute("usersList", users);
+        model.addAttribute("project", project);
+        model.addAttribute("releases", releases);
         return "project";
     }
 
-    @RequestMapping(value = "/project/{id}/usersOnProject", method = RequestMethod.GET)
-    public String viewUserOnProject(@PathVariable("id") Long id, Model model) {
-        Project project = projectService.findById(id);
+    @RequestMapping(value = "/project/{projectId}/release/{releaseId}", method = RequestMethod.GET)
+    public String viewRelease(@PathVariable("projectId") Long projectId, @PathVariable("releaseId") Long releaseId, Model model) {
+        Project project = projectService.findById(projectId);
         List<User> users = userService.findByProject(project);
+        List<ProjectRelease> releases = releaseService.findByProject(project);
+        ProjectRelease release = releaseService.findById(releaseId);
         model.addAttribute("usersList", users);
         model.addAttribute("project", project);
-        return "users_on_project";
+        model.addAttribute("releases", releases);
+        model.addAttribute("release", release);
+        return "project";
     }
 }

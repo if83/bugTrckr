@@ -17,7 +17,7 @@ public class ProjectRelease {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable=false, updatable=false)
+    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
 
     @Column(nullable = false, length = 32)
@@ -29,10 +29,9 @@ public class ProjectRelease {
 
     @Column(length = 10000)
     private String description;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "projectRelease")
-//    @JoinColumn(referencedColumnName = "id")
-    private Set<Issue> issues;
+/*
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="projectRelease")
+    private Set<Issue> issues;*/
 
     @Column
     private boolean isDeleted;
@@ -56,13 +55,13 @@ public class ProjectRelease {
         this.project = project;
     }
 
-    public Set<Issue> getIssues() {
+    /*public Set<Issue> getIssues() {
         return issues;
     }
 
     public void setIssues(Set<Issue> issues) {
         this.issues = issues;
-    }
+    }*/
 
     public String getVersion() {
         return version;
