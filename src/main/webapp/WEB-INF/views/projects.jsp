@@ -32,7 +32,7 @@
         <c:forEach var="project" items="${listOfProjects}">
             <tr>
                 <td class="text-center">
-                    <a href="<spring:url value='/projects/project${project.id}'/>">
+                    <a href="<spring:url value='/projects/project/${project.id}'/>">
                         <c:out value="${project.title}"/></a>
                 </td>
                 <td class="text-center">
