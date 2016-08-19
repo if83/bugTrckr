@@ -42,4 +42,5 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     List<Issue> findByIsDeleted(Boolean isDeleted);
 
+    void delete(Long aLong);
 }

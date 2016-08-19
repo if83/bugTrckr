@@ -19,8 +19,10 @@ public class Label {
     @Column(nullable = false, length = 32)
     private String title;
 
-    @ManyToMany
-    @JoinColumn(referencedColumnName = "id", nullable = false)
+    @ManyToMany()
+    @JoinTable(name = "LabelIssue",
+            joinColumns = @JoinColumn(name = "labelId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "IssueId", referencedColumnName = "id"))
     private Set<Issue> issues;
 
     @Column

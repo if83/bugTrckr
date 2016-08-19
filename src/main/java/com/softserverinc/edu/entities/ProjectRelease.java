@@ -17,7 +17,7 @@ public class ProjectRelease {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable=false, updatable=false)
+    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
 
     @Column(nullable = false, length = 32)

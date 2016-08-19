@@ -42,8 +42,7 @@ public class Issue {
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
 
-    @ManyToMany
-    @JoinColumn(referencedColumnName = "id")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "issues")
     private Set<Label> labels;
 
     @Column(nullable = false)
