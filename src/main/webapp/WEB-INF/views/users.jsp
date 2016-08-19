@@ -47,7 +47,7 @@
             <th>Last Name</th>
             <th>E-mail</th>
             <th>Role</th>
-            <th>Description</th>
+            <th class="hidden-xs">Description</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -97,7 +97,7 @@
                     </div>
                 </form>
             </td>
-            <td></td>
+            <td class="hidden-xs"></td>
             <td></td>
         </tr>
         <c:forEach var="user" items="${userList}">
@@ -110,10 +110,9 @@
                 <td><c:out value="${user.lastName}"/></td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
-                <td><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
+                <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                 <td>
                     <div class="actionButtons">
-                    <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp
                     <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp
                     <a href="<spring:url value='/user/${user.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
                     </div>

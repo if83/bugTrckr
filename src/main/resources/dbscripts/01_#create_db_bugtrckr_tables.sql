@@ -8,6 +8,8 @@ CREATE TABLE `User` (
   `projectId`   INT,
   `description` TEXT,
   `isDeleted`   BOOLEAN     NOT NULL DEFAULT '0',
+  `imageData`   MEDIUMBLOB,
+  `imageFilename`   VARCHAR(64),
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
