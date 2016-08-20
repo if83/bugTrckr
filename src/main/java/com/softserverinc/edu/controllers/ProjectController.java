@@ -72,5 +72,4 @@ public class ProjectController {
         LOGGER.debug("Project add form");
         return "project_form";
     }
-
 }

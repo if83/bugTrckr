@@ -6,7 +6,7 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-3 col-sm-offset-1">
-            <h4 class="pull-left">Projects <a href="<spring:url value='' />" class="abtn-u-white"><i
+            <h4 class="pull-left">Projects <a href="<spring:url value='/projects/add/'/>" class="abtn-u-white"><i
                     class="fa fa-plus icon-bg-u"></i> Add project</a></h4>
         </div>
         <div class="col-sm-12">

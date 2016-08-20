@@ -29,13 +29,13 @@
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>Version</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
                 </thead>
 
@@ -46,9 +46,9 @@
                             <a href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}</a>
                         </td>
                         <td>${rel.releaseStatus}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="<spring:url value='' />"><i
-                                    class="fa fa-edit icon-table-u"></i></a>
+                                    class="fa fa-edit icon-table-u"></i></a> &nbsp&nbsp
                             <a href="<spring:url value='' />"><i
                                     class="fa fa-remove icon-table-u"></i></a>
                         </td>
@@ -58,13 +58,13 @@
             </table>
         </div>
 
-        <div class="col-md-7 col-md-offset-1">
+        <div class="col-md-6 col-md-offset-1">
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>User name</th>
                     <th>Role</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
                 </thead>
 
@@ -75,9 +75,9 @@
                             <a href="<spring:url value='/user/${users.id}/view' />">${users.firstName} ${users.lastName}</a>
                         </td>
                         <td>${users.role}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="<spring:url value='/user/${users.id}/edit' />"><i
-                                    class="fa fa-edit icon-table-u"></i></a>
+                                    class="fa fa-edit icon-table-u"></i></a> &nbsp&nbsp
                             <a href="<spring:url value='/user/${users.id}/remove' />"><i
                                     class="fa fa-remove icon-table-u"></i></a>
                         </td>

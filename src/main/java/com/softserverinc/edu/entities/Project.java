@@ -36,7 +36,7 @@ public class Project {
     private Boolean guestCreateIssues;
 
     @Column(nullable = false)
-    private boolean guestAddComment;
+    private Boolean guestAddComment;
 
     @Column(length = 10000, nullable = false)
     private String description;
@@ -71,27 +71,27 @@ public class Project {
         this.projectReleases = projectReleases;
     }
 
-    public boolean isGuestView() {
+    public Boolean getGuestView() {
         return guestView;
     }
 
-    public void setGuestView(boolean guestView) {
+    public void setGuestView(Boolean guestView) {
         this.guestView = guestView;
     }
 
-    public boolean isGuestCreateIssues() {
+    public Boolean getGuestCreateIssues() {
         return guestCreateIssues;
     }
 
-    public void setGuestCreateIssues(boolean guestCreateIssues) {
+    public void setGuestCreateIssues(Boolean guestCreateIssues) {
         this.guestCreateIssues = guestCreateIssues;
     }
 
-    public boolean isGuestAddComment() {
+    public Boolean getGuestAddComment() {
         return guestAddComment;
     }
 
-    public void setGuestAddComment(boolean guestAddComment) {
+    public void setGuestAddComment(Boolean guestAddComment) {
         this.guestAddComment = guestAddComment;
     }
 
