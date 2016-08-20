@@ -47,7 +47,7 @@
             <th>Last Name</th>
             <th>E-mail</th>
             <th>Role</th>
-            <th>Description</th>
+            <th class="hidden-xs">Description</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -55,30 +55,34 @@
         <tbody>
         <tr>
             <form action="/users/searchByName" method="POST" class="form-inline">
-            <td>
-                <div class="input-group">
-                    <input name="firstName" type="text" class="form-control form-text" placeholder="First name"/>
+                <td>
+                    <div class="input-group">
+                        <input name="firstName" type="text" class="form-control form-text" placeholder="First name"/>
                     <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
+                                                                                aria-hidden="true"></span></button>
                         </span>
-                </div>
-            </td>
-            <td>
-                <div class="input-group">
-                    <input name="lastName" type="text" class="form-control form-text" placeholder="Last name"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <input name="lastName" type="text" class="form-control form-text" placeholder="Last name"/>
                     <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
+                                                                                aria-hidden="true"></span></button>
                         </span>
-                </div>
-            </td>
+                    </div>
+                </td>
             </form>
 
             <td>
                 <form action="/users/searchByEmail" method="POST" class="form-inline">
                     <div class="input-group">
-                        <input name="email" type="text" class="form-control form-text" required="required" placeholder="Email"/>
+                        <input name="email" type="text" class="form-control form-text" required="required"
+                               placeholder="Email"/>
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
+                                                                                aria-hidden="true"></span></button>
                         </span>
                     </div>
                 </form>
@@ -92,30 +96,31 @@
                             </c:forEach>
                         </select>
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
+                                                                                aria-hidden="true"></span></button>
                         </span>
                     </div>
                 </form>
             </td>
-            <td></td>
+            <td class="hidden-xs"></td>
             <td></td>
         </tr>
         <c:forEach var="user" items="${userList}">
             <tr>
                 <td>
                     <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
-                    <c:out value="${user.firstName}"/>
+                        <c:out value="${user.firstName}"/>
                     </a>
                 </td>
                 <td><c:out value="${user.lastName}"/></td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
-                <td><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
+                <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                 <td>
                     <div class="actionButtons">
-                    <a href="<spring:url value='/user/${user.id}/view' />" ><i class="fa fa-eye icon-table-u"></i></a>  &nbsp
                     <a href="<spring:url value='/user/${user.id}/edit' />" ><i class="fa fa-edit icon-table-u"></i></a>  &nbsp
                     <a href="<spring:url value='/user/${user.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
+
                     </div>
 
                 </td>

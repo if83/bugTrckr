@@ -1,17 +1,16 @@
- span.select2-container .select2-selection{
-    height: 34px!important;
-     border-top-right-radius: 0;
-     border-bottom-right-radius: 0;
+span.select2-container .select2-selection {
+    height: 34px !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
- a.viewLink {
-     color: #784A3B;
-     text-decoration: none;
- }
+a.viewLink {
+    color: #784A3B;
+    text-decoration: none;
+}
 
- a.viewLink:hover,
- a.viewLink:focus
- {
-     color: #784A3B;
-     background: none;
- }
+a.viewLink:hover,
+a.viewLink:focus {
+    color: #784A3B;
+    background: none;
+}

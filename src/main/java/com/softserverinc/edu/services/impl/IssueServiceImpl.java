@@ -114,7 +114,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     @Transactional
     public void delete(Long id) {
-        issueRepository.findOne(id).setIsDeleted(true);
+        issueRepository.delete(id);
     }
 
     @Override

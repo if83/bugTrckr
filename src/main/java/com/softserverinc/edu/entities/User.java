@@ -1,6 +1,7 @@
 package com.softserverinc.edu.entities;
 
 import com.softserverinc.edu.entities.enums.UserRole;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,15 +15,21 @@ public class User {
      * For saveAndUpdate method
      */
     @Transient
-    public boolean newuser;
+    private boolean newuser;
     /**
      * form:input - confirmPassword
      */
     @Transient
-    String confirmPassword;
+    private String confirmPassword;
+
+    /**
+     * for encoding images from byte[] arrays
+     */
+    @Transient
+    private String encodedImage;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -42,11 +49,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Lob
+    @Column(columnDefinition="mediumblob")
+    private byte[] imageData;
+
+    @Column(length = 64)
+    private String imageFilename;
+
     @Column(length = 10000)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable=false, updatable=false)
+    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
 
     @Column
@@ -137,6 +151,27 @@ public class User {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public String getEncodedImage() {
+        encodedImage = new String(new Base64().encode(getImageData()));
+        return encodedImage;
+    }
+
+    public String getImageFilename() {
+        return imageFilename;
+    }
+
+    public void setImageFilename(String imageFilename) {
+        this.imageFilename = imageFilename;
     }
 
     @Override

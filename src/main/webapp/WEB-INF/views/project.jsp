@@ -15,33 +15,77 @@
     </div>
 </div>
 
-<div class="margin-top-30 col-sm-6">
-    <h3 class="text-center"> Users in ${project.title}</h3>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>E-mail</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+<div class="container">
 
-        <tbody>
-        <c:forEach var="users" items="${usersList}">
-            <tr>
-                <td><c:out value="${users.firstName}"/></td>
-                <td><c:out value="${users.lastName}"/></td>
-                <td><c:out value="${users.email}"/></td>
-                <td><c:out value="${users.role}"/></td>
-                <td>
-                    <a href="<spring:url value='/user/${users.id}/view' />"><i class="fa fa-eye icon-table-u"></i></a>
-                    <a href="<spring:url value='/user/${users.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
-                    <a href="<spring:url value='/user/${users.id}/remove' />"><i class="fa fa-remove icon-table-u"></i></a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+    <div class="project-info text-left">
+        <h3>Project description:</h3>
+        ${project.description}
+    </div>
+
+    <div class="release-info text-left">
+        <h3>Release description:</h3>
+        ${release.description}
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <c:forEach var="rel" items="${releases}">
+                    <tr>
+                        <td>
+                            <a href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}</a>
+                        </td>
+                        <td>${rel.releaseStatus}</td>
+                        <td>
+                            <a href="<spring:url value='' />"><i
+                                    class="fa fa-edit icon-table-u"></i></a>
+                            <a href="<spring:url value='' />"><i
+                                    class="fa fa-remove icon-table-u"></i></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-7 col-md-offset-1">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>User name</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <c:forEach var="users" items="${usersList}">
+                    <tr>
+                        <td>
+                            <a href="<spring:url value='/user/${users.id}/view' />">${users.firstName} ${users.lastName}</a>
+                        </td>
+                        <td>${users.role}</td>
+                        <td>
+                            <a href="<spring:url value='/user/${users.id}/edit' />"><i
+                                    class="fa fa-edit icon-table-u"></i></a>
+                            <a href="<spring:url value='/user/${users.id}/remove' />"><i
+                                    class="fa fa-remove icon-table-u"></i></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>

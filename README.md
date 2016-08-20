@@ -6,10 +6,29 @@
 4. in the file *AgileSoftware/src/main/resources/sql_maven_plugin.properties* change all properties to false;
 5. run maven goal `mvn clean package` for execute database-scripts and create war-package;
 6. run the project in the local server (for example *Tomcat*)
+7. for inserting images
+  7.1 run MySQL terminal
+         **mysql -u root -p**
+  7.2 Check where is a directory configured by MySQL to work with files
+        **SHOW VARIABLES LIKE "secure_file_priv";**
+  7.3 Copy images from project folder to this directory, for example
+        **\\! sudo cp src/main/resources/dbscripts/img/*.jpg   /var/lib/mysql-files/**
+  7.4 start using bugtrckr database
+       **use bugtrckr;**
+  7.5 check if you can execute insersion images into database
+         **select hex(LOAD_FILE('/var/lib/mysql-files/large.jpg'));**
+      The result will be shown data in console followed by  "_1 row in set (0,04 sec)_"
+      
+#####      For Windows users
+      Please, use different string for file path in sql file in LOAD_FILE function, for example
+      '\\var\\lib\\mysql-files\\martin-schoeller-bill.jpg'
+
 
 In the Database will be user with admin rights, e-mail: admin@ss.com, and password: admin
 
-#### Troubleshooting
+### Troubleshooting
+
+### Web server
 
    In case a Tomcat will give you a warning like org.apache.catalina.webresources.Cache.getResource Unable to add the resource ... to the cache because there was insufficient free space
 
@@ -17,6 +36,22 @@ In the Database will be user with admin rights, e-mail: admin@ss.com, and passwo
 
    `<Resources cachingAllowed="true" cacheMaxSize="100000">`
    
+### Database
+
+In case you can not load images by LOAD_FILE function you may do
+
+ 1 Change owner of the files
+    **\\! sudo chown -R mysql:mysql  /var/lib/mysql-files**
+   
+ 2 disable secure-file-priv. Example for Windows 7
+   2.1 Stop the MySQL server service by going into services.msc.
+   2.2 Go to C:\ProgramData\MySQL\MySQL Server 5.6 (ProgramData was a hidden folder in my case).
+   2.3 Open the my.ini file in Notepad.
+   2.4 Search for 'secure-file-priv'.
+   2.5 Comment the line out by adding '#' at the start of the line.
+   2.6 Save the file.
+   2.7 Start the MySQL server service by going into services.msc
+ 
    
 # Style Guide
 This guide highlights the most important and most common conventions for writing code.
