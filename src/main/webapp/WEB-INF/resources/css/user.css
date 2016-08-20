@@ -14,3 +14,7 @@ a.viewLink:focus {
     color: #784A3B;
     background: none;
 }
+
+input#imgfileInput.form-control {
+    height: inherit;
+}

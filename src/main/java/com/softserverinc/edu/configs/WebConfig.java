@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -74,6 +75,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
         rb.setBasenames(new String[]{"validation"});
         return rb;
+    }
+
+
+    /**
+     * Instructs Spring to use CommonsMultipartResolver class as realization of multipartResolver
+     * @return CommonsMultipartResolver instance
+     */
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        return new CommonsMultipartResolver();
     }
 
 }

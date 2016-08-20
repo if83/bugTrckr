@@ -11,8 +11,8 @@
         </encoder>
     </appender>
 
-    <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_HOME}/error.log</file>
+    <appender name="fileImage" class="ch.qos.logback.core.FileAppender">
+        <fileImage>${LOG_HOME}/error.log</fileImage>
         <append>true</append>
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
@@ -25,7 +25,7 @@
     <logger name="org.springframework.web" level="INFO"/>
 
     <root level="INFO">
-        <appender-ref ref="file"/>
+        <appender-ref ref="fileImage"/>
     </root>
 
 </configuration>

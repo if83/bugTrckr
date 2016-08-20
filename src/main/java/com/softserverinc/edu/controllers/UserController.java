@@ -2,6 +2,7 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
+import com.softserverinc.edu.forms.FileUploadForm;
 import com.softserverinc.edu.forms.UserFormValidator;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
@@ -13,12 +14,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 
 /**
  * User controller
  */
 @Controller
+@SessionAttributes("fileUploadForm")
 public class UserController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -34,19 +39,20 @@ public class UserController {
      *
      * @param binder
      */
-    @InitBinder
+    @InitBinder("userCommand")
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(userFormValidator);
     }
+
 
     @GetMapping(value = "/users")
     public String userForm(Model model) {
         model.addAttribute("userList", this.userService.findAll());
         populateDefaultModel(model);
+        model.addAttribute("fileUploadForm", new FileUploadForm());
         LOGGER.debug("User list");
         return "users";
     }
-
 
     @GetMapping(value = "/user/{id}/remove")
     public String removeUser(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
@@ -62,29 +68,37 @@ public class UserController {
 
 
     @GetMapping(value = "/user/{id}/edit")
-    public String editUser(@PathVariable("id") long id, Model model) {
+    public String editUser(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("user", this.userService.findOne(id));
         model.addAttribute("formaction", "edit");
-        populateDefaultModel(model);
-        LOGGER.debug("User edit\\" + id);
+
+        // in case of entering direct ulr in browser
+        if(!model.containsAttribute("fileUploadForm"))
+            model.addAttribute("fileUploadForm", new FileUploadForm());
+
+            LOGGER.debug("User edit\\" + id);
         return "userform";
     }
 
 
     @GetMapping(value = "/user/add")
     public String addUser(Model model) {
+
         User user = new User();
         user.setId(0L);
         model.addAttribute("user", user);
         model.addAttribute("formaction", "new");
         populateDefaultModel(model);
+        // in case of entering direct ulr in browser
+        if(!model.containsAttribute("fileUploadForm"))
+            model.addAttribute("fileUploadForm", new FileUploadForm());
         LOGGER.debug("User add form");
         return "userform";
     }
 
     @PostMapping(value = "/user/add")
     public String addUserPost(@ModelAttribute("user") @Validated User user, BindingResult result, Model model,
-                              final RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             populateDefaultModel(model);
@@ -99,6 +113,13 @@ public class UserController {
                 redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
             }
         }
+
+        if(model.containsAttribute("fileUploadForm")) {
+            FileUploadForm fileUploadForm = (FileUploadForm) model.asMap().get("fileUploadForm");
+            user.setImageData(fileUploadForm.getFileImage());
+            user.setImageFilename(fileUploadForm.getFileName());
+            model.addAttribute("fileUploadForm", new FileUploadForm());
+        } ;
 
         userService.save(user);
 
@@ -151,6 +172,29 @@ public class UserController {
         populateDefaultModel(model);
         LOGGER.debug("User search list ByRole POST");
         return "users";
+    }
+
+
+    @PostMapping(value = "/user/addimage")
+    public String fileUploadPost(@RequestParam("userId") long userId,
+                                 @RequestPart("fileImage") MultipartFile fileImage,
+                                 Model model) throws IOException {
+
+        String redirectPath = "redirect:/user/add";
+
+        if(userId != 0L ) {
+            redirectPath = "redirect:/user/" + userId + "/edit";
+        }
+
+        //save an image for redirection
+        FileUploadForm fileUploadForm = new FileUploadForm();
+        fileUploadForm.setUserId(userId);
+        fileUploadForm.setFileImage(fileImage.getBytes());
+        fileUploadForm.setFileName(fileImage.getOriginalFilename());
+        model.addAttribute("fileUploadForm", fileUploadForm);
+
+        LOGGER.debug("formUser() id: ", userId);
+        return redirectPath;
     }
 
     /**

@@ -22,7 +22,7 @@
 <div class="service-block">
     <div class="row">
         <div class="col-md-4 service-inner" style="height: 358px;">
-            <i class="icon-md rounded-x icon-bg-u fa fa-file-text-o"></i>
+            <i class="icon-md rounded-x icon-bg-u fa fa-fileImage-text-o"></i>
             <span>Plan</span>
             <p>Create user stories and issues, plan sprints, and distribute tasks across your software team.</p>
         </div>

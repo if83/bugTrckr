@@ -214,8 +214,8 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>src/main/resources/application.properties</file>
-                                <file>src/main/resources/sql_maven_plugin.properties</file>
+                                <fileImage>src/main/resources/application.properties</fileImage>
+                                <fileImage>src/main/resources/sql_maven_plugin.properties</fileImage>
                             </files>
                         </configuration>
                     </execution>

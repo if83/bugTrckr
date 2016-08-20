@@ -34,80 +34,125 @@
 
 
 <div class="margin-top-30 row">
-    <form:form action="/user/add" modelAttribute="user" method="POST">
-        <div class="col-sm-12 col-md-5 col-md-offset-1">
 
-            <spring:bind path="firstName">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="firstNameInput">First name</label>
-                    <form:input path="firstName" type="text" class="form-control" id="firstNameInput"
-                                placeholder="First name"/>
-                    <form:errors path="firstName" class="control-label"/>
-                </div>
-            </spring:bind>
+    <div class="col-sm-12 col-md-8 col-md-offset-1">
+        <div class="row">
 
-            <spring:bind path="email">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="emailInput">E-mail</label>
-                    <form:input path="email" type="email" class="form-control" id="emailInput" placeholder="E-mail"/>
-                    <form:errors path="email" class="control-label"/>
-                </div>
-            </spring:bind>
+            <form:form commandName="userCommand" action="/user/add" modelAttribute="user" method="POST">
+                <div class="col-sm-6">
 
-            <spring:bind path="password">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="passwordInput">Password</label>
-                    <form:input path="password" type="password" class="form-control" id="passwordInput"
-                                placeholder="Password"/>
-                    <form:errors path="password" class="control-label"/>
+                    <spring:bind path="firstName">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="firstNameInput">First name</label>
+                            <form:input path="firstName" type="text" cssClass="form-control" id="firstNameInput"
+                                        placeholder="First name"/>
+                            <form:errors path="firstName" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="email">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="emailInput">E-mail</label>
+                            <form:input path="email" type="email" cssClass="form-control" id="emailInput"
+                                        placeholder="E-mail"/>
+                            <form:errors path="email" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="password">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="passwordInput">Password</label>
+                            <form:input path="password" type="password" cssClass="form-control" id="passwordInput"
+                                        placeholder="Password"/>
+                            <form:errors path="password" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
                 </div>
-            </spring:bind>
+
+
+                <div class="col-sm-6">
+
+                    <spring:bind path="lastName">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="lastNameInput">Last name</label>
+                            <form:input path="lastName" type="text" cssClass="form-control" id="lastNameInput"
+                                        placeholder="Last name"/>
+                            <form:errors path="lastName" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="role">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="roleInput">Role</label>
+                            <form:select path="role" type="text" cssClass="form-control" id="roleInput"
+                                         placeholder="Role">
+                                <form:option value="" label="  Select a role"/>
+                                <form:options items="${roles}"/>
+                            </form:select>
+                            <form:errors path="role" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="confirmPassword">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="confirmPasswordInput">Confirm password</label>
+                            <form:input path="confirmPassword" type="password" cssClass="form-control"
+                                        id="confirmPasswordInput"
+                                        placeholder="Confirm password"/>
+                            <form:errors path="confirmPassword" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+                </div>
+
+                <div class="col-sm-12">
+                    <label for="editor1">Description</label>
+                </div>
+                <div class="col-sm-12">
+                    <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
+                </div>
+
+                <form:hidden path="id"/>
+
+                <div class="col-sm-12">
+                    <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
+                </div>
+            </form:form>
+        </div>
+    </div>
+
+
+    <div class="col-sm-12 col-md-3">
+        <c:if test="${!user.newuser and empty fileUploadForm.fileName}">
+            <div class="margin-top-30 row">
+                <figure>
+                    <img src="data:image/jpg;base64,<c:out value='${user.encodedImage}'/>" class="img-thumbnail"
+                         alt="Photo of user with last name ${user.lastName}"/>
+                </figure>
+            </div>
+        </c:if>
+
+
+        <c:if test="${!empty fileUploadForm.fileName}">
+            <div class="margin-top-30 row">
+                <figure>
+                    <img src="data:image/jpg;base64,<c:out value='${fileUploadForm.encodedImage}'/>" class="img-thumbnail"
+                         alt="File name is ${fileUploadForm.fileName}"/>
+                </figure>
+            </div>
+        </c:if>
+
+
+        <div class="margin-top-30 row">
+            <form action="/user/addimage" enctype="multipart/form-data" method="POST" id="fileImageUploadForm">
+                <input name="userId" type="hidden" value="${user.id}"/>
+                <label for="imgfileInput">Please select a fileImage to upload</label>
+                <input name="fileImage" type="file" class="form-control" id="imgfileInput"
+                       placeholder="Confirm password"
+                       onchange='form.submit();'/>
+            </form>
 
         </div>
-        <div class="col-sm-12 col-md-5">
-
-            <spring:bind path="lastName">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="lastNameInput">Last name</label>
-                    <form:input path="lastName" type="text" class="form-control" id="lastNameInput"
-                                placeholder="Last name"/>
-                    <form:errors path="lastName" class="control-label"/>
-                </div>
-            </spring:bind>
-
-            <spring:bind path="role">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="roleInput">Role</label>
-                    <form:select path="role" type="text" class="form-control" id="roleInput" placeholder="Role">
-                        <form:option value="" label="  Select a role"/>
-                        <form:options items="${roles}"/>
-                    </form:select>
-                    <form:errors path="role" class="control-label"/>
-                </div>
-            </spring:bind>
-
-            <spring:bind path="confirmPassword">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="confirmPasswordInput">Confirm password</label>
-                    <form:input path="confirmPassword" type="password" class="form-control" id="confirmPasswordInput"
-                                placeholder="Confirm password"/>
-                    <form:errors path="confirmPassword" class="control-label"/>
-                </div>
-            </spring:bind>
-
-        </div>
-        <div class="col-sm-10 col-sm-offset-1">
-            <label for="editor1">Description</label>
-        </div>
-        <div class="col-sm-10 col-sm-offset-1">
-            <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
-        </div>
-
-        <form:hidden path="id"/>
-
-        <div class="col-sm-10 col-sm-offset-1">
-            <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
-        </div>
-    </form:form>
+    </div>
 
 </div>

@@ -5,6 +5,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -23,7 +24,7 @@ public class User {
     private String confirmPassword;
 
     /**
-     * for encoding images from byte[] arrays
+     * for encoding images from byte[] arrays. Have only a Get method
      */
     @Transient
     private String encodedImage;
@@ -162,7 +163,10 @@ public class User {
     }
 
     public String getEncodedImage() {
-        encodedImage = new String(new Base64().encode(getImageData()));
+        if (getImageData() != null)
+            encodedImage = new String(new Base64().encode(getImageData()));
+        else
+            encodedImage = "";
         return encodedImage;
     }
 
