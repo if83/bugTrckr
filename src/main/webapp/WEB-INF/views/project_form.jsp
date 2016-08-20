@@ -30,12 +30,11 @@
     </div>
 </div>
 
-<div class="margin-top-30 row">
+<div class="margin-top-30">
     <form:form action="/projects/add" modelAttribute="project" method="POST">
-        <div class="col-sm-12 col-md-5 col-md-offset-1">
-
+        <div class="col-sm-4 col-sm-offset-1">
             <spring:bind path="title">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
+                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-60">
                     <label for="titleInput">Title</label>
                     <form:input path="title" type="text" class="form-control" id="titleInput"
                                 placeholder="Title"/>
@@ -44,29 +43,43 @@
             </spring:bind>
 
             <spring:bind path="guestView">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label>Ability to review project by gests</label><br>
-                    <form path="guestView" type="boolean" class="form-control" id="abilityToViewInput">
-                        <label class="radio-inline">
-                            <input type="radio" name="guestViewRadios" id="guestViewChooseTrue" value="true" checked>
-                            True
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="guestViewRadios" id="guestViewChooseFalse" value="false">
-                            False
-                        </label>
-                    </form>
+                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-60">
+                    <label>Ability to review project by guests:</label>
+                    <label class="pull-right"><form:radiobutton path="guestView" value="false"/>False</label>
+                    <label class="pull-right"><form:radiobutton path="guestView" value="true"/>True &nbsp&nbsp</label>
                     <form:errors path="guestView" class="control-label"/>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="guestCreateIssues">
+                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-60">
+                    <label>Ability to create issue by guests:</label>
+                    <label class="pull-right"><form:radiobutton path="guestCreateIssues" value="false"/>False</label>
+                    <label class="pull-right"><form:radiobutton path="guestCreateIssues" value="true"/>True &nbsp&nbsp</label>
+                    <form:errors path="guestCreateIssues" class="control-label"/>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="guestAddComment">
+                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-60">
+                    <label>Ability to comment issues in project:</label>
+                    <label class="pull-right"><form:radiobutton path="guestAddComment"  value="false"/>False</label>
+                    <label class="pull-right"><form:radiobutton path="guestAddComment"  value="true"/>True &nbsp&nbsp</label>
+                    <form:errors path="guestAddComment" class="control-label"/>
                 </div>
             </spring:bind>
         </div>
 
-        <div class="col-sm-10 col-sm-offset-1">
-            <label for="editor1">Description</label>
+        <div class="col-sm-6 pull-left">
+            <div>
+                <label for="editor1">Description</label>
+            </div>
+
+            <div>
+                <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
+            </div>
         </div>
-        <div class="col-sm-10 col-sm-offset-1">
-            <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
-        </div>
+
         <form:hidden path="id"/>
         <div class="col-sm-10 col-sm-offset-1">
             <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>

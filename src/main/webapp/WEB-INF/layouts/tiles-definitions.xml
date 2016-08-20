@@ -88,6 +88,13 @@
     <definition name="project_form" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Projects add/edit"/>
         <put-attribute name="content" value="/WEB-INF/views/project_form.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
     </definition>
 
     <!--ProjectRelease-->
