@@ -15,6 +15,7 @@
         <jstl-version>1.2</jstl-version>
         <apache-tiles-version>3.0.5</apache-tiles-version>
         <spring-version>4.3.1.RELEASE</spring-version>
+        <spring-security-version>4.1.2.RELEASE</spring-security-version>
 
         <!--Logging-->
         <logback-classic-version>1.1.7</logback-classic-version>
@@ -193,6 +194,31 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
+        </dependency>
+
+        <!-- org.springframework.security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security-version}</version>
         </dependency>
 
 

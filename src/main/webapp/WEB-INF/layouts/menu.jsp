@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <nav class="top-main-menu navbar navbar-default">
     <div class="container-fluid">
@@ -27,8 +28,14 @@
                 <li><a href="<spring:url value='/issue'/>">Issue</a></li>
                 <li><a href="<spring:url value='/history'/>">History</a></li>
                 <li><a href="<spring:url value='/users'/>">User</a></li>
+
+                <sec:authorize access="hasRole('ADMIN')">
+                    <li><a href="<spring:url value='/admin'/>">Admin</a></li>
+                </sec:authorize>
+
                 <li><a href="<spring:url value='/about'/>">About</a></li>
             </ul>
+
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

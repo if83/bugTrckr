@@ -13,20 +13,20 @@ public class LoginForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty(message = "Please enter your email addresss.")
+    @NotEmpty(message = "Please enter your username addresss.")
     @Email
-    private String email;
+    private String username;
 
     @NotEmpty(message = "Please enter your password.")
     @Size(min = 5, max = 15, message = "Your password must between 6 and 15 characters")
     private String password;
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

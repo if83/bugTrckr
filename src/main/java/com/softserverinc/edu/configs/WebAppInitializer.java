@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
@@ -30,9 +31,17 @@ public class WebAppInitializer implements WebApplicationInitializer {
         // manage the lifecycle of rootcontext
         container.addListener(new ContextLoaderListener(rootContext));
 
+        //activate spring security by configuring filter
+        //all request will path through this filter
+        DelegatingFilterProxy filter = new DelegatingFilterProxy("springSecurityFilterChain");
+
         // Define and register a dispatcher servlet that can manage all servlets
         DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
         ServletRegistration.Dynamic registration = container.addServlet("dispatcherServlet", dispatcherServlet);
+
+        //adding a filter to container that handles all requests from /
+        container.addFilter("springSecurityFilterChain", filter).addMappingForUrlPatterns(null, false, "/*");
+
         // load the servlet only once
         registration.setLoadOnStartup(1);
         // add mapping this servlet to all requests
