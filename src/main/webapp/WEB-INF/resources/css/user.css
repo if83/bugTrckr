@@ -2,6 +2,7 @@ span.select2-container .select2-selection {
     height: 34px !important;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-color: #ccc;
 }
 
 a.viewLink {
@@ -17,4 +18,10 @@ a.viewLink:focus {
 
 input#imgfileInput.form-control {
     height: inherit;
+}
+
+#pagerID .pagination li  a,
+#pagerID .pagination li  a:hover,
+#pagerID .pagination li  a:focus {
+    color: #784A3B;
 }
