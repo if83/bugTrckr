@@ -73,17 +73,17 @@ VALUES ('guest6', 'guest6', 'guest6@ss.com', '21232f297a57a5a743894a0e4a801fc3',
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('guest7', 'guest7', 'guest7@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_GUEST', 'guest7');
 
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, isDeleted)
-VALUES ('Issue1', 'TASK', 'LOW', 'OPEN', '2', '2', '2016-01-01', '2016-02-02', '2016-03-03', '32100000', '1', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, isDeleted)
-VALUES ('Issue2', 'BUG', 'MEDIUM', 'OPEN', '3', '3', '2016-01-01', '2016-02-02', '2016-03-03', '434500000', '2', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, isDeleted)
+INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue1', 'TASK', 'LOW', 'OPEN', '2', '2', '2016-01-01', '2016-02-02', '2016-03-03', '32100000', '1','some text', '0', '0');
+INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue2', 'BUG', 'MEDIUM', 'OPEN', '3', '3', '2016-01-01', '2016-02-02', '2016-03-03', '434500000', '2','some text', '0', '0');
+INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
 VALUES
-  ('Issue3', 'IMPROVEMENT', 'HIGH', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '534500000', '3', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, isDeleted)
-VALUES ('Issue4', 'EPIC', 'CRITICAL', 'OPEN', '3', '3', '2016-01-01', '2016-02-02', '2016-03-03', '53450000', '4', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, isDeleted)
-VALUES ('Issue5', 'TASK', 'BLOCKER', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '56450000', '5', '0');
+  ('Issue3', 'IMPROVEMENT', 'HIGH', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '534500000', '3','some text', '0', '0');
+INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue4', 'EPIC', 'CRITICAL', 'OPEN', '3', '3', '2016-01-01', '2016-02-02', '2016-03-03', '53450000', '4','some text', '0', '0');
+INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue5', 'TASK', 'BLOCKER', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '56450000', '5','some text', '0', '0');
 
 UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename='large.jpg' WHERE `role`='ROLE_ADMIN';
 UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin_schoeller1.jpg'), imageFilename='martin_schoeller1.jpg' WHERE `role`='ROLE_USER';

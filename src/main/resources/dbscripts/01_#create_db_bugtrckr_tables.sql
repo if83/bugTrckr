@@ -61,6 +61,8 @@ CREATE TABLE `Issue` (
   `lastUpdateDate`   DATE        NOT NULL,
   `estimateTime`     INT         NOT NULL,
   `parentId`         INT,
+  `description`      TEXT,
+  `editAbility`      BOOLEAN     NOT NULL DEFAULT '0',
   `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )

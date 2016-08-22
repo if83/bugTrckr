@@ -74,6 +74,18 @@
         <put-attribute name="content" value="/WEB-INF/views/issue.jsp"/>
     </definition>
 
+    <definition name="issueform" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Issue add/edit"/>
+        <put-attribute name="content" value="/WEB-INF/views/issueform.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
+    </definition>
+
     <!--Project-->
     <definition name="projects" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Project page"/>

@@ -20,7 +20,7 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
+        <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
     </div>
 </div>
 <div class=class="margin-top-30">
@@ -48,7 +48,7 @@
                 <td><c:out value="${issue.priority}"/></td>
                 <td><c:out value="${issue.status}"/></td>
                 <td>
-                    <a href="<spring:url value='/projects/project${issue.projectRelease.project.id}'/>">
+                    <a href="<spring:url value='/projects/project/${issue.projectRelease.project.id}'/>">
                             ${issue.projectRelease.project.title}
                     </a>
                 </td>
