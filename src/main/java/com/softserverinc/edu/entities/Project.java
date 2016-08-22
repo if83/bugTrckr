@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,16 +19,11 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
-    //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-//    @JoinColumn(referencedColumnName = "id")
-    @OneToMany
-    @JoinColumn(name = "projectId")
-    private Set<User> users;
+    @OneToMany(mappedBy="project")
+    private Set<User> users = new HashSet<>();
 
-    //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-    @OneToMany
-    @JoinColumn(name = "projectId")
-    private Set<ProjectRelease> projectReleases;
+    @OneToMany(mappedBy="project")
+    private Set<ProjectRelease> projectReleases = new HashSet<>();
 
     @Column(nullable = false)
     private Boolean guestView;

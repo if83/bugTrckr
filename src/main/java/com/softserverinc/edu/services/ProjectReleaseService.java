@@ -13,7 +13,7 @@ public interface ProjectReleaseService {
 
     List<ProjectRelease> findByProject(Project project);
 
-//    ProjectRelease findByIssues(Issue issue);
+    ProjectRelease findByIssues(Issue issue);
 
     List<ProjectRelease> findByVersion(String version);
 
@@ -23,10 +23,10 @@ public interface ProjectReleaseService {
 
     List<ProjectRelease> findAll();
 
-    ProjectRelease save(ProjectRelease user);
+    ProjectRelease save(ProjectRelease release);
 
     void delete(Long id);
 
-    ProjectRelease update(ProjectRelease user);
+    ProjectRelease update(ProjectRelease release);
 
 }

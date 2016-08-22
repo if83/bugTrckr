@@ -24,7 +24,6 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="<spring:url value='/'/>">Home<span class="sr-only">(current)</span></a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
-                <li><a href="<spring:url value='/release'/>">Release</a></li>
                 <li><a href="<spring:url value='/issue'/>">Issue</a></li>
                 <li><a href="<spring:url value='/history'/>">History</a></li>
                 <li><a href="<spring:url value='/users'/>">User</a></li>
