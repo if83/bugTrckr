@@ -86,6 +86,10 @@
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/project.css"/>
         </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
     </definition>
 
     <definition name="project_form" extends="abstractDefaultTemplate">

@@ -27,6 +27,7 @@
             <th class="text-center">Free to comment</th>
             <th class="text-center">Free to add Issue</th>
             <th class="text-center">Edit</th>
+            <th class="text-center">Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -66,7 +67,10 @@
                     </c:choose>
                 </td>
                 <td class="text-center">
-                    <a href="<spring:url value='' />"><i class="fa fa-edit icon-table-u"></i></a>
+                    <a href="<spring:url value='/projects/${project.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
+                </td>
+                <td class="text-center">
+                    <a href="<spring:url value='/projects/${project.id}/remove' />" ><i class="fa fa-remove icon-table-u"></i></a>
                 </td>
             </tr>
         </c:forEach>

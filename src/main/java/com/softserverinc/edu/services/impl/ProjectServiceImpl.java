@@ -30,29 +30,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findByUsers(User user) {
         return projectRepository.findByUsers(user);
-        /*Project project = null;
-        List<Project> listOfProjects = projectRepository.findAll();
-        for (Project projectIterator : listOfProjects) {
-            if (projectIterator.getUsers().contains(user)) {
-                project = projectIterator;
-                break;
-            }
-        }
-        return project;*/
     }
 
     @Override
     public Project findByProjectReleases(ProjectRelease projectRelease) {
         return projectRepository.findByProjectReleases(projectRelease);
-        /*Project project = null;
-        List<Project> listOfProjects = projectRepository.findAll();
-        for (Project releaseIterator : listOfProjects) {
-            if (releaseIterator.getProjectRelease().contains(projectRelease)) {
-                project = releaseIterator;
-                break;
-            }
-        }
-        return project;*/
     }
 
     @Override
@@ -83,18 +65,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public Project save(Project project) {
-        return null;
+        return projectRepository.saveAndFlush(project);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        projectRepository.findOne(id).setIsDeleted(true);
+        projectRepository.delete(id);
     }
 
     @Override
     @Transactional
     public Project update(Project project) {
-        return null;
+        return projectRepository.saveAndFlush(project);
     }
 }
