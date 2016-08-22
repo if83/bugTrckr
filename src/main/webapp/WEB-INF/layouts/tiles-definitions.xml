@@ -104,10 +104,16 @@
         </put-list-attribute>
     </definition>
 
-    <!--ProjectRelease-->
-    <definition name="release" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Release page"/>
-        <put-attribute name="content" value="/WEB-INF/views/release.jsp"/>
+    <definition name="releaseform" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Release add/edit"/>
+        <put-attribute name="content" value="/WEB-INF/views/releaseform.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/release.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/project/project_form.js"/>
+        </put-list-attribute>
     </definition>
 
     <!--User-->
