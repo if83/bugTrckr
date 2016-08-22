@@ -61,8 +61,14 @@ public class Issue {
     @JoinColumn(name = "parentId", referencedColumnName = "id")
     private Issue parent;
 
+    @Column(nullable = false, length = 10000)
+    private String description;
+
     @Column
-    private boolean isDeleted;
+    private Boolean isDeleted;
+
+    @Column
+    private Boolean editAbility;
 
     public Issue() {
     }
@@ -171,12 +177,40 @@ public class Issue {
         this.parent = parent;
     }
 
+    public boolean isNewIssue() {
+        return (this.id == null || this.id == 0L);
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Boolean getEditAbility() {
+        return editAbility;
+    }
+
+    public void setEditAbility(Boolean editAbility) {
+        this.editAbility = editAbility;
     }
 
     public void setIsDeleted(boolean isDeleted) {
@@ -199,6 +233,5 @@ public class Issue {
     }
 
 }
-
 
 
