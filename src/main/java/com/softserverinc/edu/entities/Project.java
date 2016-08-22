@@ -11,7 +11,7 @@ import java.util.Set;
 public class Project {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -44,7 +44,14 @@ public class Project {
     @Column
     private boolean isDeleted;
 
+    @Transient
+    private boolean newProject;
+
     public Project() {
+    }
+
+    public boolean isNewProject() {
+        return (this.id == null);
     }
 
     public Long getId() {

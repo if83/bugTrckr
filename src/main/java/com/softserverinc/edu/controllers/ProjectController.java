@@ -3,6 +3,7 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.forms.ProjectFormValidator;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
@@ -12,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -32,6 +34,14 @@ public class ProjectController {
 
     @Autowired
     private ProjectReleaseService releaseService;
+
+    @Autowired
+    private ProjectFormValidator projectFormValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(projectFormValidator);
+    }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model) {
@@ -64,12 +74,47 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/projects/add")
-    public String addUser(Model model) {
+    public String addProject(Model model) {
         Project project = new Project();
-        project.setId(0L);
         model.addAttribute("project", project);
         model.addAttribute("formaction", "new");
-        LOGGER.debug("Project add form");
+        LOGGER.debug("Adding project: " + project.toString());
+        return "project_form";
+    }
+
+    @PostMapping(value = "/projects/add")
+    public String addProjectPost(@ModelAttribute("project") @Validated Project project, BindingResult result,
+                                 Model model, final RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            return "project_form";
+        } else {
+            redirectAttributes.addFlashAttribute("css", "success");
+            if (project.isNewProject()) {
+                redirectAttributes.addFlashAttribute("msg", "Project added successfully!");
+            } else {
+                redirectAttributes.addFlashAttribute("msg", "Project updated successfully!");
+            }
+        }
+        projectService.save(project);
+        LOGGER.info("Project saved(id != null), id= " + project.getId());
+        return "redirect:/projects/project/" + project.getId();
+    }
+
+    @GetMapping(value = "/projects/{id}/remove")
+    public String removeProject(@PathVariable("id") Long id, final RedirectAttributes redirectAttributes) {
+        projectService.delete(id);
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Project is deleted!");
+        LOGGER.debug("Project is deleted, id=: " + id);
+        return "redirect:/projects";
+    }
+
+    @GetMapping(value = "/projects/{id}/edit")
+    public String editProject(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("project", projectService.findById(id));
+        model.addAttribute("formaction", "edit");
+        LOGGER.debug("Project edit\\" + id);
         return "project_form";
     }
 }
