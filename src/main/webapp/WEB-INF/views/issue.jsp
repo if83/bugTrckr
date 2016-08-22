@@ -20,7 +20,7 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
+        <a href="<spring:url value='' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
     </div>
 </div>
 <div class=class="margin-top-30">

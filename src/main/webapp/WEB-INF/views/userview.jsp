@@ -60,6 +60,14 @@
             </div>
         </c:if>
 
+        <div class="margin-top-30 row">
+            <div class="col-sm-4">
+                <spring:url value="/user/${user.id}/edit" var="useredit"  />
+                <a class="btn btn-primary btn-u" href="${useredit}" role="button">Edit profile</a>
+            </div>
+            <div class="col-sm-8"></div>
+        </div>
+
     </div>
 
     <div class="col-sm-11 col-sm-offset-1 col-md-3">

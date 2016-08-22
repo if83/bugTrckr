@@ -15,7 +15,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<spring:url value='/'/>">
-                <img alt="Brand" src="<spring:url value='images/AS.png'/>" style="width: 100px;">
+                <img alt="Brand" src="<spring:url value='/images/AS.png'/>" style="width: 100px;">
             </a>
         </div>
 

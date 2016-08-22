@@ -6,8 +6,7 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-3 col-sm-offset-1">
-            <h4 class="pull-left">Projects <a href="<spring:url value='/projects/add/'/>" class="abtn-u-white"><i
-                    class="fa fa-plus icon-bg-u"></i> Add project</a></h4>
+            <h4 class="pull-left">Projects </h4>
         </div>
         <div class="col-sm-12">
             <ol class="pull-right breadcrumb">
@@ -15,6 +14,13 @@
                 <li class="active">Projects</li>
             </ol>
         </div>
+    </div>
+</div>
+
+<div class="row margin-top-30">
+    <div class="col-sm-11 col-sm-offset-1">
+        <a href="<spring:url value='/projects/add/'/>" class="btn btn-primary btn-u"><i
+                class="fa fa-plus icon-bg-u"></i> Add project</a>
     </div>
 </div>
 

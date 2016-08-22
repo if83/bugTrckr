@@ -11,11 +11,11 @@
                 <p>Bug Trckr</p>
             </div>
             <div class="col-sm-6">
-                <p class="pull-right">Your role is
-                    <sec:authorize access="isAuthenticated()">
+                <sec:authorize access="isAuthenticated()">
+                    <p class="pull-right">Your role is
                         <sec:authentication property="principal.authorities"/>
-                    </sec:authorize>
-                </p>
+                    </p>
+                </sec:authorize>
             </div>
         </div>
     </footer>

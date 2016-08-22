@@ -156,7 +156,7 @@
 
     <!--Access Denied-->
     <definition name="accessDenied" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Access Denied!"/>
+        <put-attribute name="title" value="401 Access Denied"/>
         <put-attribute name="content" value="/WEB-INF/views/accessdenied.jsp"/>
     </definition>
 

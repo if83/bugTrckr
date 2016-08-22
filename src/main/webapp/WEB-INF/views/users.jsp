@@ -34,7 +34,7 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='/user/add/' />" class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add
+        <a href="<spring:url value='/user/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i> Add
             user</a>
     </div>
 </div>
