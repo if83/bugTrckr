@@ -1,9 +1,11 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
 import com.softserverinc.edu.forms.UserFormValidator;
+import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * User controller
@@ -32,6 +35,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProjectService projectService;
 
     @Autowired
     UserFormValidator userFormValidator;
@@ -55,6 +61,7 @@ public class UserController {
         populateDefaultModel(model);
         model.addAttribute("fileUploadForm", new FileUploadForm());
         model.addAttribute("isControllerPagable", true);
+
         LOGGER.debug("User list");
         return "users";
     }
@@ -121,8 +128,18 @@ public class UserController {
 
         if(model.containsAttribute("fileUploadForm")) {
             FileUploadForm fileUploadForm = (FileUploadForm) model.asMap().get("fileUploadForm");
-            user.setImageData(fileUploadForm.getFileImage());
-            user.setImageFilename(fileUploadForm.getFileName());
+            //save photo new or update existing
+            if(fileUploadForm.getFileImage() != null) {
+                user.setImageData(fileUploadForm.getFileImage());
+                user.setImageFilename(fileUploadForm.getFileName());
+            } else {
+                //must explisitly reassign photo, otherwise it will be deleted
+                User userph = userService.findOne(user.getId());
+                if(userph.getImageData() != null) {
+                    user.setImageData(userph.getImageData());
+                    user.setImageFilename(userph.getImageFilename());
+                }
+            }
             model.addAttribute("fileUploadForm", new FileUploadForm());
         } ;
 

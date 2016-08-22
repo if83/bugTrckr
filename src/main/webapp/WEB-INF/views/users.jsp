@@ -50,12 +50,15 @@
                     <th>Last Name</th>
                     <th>E-mail</th>
                     <th>Role</th>
+                    <th>Project Title</th>
                     <th class="hidden-xs">Description</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
+
+
                 <tr>
                     <form action="/users/searchByName" method="POST" class="form-inline">
                         <td>
@@ -107,9 +110,12 @@
                             </div>
                         </form>
                     </td>
+                    <td></td>
                     <td class="hidden-xs"></td>
                     <td></td>
                 </tr>
+
+
 
                 <c:if test="${isControllerPagable}">
                     <c:forEach var="user" items="${userList.content}">
@@ -122,6 +128,7 @@
                             <td><c:out value="${user.lastName}"/></td>
                             <td><c:out value="${user.email}"/></td>
                             <td><c:out value="${user.role}"/></td>
+                            <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
                             <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                             <td>
                                 <div class="actionButtons">
@@ -147,6 +154,7 @@
                             <td><c:out value="${user.lastName}"/></td>
                             <td><c:out value="${user.email}"/></td>
                             <td><c:out value="${user.role}"/></td>
+                            <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
                             <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                             <td>
                                 <div class="actionButtons">
