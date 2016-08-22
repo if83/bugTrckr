@@ -85,12 +85,12 @@ VALUES ('Issue4', 'EPIC', 'CRITICAL', 'OPEN', '3', '3', '2016-01-01', '2016-02-0
 INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
 VALUES ('Issue5', 'TASK', 'BLOCKER', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '56450000', '5','some text', '0', '0');
 
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename='large.jpg' WHERE `role`='ADMIN';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin_schoeller1.jpg'), imageFilename='martin_schoeller1.jpg' WHERE `role`='USER';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/mel-gibson-mugshot.jpg'), imageFilename='mel-gibson-mugshot.jpg' WHERE `role`='PROJECT_MANAGER';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-clint.jpg'), imageFilename='martin-schoeller-clint.jpg' WHERE `role`='DEVELOPER';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-bill.jpg'), imageFilename='martin-schoeller-bill.jpg' WHERE `role`='QA';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/famous1_mini.jpg'), imageFilename='famous1_mini.jpg' WHERE `role`='GUEST';
+UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename='large.jpg' WHERE `role`='ROLE_ADMIN';
+UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin_schoeller1.jpg'), imageFilename='martin_schoeller1.jpg' WHERE `role`='ROLE_USER';
+UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/mel-gibson-mugshot.jpg'), imageFilename='mel-gibson-mugshot.jpg' WHERE `role`='ROLE_PROJECT_MANAGER';
+UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-clint.jpg'), imageFilename='martin-schoeller-clint.jpg' WHERE `role`='ROLE_DEVELOPER';
+UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-bill.jpg'), imageFilename='martin-schoeller-bill.jpg' WHERE `role`='ROLE_QA';
+UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/famous1_mini.jpg'), imageFilename='famous1_mini.jpg' WHERE `role`='ROLE_GUEST';
 
 INSERT INTO Label (`title`, `isDeleted`) VALUES ('Java', '0');
 INSERT INTO Label (`title`, `isDeleted`) VALUES ('C#', '0');

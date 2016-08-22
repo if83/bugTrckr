@@ -26,7 +26,14 @@
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li><a href="<spring:url value='/issue'/>">Issue</a></li>
                 <li><a href="<spring:url value='/history'/>">History</a></li>
-                <li><a href="<spring:url value='/users'/>">User</a></li>
+
+                <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
+                    <li><a href="<spring:url value='/users'/>">Users</a></li>
+                </sec:authorize>
+
+                <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
+                    <li><a href="<spring:url value='/user/details'/>">User</a></li>
+                </sec:authorize>
 
                 <sec:authorize access="hasRole('ADMIN')">
                     <li><a href="<spring:url value='/admin'/>">Admin</a></li>

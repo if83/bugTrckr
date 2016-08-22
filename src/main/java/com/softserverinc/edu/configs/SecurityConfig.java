@@ -4,6 +4,7 @@ import com.softserverinc.edu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
  */
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -53,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                         .authorizeRequests()
                             .antMatchers("/admin**").hasRole("ADMIN")
+                            .antMatchers("/users").hasAnyRole("ADMIN", "PROJECT_MANAGER")
+                    //TODO:Lyutak configure more detailed access
                             .antMatchers("/**").hasAnyRole("ADMIN", "PROJECT_MANAGER", "DEVELOPER", "USER", "GUEST")
                             .anyRequest().authenticated()
                     .and()
