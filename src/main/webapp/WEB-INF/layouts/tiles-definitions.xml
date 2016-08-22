@@ -142,4 +142,16 @@
         </put-list-attribute>
     </definition>
 
+    <!--Admin-->
+    <definition name="admin" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Admin dashboard"/>
+        <put-attribute name="content" value="/WEB-INF/views/admin.jsp"/>
+    </definition>
+
+    <!--Access Denied-->
+    <definition name="accessDenied" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Access Denied!"/>
+        <put-attribute name="content" value="/WEB-INF/views/accessdenied.jsp"/>
+    </definition>
+
 </tiles-definitions>

@@ -34,34 +34,12 @@ public class LoginController {
         }
 
         model.addAttribute("loginForm", loginForm);
-        LOGGER.debug("Login email: " + loginForm.getEmail());
+        LOGGER.debug("Login username: " + loginForm.getUsername());
         LOGGER.debug("Login password: " + loginForm.getPassword());
         return "index";
 
     }
 
-    @RequestMapping(value = "/", params = "logout", method = RequestMethod.GET)
-    public String logout(Model model) {
-        model.addAttribute("loginForm", new LoginForm());
-        return "index";
-    }
 
-    @RequestMapping(value = "/", params = "logout", method = RequestMethod.POST)
-    public String processLogout(@ModelAttribute("loginForm") LoginForm loginForm,
-                                Model model, SessionStatus status) {
-
-        model.addAttribute("loginForm", loginForm);
-        LOGGER.debug("Logout email: " + loginForm.getEmail());
-        LOGGER.debug("Logout password: " + loginForm.getPassword());
-
-        loginForm.setPassword("");
-        loginForm.setEmail("");
-
-        //Mark Session Complete
-        //flush out the session data
-        status.setComplete();
-
-        return "index";
-    }
 
 }

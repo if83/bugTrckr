@@ -6,6 +6,8 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +22,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findOne(Long id) {
         return userRepository.findOne(id);
-    }
-
-    @Override
-    public List<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -87,5 +84,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User update(User user) {
         return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Long count() {
+        return userRepository.count();
     }
 }

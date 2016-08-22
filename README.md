@@ -7,15 +7,15 @@
 5. run maven goal `mvn clean package` for execute database-scripts and create war-package;
 6. run the project in the local server (for example *Tomcat*)
 7. for inserting images
-  7.1 run MySQL terminal
+    7. run MySQL terminal
          **mysql -u root -p**
-  7.2 Check where is a directory configured by MySQL to work with files
+    7. Check where is a directory configured by MySQL to work with files
         **SHOW VARIABLES LIKE "secure_file_priv";**
-  7.3 Copy images from project folder to this directory, for example
+    7. Copy images from project folder to this directory, for example
         **\\! sudo cp src/main/resources/dbscripts/img/*.jpg   /var/lib/mysql-files/**
-  7.4 start using bugtrckr database
+    7. start using bugtrckr database
        **use bugtrckr;**
-  7.5 check if you can execute insersion images into database
+    7. check if you can execute insersion images into database
          **select hex(LOAD_FILE('/var/lib/mysql-files/large.jpg'));**
       The result will be shown data in console followed by  "_1 row in set (0,04 sec)_"
       
@@ -40,17 +40,17 @@ In the Database will be user with admin rights, e-mail: admin@ss.com, and passwo
 
 In case you can not load images by LOAD_FILE function you may do
 
- 1 Change owner of the files
+1. Change owner of the files
     **\\! sudo chown -R mysql:mysql  /var/lib/mysql-files**
    
- 2 disable secure-file-priv. Example for Windows 7
-   2.1 Stop the MySQL server service by going into services.msc.
-   2.2 Go to C:\ProgramData\MySQL\MySQL Server 5.6 (ProgramData was a hidden folder in my case).
-   2.3 Open the my.ini file in Notepad.
-   2.4 Search for 'secure-file-priv'.
-   2.5 Comment the line out by adding '#' at the start of the line.
-   2.6 Save the file.
-   2.7 Start the MySQL server service by going into services.msc
+2. disable secure-file-priv. Example for Windows 7
+    2. Stop the MySQL server service by going into services.msc.
+    2. Go to C:\ProgramData\MySQL\MySQL Server 5.6 (ProgramData was a hidden folder in my case).
+    2. Open the my.ini file in Notepad.
+    2. Search for 'secure-file-priv'.
+    2. Comment the line out by adding '#' at the start of the line.
+    2. Save the file.
+    2. Start the MySQL server service by going into services.msc
  
    
 # Style Guide
