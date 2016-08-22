@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -164,6 +165,20 @@ public class UserController {
         return "userview";
     }
 
+
+    @GetMapping(value = "/user/details")
+    public String viewUserByDetails(Principal principal) {
+        String loggedInUserName = principal.getName();
+
+        List<User> user = userService.findByEmail(loggedInUserName);
+        long id = user.get(0).getId();
+
+        LOGGER.debug("viewUser() details");
+        return "redirect:/user/" + id + "/view";
+    }
+
+
+
     @PostMapping(value = "/users/searchByName")
     public String userSearchByName(@RequestParam(value = "firstName") String firstName,
                                    @RequestParam(value = "lastName") String lastName,
@@ -178,6 +193,7 @@ public class UserController {
         LOGGER.debug("User search list ByName");
         return "users";
     }
+
 
     @PostMapping(value = "/users/searchByEmail")
     public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
@@ -218,6 +234,8 @@ public class UserController {
         LOGGER.debug("formUser() id: ", userId);
         return redirectPath;
     }
+
+
 
     /**
      * Set default values
