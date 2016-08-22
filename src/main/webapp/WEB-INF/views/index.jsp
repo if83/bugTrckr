@@ -41,7 +41,7 @@
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                     <form:input path="password" name="password" type="password" placeholder="Password"
                                 class="form-control"
-                                required="" pattern=".{6,}"/>
+                                required="" pattern=".{5,}"/>
                     <span class="help-block margin-left-5">
                         <form:errors path="password"/>
                     </span>
@@ -77,8 +77,8 @@
             </li>
             <li>As QA, please login:
                 <ul>
-                    <li>username: <b>quality_e1@ss.com</b></li>
-                    <li>password: <b>quality_e1</b></li>
+                    <li>username: <b>quality_e@ss.com</b></li>
+                    <li>password: <b>quality_e</b></li>
                 </ul>
             </li>
             <li>As USER, please login:

@@ -60,6 +60,12 @@ public class User {
     @Column(length = 10000)
     private String description;
 
+    /**
+     * for spring security
+     */
+    @Column(columnDefinition = "TINYINT")
+    private int enabled;
+
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
@@ -176,6 +182,14 @@ public class User {
 
     public void setImageFilename(String imageFilename) {
         this.imageFilename = imageFilename;
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
 
     @Override
