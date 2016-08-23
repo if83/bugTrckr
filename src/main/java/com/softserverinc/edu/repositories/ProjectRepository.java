@@ -3,6 +3,8 @@ package com.softserverinc.edu.repositories;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +25,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     List<Project> findByGuestAddComment(Boolean guestAddComment);
 
+    Page<Project> findAll(Pageable pageable);
 }

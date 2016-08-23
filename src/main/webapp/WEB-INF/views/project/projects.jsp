@@ -6,14 +6,13 @@
 
 <div class="breadcrumbs">
     <div class="row">
-        <div class="col-sm-3 col-sm-offset-1">
-            <h4 class="pull-left">Projects <a href="<spring:url value='/projects/add/'/>" class="abtn-u-white"><i
-                    class="fa fa-plus icon-bg-u"></i> Add project</a></h4>
+        <div class="col-sm-2 col-sm-offset-1">
+            <h1 class="pull-left">Projects</h1>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
-                <li class="active">Projects</li>
+                <li class="active">Users</li>
             </ol>
         </div>
     </div>
@@ -33,7 +32,14 @@
     </div>
 </c:if>
 
-<div class=" col-sm-8 col-sm-offset-2">
+<div class="margin-top-30 row">
+    <div class="col-sm-2 col-sm-offset-1">
+        <a href="<spring:url value='/projects/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i> Add
+            Project</a>
+    </div>
+</div>
+
+<div class=" col-sm-8 col-sm-offset-2 margin-top-30">
     <form action="/projects/searchByTitle" method="POST" class="form-inline">
         <td>
             <div class="input-group">
