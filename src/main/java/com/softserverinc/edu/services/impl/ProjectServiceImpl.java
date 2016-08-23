@@ -6,6 +6,8 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.repositories.ProjectRepository;
 import com.softserverinc.edu.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findByTitle(String title) {
+    public List<Project> findByTitle(String title) {
         return projectRepository.findByTitle(title);
     }
 
@@ -60,6 +62,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> findAll() {
         return projectRepository.findAll();
+    }
+
+    @Override
+    public Page<Project> findAll(Pageable pageable) {
+        return projectRepository.findAll(pageable);
     }
 
     @Override

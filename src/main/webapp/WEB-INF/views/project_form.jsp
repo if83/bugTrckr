@@ -30,6 +30,20 @@
     </div>
 </div>
 
+<c:if test="${not empty msg}">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+            <div class="alert alert-${css} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>${msg}</strong>
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <div class="margin-top-30">
     <form:form action="/projects/add" modelAttribute="project" method="POST">
         <div class="col-sm-4 col-sm-offset-1">
