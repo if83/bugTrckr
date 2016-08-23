@@ -3,6 +3,7 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.forms.ProjectFormValidator;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
@@ -10,6 +11,8 @@ import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -38,10 +41,10 @@ public class ProjectController {
     @Autowired
     private ProjectFormValidator projectFormValidator;
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(projectFormValidator);
-    }
+//    @InitBinder
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.setValidator(projectFormValidator);
+//    }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
     public String listOfProjects(ModelMap model, Pageable pageable) {
@@ -101,7 +104,7 @@ public class ProjectController {
         ProjectRelease release = releaseService.findById(releaseId);
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("releases", releases);
+        model.addAttribute("releases", release);
         model.addAttribute("release", release);
         model.addAttribute("formAction", "edit");
         populateDefaultModel(model);
@@ -186,5 +189,4 @@ public class ProjectController {
     private void populateDefaultModel(Model model) {
         model.addAttribute("statuses", ReleaseStatus.values());
     }
-
 }

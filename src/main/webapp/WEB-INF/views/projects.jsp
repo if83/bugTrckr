@@ -66,17 +66,17 @@
                     <c:forEach var="project" items="${listOfProjects.content}">
                         <tr>
                             <td class="text-center">
-                                <a href="<spring:url value='/projects/project/${project.id}'/>">
+                                <a href="<spring:url value='/project/${project.id}'/>">
                                     <c:out value="${project.title}"/></a>
                             </td>
                             <td class="text-center">
                                 <c:choose>
-                                <c:when test="${project.guestView == true}">
-                                <i class="glyphicon glyphicon-ok"/>
-                                </c:when>
-                                <c:otherwise>
-                                <i class="glyphicon glyphicon-remove"/>
-                                </c:otherwise>
+                                    <c:when test="${project.guestView == true}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <i class="glyphicon glyphicon-remove"/>
+                                    </c:otherwise>
                                 </c:choose>
                             <td class="text-center">
                                 <c:choose>
