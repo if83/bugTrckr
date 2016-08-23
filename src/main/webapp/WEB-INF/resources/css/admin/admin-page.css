@@ -1,0 +1,41 @@
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 1px solid #784A3B;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px solid #784A3B;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #784A3B;
+    border-color: #784A3B;
+}
+
+.pagination > li > a, .pagination > li > span {
+    background-color: #fff;
+    color: #784A3B;
+}
+
+.pagination > li > a:hover, .pagination > li > a:focus {
+    background-color: #fff;
+    color: #784A3B;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #ACACAC !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: rgba(200, 200, 200, 0) linear-gradient(to bottom, #D0876C 0%, #A96852 100%) repeat scroll 0 0;
+    border: 1px solid #784A3B;
+    color: white !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    background: rgba(200, 200, 200, 0) linear-gradient(to bottom, #D0876C 0%, #A96852 100%) repeat scroll 0 0;
+    box-shadow: 0 0 3px #784A3B inset;
+    outline: medium none;
+}
+
+.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+    color: #784A3B;
+}
