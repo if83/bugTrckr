@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:choose>
     <c:when test="${formaction eq 'new'}">
@@ -31,6 +32,7 @@
     </div>
 </div>
 
+<fmt:formatDate value="${sampleDate}" var="dateString" pattern="dd/MM/yyyy" />
 
 <div class="margin-top-30 row">
     <div class="col-sm-12 col-md-8 col-md-offset-1">
@@ -107,8 +109,9 @@
                     <spring:bind path="createTime">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="createTimeInput">Create time</label>
+
                             <form:input path="createTime" type="text" cssClass="form-control" id="createTimeInput"
-                                        placeholder="createTime"/>
+                                        placeholder="createTime"  value="${dateString}"/>
                             <form:errors path="createTime" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -118,7 +121,7 @@
                             <label for="lastUpdateDateInput">Last update date</label>
                             <form:input path="lastUpdateDate" type="text" cssClass="form-control"
                                         id="lastUpdateDateInput"
-                                        placeholder="lastUpdateDate"/>
+                                        placeholder="lastUpdateDate"  value="${dateString}"/>
                             <form:errors path="lastUpdateDate" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -136,7 +139,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="dueDateInput">Date to finish an issue</label>
                             <form:input path="dueDate" type="text" cssClass="form-control" id="dueDateInput"
-                                        placeholder="yyyy-MM-DD"/>
+                                        placeholder="yyyy-MM-DD"  value="${dateString}"/>
                             <form:errors path="dueDate" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -184,6 +187,7 @@
                 </div>
 
                 <form:hidden path="id"/>
+                <form:hidden path="isDeleted"/>
                 <div class="col-sm-12">
                     <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
                 </div>

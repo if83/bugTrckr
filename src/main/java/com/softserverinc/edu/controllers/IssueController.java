@@ -17,6 +17,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
+
 @Controller
 public class IssueController {
 
@@ -62,7 +64,9 @@ public class IssueController {
     @RequestMapping(value = "/issue/add", method = RequestMethod.GET)
     public String addIssue(Model model) {
         Issue issue = new Issue();
+        model.addAttribute("sampleDate", new Date());
         issue.setId(0L);
+        issue.setIsDeleted(false);
         model.addAttribute("issue", issue);
         model.addAttribute("formaction", "new");
         populateDefaultModel(model);

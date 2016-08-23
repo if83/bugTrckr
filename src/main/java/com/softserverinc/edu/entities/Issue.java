@@ -6,6 +6,7 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.Set;
 public class Issue {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -46,19 +47,27 @@ public class Issue {
     private Set<Label> labels;
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date createTime;
 
     @Column
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dueDate;
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date lastUpdateDate;
 
     @Column
     private Long estimateTime;
 
     @OneToOne
-    @JoinColumn(name = "parentId", referencedColumnName = "id")
+    @JoinColumn(name = "parentId")
+    //The annotation does say that the primary key of the entity is used as the foreign key value to the associated entity
+    @PrimaryKeyJoinColumn
     private Issue parent;
 
     @Column(nullable = false, length = 10000)
@@ -182,6 +191,10 @@ public class Issue {
     }
 
     public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public boolean getIsDeleted() {
         return isDeleted;
     }
 
