@@ -134,6 +134,10 @@ body {
     padding: 6px 13px;
 }
 
+a.btn-u:hover, a.btn-u:focus {
+    background: #784A3B;
+}
+
 i.icon-bg-u {
     background: #784A3B;
     color: white;

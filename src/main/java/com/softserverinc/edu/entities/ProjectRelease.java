@@ -6,18 +6,19 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class ProjectRelease {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name="projectId")
     private Project project;
 
     @Column(nullable = false, length = 32)
@@ -29,9 +30,9 @@ public class ProjectRelease {
 
     @Column(length = 10000)
     private String description;
-/*
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="projectRelease")
-    private Set<Issue> issues;*/
+
+    @OneToMany(mappedBy="projectRelease")
+    private Set<Issue> issues = new HashSet<>();
 
     @Column
     private boolean isDeleted;
@@ -51,17 +52,9 @@ public class ProjectRelease {
         return project;
     }
 
-    public void setProject(Project projectId) {
+    public void setProject(Project project) {
         this.project = project;
     }
-
-    /*public Set<Issue> getIssues() {
-        return issues;
-    }
-
-    public void setIssues(Set<Issue> issues) {
-        this.issues = issues;
-    }*/
 
     public String getVersion() {
         return version;
@@ -87,12 +80,20 @@ public class ProjectRelease {
         this.description = description;
     }
 
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

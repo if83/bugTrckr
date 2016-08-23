@@ -46,7 +46,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
         registry.addViewController("/history");
-        registry.addViewController("/release");
+        registry.addViewController("/issue");
+        registry.addViewController("/projects");
         registry.addViewController("/label");
         registry.addViewController("/worklog");
         registry.addViewController("/about");

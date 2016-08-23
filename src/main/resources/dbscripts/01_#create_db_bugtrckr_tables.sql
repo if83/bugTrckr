@@ -4,10 +4,12 @@ CREATE TABLE `User` (
   `lastName`    VARCHAR(32) NOT NULL,
   `email`       VARCHAR(64) NOT NULL UNIQUE,
   `password`    VARCHAR(32),
-  `role`        VARCHAR(15) NOT NULL,
+  `role`        VARCHAR(20) NOT NULL,
   `projectId`   INT,
   `description` TEXT,
   `isDeleted`   BOOLEAN     NOT NULL DEFAULT '0',
+  /*For spring security*/
+  `enabled`     TINYINT     NOT NULL DEFAULT 1 ,
   `imageData`   MEDIUMBLOB,
   `imageFilename`   VARCHAR(64),
   PRIMARY KEY (`id`)
@@ -59,6 +61,8 @@ CREATE TABLE `Issue` (
   `lastUpdateDate`   DATE        NOT NULL,
   `estimateTime`     INT         NOT NULL,
   `parentId`         INT,
+  `description`      TEXT,
+  `editAbility`      BOOLEAN     NOT NULL DEFAULT '0',
   `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )

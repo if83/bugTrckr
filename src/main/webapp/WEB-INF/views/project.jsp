@@ -15,21 +15,45 @@
     </div>
 </div>
 
-<div class="container">
+<c:if test="${not empty msg}">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+            <div class="alert alert-${alert} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>${msg}</strong>
+            </div>
+        </div>
+    </div>
+</c:if>
 
-    <div class="project-info text-left">
-        <h3>Project description:</h3>
-        ${project.description}
+<div class="container">
+    <div class="row project-info text-left">
+        <div class="col-sm-12">
+            <h3>Project description:</h3>
+            ${project.description}
+        </div>
     </div>
 
-    <div class="release-info text-left">
-        <h3>Release description:</h3>
-        ${release.description}
+    <div class="row release-info text-left">
+        <div class="col-sm-12">
+            <h3>Release description:</h3>
+            ${release.description}
+        </div>
+    </div>
+
+    <div class="row release-add-button">
+        <div class="col-sm-2 col-sm-offset-1">
+            <a href="<spring:url value='/project/${project.id}/release/add' />" class="abtn-u-white"><i
+                    class="fa fa-plus icon-bg-u"></i>Add
+                release</a>
+        </div>
     </div>
 
     <div class="row">
-
-        <div class="col-md-5">
+        <div class="col-sm-4">
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -38,7 +62,6 @@
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
-
                 <tbody>
                 <c:forEach var="rel" items="${releases}">
                     <tr>
@@ -46,10 +69,10 @@
                             <a href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}</a>
                         </td>
                         <td>${rel.releaseStatus}</td>
-                        <td class="text-center">
-                            <a href="<spring:url value='' />"><i
-                                    class="fa fa-edit icon-table-u"></i></a> &nbsp&nbsp
-                            <a href="<spring:url value='' />"><i
+                        <td>
+                            <a href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
+                                    class="fa fa-edit icon-table-u"></i></a>
+                            <a href="<spring:url value='/project/${project.id}/release/${rel.id}/remove' />"><i
                                     class="fa fa-remove icon-table-u"></i></a>
                         </td>
                     </tr>
@@ -58,7 +81,7 @@
             </table>
         </div>
 
-        <div class="col-md-6 col-md-offset-1">
+        <div class="col-sm-7 col-sm-offset-1">
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -67,7 +90,6 @@
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
-
                 <tbody>
                 <c:forEach var="users" items="${usersList}">
                     <tr>
@@ -88,4 +110,5 @@
         </div>
 
     </div>
+
 </div>

@@ -15,7 +15,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<spring:url value='/'/>">
-                <img alt="Brand" src="<spring:url value='images/AS.png'/>" style="width: 100px;">
+                <img alt="Brand" src="<spring:url value='/images/AS.png'/>" style="width: 100px;">
             </a>
         </div>
 
@@ -24,10 +24,16 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="<spring:url value='/'/>">Home<span class="sr-only">(current)</span></a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
-                <li><a href="<spring:url value='/release'/>">Release</a></li>
                 <li><a href="<spring:url value='/issue'/>">Issue</a></li>
                 <li><a href="<spring:url value='/history'/>">History</a></li>
-                <li><a href="<spring:url value='/users'/>">User</a></li>
+
+                <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
+                    <li><a href="<spring:url value='/users'/>">Users</a></li>
+                </sec:authorize>
+
+                <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
+                    <li><a href="<spring:url value='/user/details'/>">User</a></li>
+                </sec:authorize>
 
                 <sec:authorize access="hasRole('ADMIN')">
                     <li><a href="<spring:url value='/admin'/>">Admin</a></li>

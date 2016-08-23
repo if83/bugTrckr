@@ -28,19 +28,10 @@ public class ProjectReleaseServiceImpl implements ProjectReleaseService {
         return projectReleaseRepository.findByProject(project);
     }
 
-   /* @Override
+   @Override
     public ProjectRelease findByIssues(Issue issue) {
         return projectReleaseRepository.findByIssues(issue);
-        *//*ProjectRelease projectRelease = null;
-        List<ProjectRelease> listOfProjectReleases = releaseRepository.findAll();
-        for (ProjectRelease projectReleaseIterator : listOfProjectReleases) {
-            if (projectReleaseIterator.getIssues().contains(issue)) {
-                projectRelease = projectReleaseIterator;
-                break;
-            }
-        }
-        return projectRelease;*//*
-    }*/
+    }
 
     @Override
     public List<ProjectRelease> findByVersion(String version) {
@@ -70,7 +61,7 @@ public class ProjectReleaseServiceImpl implements ProjectReleaseService {
     @Transactional
     @Override
     public void delete(Long id) {
-        projectReleaseRepository.findOne(id).setIsDeleted(true);
+        projectReleaseRepository.delete(id);
     }
 
     @Transactional
