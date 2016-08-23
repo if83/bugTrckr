@@ -23,6 +23,4 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     List<Project> findByGuestAddComment(Boolean guestAddComment);
 
-    List<Project> findByIsDeleted(Boolean isDeleted);
-
 }

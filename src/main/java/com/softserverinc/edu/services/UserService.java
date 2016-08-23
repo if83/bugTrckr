@@ -3,46 +3,81 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
+import com.softserverinc.edu.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface UserService {
+@Service
+public class UserService {
 
-    User findOne(Long id);
+    @Autowired
+    private UserRepository userRepository;
 
-    List<User> findByEmailContaining(String email);
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
 
-    List<User> findByEmail(String email);
+    public List<User> findByEmailContaining(String email) {
+        return userRepository.findByEmailContaining(email);
+    }
 
-    List<User> findByRole(UserRole role);
+    public List<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
-    List<User> findByProject(Project project);
+    public List<User> findByRole(UserRole role) {
+        return userRepository.findByRole(role);
+    }
 
-    List<User> findByFirstNameOrLastName(String firstName, String lastName);
+    public List<User> findByProject(Project project) {
+        return userRepository.findByProject(project);
+    }
 
-    List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);
+    public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
+        return userRepository.findByFirstNameOrLastName(firstName, lastName);
+    }
 
-    List<User> findByFirstNameContaining(String firstName);
+    public List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName) {
+        return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
+    }
 
-    List<User> findByLastNameContaining(String lastName);
+    public List<User> findByFirstNameContaining(String firstName) {
+        return userRepository.findByFirstNameContaining(firstName);
+    }
 
-    List<User> findByIsDeleted(Boolean isDeleted);
+    public List<User> findByLastNameContaining(String lastName) {
+        return userRepository.findByLastNameContaining(lastName);
+    }
 
-    List<User> findAll();
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 
-    User save(User user);
+    @Transactional
+    public User save(User user) {
+        return userRepository.saveAndFlush(user);
+    }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    void delete(Long id);
+    @Transactional
+    public void delete(Long id) {
+        userRepository.delete(id);
+    }
 
-    User update(User user);
+    @Transactional
+    public User update(User user) {
+        return userRepository.saveAndFlush(user);
+    }
 
-    @PreAuthorize("hasRole('ADMIN') OR hasRole('PROJECT_MANAGER')")
-    Page<User> findAll(Pageable pageable);
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
 
-    Long count();
+    public Long count() {
+        return userRepository.count();
+    }
 }

@@ -17,8 +17,6 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     List<History> findByAssignedToUser(User assignedToUser);
 
-    History findByChangedByUser(User changedByUser);
-
-    List<History> findByIsDeleted(Boolean isDeleted);
+    List<History> findByChangedByUser(User changedByUser);
 
 }

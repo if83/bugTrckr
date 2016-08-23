@@ -3,37 +3,63 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.softserverinc.edu.repositories.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface ProjectService {
+@Service
+public class ProjectService {
 
-    Project findById(Long id);
+    @Autowired
+    private ProjectRepository projectRepository;
 
-    Project findByUsers(User user);
+    public Project findById(Long id) {
+        return projectRepository.findOne(id);
+    }
 
-    Project findByProjectReleases(ProjectRelease projectRelease);
+    public List<Project> findByTitle(String title) {
+        return projectRepository.findByTitle(title);
+    }
 
-    List<Project> findByGuestView(Boolean guestView);
+    public Project findByUsers(User user) {
+        return projectRepository.findByUsers(user);
+    }
 
-    List<Project> findByGuestCreateIssues(Boolean guestCreateIssues);
+    public Project findByProjectReleases(ProjectRelease projectRelease) {
+        return projectRepository.findByProjectReleases(projectRelease);
+    }
 
-    List<Project> findByGuestAddComment(Boolean guestAddComment);
+    public List<Project> findByGuestView(Boolean guestView) {
+        return projectRepository.findByGuestView(guestView);
+    }
 
-    List<Project> findByTitle(String title);
+    public List<Project> findByGuestCreateIssues(Boolean guestCreateIssues) {
+        return projectRepository.findByGuestCreateIssues(guestCreateIssues);
+    }
 
-    List<Project> findByIsDeleted(Boolean isDeleted);
+    public List<Project> findByGuestAddComment(Boolean guestAddComment) {
+        return projectRepository.findByGuestAddComment(guestAddComment);
+    }
 
-    List<Project> findAll();
+    public List<Project> findAll() {
+        return projectRepository.findAll();
+    }
 
-    Page<Project> findAll(Pageable pageable);
+    @Transactional
+    public Project save(Project project) {
+        return projectRepository.saveAndFlush(project);
+    }
 
-    Project save(Project project);
+    @Transactional
+    public void delete(Long id) {
+        projectRepository.delete(id);
+    }
 
-    void delete(Long id);
-
-    Project update(Project project);
-
+    @Transactional
+    public Project update(Project project) {
+        return projectRepository.saveAndFlush(project);
+    }
 }

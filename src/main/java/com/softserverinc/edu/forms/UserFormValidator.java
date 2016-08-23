@@ -2,7 +2,6 @@ package com.softserverinc.edu.forms;
 
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.services.UserService;
-import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -17,7 +16,7 @@ import org.springframework.validation.Validator;
 public class UserFormValidator implements Validator {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Override
     public boolean supports(Class<?> clazz) {

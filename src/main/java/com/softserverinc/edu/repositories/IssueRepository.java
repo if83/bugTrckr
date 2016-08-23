@@ -24,9 +24,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     List<Issue> findByPriority(IssuePriority priority);
 
-    Issue findByProjectRelease(ProjectRelease projectRelease);
+    List<Issue> findByProjectRelease(ProjectRelease projectRelease);
 
-    Issue findByAssignee(User assignee);
+    List<Issue> findByAssignee(User assignee);
 
     List<Issue> findByLabels(Label label);
 
@@ -40,7 +40,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     Issue findByParent(Issue parent);
 
-    List<Issue> findByIsDeleted(Boolean isDeleted);
+    void delete(Long id);
 
-    void delete(Long aLong);
 }

@@ -3,29 +3,56 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.repositories.HistoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface HistoryService {
+@Service
+public class HistoryService {
 
-    History findOne(Long id);
+    @Autowired
+    private HistoryRepository historyRepository;
 
-    List<History> findByIssue(Issue issue);
+    public History findOne(Long id) {
+        return historyRepository.getOne(id);
+    }
 
-    History findByParent(History parent);
+    public List<History> findByIssue(Issue issue) {
+        return historyRepository.findByIssue(issue);
+    }
 
-    List<History> findByAssignedToUser(User assignedToUser);
+    public History findByParent(History parent) {
+        return historyRepository.findByParent(parent);
+    }
 
-    History findByChangedByUser(User changedByUser);
+    public List<History> findByAssignedToUser(User assignedToUser) {
+        return historyRepository.findByAssignedToUser(assignedToUser);
+    }
 
-    List<History> findByIsDeleted(Boolean isDeleted);
+    public List<History> findByChangedByUser(User changedByUser) {
+        return historyRepository.findByChangedByUser(changedByUser);
+    }
 
-    History save(History history);
+    public List<History> findAll() {
+        return historyRepository.findAll();
+    }
 
-    void delete(Long id);
+    @Transactional
+    public History save(History history) {
+        return historyRepository.saveAndFlush(history);
+    }
 
-    History update(History history);
+    @Transactional
+    public void delete(Long id) {
+        historyRepository.delete(id);
+    }
 
-    List<History> findAll();
+    @Transactional
+    public History update(History history) {
+        return historyRepository.saveAndFlush(history);
+    }
 
 }

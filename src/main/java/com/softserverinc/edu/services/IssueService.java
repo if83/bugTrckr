@@ -7,46 +7,89 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
+import com.softserverinc.edu.repositories.IssueRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
-public interface IssueService {
+@Service
+public class IssueService {
 
-    Issue findById(Long id);
+    @Autowired
+    private IssueRepository issueRepository;
 
-    List<Issue> findByTitle(String title);
+    public Issue findById(Long id) {
+        return issueRepository.findOne(id);
+    }
 
-    List<Issue> findByType(IssueType type);
+    public List<Issue> findByTitle(String title) {
+        return issueRepository.findByTitle(title);
+    }
 
-    List<Issue> findByStatus(IssueStatus status);
+    public List<Issue> findByType(IssueType type) {
+        return issueRepository.findByType(type);
+    }
 
-    List<Issue> findByPriority(IssuePriority priority);
+    public List<Issue> findByStatus(IssueStatus status) {
+        return issueRepository.findByStatus(status);
+    }
 
-    Issue findByProjectRelease(ProjectRelease projectRelease);
+    public List<Issue> findByPriority(IssuePriority priority) {
+        return issueRepository.findByPriority(priority);
+    }
 
-    Issue findByAssignee(User assignee);
+    public List<Issue> findByProjectRelease(ProjectRelease projectRelease) {
+        return issueRepository.findByProjectRelease(projectRelease);
+    }
 
-    List<Issue> findByLabels(Label label);
+    public List<Issue> findByAssignee(User assignee) {
+        return issueRepository.findByAssignee(assignee);
+    }
 
-    List<Issue> findByCreateTime(Date createTime);
+    public List<Issue> findByLabels(Label label) {
+        return issueRepository.findByLabels(label);
+    }
 
-    List<Issue> findByDueDate(Date dueDate);
+    public List<Issue> findByCreateTime(Date createTime) {
+        return issueRepository.findByCreateTime(createTime);
+    }
 
-    List<Issue> findByLastUpdateDate(Date lastUpdateDate);
+    public List<Issue> findByDueDate(Date dueDate) {
+        return issueRepository.findByDueDate(dueDate);
+    }
 
-    List<Issue> findByEstimateTime(Date estimateTime);
+    public List<Issue> findByLastUpdateDate(Date lastUpdateDate) {
+        return issueRepository.findByLastUpdateDate(lastUpdateDate);
+    }
 
-    Issue findByParent(Issue parent);
+    public List<Issue> findByEstimateTime(Date estimateTime) {
+        return issueRepository.findByEstimateTime(estimateTime);
+    }
 
-    List<Issue> findByIsDeleted(Boolean isDeleted);
+    public Issue findByParent(Issue parent) {
+        return issueRepository.findByParent(parent);
+    }
 
-    List<Issue> findAll();
+    public List<Issue> findAll() {
+        return issueRepository.findAll();
+    }
 
-    Issue save(Issue issue);
+    @Transactional
+    public Issue save(Issue issue) {
+        return issueRepository.saveAndFlush(issue);
+    }
 
-    void delete(Long id);
+    @Transactional
+    public void delete(Long id) {
+        issueRepository.delete(id);
+    }
 
-    Issue update(Issue issue);
+    @Transactional
+    public Issue update(Issue issue) {
+        return issueRepository.saveAndFlush(issue);
+    }
 
 }
