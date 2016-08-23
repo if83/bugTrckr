@@ -7,7 +7,7 @@
 5. run maven goal `mvn clean package` for execute database-scripts and create war-package;
 6. run the project in the local server (for example *Tomcat*)
 7. for inserting images
-    7. run MySQL terminal
+7. run MySQL terminal
          **mysql -u root -p**
     7. Check where is a directory configured by MySQL to work with files
         **SHOW VARIABLES LIKE "secure_file_priv";**
@@ -52,7 +52,6 @@ In case you can not load images by LOAD_FILE function you may do
     2. Save the file.
     2. Start the MySQL server service by going into services.msc
  
-   
 # Style Guide
 This guide highlights the most important and most common conventions for writing code.
 
@@ -92,27 +91,45 @@ The order of things inside classes should be:
 
 ### Structure of project
 Basic project structure:
+
 ![structure](https://s10.postimg.org/ucgmwn2hl/Screenshot_from_2016_08_11_16_22_20.png)
 
 Directories:
+
 `src` directory must contain all of the source material for building the project.
+
 `src/main/java` directory must contain package hierarchy with Java-code.
-`src/main/resources` directory must contain application/library resources (such as properties for database or logger config-file).
+
+`src/main/resources` directory must contain application/library resourcs (such as properties for database or logger config-file).
+
 `src/main/resources/dbscripts` directory must contain database scripts.
+
 `src/main/webapp` directory must contain files directly connected with web application.
+
 `src/main/webapp/WEB-INF` directory must contain resources that are accessible to the resource loader of Web-Application.
+
 `src/main/webapp/WEB-INF/resources` directory must contain only static resources needed for web-application (such as css, js, images).
+
 `src/main/webapp/WEB-INF/layouts` directory must contain Apache Tiles templates.
+
 `src/main/webapp/WEB-INF/views` directory must contain jsp-pages.
+
 `src/test` directory must contain the test source code. 
+
 `target` directory is created by Maven. It contains all the compiled classes, JAR files etc. 
 
 Packages:
+
 `com.softserverinc.edu.configs` package must contain config-classes (for example for database or for Spring MVC).
+
 `com.softserverinc.edu.controllers` package must contain web-controllers.
+
 `com.softserverinc.edu.entities` package must contain classes-entities for mapping to database tables.
+
 `com.softserverinc.edu.forms` package must contain classes for validating form input.
+
 `com.softserverinc.edu.repositories` package must contain Spring Data repositories.
+
 `com.softserverinc.edu.services` package must contain interfaces for service-layer (and inside in package `impl` classes-implementations).
 
 ## JPA (Hibernate)
@@ -122,6 +139,7 @@ Packages:
 * Avoid the redundant code in the JPA annotations. For example don't add fetch type "EAGER" to annotation @ManyToOne, because it's default type. Always try to keep source as less as possible. 
 
 ## SQL
+
 ### General
 * Use consistent and descriptive identifiers and names.
 * Ensure the name is unique and does not exist as a reserved keyword.
@@ -142,21 +160,22 @@ Packages:
 * Never use `*` operator for queries.
 
 ## Git (Github)
-####How to commit:
-1) Before making commits switch to `dev` branch and do `git pull origin dev` to load the latest commits from central repository.
-2) Create your own branch for feature by command `git checkout -b myfeature`.
-3) Make commits.
-4) After finishing merge your branch `myfeature` to `dev` branch. For this switch to `dev` branch and then do `git merge --no-ff myfeature`.
-5) Push your local branch `dev` to central repository by command `git push origin dev`.
+#### How to commit:
 
-####General rules:
+1. Before making commits switch to `dev` branch and do `git pull origin dev` to load the latest commits from central repository.
+2. Create your own branch for feature by command `git checkout -b myfeature`.
+3. Make commits.
+4. After finishing merge your branch `myfeature` to `dev` branch. For this switch to `dev` branch and then do `git merge --no-ff myfeature`.
+5. Push your local branch `dev` to central repository by command `git push origin dev`.
+
+#### General rules:
 * Don`t do pull requests (except you want to discuss your commits with everybody in the team or you want to get the feedback to the code).
 * Commit only completed functional (don`t commit minor changes).
 * Review code of other team members on Github, comment it and give suggestions how to solve problems.
 * If someone added comment on code review you need to answer to this comment (are you agree or not).
 * If you agree with comment fix it in next commit.
 
-####Commit messages:
+#### Commit messages:
 * Write descriptive and understandable messages for commits.
 * Use imperative, present tense in messages: "change", "add", "fix", not "changeds", “added”, "fixed".
 * Don't capitalize first letter in messages.

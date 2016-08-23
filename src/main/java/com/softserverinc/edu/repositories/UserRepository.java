@@ -29,9 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByLastNameContaining(String lastName);
 
-    List<User> findByIsDeleted(Boolean isDeleted);
-
     Page<User> findAll(Pageable pageable);
-
 
 }

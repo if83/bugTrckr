@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    Project findByTitle(String title);
+    List<Project> findByTitle(String title);
 
     Project findByUsers(User user);
 
@@ -22,7 +22,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByGuestCreateIssues(Boolean guestCreateIssues);
 
     List<Project> findByGuestAddComment(Boolean guestAddComment);
-
-    List<Project> findByIsDeleted(Boolean isDeleted);
 
 }

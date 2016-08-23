@@ -1,7 +1,6 @@
 package com.softserverinc.edu.configs;
 
 import com.softserverinc.edu.services.UserService;
-import com.softserverinc.edu.services.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
      */
     @Bean
     public UserService userService() {
-        return new UserServiceImpl();
+        return new UserService();
     }
 
 }

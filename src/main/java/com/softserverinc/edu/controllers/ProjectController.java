@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -141,7 +140,7 @@ public class ProjectController {
         }
         projectService.save(project);
         LOGGER.info("Project saved(id != null), id= " + project.getId());
-        return "redirect:/projects/project/" + project.getId();
+        return "redirect:/project/" + project.getId();
     }
 
     @GetMapping(value = "/projects/{id}/remove")

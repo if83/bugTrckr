@@ -12,7 +12,7 @@ import org.springframework.validation.Validator;
 public class ProjectFormValidator implements Validator {
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Override
     public boolean supports(Class<?> aClass) {
