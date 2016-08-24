@@ -1,6 +1,5 @@
 package com.softserverinc.edu.controllers;
 
-import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -35,13 +34,13 @@ public class UserController {
     public static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
-    UserFormValidator userFormValidator;
+    private UserFormValidator userFormValidator;
 
     /**
      * Set a form validator

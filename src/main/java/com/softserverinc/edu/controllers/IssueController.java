@@ -25,10 +25,10 @@ public class IssueController {
     public static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
 
     @Autowired
-    IssueService issueService;
+    private IssueService issueService;
 
     @Autowired
-    IssueFormValidator issueFormValidator;
+    private IssueFormValidator issueFormValidator;
 
     @InitBinder("issueCommand")
     protected void initBinder(WebDataBinder binder) {

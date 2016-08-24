@@ -4,29 +4,56 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
+import com.softserverinc.edu.repositories.ProjectReleaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface ProjectReleaseService {
+@Service
+public class ProjectReleaseService {
 
-    ProjectRelease findById(Long id);
+    @Autowired
+    private ProjectReleaseRepository projectReleaseRepository;
 
-    List<ProjectRelease> findByProject(Project project);
+    public ProjectRelease findById(Long id) {
+        return projectReleaseRepository.findOne(id);
+    }
 
-    ProjectRelease findByIssues(Issue issue);
+    public List<ProjectRelease> findByProject(Project project) {
+        return projectReleaseRepository.findByProject(project);
+    }
 
-    List<ProjectRelease> findByVersion(String version);
+    public ProjectRelease findByIssues(Issue issue) {
+        return projectReleaseRepository.findByIssues(issue);
+    }
 
-    List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus);
+    public List<ProjectRelease> findByVersion(String version) {
+        return projectReleaseRepository.findByVersion(version);
+    }
 
-    List<ProjectRelease> findByIsDeleted(Boolean isDeleted);
+    public List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus) {
+        return projectReleaseRepository.findByReleaseStatus(releaseStatus);
+    }
 
-    List<ProjectRelease> findAll();
+    public List<ProjectRelease> findAll() {
+        return projectReleaseRepository.findAll();
+    }
 
-    ProjectRelease save(ProjectRelease release);
+    @Transactional
+    public ProjectRelease save(ProjectRelease projectRelease) {
+        return projectReleaseRepository.saveAndFlush(projectRelease);
+    }
 
-    void delete(Long id);
+    @Transactional
+    public void delete(Long id) {
+        projectReleaseRepository.delete(id);
+    }
 
-    ProjectRelease update(ProjectRelease release);
+    @Transactional
+    public ProjectRelease update(ProjectRelease projectRelease) {
+        return projectReleaseRepository.saveAndFlush(projectRelease);
+    }
 
 }

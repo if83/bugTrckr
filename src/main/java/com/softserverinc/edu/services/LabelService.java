@@ -2,25 +2,49 @@ package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Label;
+import com.softserverinc.edu.repositories.LabelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface LabelService {
+@Service
+public class LabelService {
 
-    Label findOne(Long id);
+    @Autowired
+    private LabelRepository labelRepository;
 
-    Label findByTitle(String title);
+    public Label findOne(Long id) {
+        return labelRepository.findOne(id);
+    }
 
-    List<Label> findByIssues(Issue issue);
+    public List<Label> findByTitle(String title) {
+        return labelRepository.findByTitle(title);
+    }
 
-    List<Label> findByIsDeleted(Boolean isDeleted);
+    public List<Label> findByIssues(Issue issue) {
+        return labelRepository.findByIssues(issue);
+    }
 
-    List<Label> findAll();
+    public List<Label> findAll() {
+        return labelRepository.findAll();
+    }
 
-    Label save(Label label);
+    @Transactional
+    public Label save(Label label) {
+        return labelRepository.saveAndFlush(label);
+    }
 
-    void delete(Long id);
+    @Transactional
+    public void delete(Long id) {
+        labelRepository.delete(id);
+    }
 
-    Label update(Label label);
+    @Transactional
+    public Label update(Label label) {
+        return labelRepository.saveAndFlush(label);
+    }
+
 
 }

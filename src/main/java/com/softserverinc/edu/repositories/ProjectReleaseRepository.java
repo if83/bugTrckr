@@ -20,6 +20,4 @@ public interface ProjectReleaseRepository extends JpaRepository<ProjectRelease, 
 
     List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus);
 
-    List<ProjectRelease> findByIsDeleted(Boolean isDeleted);
-
 }

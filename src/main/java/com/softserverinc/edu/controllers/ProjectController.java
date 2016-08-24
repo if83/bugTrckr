@@ -3,20 +3,21 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.forms.ProjectFormValidator;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
+import com.softserverinc.edu.forms.ProjectFormValidator;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,14 +40,25 @@ public class ProjectController {
     @Autowired
     private ProjectFormValidator projectFormValidator;
 
-   /* @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(projectFormValidator);
-    }*/
+//    @InitBinder
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.setValidator(projectFormValidator);
+//    }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
-    public String listOfProjects(ModelMap model) {
-        model.addAttribute("listOfProjects", projectService.findAll());
+    public String listOfProjects(ModelMap model, Pageable pageable) {
+        Page<Project> project = projectService.findAll(pageable);
+        model.addAttribute("listOfProjects", project);
+        model.addAttribute("totalPagesCount", project.getTotalPages());
+        model.addAttribute("isControllerPagable", true);
+        LOGGER.debug("List pf projects");
+        return "projects";
+    }
+
+    @PostMapping(value = "/projects/searchByTitle")
+    public String projectSearchByTitle(@RequestParam(value = "title") String title, Model model) {
+        model.addAttribute("listOfProjects", projectService.findByTitle(title));
+        LOGGER.debug("Project search list ByTitle");
         return "projects";
     }
 
@@ -91,6 +103,7 @@ public class ProjectController {
         ProjectRelease release = releaseService.findById(releaseId);
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
+        model.addAttribute("releases", release);
         model.addAttribute("release", release);
         model.addAttribute("formAction", "edit");
         populateDefaultModel(model);
@@ -129,6 +142,7 @@ public class ProjectController {
     public String addProjectPost(@ModelAttribute("project") @Validated Project project, BindingResult result,
                                  Model model, final RedirectAttributes redirectAttributes) {
 
+        redirectAttributes.addFlashAttribute("msg", "Project added successfully!");
         if (result.hasErrors()) {
             return "project_form";
         } else {
@@ -141,7 +155,7 @@ public class ProjectController {
         }
         projectService.save(project);
         LOGGER.info("Project saved(id != null), id= " + project.getId());
-        return "redirect:/projects/project/" + project.getId();
+        return "redirect:/project/" + project.getId();
     }
 
     @GetMapping(value = "/projects/{id}/remove")
@@ -174,5 +188,4 @@ public class ProjectController {
     private void populateDefaultModel(Model model) {
         model.addAttribute("statuses", ReleaseStatus.values());
     }
-
 }

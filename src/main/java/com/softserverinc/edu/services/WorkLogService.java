@@ -3,30 +3,61 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.WorkLog;
+import com.softserverinc.edu.repositories.WorkLogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
-public interface WorkLogService {
+@Service
+public class WorkLogService {
 
-    WorkLog findOne(Long id);
+    @Autowired
+    private WorkLogRepository workLogRepository;
 
-    List<WorkLog> findByUser(User user);
+    public WorkLog findOne(Long id) {
+        return workLogRepository.findOne(id);
+    }
 
-    List<WorkLog> findByIssue(Issue issue);
+    public List<WorkLog> findByUser(User user) {
+        return workLogRepository.findByUser(user);
+    }
 
-    List<WorkLog> findByStartTime(Date startTime);
+    public List<WorkLog> findByIssue(Issue issue) {
+        return workLogRepository.findByIssue(issue);
+    }
 
-    List<WorkLog> findByAmountOfTime(Long amountOfTime);
+    public List<WorkLog> findByStartTime(Date startTime) {
+        return workLogRepository.findByStartTime(startTime);
+    }
 
-    List<WorkLog> findByIsDeleted(Boolean isDeleted);
+    public List<WorkLog> findByAmountOfTime(Long amountOfTime) {
+        return workLogRepository.findByAmountOfTime(amountOfTime);
+    }
 
-    List<WorkLog> findAll();
+    public List<WorkLog> findByIsDeleted(Boolean isDeleted) {
+        return workLogRepository.findByIsDeleted(isDeleted);
+    }
 
-    WorkLog save(WorkLog workLog);
+    public List<WorkLog> findAll() {
+        return workLogRepository.findAll();
+    }
 
-    void delete(Long id);
+    @Transactional
+    public WorkLog save(WorkLog workLog) {
+        return workLogRepository.saveAndFlush(workLog);
+    }
 
-    WorkLog update(WorkLog workLog);
+    @Transactional
+    public void delete(Long id) {
+        workLogRepository.delete(id);
+    }
+
+    @Transactional
+    public WorkLog update(WorkLog workLog) {
+        return workLogRepository.saveAndFlush(workLog);
+    }
 
 }

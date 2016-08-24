@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/history", method = RequestMethod.GET)
 public class HistoryController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(HistoryController.class);
-
     public String index() {
         return "history";
     }

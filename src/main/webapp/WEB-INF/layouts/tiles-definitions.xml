@@ -89,12 +89,19 @@
     <!--Project-->
     <definition name="projects" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Project page"/>
-        <put-attribute name="content" value="/WEB-INF/views/projects.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/project/projects.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
     </definition>
 
     <definition name="project" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Projects/project"/>
-        <put-attribute name="content" value="/WEB-INF/views/project.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/project/project.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/project.css"/>
         </put-list-attribute>
@@ -106,7 +113,7 @@
 
     <definition name="project_form" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Projects add/edit"/>
-        <put-attribute name="content" value="/WEB-INF/views/project_form.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/project/project_form.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>

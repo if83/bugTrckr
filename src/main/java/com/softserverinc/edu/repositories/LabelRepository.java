@@ -10,9 +10,7 @@ import java.util.List;
 @Repository
 public interface LabelRepository extends JpaRepository<Label, Long> {
 
-    Label findByTitle(String title);
-
-    List<Label> findByIsDeleted(Boolean isDeleted);
+    List<Label> findByTitle(String title);
 
     List<Label> findByIssues(Issue issue);
 
