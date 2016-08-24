@@ -7,6 +7,7 @@ import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +64,7 @@ public class UserService {
         return userRepository.saveAndFlush(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void delete(Long id) {
         userRepository.delete(id);
@@ -73,6 +75,7 @@ public class UserService {
         return userRepository.saveAndFlush(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN') OR hasRole('PROJECT_MANAGER')")
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
