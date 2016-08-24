@@ -1,5 +1,6 @@
 package com.softserverinc.edu.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.UserService;
@@ -26,25 +27,18 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/{role}")
-    public ResponseEntity<List<LocalUsers>> adminIndex(@PathVariable String role) {
+    public interface LocalUserList{};
+    public interface LocalUserDetails extends  LocalUserList{};
+
+    @GetMapping
+    @JsonView(LocalUserList.class)
+    public ResponseEntity<List<LocalUsers>> adminIndex() {
         List<User> users = userService.findAll();
         List<LocalUsers> localUserses = new ArrayList<>();
         for (User user: users) {
-            switch (role){
-                case "admin":
-                    if((user.getRole() == UserRole.ROLE_ADMIN.ROLE_ADMIN) || (user.getRole() == UserRole.ROLE_PROJECT_MANAGER))
-                    localUserses.add(addOneUser(user));
-                    break;
-                case "all":
-                    localUserses.add(addOneUser(user));
-                    break;
-                case "other":
-                    if(!((user.getRole() == UserRole.ROLE_ADMIN.ROLE_ADMIN) || (user.getRole() == UserRole.ROLE_PROJECT_MANAGER)))
-                        localUserses.add(addOneUser(user));
-                    break;
-            }
+            localUserses.add(addOneUser(user, false));
         }
+        LOGGER.debug("User rest list ");
         return new ResponseEntity<List<LocalUsers>>(localUserses, HttpStatus.OK);
     }
 
@@ -55,8 +49,16 @@ public class AdminController {
         return "redirect:/admin/rest";
     }
 
+    @GetMapping("/{id}")
+    @JsonView(LocalUserDetails.class)
+    public ResponseEntity<LocalUsers> adminUserDetails(@PathVariable long id){
+        User user = userService.findOne(id);
+        LOGGER.debug("User rest details " + id);
+        return new ResponseEntity<LocalUsers>(addOneUser(user, true), HttpStatus.OK);
+    }
 
-    private LocalUsers addOneUser(User user) {
+
+    private LocalUsers addOneUser(User user, boolean details) {
         LocalUsers oneLocalUser = new LocalUsers();
         oneLocalUser.setId(user.getId());
         oneLocalUser.setFirstName(user.getFirstName());
@@ -66,10 +68,15 @@ public class AdminController {
         if(user.getProject() != null)
             oneLocalUser.setProjectTitle(user.getProject().getTitle());
         oneLocalUser.setDescription(user.getDescription());
+        if(details){
+            oneLocalUser.setImageFilename(user.getImageFilename());
+            oneLocalUser.setImageData(user.getImageData());
+        }
         return oneLocalUser;
     }
 
     private class LocalUsers {
+
         private long id;
         private String firstName;
         private String lastName;
@@ -77,7 +84,10 @@ public class AdminController {
         private UserRole role;
         private String description;
         private String projectTitle;
+        private byte[] imageData;
+        private String imageFilename;
 
+        @JsonView(LocalUserList.class)
         public long getId() {
             return id;
         }
@@ -86,6 +96,7 @@ public class AdminController {
             this.id = id;
         }
 
+        @JsonView(LocalUserList.class)
         public String getFirstName() {
             return firstName;
         }
@@ -94,6 +105,7 @@ public class AdminController {
             this.firstName = firstName;
         }
 
+        @JsonView(LocalUserList.class)
         public String getLastName() {
             return lastName;
         }
@@ -102,6 +114,7 @@ public class AdminController {
             this.lastName = lastName;
         }
 
+        @JsonView(LocalUserList.class)
         public String getEmail() {
             return email;
         }
@@ -110,6 +123,7 @@ public class AdminController {
             this.email = email;
         }
 
+        @JsonView(LocalUserList.class)
         public UserRole getRole() {
             return role;
         }
@@ -118,6 +132,7 @@ public class AdminController {
             this.role = role;
         }
 
+        @JsonView(LocalUserList.class)
         public String getDescription() {
             if (description == null)
                 description = "";
@@ -128,6 +143,7 @@ public class AdminController {
             this.description = description;
         }
 
+        @JsonView(LocalUserList.class)
         public String getProjectTitle() {
             if (projectTitle == null)
                 projectTitle = "";
@@ -136,6 +152,24 @@ public class AdminController {
 
         public void setProjectTitle(String projectTitle) {
             this.projectTitle = projectTitle;
+        }
+
+        @JsonView(LocalUserDetails.class)
+        public byte[] getImageData() {
+            return imageData;
+        }
+
+        public void setImageData(byte[] imageData) {
+            this.imageData = imageData;
+        }
+
+        @JsonView(LocalUserDetails.class)
+        public String getImageFilename() {
+            return imageFilename;
+        }
+
+        public void setImageFilename(String imageFilename) {
+            this.imageFilename = imageFilename;
         }
 
         @Override
