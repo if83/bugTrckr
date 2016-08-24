@@ -22,24 +22,24 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="<spring:url value='/'/>">Home<span class="sr-only">(current)</span></a></li>
-                <li><a href="<spring:url value='/projects'/>">Projects</a></li>
-                <li><a href="<spring:url value='/issue'/>">Issue</a></li>
-                <li><a href="<spring:url value='/history'/>">History</a></li>
+                <li class="mainMenuHomeItem active"><a href="<spring:url value='/'/>">Home</a></li>
+                <li class="mainMenuProjectItem"><a href="<spring:url value='/projects'/>">Projects</a></li>
+                <li class="mainMenuIssueItem"><a href="<spring:url value='/issue'/>">Issue</a></li>
+                <li class="mainMenuHistoryItem"><a href="<spring:url value='/history'/>">History</a></li>
 
                 <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
-                    <li><a href="<spring:url value='/users'/>">Users</a></li>
+                    <li class="mainMenuUserItem" ><a href="<spring:url value='/users'/>">Users</a></li>
                 </sec:authorize>
 
                 <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
-                    <li><a href="<spring:url value='/user/details'/>">User</a></li>
+                    <li class="mainMenuUserItem"><a href="<spring:url value='/user/details'/>">User</a></li>
                 </sec:authorize>
 
                 <sec:authorize access="hasRole('ADMIN')">
-                    <li><a href="<spring:url value='/admin'/>">Admin</a></li>
+                    <li class="mainMenuAdminItem"><a href="<spring:url value='/admin'/>">Admin</a></li>
                 </sec:authorize>
 
-                <li><a href="<spring:url value='/about'/>">About</a></li>
+                <li class="mainMenuAboutItem"><a href="<spring:url value='/about'/>">About</a></li>
             </ul>
 
         </div><!-- /.navbar-collapse -->

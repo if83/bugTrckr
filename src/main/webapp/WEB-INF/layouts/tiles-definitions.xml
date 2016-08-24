@@ -28,6 +28,7 @@
             <add-attribute value="/js/bootstrap.min.js"/>
             <add-attribute value="/js/select2.full.min.js"/>
             <add-attribute value="/js/jquery.validate.min.js"/>
+            <add-attribute value="/js/menu.js"/>
         </put-list-attribute>
     </definition>
 
@@ -172,13 +173,11 @@
         <put-attribute name="title" value="Admin dashboard"/>
         <put-attribute name="content" value="/WEB-INF/views/admin.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
-            <add-attribute value="/css/admin/jquery.dataTables.min.css"/>
-            <add-attribute value="/css/admin/dataTables.bootstrap.min.css"/>
+            <add-attribute value="/css/admin/datatables.min.css"/>
             <add-attribute value="/css/admin/admin-page.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/admin/jquery.dataTables.min.js"/>
-            <add-attribute value="/js/admin/dataTables.bootstrap.min.js"/>
+            <add-attribute value="/js/admin/datatables.min.js"/>
             <add-attribute value="/js/admin/admin-page.js"/>
         </put-list-attribute>
     </definition>

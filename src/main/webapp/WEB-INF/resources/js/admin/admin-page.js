@@ -12,6 +12,18 @@ $(document).ready(function () {
 
 function takeAllUsers(tableID, userParam) {
     $(tableID).dataTable({
+        responsive: true,
+        columnDefs: [
+            { responsivePriority: 1, targets: [2, 3] },
+            { responsivePriority: 2, targets: 3 }
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            'colvis',
+            'copy',
+            'print',
+            'csv'
+        ],
         "ajax": {
             "dataType": 'json',
             "contentType": "application/json; charset=utf-8",
