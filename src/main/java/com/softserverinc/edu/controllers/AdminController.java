@@ -3,13 +3,12 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/rest")
 public class AdminController {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     UserService userService;
@@ -47,6 +48,12 @@ public class AdminController {
         return new ResponseEntity<List<LocalUsers>>(localUserses, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public String adminDeleteUser(@PathVariable long id) {
+        userService.delete(id);
+        LOGGER.debug("delete user " + id);
+        return "redirect:/admin/rest";
+    }
 
 
     private LocalUsers addOneUser(User user) {

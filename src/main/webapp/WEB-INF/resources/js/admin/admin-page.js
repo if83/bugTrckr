@@ -11,14 +11,13 @@ $(document).ready(function () {
 });
 
 function takeAllUsers(tableID, userParam) {
-    $(tableID).dataTable({
-        responsive: true,
-        columnDefs: [
+    var table = $(tableID).DataTable({
+        'columnDefs': [
             { responsivePriority: 1, targets: [2, 3] },
             { responsivePriority: 2, targets: 3 }
         ],
-        dom: 'Bfrtip',
-        buttons: [
+        'dom': 'Bfrtip',
+        'buttons': [
             'colvis',
             'copy',
             'print',
@@ -38,8 +37,25 @@ function takeAllUsers(tableID, userParam) {
             { "data": 'email' },
             { "data": 'role' },
             { "data": 'projectTitle' },
-            { "data": 'description' }
+            { "data": 'description' },
+            {
+                "data": 'id',
+                "className": "center",
+                "render": function (data) {
+                    return '<div class="actionButtons"><a href="#" onclick="deleteUserRecord(' + data + ')"><i class="fa fa-remove icon-table-u"></i></a></div>';
+                }
+            }
         ]
     });
 }
+
+function deleteUserRecord(id) {
+    console.log("delete " + id);
+    $.ajax({
+        url: "/admin/rest/" + id,
+        type: 'DELETE'
+    });
+}
+
+
 

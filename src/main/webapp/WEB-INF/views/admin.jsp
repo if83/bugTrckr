@@ -35,7 +35,7 @@
             <div role="tabpanel" class="tab-pane fade active" id="allUsersTab">
                 <div class="margin-top-30 row">
                 <div class="col-sm-12">
-                    <table id="AllUsersTable">
+                    <table class="table table-striped" id="AllUsersTable">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -45,6 +45,7 @@
                             <th>Role</th>
                             <th>Project Title</th>
                             <th>Description</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,7 +59,7 @@
             <div role="tabpanel" class="tab-pane fade" id="admin_managerUsersTab">
                 <div class="margin-top-30  row">
                 <div class="col-sm-12">
-                    <table id="AdminManagerUsersTable">
+                    <table class="table table-striped" id="AdminManagerUsersTable">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -68,6 +69,7 @@
                             <th>Role</th>
                             <th>Project Title</th>
                             <th>Description</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -81,7 +83,7 @@
             <div role="tabpanel" class="tab-pane fade" id="otherStaffUsersTab">
                 <div class="margin-top-30 row">
                 <div class="col-sm-12">
-                    <table id="otherStaffUsersTable">
+                    <table class="table table-striped" id="otherStaffUsersTable">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -91,6 +93,7 @@
                             <th>Role</th>
                             <th>Project Title</th>
                             <th>Description</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
