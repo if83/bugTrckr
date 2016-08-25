@@ -74,61 +74,6 @@ public class ProjectController {
         return "project";
     }
 
-    @RequestMapping(value = "/project/{projectId}/release/{releaseId}", method = RequestMethod.GET)
-    public String viewRelease(@PathVariable("projectId") Long projectId,
-                              @PathVariable("releaseId") Long releaseId,
-                              RedirectAttributes redirectAttributes) {
-        ProjectRelease release = releaseService.findById(releaseId);
-        redirectAttributes.addFlashAttribute("release", release);
-        return "redirect:/project/{projectId}";
-    }
-
-    @RequestMapping(value = "/project/{projectId}/release/add", method = RequestMethod.GET)
-    public String addReleaseGet(@PathVariable("projectId") Long projectId,
-                                Model model) {
-        Project project = projectService.findById(projectId);
-        ProjectRelease release = new ProjectRelease();
-        release.setId(0L);
-        model.addAttribute("project", project);
-        model.addAttribute("release", release);
-        model.addAttribute("formAction", "new");
-        populateDefaultModel(model);
-        return "releaseform";
-    }
-
-    @RequestMapping(value = "/project/{projectId}/release/{releaseId}/edit", method = RequestMethod.GET)
-    public String editReleaseGet(@PathVariable("projectId") Long projectId,
-                                 @PathVariable("releaseId") Long releaseId,
-                                 Model model) {
-        ProjectRelease release = releaseService.findById(releaseId);
-        Project project = projectService.findById(projectId);
-        model.addAttribute("project", project);
-        model.addAttribute("releases", release);
-        model.addAttribute("release", release);
-        model.addAttribute("formAction", "edit");
-        populateDefaultModel(model);
-        return "releaseform";
-    }
-
-    @RequestMapping(value = "/project/{projectId}/release/add", method = RequestMethod.POST)
-    public String addReleasePost(@PathVariable("projectId") Long projectId,
-                                 @ModelAttribute("release") @Validated ProjectRelease release,
-                                 BindingResult result,
-                                 Model model,
-                                 RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            populateDefaultModel(model);
-            return "releaseform";
-        }
-        redirectAttributes.addFlashAttribute("alert", "success");
-        redirectAttributes.addFlashAttribute("msg", "Success!");
-        Project project = projectService.findById(projectId);
-        release.setProject(project);
-        Long releaseId =  (releaseService.save(release)).getId();
-        return "redirect:/project/{projectId}";
-
-    }
-
     @GetMapping(value = "/projects/add")
     public String addProject(Model model) {
         Project project = new Project();
@@ -175,17 +120,4 @@ public class ProjectController {
         return "project_form";
     }
 
-    @RequestMapping(value = "/project/{projectId}/release/{releaseId}/remove", method = RequestMethod.GET)
-    public String addRelease(@PathVariable("projectId") Long projectId,
-                             @PathVariable("releaseId") Long releaseId,
-                             RedirectAttributes redirectAttributes) {
-        releaseService.delete(releaseId);
-        redirectAttributes.addFlashAttribute("alert", "success");
-        redirectAttributes.addFlashAttribute("msg", "Release is deleted!");
-        return "redirect:/project/{projectId}";
-    }
-
-    private void populateDefaultModel(Model model) {
-        model.addAttribute("statuses", ReleaseStatus.values());
-    }
 }
