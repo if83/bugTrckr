@@ -45,7 +45,7 @@
 
     <definition name="about" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="About"/>
-        <put-attribute name="content" value="/WEB-INF/views/about.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/info/about.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/about.css"/>
         </put-list-attribute>
@@ -54,30 +54,30 @@
     <!--WorkLog-->
     <definition name="worklog" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="WorkLog page"/>
-        <put-attribute name="content" value="/WEB-INF/views/worklog.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/worklog/worklog.jsp"/>
     </definition>
 
     <!--Label-->
     <definition name="label" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Label page"/>
-        <put-attribute name="content" value="/WEB-INF/views/label.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/label/label.jsp"/>
     </definition>
 
     <!--History-->
     <definition name="history" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="History page"/>
-        <put-attribute name="content" value="/WEB-INF/views/history.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/history/history.jsp"/>
     </definition>
 
     <!--Issue-->
     <definition name="issue" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Issue page"/>
-        <put-attribute name="content" value="/WEB-INF/views/issue.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/issue/issue.jsp"/>
     </definition>
 
     <definition name="issueform" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Issue add/edit"/>
-        <put-attribute name="content" value="/WEB-INF/views/issueform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/issue/issueform.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
@@ -147,7 +147,7 @@
     <!--User-->
     <definition name="users" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="User page"/>
-        <put-attribute name="content" value="/WEB-INF/views/users.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/user/users.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
@@ -158,7 +158,7 @@
 
     <definition name="userform" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="User add/edit"/>
-        <put-attribute name="content" value="/WEB-INF/views/userform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/user/userform.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
@@ -170,7 +170,7 @@
 
     <definition name="userview" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="User add/edit"/>
-        <put-attribute name="content" value="/WEB-INF/views/userview.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/user/userview.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
@@ -179,7 +179,7 @@
     <!--Admin-->
     <definition name="admin" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Admin dashboard"/>
-        <put-attribute name="content" value="/WEB-INF/views/admin.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/user/admin/admin.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/admin/datatables.min.css"/>
             <add-attribute value="/css/admin/admin-page.css"/>
@@ -193,7 +193,7 @@
     <!--Access Denied-->
     <definition name="accessDenied" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="401 Access Denied"/>
-        <put-attribute name="content" value="/WEB-INF/views/accessdenied.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/access/accessdenied.jsp"/>
     </definition>
 
 </tiles-definitions>
