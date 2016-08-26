@@ -32,7 +32,7 @@
                 </sec:authorize>
 
                 <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
-                    <li class="mainMenuUserItem"><a href="<spring:url value='/user/details'/>">User</a></li>
+                    <li class="mainMenuUserItem"><a href="<spring:url value='/user/details'/>">Profile</a></li>
                 </sec:authorize>
 
                 <sec:authorize access="hasRole('ADMIN')">

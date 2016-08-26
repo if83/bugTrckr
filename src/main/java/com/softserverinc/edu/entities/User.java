@@ -61,7 +61,7 @@ public class User {
     private String description;
 
     /**
-     * for spring security
+     * for spring security, 1 is enables, 0 is disabled
      */
     @Column(columnDefinition = "TINYINT")
     private int enabled;
@@ -70,6 +70,9 @@ public class User {
     @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
 
+    /**
+     * When true a user is deleted, default false
+     */
     @Column
     private boolean isDeleted;
 

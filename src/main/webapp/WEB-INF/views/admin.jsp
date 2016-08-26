@@ -20,11 +20,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist" id="'myUserTabs">
             <li role="presentation" class="active"><a href="#allUsersTab" aria-controls="allUsersTab" role="tab"
-                                                      data-toggle="tab">All users</a></li>
-            <li role="presentation"><a href="#admin_managerUsersTab" aria-controls="admin_managerUsersTab" role="tab"
-                                       data-toggle="tab">Admin and managers</a></li>
-            <li role="presentation"><a href="#otherStaffUsersTab" aria-controls="otherStaffUsersTab" role="tab"
-                                       data-toggle="tab">Other staff members</a></li>
+                                                      data-toggle="tab">Users</a></li>
             <li role="presentation"><a href="#detailsUserTab" aria-controls="detailsUserTab" role="tab"
                                        data-toggle="tab">Staff Details</a></li>
         </ul>
@@ -32,126 +28,89 @@
 </div>
 
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade active" id="allUsersTab">
-                <div class="margin-top-30 row">
-                <div class="col-sm-12">
-                    <table class="table table-striped" id="AllUsersTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Project Title</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade active" id="allUsersTab">
+        <div class="margin-top-30 row">
+            <div class="col-sm-12">
+                <table class="table table-striped" id="AllUsersTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Project Title</th>
+                        <th>Is deleted</th>
+                        <th>Can login</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
-
-
-            <div role="tabpanel" class="tab-pane fade" id="admin_managerUsersTab">
-                <div class="margin-top-30  row">
-                <div class="col-sm-12">
-                    <table class="table table-striped" id="AdminManagerUsersTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Project Title</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-            <div role="tabpanel" class="tab-pane fade" id="otherStaffUsersTab">
-                <div class="margin-top-30 row">
-                <div class="col-sm-12">
-                    <table class="table table-striped" id="otherStaffUsersTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Project Title</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-        <div role="tabpanel" class="tab-pane fade" id="detailsUserTab">
-            <div class="margin-top-30 row">
-                <div class="col-sm-9">
-                    <div class="row">
-                        <div class="col-sm-3"><h5>ID</h5></div>
-                        <div class="col-sm-9" id="detailsUserTab1"><h5></h5></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3"><h5>First name</h5></div>
-                        <div class="col-sm-9" id="detailsUserTab2"><h5></h5></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3"><h5>Last name</h5></div>
-                        <div class="col-sm-9" id="detailsUserTab3"><h5></h5></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3"><h5>Email</h5></div>
-                        <div class="col-sm-9" id="detailsUserTab4"><h5></h5></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3"><h5>Role</h5></div>
-                        <div class="col-sm-9" id="detailsUserTab5"><h5></h5></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3"><h5>Project Title</h5></div>
-                        <div class="col-sm-9" id="detailsUserTab6"><h5></h5></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3"><h5>Description</h5></div>
-                        <div class="col-sm-9"  id="detailsUserTab7"><h5></h5></div>
-                    </div>
-                    </div>
-                <div class="col-sm-3">
-                    <figure>
-                        <img id="detailsUserTab8" src="" class="img-thumbnail" alt=""/>
-                    </figure>
-                </div>
-            </div>
-        </div>
-
-
-
     </div>
+
+
+    <div role="tabpanel" class="tab-pane fade" id="detailsUserTab">
+        <div class="margin-top-30 row">
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-3"><h5>ID</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab1"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>First name</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab2"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Last name</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab3"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Email</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab4"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Role</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab5"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Project Title</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab6"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Description</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab7"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Is marked deleted</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab9"><h5></h5></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"><h5>Is marked enabled</h5></div>
+                    <div class="col-sm-9" id="detailsUserTab10"><h5></h5></div>
+                </div>
+
+            </div>
+            <div class="col-sm-3">
+                <figure>
+                    <img id="detailsUserTab8" src="" class="img-thumbnail" alt=""/>
+                </figure>
+            </div>
+        </div>
+    </div>
+
+
+</div>

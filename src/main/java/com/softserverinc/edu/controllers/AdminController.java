@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class AdminController {
     public interface LocalUserList{};
     public interface LocalUserDetails extends  LocalUserList{};
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @JsonView(LocalUserList.class)
     public ResponseEntity<List<LocalUsers>> adminIndex() {
@@ -38,22 +40,45 @@ public class AdminController {
         for (User user: users) {
             localUserses.add(addOneUser(user, false));
         }
-        LOGGER.debug("User rest list ");
-        return new ResponseEntity<List<LocalUsers>>(localUserses, HttpStatus.OK);
+        LOGGER.debug("admin controller User rest list ");
+        return new ResponseEntity<>(localUserses, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String adminDeleteUser(@PathVariable long id) {
         userService.delete(id);
-        LOGGER.debug("delete user " + id);
+        LOGGER.debug("admin controller delete user" + id);
         return "redirect:/admin/rest";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/deleted/{id}")
+    public String adminSetDeletedUser(@PathVariable long id) {
+        User user = userService.findOne(id);
+        user.setIsDeleted(user.isDeleted() ? false : true);
+        userService.update(user);
+        LOGGER.debug("admin controller set deleted attr user " + id);
+        return "redirect:/admin/rest";
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/enabled/{id}")
+    public String adminSetEnabledUser(@PathVariable long id) {
+        User user = userService.findOne(id);
+        user.setEnabled(user.getEnabled() == 1 ? 0 : 1);
+        userService.update(user);
+        LOGGER.debug("admin controller set enabled attr user " + id);
+        return "redirect:/admin/rest";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     @JsonView(LocalUserDetails.class)
     public ResponseEntity<LocalUsers> adminUserDetails(@PathVariable long id){
         User user = userService.findOne(id);
-        LOGGER.debug("User rest details " + id);
+        LOGGER.debug("admin controller User rest details " + id);
         return new ResponseEntity<LocalUsers>(addOneUser(user, true), HttpStatus.OK);
     }
 
@@ -65,12 +90,15 @@ public class AdminController {
         oneLocalUser.setLastName(user.getLastName());
         oneLocalUser.setEmail(user.getEmail());
         oneLocalUser.setRole(user.getRole());
+        oneLocalUser.setDeleted(user.isDeleted());
+        oneLocalUser.setEnabled(user.getEnabled());
         if(user.getProject() != null)
             oneLocalUser.setProjectTitle(user.getProject().getTitle());
         oneLocalUser.setDescription(user.getDescription());
         if(details){
             oneLocalUser.setImageFilename(user.getImageFilename());
             oneLocalUser.setImageData(user.getImageData());
+            oneLocalUser.setDescription(user.getDescription());
         }
         return oneLocalUser;
     }
@@ -84,6 +112,8 @@ public class AdminController {
         private UserRole role;
         private String description;
         private String projectTitle;
+        private int deleted;
+        private int enabled;
         private byte[] imageData;
         private String imageFilename;
 
@@ -132,7 +162,7 @@ public class AdminController {
             this.role = role;
         }
 
-        @JsonView(LocalUserList.class)
+        @JsonView(LocalUserDetails.class)
         public String getDescription() {
             if (description == null)
                 description = "";
@@ -152,6 +182,24 @@ public class AdminController {
 
         public void setProjectTitle(String projectTitle) {
             this.projectTitle = projectTitle;
+        }
+
+        @JsonView(LocalUserList.class)
+        public int getDeleted() {
+            return deleted;
+        }
+
+        public void setDeleted(boolean deleted) {
+            this.deleted = deleted ? 1 : 0;
+        }
+
+        @JsonView(LocalUserList.class)
+        public int getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(int enabled) {
+            this.enabled = enabled;
         }
 
         @JsonView(LocalUserDetails.class)

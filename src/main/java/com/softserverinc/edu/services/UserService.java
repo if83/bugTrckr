@@ -19,42 +19,52 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public User findOne(Long id) {
         return userRepository.findOne(id);
     }
 
+    @Transactional
     public List<User> findByEmailContaining(String email) {
         return userRepository.findByEmailContaining(email);
     }
 
+    @Transactional
     public List<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    @Transactional
     public List<User> findByRole(UserRole role) {
         return userRepository.findByRole(role);
     }
 
+    @Transactional
     public List<User> findByProject(Project project) {
         return userRepository.findByProject(project);
     }
 
+    @Transactional
     public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameOrLastName(firstName, lastName);
     }
 
+    @Transactional
     public List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName) {
         return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
     }
 
+    @Transactional
     public List<User> findByFirstNameContaining(String firstName) {
         return userRepository.findByFirstNameContaining(firstName);
     }
 
+    @Transactional
     public List<User> findByLastNameContaining(String lastName) {
         return userRepository.findByLastNameContaining(lastName);
     }
 
+    @Transactional
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -82,5 +92,15 @@ public class UserService {
 
     public Long count() {
         return userRepository.count();
+    }
+
+    @Transactional
+    public Page<User> findByIsDeletedFalseAndEnabledIsAndRoleNot(int enabled, UserRole role, Pageable pageable) {
+        return userRepository.findByIsDeletedFalseAndEnabledIsAndRoleNot(enabled, role, pageable);
+    }
+
+    @Transactional
+    public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
+        return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
 }

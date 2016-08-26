@@ -14,15 +14,15 @@ $(document).ready(function () {
 
     defer.done(function () {
         takeAllUsersOnce("#AllUsersTable", userData);
-        takeAllUsersOnce("#AdminManagerUsersTable", userData);
-        takeAllUsersOnce("#otherStaffUsersTable", userData);
     });
 
     $("#AllUsersTable").css("width", "100%");
-    $("#AdminManagerUsersTable").css("width", "100%");
-    $("#otherStaffUsersTable").css("width", "100%");
 
-    $('.nav-tabs a[href="#admin_managerUsersTab"]').tab('show');
+    $('.nav-tabs a[href="#detailsUserTab"]').tab('show');
+    $('.nav-tabs a[href="#allUsersTab"]').tab('show');
+    window.setTimeout(function(){
+        $("#detailsUserTab").removeClass('active');
+    },500);
 
 });
 
@@ -49,57 +49,54 @@ function takeAllUsersOnce(tableID, userData) {
             { "data": 'email' },
             { "data": 'role' },
             { "data": 'projectTitle' },
-            { "data": 'description' },
+            {
+                "data": 'deleted',
+                "render": function (row, type, set) {
+                        var clickfunc = ' onclick="CheckboxDeleteUserRecord(' + set.id + ', ' +  set.deleted +')"></div>';
+                        if(set.deleted == 1)
+                            return '<div class="checkbox"><input type="checkbox" checked' + clickfunc;
+                        else
+                            return '<div class="checkbox"><input type="checkbox"' + clickfunc;
+                },
+                className: "dt-body-center"
+            },
+            {
+                "data": 'enabled',
+                "render": function (row, type, set) {
+                    var clickfunc = '  onclick="CheckboxEnabledUserRecord(' + set.id + ', ' +  set.enabled + ')"></div>';
+                    if(set.enabled == 1)
+                        return '<div class="checkbox"><input type="checkbox" checked' + clickfunc;
+
+                    else
+                        return '<div class="checkbox"><input type="checkbox"' + clickfunc;
+                },
+                className: "dt-body-center"
+            },
             {
                 "data": 'id',
                 "className": "center",
                 "render": function (data) {
                     return  '<div class="actionButtons"><a href="#" onclick="deleteUserRecord(' +
                             data +
-                            ')"><i class="fa fa-remove icon-table-u"></i></a>' +
+                            ')"><i class="fa fa-trash fa-lg icon-table-u"></i></a>' +
                             '<a href="#" onclick="getUserRecord(' +
                             data +
-                             ')"><i class="fa fa-eye icon-table-u"></i></a></div>';
+                             ')"><i class="fa fa-eye fa-lg icon-table-u"></i></a></div>';
                 }
             }
         ]
     });
 
-    if(tableID == "#AdminManagerUsersTable"){
-        table.column(4).search("ADMIN|PROJECT_MANAGER", true, false).draw();
-    }
-
-    if(tableID == "#otherStaffUsersTable"){
-        table.column(4).search("DEVELOPER|QA|USER|GUEST", true, false).draw();
-    }
 }
 
 
 function deleteUserRecord(id) {
-    var table1 = $('#AllUsersTable').DataTable();
-    var table2 = $("#AdminManagerUsersTable").DataTable();
-    var table3 = $("#otherStaffUsersTable").DataTable();
+    var table = $('#AllUsersTable').DataTable();
 
     var i = 0;
-    table1.rows().data().each(function (row) {
+    table.rows().data().each(function (row) {
         if(row.id == id) {
-            table1.row(i).remove().draw();
-        }
-        i++;
-    });
-
-    var i = 0;
-    table2.rows().data().each(function (row) {
-        if(row.id == id) {
-            table2.row(i).remove().draw();
-        }
-        i++;
-    });
-
-    var i = 0;
-    table3.rows().data().each(function (row) {
-        if(row.id == id) {
-            table3.row(i).remove().draw();
+            table.row(i).remove().draw();
         }
         i++;
     });
@@ -148,9 +145,49 @@ function getUserRecord(id) {
         $("#detailsUserTab8").attr( "alt", userData.imageFilename );
         $("#detailsUserTab8").attr("src", "data:image/jpg;base64," + userData.imageData);
 
+        $("#detailsUserTab9 h5").empty();
+        $("#detailsUserTab9 h5").append(userData.deleted == 0? '<p class="text-success">present</p>' : '<p class="text-danger">deleted</p>');
+
+        $("#detailsUserTab10 h5").empty();
+        $("#detailsUserTab10 h5").append(userData.enabled == 1 ? '<p class="text-success">enabled</p>' : '<p class="text-danger">disabled</p>');
+
         $('.nav-tabs a[href="#detailsUserTab"]').tab('show');
 
     });
+}
+
+function CheckboxDeleteUserRecord(id, deleted) {
+    var table = $('#AllUsersTable').DataTable();
+    var i = 0;
+    table.rows().data().each(function (row) {
+        if(row.id == id) {
+            row.deleted = (deleted == 1) ? 0 : 1;
+        }
+        i++;
+    });
+
+    $.ajax({
+        url: "/admin/rest/deleted/" + id,
+        type: 'PUT'
+    });
+
+}
+
+function CheckboxEnabledUserRecord(id, enabled) {
+    var table = $('#AllUsersTable').DataTable();
+    var i = 0;
+    table.rows().data().each(function (row) {
+        if(row.id == id) {
+            row.enabled = (enabled == 1) ? 0 : 1;
+        }
+        i++;
+    });
+
+    $.ajax({
+        url: "/admin/rest/enabled/" + id,
+        type: 'PUT'
+    });
+
 }
 
 

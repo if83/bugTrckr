@@ -54,8 +54,16 @@ public class UserController {
 
 
     @GetMapping(value = "/users")
-    public String userForm(Model model, Pageable pageable) {
-        Page<User> puser = this.userService.findAll(pageable);
+    public String userForm(Model model, Pageable pageable, Principal principal) {
+        User loggedUser = userService.findByEmail(principal.getName()).get(0);
+        Page<User> puser;
+
+        //If role is not Admin send list of users without admins
+        if(loggedUser.getRole() == UserRole.ROLE_ADMIN)
+            puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
+        else
+            puser = this.userService.findByIsDeletedFalseAndEnabledIsAndRoleNot(1, UserRole.ROLE_ADMIN, pageable);
+
         model.addAttribute("userList", puser);
         model.addAttribute("totalPagesCount", puser.getTotalPages());
         populateDefaultModel(model);
@@ -69,7 +77,9 @@ public class UserController {
     @GetMapping(value = "/user/{id}/remove")
     public String removeUser(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
 
-        this.userService.delete(id);
+        User user = userService.findOne(id);
+        user.setIsDeleted(true);
+        this.userService.save(user);
 
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "User is deleted!");
