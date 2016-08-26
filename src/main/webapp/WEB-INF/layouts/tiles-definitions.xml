@@ -134,7 +134,7 @@
 
     <definition name="releaseform" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Release add/edit"/>
-        <put-attribute name="content" value="/WEB-INF/views/releaseform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/release/releaseForm.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/release.css"/>
         </put-list-attribute>
