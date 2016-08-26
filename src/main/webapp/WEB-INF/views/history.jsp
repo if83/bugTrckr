@@ -16,3 +16,24 @@
         </div>
     </div>
 </div>
+
+
+<div class="margin-top-30 row">
+    <div class="col-sm-2 col-sm-offset-1">
+        <a href="<spring:url value='' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i>
+            Add history</a>
+    </div>
+</div>
+
+<div class="margin-top-30">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Issue</th>
+            <th>User</th>
+            <th>ParentHistory</th>
+            <th>LastChangeByUser</th>
+        </tr>
+        </thead>
+    </table>
+</div>
