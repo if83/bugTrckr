@@ -24,6 +24,7 @@ public class IssueController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
 
+
     @Autowired
     private IssueService issueService;
 
@@ -39,7 +40,7 @@ public class IssueController {
     public String listOfIssues(Model model) {
         model.addAttribute("listOfIssues", this.issueService.findAll());
         populateDefaultModel(model);
-        LOGGER.debug("Issue list");
+        LOGGER.debug("Issue list", model.toString());
         return "issue";
     }
 
@@ -48,16 +49,16 @@ public class IssueController {
         this.issueService.delete(id);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Issue is removed!");
-        LOGGER.debug("Issue is removed");
+        LOGGER.debug("Issue is removed", "Issue id = " + id);
         return "redirect:/issue";
     }
 
     @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
     public String editIssue(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("issue", this.issueService.findById(id));
-        model.addAttribute("formaction", "edit");
+        model.addAttribute("formAction", "edit");
         LOGGER.debug("Issue edit" + id);
-        return "issueform";
+        return "issue_form";
     }
 
 
@@ -68,10 +69,10 @@ public class IssueController {
         issue.setId(0L);
         issue.setIsDeleted(false);
         model.addAttribute("issue", issue);
-        model.addAttribute("formaction", "new");
+        model.addAttribute("formAction", "new");
         populateDefaultModel(model);
         LOGGER.debug("Issue add form");
-        return "issueform";
+        return "issue_form";
     }
 
     @RequestMapping(value = "/issue/add", method = RequestMethod.POST)

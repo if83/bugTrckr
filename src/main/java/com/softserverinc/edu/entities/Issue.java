@@ -27,9 +27,9 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     private IssueType type;
 
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = 32, columnDefinition = "varchar(32) default OPEN")
     @Enumerated(EnumType.STRING)
-    private IssueStatus status;
+    private IssueStatus status = IssueStatus.OPEN;
 
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
@@ -46,10 +46,10 @@ public class Issue {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "issues")
     private Set<Label> labels;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date createTime;
+    private Date createTime = new Date();
 
     @Column
     @Temporal(TemporalType.DATE)

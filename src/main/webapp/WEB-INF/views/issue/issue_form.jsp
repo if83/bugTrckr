@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:choose>
-    <c:when test="${formaction eq 'new'}">
+    <c:when test="${formAction eq 'new'}">
         <c:set var="breadcrumsname" scope="session" value="Create Issue"/>
         <c:set var="buttonname" scope="session" value="Create"/>
     </c:when>
@@ -73,18 +73,6 @@
                         </div>
                     </spring:bind>
 
-                    <spring:bind path="status">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="statusInput">Status</label>
-                            <form:select path="status" type="text" cssClass="form-control" id="statusInput"
-                                         placeholder="Status">
-                                <form:option value="" label="  Select a status"/>
-                                <form:options items="${statuses}"/>
-                            </form:select>
-                            <form:errors path="status" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
                     <spring:bind path="labels">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="labelsInput">Label</label>
@@ -105,26 +93,6 @@
                 </div>
 
                 <div class="col-sm-6">
-
-                    <spring:bind path="createTime">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="createTimeInput">Create time</label>
-
-                            <form:input path="createTime" type="text" cssClass="form-control" id="createTimeInput"
-                                        placeholder="createTime"  value="${dateString}"/>
-                            <form:errors path="createTime" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="lastUpdateDate">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="lastUpdateDateInput">Last update date</label>
-                            <form:input path="lastUpdateDate" type="text" cssClass="form-control"
-                                        id="lastUpdateDateInput"
-                                        placeholder="lastUpdateDate"  value="${dateString}"/>
-                            <form:errors path="lastUpdateDate" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
 
                     <spring:bind path="estimateTime">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
