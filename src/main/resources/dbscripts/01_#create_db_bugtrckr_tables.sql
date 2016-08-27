@@ -1,17 +1,17 @@
 CREATE TABLE `User` (
-  `id`          INT         NOT NULL AUTO_INCREMENT,
-  `firstName`   VARCHAR(32) NOT NULL,
-  `lastName`    VARCHAR(32) NOT NULL,
-  `email`       VARCHAR(64) NOT NULL UNIQUE,
-  `password`    VARCHAR(32),
-  `role`        VARCHAR(20) NOT NULL,
-  `projectId`   INT,
-  `description` TEXT,
-  `isDeleted`   BOOLEAN     NOT NULL DEFAULT '0',
+  `id`            INT         NOT NULL AUTO_INCREMENT,
+  `firstName`     VARCHAR(32) NOT NULL,
+  `lastName`      VARCHAR(32) NOT NULL,
+  `email`         VARCHAR(64) NOT NULL UNIQUE,
+  `password`      VARCHAR(32),
+  `role`          VARCHAR(20) NOT NULL,
+  `projectId`     INT,
+  `description`   TEXT,
+  `isDeleted`     BOOLEAN     NOT NULL DEFAULT '0',
   /*For spring security*/
-  `enabled`     TINYINT     NOT NULL DEFAULT 1 ,
-  `imageData`   MEDIUMBLOB,
-  `imageFilename`   VARCHAR(64),
+  `enabled`       TINYINT     NOT NULL DEFAULT 1,
+  `imageData`     MEDIUMBLOB,
+  `imageFilename` VARCHAR(64),
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -53,12 +53,18 @@ CREATE TABLE `Issue` (
   `title`            VARCHAR(32) NOT NULL,
   `type`             VARCHAR(32) NOT NULL,
   `priority`         VARCHAR(32) NOT NULL,
-  `status`           VARCHAR(32) NOT NULL,
+  `status`           VARCHAR(32) NOT NULL DEFAULT 'OPEN',
   `projectReleaseId` INT         NOT NULL,
   `assigneeId`       INT         NOT NULL,
-  `createTime`       DATE        NOT NULL,
+
+  #TODO: createTime must be initialized only one time, lastUpdateDate => when anything is changed, just update this time.
+  #   `createTime`       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  #   `dueDate`          DATE,
+  #   `lastUpdateDate`   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  `createTime`       DATETIME    NOT NULL DEFAULT "2016-01-01",
   `dueDate`          DATE,
-  `lastUpdateDate`   DATE        NOT NULL,
+  `lastUpdateDate`   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `estimateTime`     INT         NOT NULL,
   `parentId`         INT,
   `description`      TEXT,

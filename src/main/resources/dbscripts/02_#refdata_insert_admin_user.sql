@@ -30,9 +30,11 @@ VALUES ('project_3', '1', '1', '1', 'description to project 3');
 INSERT INTO ProjectRelease (id, projectId, version, releaseStatus, description, isDeleted)
 VALUES ('3', '3', '3', 'OPEN', 'RELEASE 3', '0');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
-VALUES ('manager3', 'manager3', 'manager2@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_PROJECT_MANAGER', 'pm', '3');
+VALUES
+  ('manager3', 'manager3', 'manager2@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_PROJECT_MANAGER', 'pm', '3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId) VALUES
-  ('developer3', 'developer3', 'developer2@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_DEVELOPER', 'developer', '3');
+  ('developer3', 'developer3', 'developer2@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_DEVELOPER', 'developer',
+   '3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('quality_e3', 'quality_e3', 'quality_e2@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_QA', 'qa', '3');
 
@@ -41,9 +43,11 @@ VALUES ('project_4', '0', '0', '0', 'description to project 2');
 INSERT INTO ProjectRelease (id, projectId, version, releaseStatus, description, isDeleted)
 VALUES ('4', '4', '4', 'OPEN', 'RELEASE 4', '0');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
-VALUES ('manager4', 'manager4', 'manager3@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_PROJECT_MANAGER', 'pm', '4');
+VALUES
+  ('manager4', 'manager4', 'manager3@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_PROJECT_MANAGER', 'pm', '4');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId) VALUES
-  ('developer4', 'developer4', 'developer3@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_DEVELOPER', 'developer', '4');
+  ('developer4', 'developer4', 'developer3@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_DEVELOPER', 'developer',
+   '4');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('quality_e4', 'quality_e4', 'quality_e3@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_QA', 'qa', '4');
 
@@ -73,17 +77,16 @@ VALUES ('guest6', 'guest6', 'guest6@ss.com', '21232f297a57a5a743894a0e4a801fc3',
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('guest7', 'guest7', 'guest7@ss.com', '21232f297a57a5a743894a0e4a801fc3', 'ROLE_GUEST', 'guest7');
 
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue1', 'TASK', 'LOW', 'OPEN', '2', '2', '2016-01-01', '2016-02-02', '2016-03-03', '32100000', '1','some text', '0', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue2', 'BUG', 'MEDIUM', 'OPEN', '3', '3', '2016-01-01', '2016-02-02', '2016-03-03', '434500000', '2','some text', '0', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES
-  ('Issue3', 'IMPROVEMENT', 'HIGH', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '534500000', '3','some text', '0', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue4', 'EPIC', 'CRITICAL', 'OPEN', '3', '3', '2016-01-01', '2016-02-02', '2016-03-03', '53450000', '4','some text', '0', '0');
-INSERT INTO Issue (title, type, priority, status, projectReleaseId, assigneeId, createTime, dueDate, lastUpdateDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue5', 'TASK', 'BLOCKER', 'OPEN', '4', '4', '2016-01-01', '2016-02-02', '2016-03-03', '56450000', '5','some text', '0', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue1', 'TASK', 'LOW', '2', '2', '2016-02-02', '32100000', '1', 'some text', '0', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue2', 'BUG', 'MEDIUM', '3', '3','2016-02-02', '434500000', '2', 'some text', '0', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue3', 'IMPROVEMENT', 'HIGH', '4', '4', '2016-02-02', '534500000', '3', 'some text', '0', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue4', 'EPIC', 'CRITICAL', '3', '3', '2016-02-02', '53450000', '4', 'some text', '0', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
+VALUES ('Issue5', 'TASK', 'BLOCKER', '4', '4', '2016-02-02', '56450000', '5', 'some text', '0', '0');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
 VALUES ('user6', 'user6', 'user6@ss.com', 'user6', 'ROLE_USER', 'user6', '0');
@@ -128,12 +131,30 @@ VALUES ('manager7', 'manager7', 'manager7@ss.com', 'manager7', 'ROLE_PROJECT_MAN
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
 VALUES ('manager8', 'manager8', 'manager8@ss.com', 'manager8', 'ROLE_PROJECT_MANAGER', 'pm', '2', '1');
 
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename='large.jpg' WHERE `role`='ROLE_ADMIN';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin_schoeller1.jpg'), imageFilename='martin_schoeller1.jpg' WHERE `role`='ROLE_USER';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/mel-gibson-mugshot.jpg'), imageFilename='mel-gibson-mugshot.jpg' WHERE `role`='ROLE_PROJECT_MANAGER';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-clint.jpg'), imageFilename='martin-schoeller-clint.jpg' WHERE `role`='ROLE_DEVELOPER';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-bill.jpg'), imageFilename='martin-schoeller-bill.jpg' WHERE `role`='ROLE_QA';
-UPDATE  User SET imageData = LOAD_FILE('/var/lib/mysql-files/famous1_mini.jpg'), imageFilename='famous1_mini.jpg' WHERE `role`='ROLE_GUEST';
+UPDATE User
+SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename = 'large.jpg'
+WHERE `role` = 'ROLE_ADMIN';
+
+UPDATE User
+SET imageData = LOAD_FILE('/var/lib/mysql-files/martin_schoeller1.jpg'), imageFilename = 'martin_schoeller1.jpg'
+WHERE `role` = 'ROLE_USER';
+
+UPDATE User
+SET imageData = LOAD_FILE('/var/lib/mysql-files/mel-gibson-mugshot.jpg'), imageFilename = 'mel-gibson-mugshot.jpg'
+WHERE `role` = 'ROLE_PROJECT_MANAGER';
+
+UPDATE User
+SET imageData   = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-clint.jpg'),
+  imageFilename = 'martin-schoeller-clint.jpg'
+WHERE `role` = 'ROLE_DEVELOPER';
+
+UPDATE User
+SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-bill.jpg'), imageFilename = 'martin-schoeller-bill.jpg'
+WHERE `role` = 'ROLE_QA';
+
+UPDATE User
+SET imageData = LOAD_FILE('/var/lib/mysql-files/famous1_mini.jpg'), imageFilename = 'famous1_mini.jpg'
+WHERE `role` = 'ROLE_GUEST';
 
 INSERT INTO Label (`title`, `isDeleted`) VALUES ('Java', '0');
 INSERT INTO Label (`title`, `isDeleted`) VALUES ('C#', '0');
