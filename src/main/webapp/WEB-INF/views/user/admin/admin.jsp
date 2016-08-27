@@ -57,7 +57,7 @@
 
     <div role="tabpanel" class="tab-pane fade" id="detailsUserTab">
         <div class="margin-top-30 row">
-            <div class="col-sm-9">
+            <div class="col-sm-8 col-sm-offset-1">
                 <div class="row">
                     <div class="col-sm-3"><h5>ID</h5></div>
                     <div class="col-sm-9" id="detailsUserTab1"><h5></h5></div>
