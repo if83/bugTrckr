@@ -6,6 +6,9 @@ import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.forms.IssueFormValidator;
 import com.softserverinc.edu.services.IssueService;
+import com.softserverinc.edu.services.ProjectReleaseService;
+import com.softserverinc.edu.services.ProjectService;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,7 @@ public class IssueController {
     public String listOfIssues(Model model) {
         model.addAttribute("listOfIssues", this.issueService.findAll());
         populateDefaultModel(model);
-        LOGGER.debug("Issue list", model.toString());
+        LOGGER.debug("Issue list controller");
         return "issue";
     }
 
