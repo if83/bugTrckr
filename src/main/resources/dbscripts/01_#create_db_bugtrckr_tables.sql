@@ -87,12 +87,14 @@ CREATE TABLE `Label` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `History` (
-  `id`               INT     NOT NULL AUTO_INCREMENT,
-  `issueId`          INT     NOT NULL,
-  `assignedToUserId` INT     NOT NULL,
-  `parentId`         INT,
-  `changedByUserId`  INT     NOT NULL,
-  `isDeleted`        BOOLEAN NOT NULL DEFAULT '0',
+  `id`               INT         NOT NULL AUTO_INCREMENT,
+  `issueId`          INT         NOT NULL,
+  `assignedToUserId` INT         NOT NULL,
+  `changedByUserId`  INT         NOT NULL,
+  `createDate`       TIMESTAMP   NOT NULL,
+  `issueStatus`      VARCHAR(32) NOT NULL,
+  `action`           VARCHAR(15) NOT NULL,
+  `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -152,11 +154,6 @@ ALTER TABLE `History`
 
 ALTER TABLE `History`
   ADD CONSTRAINT `History_fk1` FOREIGN KEY (`assignedToUserId`) REFERENCES `User` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk2` FOREIGN KEY (`parentId`) REFERENCES `History` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 

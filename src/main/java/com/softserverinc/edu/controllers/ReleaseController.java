@@ -3,10 +3,13 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
+import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
+import com.softserverinc.edu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +32,9 @@ public class ReleaseController {
     private IssueService issueService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ProjectReleaseService releaseService;
 
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}", method = RequestMethod.GET)
@@ -36,8 +42,11 @@ public class ReleaseController {
                               Model model) {
         ProjectRelease release = releaseService.findById(releaseId);
         List<Issue> issues =  issueService.findByProjectRelease(release);
+        List<User> users = userService.findAll();
         model.addAttribute("issues", issues);
         model.addAttribute("release", release);
+        model.addAttribute("users", users);
+        populateDefaultModelByIssueStatuses(model);
         return "release";
     }
 
@@ -49,7 +58,7 @@ public class ReleaseController {
         model.addAttribute("project", project);
         model.addAttribute("release", release);
         model.addAttribute("formAction", "new");
-        populateDefaultModel(model);
+        populateDefaultModelByReleaseStatuses(model);
         return "releaseform";
     }
 
@@ -62,7 +71,7 @@ public class ReleaseController {
         model.addAttribute("project", project);
         model.addAttribute("release", release);
         model.addAttribute("formAction", "edit");
-        populateDefaultModel(model);
+        populateDefaultModelByReleaseStatuses(model);
         return "releaseform";
     }
 
@@ -73,7 +82,7 @@ public class ReleaseController {
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            populateDefaultModel(model);
+            populateDefaultModelByReleaseStatuses(model);
             return "releaseform";
         }
         redirectAttributes.addFlashAttribute("alert", "success");
@@ -94,8 +103,12 @@ public class ReleaseController {
         return "redirect:/project/{projectId}";
     }
 
-    private void populateDefaultModel(Model model) {
-        model.addAttribute("statuses", ReleaseStatus.values());
+    private void populateDefaultModelByReleaseStatuses(Model model) {
+        model.addAttribute("releaseStatuses", ReleaseStatus.values());
+    }
+
+    private void populateDefaultModelByIssueStatuses(Model model) {
+        model.addAttribute("issueStatuses", IssueStatus.values());
     }
 
 }

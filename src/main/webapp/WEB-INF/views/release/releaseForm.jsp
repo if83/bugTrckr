@@ -33,9 +33,7 @@
 
 <form:form action="/project/${project.id}/release/add" modelAttribute="release" method="POST">
     <div class="row">
-
         <div class="col-sm-12 col-md-5 col-md-offset-1">
-
             <spring:bind path="version">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <label for="versionInput">Version</label>
@@ -44,33 +42,27 @@
                     <form:errors path="version" class="control-label"/>
                 </div>
             </spring:bind>
-
             <spring:bind path="releaseStatus">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <label for="statusInput">Status</label>
                     <form:select path="releaseStatus" type="text" class="form-control" id="statusInput" placeholder="Status">
                         <form:option value="" label="Select a status"/>
-                        <form:options items="${statuses}"/>
+                        <form:options items="${releaseStatuses}"/>
                     </form:select>
                     <form:errors path="releaseStatus" class="control-label"/>
                 </div>
             </spring:bind>
-
-
         </div>
-
         <div class="col-sm-10 col-sm-offset-1">
             <label for="editor1">Description</label>
         </div>
         <div class="col-sm-10 col-sm-offset-1">
             <form:textarea path="description" cols="100" id="editor1" rows="10"/>
         </div>
-
         <form:hidden path="id"/>
         <div class="col-sm-10 col-sm-offset-1">
             <input type="submit" value="${buttonName}" class="margin-top-30 btn-u pull-right"/>
         </div>
-
     </div>
 </form:form>
 

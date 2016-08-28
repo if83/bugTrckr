@@ -1,9 +1,11 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
 import com.softserverinc.edu.forms.UserFormValidator;
+import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
@@ -38,6 +40,9 @@ public class UserController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private HistoryService historyService;
 
     @Autowired
     private UserFormValidator userFormValidator;
@@ -171,6 +176,9 @@ public class UserController {
             model.addAttribute("msg", "User not found");
         }
         model.addAttribute("user", user);
+        List<History> allHistory = historyService.findAllHistoryForUser(user);
+        model.addAttribute("allHistory", allHistory);
+
         return "userview";
     }
 

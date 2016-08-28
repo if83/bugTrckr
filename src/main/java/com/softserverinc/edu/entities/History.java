@@ -1,5 +1,7 @@
 package com.softserverinc.edu.entities;
 
+import com.softserverinc.edu.entities.enums.HistoryAction;
+import com.softserverinc.edu.entities.enums.IssueStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -10,7 +12,7 @@ import javax.persistence.*;
 public class History {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -19,16 +21,21 @@ public class History {
     private Issue issue;
 
     @OneToOne
-    @JoinColumn(name = "parentId", referencedColumnName = "id")
-    private History parent;
-
-    @OneToOne
     @JoinColumn(name = "assignedToUserId", referencedColumnName = "id", nullable = false)
     private User assignedToUser;
 
     @OneToOne
     @JoinColumn(name = "changedByUserId", referencedColumnName = "id", nullable = false)
     private User changedByUser;
+
+    @Column
+    private String createDate;
+
+    @Column
+    private IssueStatus issueStatus;
+
+    @Column
+    private HistoryAction action;
 
     @Column
     private boolean isDeleted;
@@ -52,12 +59,8 @@ public class History {
         this.issue = issue;
     }
 
-    public History getParent() {
-        return parent;
-    }
-
-    public void setParent(History parent) {
-        this.parent = parent;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public User getAssignedToUser() {
@@ -74,6 +77,30 @@ public class History {
 
     public void setChangedByUser(User changedByUser) {
         this.changedByUser = changedByUser;
+    }
+
+    public IssueStatus getIssueStatus() {
+        return issueStatus;
+    }
+
+    public void setIssueStatus(IssueStatus issueStatus) {
+        this.issueStatus = issueStatus;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateTime(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public HistoryAction getAction() {
+        return action;
+    }
+
+    public void setAction(HistoryAction action) {
+        this.action = action;
     }
 
     public boolean isDeleted() {

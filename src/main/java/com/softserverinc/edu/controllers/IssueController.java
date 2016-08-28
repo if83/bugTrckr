@@ -1,14 +1,15 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Issue;
+import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.forms.IssueFormValidator;
+import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.IssueService;
-import com.softserverinc.edu.services.ProjectReleaseService;
-import com.softserverinc.edu.services.ProjectService;
-import org.hibernate.Hibernate;
+import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -30,6 +33,12 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private HistoryService historyService;
 
     @Autowired
     private IssueFormValidator issueFormValidator;
@@ -99,6 +108,32 @@ public class IssueController {
 
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
+    }
+
+    @RequestMapping(value = "/issue/{issueId}/changeAssignee", method = RequestMethod.POST)
+    public void changeAssignee(@PathVariable("issueId") Long issueId,
+                               @RequestParam("userId") String userId,
+                               Principal principal) {
+        Issue issue = issueService.findById(issueId);
+        User changedByUser = userService.findByEmailIs(principal.getName());
+        User assignedToUser = userService.findOne(Long.valueOf(userId));
+        issue.setAssignee(assignedToUser);
+        issue = issueService.save(issue);
+        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        historyService.writeToTheHistory(HistoryAction.CHANGE_ASSIGNEE, issue, changedByUser, createTime);
+    }
+
+    @RequestMapping(value = "/issue/{issueId}/changeStatus", method = RequestMethod.POST)
+    public void changeStatus(@PathVariable("issueId") Long issueId,
+                             @RequestParam("status") String status,
+                             Principal principal) {
+        Issue issue = issueService.findById(issueId);
+        User changedByUser = userService.findByEmailIs(principal.getName());
+        IssueStatus issueStatus = IssueStatus.valueOf(status);
+        issue.setStatus(issueStatus);
+        issue = issueService.save(issue);
+        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        historyService.writeToTheHistory(HistoryAction.CHANGE_STATUS, issue, changedByUser, createTime);
     }
 
     private void populateDefaultModel(Model model) {

@@ -3,6 +3,7 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.repositories.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,6 @@ public class HistoryService {
         return historyRepository.findByIssue(issue);
     }
 
-    public History findByParent(History parent) {
-        return historyRepository.findByParent(parent);
-    }
-
     public List<History> findByAssignedToUser(User assignedToUser) {
         return historyRepository.findByAssignedToUser(assignedToUser);
     }
@@ -38,6 +35,10 @@ public class HistoryService {
 
     public List<History> findAll() {
         return historyRepository.findAll();
+    }
+
+    public List<History> findAllHistoryForUser(User user) {
+        return historyRepository.findByAssignedToUserOrChangedByUserOrderByCreateDateDesc(user, user);
     }
 
     @Transactional
@@ -53,6 +54,17 @@ public class HistoryService {
     @Transactional
     public History update(History history) {
         return historyRepository.saveAndFlush(history);
+    }
+
+    public void writeToTheHistory(HistoryAction action, Issue issue, User changedByUser, String createTime) {
+        History history = new History();
+        history.setAction(action);
+        history.setCreateTime(createTime);
+        history.setIssue(issue);
+        history.setAssignedToUser(issue.getAssignee());
+        history.setChangedByUser(changedByUser);
+        history.setIssueStatus(issue.getStatus());
+        save(history);
     }
 
 }
