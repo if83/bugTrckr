@@ -67,7 +67,7 @@ public class User {
     private int enabled;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "projectId", referencedColumnName = "id")
     private Project project;
 
     @Column
@@ -144,8 +144,8 @@ public class User {
         return project;
     }
 
-    public void setProjectId(Project projectId) {
-        this.project = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public boolean isNewuser() {

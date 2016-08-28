@@ -115,11 +115,34 @@
         <put-attribute name="title" value="Projects add/edit"/>
         <put-attribute name="content" value="/WEB-INF/views/project/project_form.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/release.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/project/project_form.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="users_without_project" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="usersWithoutProject"/>
+        <put-attribute name="content" value="/WEB-INF/views/project/users_without_project.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="user_role_form" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="changingUserRole"/>
+        <put-attribute name="content" value="/WEB-INF/views/project/user_role_form.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
         </put-list-attribute>
     </definition>
 

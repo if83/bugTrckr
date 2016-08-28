@@ -37,9 +37,6 @@ public class Project {
     @Column(length = 10000, nullable = false)
     private String description;
 
-    @Column
-    private boolean isDeleted;
-
     @Transient
     private boolean newProject;
 
@@ -47,7 +44,7 @@ public class Project {
     }
 
     public boolean isNewProject() {
-        return (this.id == null);
+        return (id == null);
     }
 
     public Long getId() {
@@ -112,14 +109,6 @@ public class Project {
 
     public void setUsers(Set<User> users) {
         this.users = users;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     @Override

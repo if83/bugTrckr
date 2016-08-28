@@ -2,12 +2,14 @@ package com.softserverinc.edu.configs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -41,6 +43,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
         //adding a filter to container that handles all requests from /
         container.addFilter("springSecurityFilterChain", filter).addMappingForUrlPatterns(null, false, "/*");
+
+        container.addFilter("OpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class)
+                .addMappingForUrlPatterns(null, false, "*");
 
         // load the servlet only once
         registration.setLoadOnStartup(1);
