@@ -7,15 +7,16 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left"> ${breadcrumsname} </h1>
+            <h1 class="pull-left"> Select User Role </h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li><a href="<spring:url value='/projects/project/${project.id}'/>">${project.title}</a></li>
-                <li><a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>">Users</a></li>
-                <li class="active"> ${breadcrumsname} </li>
+                <li><a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>">Available Users
+                </a></li>
+                <li class="active"> User Role </li>
             </ol>
         </div>
     </div>
@@ -26,8 +27,7 @@
         <div class="col-sm-4 col-sm-offset-8">
             <div class="alert alert-${alert} alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert"
-                        aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                        aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
                 <strong>${msg}</strong>
             </div>

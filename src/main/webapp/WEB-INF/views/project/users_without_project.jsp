@@ -14,7 +14,7 @@
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li><a href="<spring:url value='/projects/project/${project.id}'/>">${project.title}</a></li>
-                <li><a href="<spring:url value='/project/${project.id}/usersWithoutProject'/>">Users</a></li>
+                <li><a href="<spring:url value='/project/${project.id}/usersWithoutProject'/>">Available Users</a></li>
             </ol>
         </div>
     </div>
