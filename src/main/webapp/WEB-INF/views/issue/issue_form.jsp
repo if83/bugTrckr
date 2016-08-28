@@ -4,9 +4,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:choose>
-    <c:when test="${formaction eq 'new'}">
+    <c:when test="${formAction eq 'new'}">
         <c:set var="breadcrumsname" scope="session" value="Create Issue"/>
         <c:set var="buttonname" scope="session" value="Create"/>
     </c:when>
@@ -31,6 +32,7 @@
     </div>
 </div>
 
+<fmt:formatDate value="${sampleDate}" var="dateString" pattern="dd/MM/yyyy" />
 
 <div class="margin-top-30 row">
     <div class="col-sm-12 col-md-8 col-md-offset-1">
@@ -71,18 +73,6 @@
                         </div>
                     </spring:bind>
 
-                    <spring:bind path="status">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="statusInput">Status</label>
-                            <form:select path="status" type="text" cssClass="form-control" id="statusInput"
-                                         placeholder="Status">
-                                <form:option value="" label="  Select a status"/>
-                                <form:options items="${statuses}"/>
-                            </form:select>
-                            <form:errors path="status" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
                     <spring:bind path="labels">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="labelsInput">Label</label>
@@ -104,25 +94,6 @@
 
                 <div class="col-sm-6">
 
-                    <spring:bind path="createTime">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="createTimeInput">Create time</label>
-                            <form:input path="createTime" type="text" cssClass="form-control" id="createTimeInput"
-                                        placeholder="createTime"/>
-                            <form:errors path="createTime" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="lastUpdateDate">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="lastUpdateDateInput">Last update date</label>
-                            <form:input path="lastUpdateDate" type="text" cssClass="form-control"
-                                        id="lastUpdateDateInput"
-                                        placeholder="lastUpdateDate"/>
-                            <form:errors path="lastUpdateDate" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
                     <spring:bind path="estimateTime">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="estimateTimeInput">Estimate time</label>
@@ -136,7 +107,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="dueDateInput">Date to finish an issue</label>
                             <form:input path="dueDate" type="text" cssClass="form-control" id="dueDateInput"
-                                        placeholder="yyyy-MM-DD"/>
+                                        placeholder="yyyy-MM-DD"  value="${dateString}"/>
                             <form:errors path="dueDate" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -184,6 +155,7 @@
                 </div>
 
                 <form:hidden path="id"/>
+                <form:hidden path="isDeleted"/>
                 <div class="col-sm-12">
                     <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
                 </div>

@@ -37,13 +37,6 @@
         </div>
     </div>
 
-    <div class="row release-info text-left">
-        <div class="col-sm-12">
-            <h3>Release description:</h3>
-            ${release.description}
-        </div>
-    </div>
-
     <div class="row release-add-button">
         <div class="col-sm-2 col-sm-offset-1">
             <a href="<spring:url value='/project/${project.id}/release/add' />" class="abtn-u-white">

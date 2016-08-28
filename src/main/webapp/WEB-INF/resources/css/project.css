@@ -1,11 +1,7 @@
-.project-info, .release-info {
+.project-info {
     margin-top: 30px;
 }
 
-.release-info {
-    margin-bottom: 60px;
-}
-
 .release-add-button {
-    margin-bottom: 30px;
+    margin: 30px 30px;
 }

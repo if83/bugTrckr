@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByEmail(String email);
 
+    User findByEmailIs(String email);
+
     List<User> findByRole(UserRole role);
 
     List<User> findByProject(Project project);
@@ -30,5 +32,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByLastNameContaining(String lastName);
 
     Page<User> findAll(Pageable pageable);
+
+    Page<User> findByIsDeletedFalseAndEnabledIsAndRoleNot(int enabled, UserRole role, Pageable pageable);
+
+    Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable);
 
 }

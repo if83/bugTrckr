@@ -1,0 +1,18 @@
+.status-name, .release-description {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.release-name {
+    margin-top: 20px;
+    font-size: 37px;
+}
+
+.project-name {
+    font-weight: bold;
+}
+
+.issue-list {
+    margin-top: 30px;
+    padding-left: 30px;
+}

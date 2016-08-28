@@ -39,3 +39,20 @@ table.dataTable.no-footer {
 .nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
     color: #784A3B;
 }
+
+.dataTable tr td {
+    padding: 5px 0;
+}
+
+div#AllUsersTable_wrapper a.btn.btn-default,
+div#AdminManagerUsersTable_wrapper a.btn.btn-default,
+div#otherStaffUsersTable_wrapper a.btn.btn-default {
+    background: #784A3B;
+    color: #fff;
+    margin: 0 5px;
+}
+
+ul.dt-button-collection .dropdown-menu li {
+    background: #784A3B;
+    color: #fff;
+}
