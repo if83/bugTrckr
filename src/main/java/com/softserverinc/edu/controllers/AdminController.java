@@ -1,6 +1,7 @@
 package com.softserverinc.edu.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.softserverinc.edu.controllers.json.view.UsersJson;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.UserService;
@@ -34,9 +35,9 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @JsonView(LocalUserList.class)
-    public ResponseEntity<List<LocalUsers>> adminIndex() {
+    public ResponseEntity<List<UsersJson>> adminIndex() {
         List<User> users = userService.findAll();
-        List<LocalUsers> localUserses = new ArrayList<>();
+        List<UsersJson> localUserses = new ArrayList<>();
         for (User user: users) {
             localUserses.add(addOneUser(user, false));
         }
@@ -56,7 +57,7 @@ public class AdminController {
     @PutMapping("/deleted/{id}")
     public String adminSetDeletedUser(@PathVariable long id) {
         User user = userService.findOne(id);
-        user.setIsDeleted(user.isDeleted() ? false : true);
+        user.setIsDeleted(!user.isDeleted());
         userService.update(user);
         LOGGER.debug("admin controller set deleted attr user " + id);
         return "redirect:/admin/rest";
@@ -76,15 +77,15 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     @JsonView(LocalUserDetails.class)
-    public ResponseEntity<LocalUsers> adminUserDetails(@PathVariable long id){
+    public ResponseEntity<UsersJson> adminUserDetails(@PathVariable long id){
         User user = userService.findOne(id);
         LOGGER.debug("admin controller User rest details " + id);
-        return new ResponseEntity<LocalUsers>(addOneUser(user, true), HttpStatus.OK);
+        return new ResponseEntity<UsersJson>(addOneUser(user, true), HttpStatus.OK);
     }
 
 
-    private LocalUsers addOneUser(User user, boolean details) {
-        LocalUsers oneLocalUser = new LocalUsers();
+    private UsersJson addOneUser(User user, boolean details) {
+        UsersJson oneLocalUser = new UsersJson();
         oneLocalUser.setId(user.getId());
         oneLocalUser.setFirstName(user.getFirstName());
         oneLocalUser.setLastName(user.getLastName());
@@ -101,137 +102,6 @@ public class AdminController {
             oneLocalUser.setDescription(user.getDescription());
         }
         return oneLocalUser;
-    }
-
-    private class LocalUsers {
-
-        private long id;
-        private String firstName;
-        private String lastName;
-        private String email;
-        private UserRole role;
-        private String description;
-        private String projectTitle;
-        private int deleted;
-        private int enabled;
-        private byte[] imageData;
-        private String imageFilename;
-
-        @JsonView(LocalUserList.class)
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        @JsonView(LocalUserList.class)
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        @JsonView(LocalUserList.class)
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        @JsonView(LocalUserList.class)
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        @JsonView(LocalUserList.class)
-        public UserRole getRole() {
-            return role;
-        }
-
-        public void setRole(UserRole role) {
-            this.role = role;
-        }
-
-        @JsonView(LocalUserDetails.class)
-        public String getDescription() {
-            if (description == null)
-                description = "";
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        @JsonView(LocalUserList.class)
-        public String getProjectTitle() {
-            if (projectTitle == null)
-                projectTitle = "";
-            return projectTitle;
-        }
-
-        public void setProjectTitle(String projectTitle) {
-            this.projectTitle = projectTitle;
-        }
-
-        @JsonView(LocalUserList.class)
-        public int getDeleted() {
-            return deleted;
-        }
-
-        public void setDeleted(boolean deleted) {
-            this.deleted = deleted ? 1 : 0;
-        }
-
-        @JsonView(LocalUserList.class)
-        public int getEnabled() {
-            return enabled;
-        }
-
-        public void setEnabled(int enabled) {
-            this.enabled = enabled;
-        }
-
-        @JsonView(LocalUserDetails.class)
-        public byte[] getImageData() {
-            return imageData;
-        }
-
-        public void setImageData(byte[] imageData) {
-            this.imageData = imageData;
-        }
-
-        @JsonView(LocalUserDetails.class)
-        public String getImageFilename() {
-            return imageFilename;
-        }
-
-        public void setImageFilename(String imageFilename) {
-            this.imageFilename = imageFilename;
-        }
-
-        @Override
-        public String toString() {
-            return "LocalUsers{" +
-                    "id=" + id +
-                    ", firstName='" + firstName + '\'' +
-                    ", lastName='" + lastName + '\'' +
-                    ", email='" + email + '\'' +
-                    ", role=" + role +
-                    ", description='" + description + '\'' +
-                    ", projectTitle='" + projectTitle + '\'' +
-                    '}';
-        }
     }
 
 }

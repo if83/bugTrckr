@@ -35,6 +35,11 @@ public class UserService {
     }
 
     @Transactional
+    public User findByEmailIs(String email) {
+        return userRepository.findByEmailIs(email);
+    }
+
+    @Transactional
     public List<User> findByRole(UserRole role) {
         return userRepository.findByRole(role);
     }

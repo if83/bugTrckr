@@ -55,7 +55,7 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public String userForm(Model model, Pageable pageable, Principal principal) {
-        User loggedUser = userService.findByEmail(principal.getName()).get(0);
+        User loggedUser = userService.findByEmailIs(principal.getName());
         Page<User> puser;
 
         //If role is not Admin send list of users without admins
@@ -179,8 +179,8 @@ public class UserController {
     public String viewUserByDetails(Principal principal) {
         String loggedInUserName = principal.getName();
 
-        List<User> user = userService.findByEmail(loggedInUserName);
-        long id = user.get(0).getId();
+        User user = userService.findByEmailIs(loggedInUserName);
+        long id = user.getId();
 
         LOGGER.debug("viewUser() details");
         return "redirect:/user/" + id + "/view";
