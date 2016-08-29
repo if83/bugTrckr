@@ -37,10 +37,6 @@ public class WorkLogService {
         return workLogRepository.findByAmountOfTime(amountOfTime);
     }
 
-    public List<WorkLog> findByIsDeleted(Boolean isDeleted) {
-        return workLogRepository.findByIsDeleted(isDeleted);
-    }
-
     public List<WorkLog> findAll() {
         return workLogRepository.findAll();
     }

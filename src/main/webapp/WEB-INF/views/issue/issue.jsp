@@ -38,6 +38,7 @@
             <th>Finish time</th>
             <th>Last updated</th>
             <th>Estimate time</th>
+            <th><%--Actions--%></th>
         </tr>
         </thead>
         <tbody>
@@ -63,6 +64,8 @@
                 <td><c:out value="${issue.estimateTime}"/></td>
                 <td>
                     <div class="actionButtons">
+					<a href="<spring:url value='/issue/${issue.id}/worklog' />"><i class="fa fa-hourglass-half icon-table-u"></i></a>
+                        &nbsp
                         <a href="<spring:url value='/issue/${issue.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
                         &nbsp
                         <a href="<spring:url value='/issue/${issue.id}/remove' />"><i

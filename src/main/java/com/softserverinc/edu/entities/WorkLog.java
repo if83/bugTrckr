@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,27 +12,37 @@ import java.util.Date;
 @Entity
 public class WorkLog {
 
+    /*@NotNull*/
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
+    /*@NotNull*/
     @ManyToOne
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
+    /*@NotNull*/
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
 
+    /*@NotNull*/
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;
+    //TODO: rename this field in workLog table (workday or smth else)
+    //TODO: refactor repo and services code accordingly to new field name
 
-    @Column
+    /*@NotNull
+    @Min(0)
+    @Max(8)*/ // here may be project or specified user workday duration
+    @Column(nullable = false)
     private Long amountOfTime;
 
-    @Column
-    private boolean isDeleted;
+    //TODO: delete all usages of isDeleted field in worklog table from sql scripts
 
     public WorkLog() {
     }
@@ -74,14 +85,6 @@ public class WorkLog {
 
     public void setAmountOfTime(Long amountOfTime) {
         this.amountOfTime = amountOfTime;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     @Override
