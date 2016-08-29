@@ -50,6 +50,11 @@ public class UserService {
     }
 
     @Transactional
+    public List<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled) {
+        return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled);
+    }
+
+    @Transactional
     public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameOrLastName(firstName, lastName);
     }

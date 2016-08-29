@@ -23,6 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByProject(Project project);
 
+    List<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled);
+
     List<User> findByFirstNameOrLastName(String firstName, String lastName);
 
     List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);

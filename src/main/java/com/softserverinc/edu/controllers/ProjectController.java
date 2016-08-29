@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -52,9 +53,17 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "projects/project/{id}", method = RequestMethod.GET)
-    public String projectById(@PathVariable("id") Long id, Model model) {
+    public String projectById(@PathVariable("id") Long id, Model model, Principal principal) {
+        List<User> users;
         Project project = projectService.findById(id);
-        List<User> users = userService.findByProject(project);
+
+        User loggedUser = userService.findByEmailIs(principal.getName());
+        //If role Admin or Manager send list of all users. Else send a list for users that are enabled and present
+        if((loggedUser.getRole() == UserRole.ROLE_ADMIN) || (loggedUser.getRole() == UserRole.ROLE_PROJECT_MANAGER))
+            users = userService.findByProject(project);
+        else
+            users = userService.findByProjectAndIsDeletedFalseAndEnabledIs(project, 1);
+
         List<ProjectRelease> releases = releaseService.findByProject(project);
         model.addAttribute("usersList", users);
         model.addAttribute("project", project);
