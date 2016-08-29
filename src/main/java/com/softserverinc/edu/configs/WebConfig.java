@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableSpringDataWebSupport
 @ComponentScan(basePackages = {"com.softserverinc.edu"})
-@Import({DBConfig.class, TilesConfig.class})
+@Import({SecurityConfig.class, DBConfig.class, TilesConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
