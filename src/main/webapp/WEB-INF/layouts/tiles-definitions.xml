@@ -75,7 +75,7 @@
         <put-attribute name="content" value="/WEB-INF/views/issue/issue.jsp"/>
     </definition>
 
-    <definition name="issueform" extends="abstractDefaultTemplate">
+    <definition name="issue_form" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Issue add/edit"/>
         <put-attribute name="content" value="/WEB-INF/views/issue/issue_form.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">

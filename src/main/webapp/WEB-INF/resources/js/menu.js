@@ -17,9 +17,6 @@ $(document).ready(function () {
         case "/issue":
             $(".mainMenuIssueItem").addClass('active');
             break;
-        case "/history":
-            $(".mainMenuHistoryItem").addClass('active');
-            break;
         default:
             $(".mainMenuHomeItem").addClass('active');
             break;

@@ -25,7 +25,6 @@
                 <li class="mainMenuHomeItem active"><a href="<spring:url value='/'/>">Home</a></li>
                 <li class="mainMenuProjectItem"><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li class="mainMenuIssueItem"><a href="<spring:url value='/issue'/>">Issue</a></li>
-                <li class="mainMenuHistoryItem"><a href="<spring:url value='/history'/>">History</a></li>
 
                 <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
                     <li class="mainMenuUserItem" ><a href="<spring:url value='/users'/>">Users</a></li>
