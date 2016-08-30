@@ -1,6 +1,7 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.History;
+import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -67,8 +68,10 @@ public class UserController {
         //If role is not Admin send list of users without admins
         if(loggedUser.getRole() == UserRole.ROLE_ADMIN)
             puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
-        else
-            puser = this.userService.findByIsDeletedFalseAndEnabledIsAndRoleNot(1, UserRole.ROLE_ADMIN, pageable);
+        else {
+            Project project = projectService.findById(loggedUser.getProject().getId());
+            puser = userService.findByProjectAndIsDeletedFalseAndEnabledIs(project, 1, pageable);
+        }
 
         model.addAttribute("userList", puser);
         model.addAttribute("totalPagesCount", puser.getTotalPages());
