@@ -10,7 +10,6 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.repositories.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -70,8 +69,8 @@ public class IssueService {
         return issueRepository.findByEstimateTime(estimateTime);
     }
 
-    public Issue findByParent(Issue parent) {
-        return issueRepository.findByParent(parent);
+    public Issue findByParentId(Long parentId) {
+        return issueRepository.findByParentId(parentId);
     }
 
     public List<Issue> findAll() {

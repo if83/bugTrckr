@@ -64,11 +64,8 @@ public class Issue {
     @Column
     private Long estimateTime;
 
-    @OneToOne
-    @JoinColumn(name = "parentId")
-    //The annotation does say that the primary key of the entity is used as the foreign key value to the associated entity
-    @PrimaryKeyJoinColumn
-    private Issue parent;
+    @Column
+    private Long parentId;
 
     @Column(nullable = false, length = 10000)
     private String description;
@@ -178,12 +175,12 @@ public class Issue {
         this.estimateTime = estimateTime;
     }
 
-    public Issue getParent() {
-        return parent;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setParent(Issue parent) {
-        this.parent = parent;
+    public void setParent(Long parentId) {
+        this.parentId = parentId;
     }
 
     public boolean isNewIssue() {

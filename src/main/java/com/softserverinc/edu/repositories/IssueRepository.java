@@ -38,7 +38,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     List<Issue> findByEstimateTime(Date estimateTime);
 
-    Issue findByParent(Issue parent);
+    Issue findByParentId(Long parentId);
 
     void delete(Long id);
 
