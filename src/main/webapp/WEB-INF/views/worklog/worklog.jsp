@@ -9,8 +9,7 @@
     <div class="row">
         <div class="row">
             <div class="col-sm-2 col-sm-offset-1">
-                <h1 class="pull-left">${issue.title} worklog </h1> <%--TODO: fix breadcrumbs--%>
-
+                <h1 class="pull-left">${issue.title} worklog </h1>
             </div>
             <div class="col-sm-8">
                 <ol class="pull-right breadcrumb">
@@ -30,25 +29,26 @@
                 <th class="text-center">Time left</th>
                 <th class="text-center">Total spent time</th>
                 <th class="text-center">Estimated time</th>
+                <th class="text-center">Due date</th>
             </tr>
             </thead>
             <tbody>
             <tr class="text-center">
-                <td>left hrs</td>
-                <td>${totalSpentTimeByAllUsers}hrs</td>
-                <%--may add ability to require work day duration to display WD too--%>
-                <td>estimated hrs</td>
+                <td>${issue.estimateTime - totalSpentTimeByAllUsers} hrs</td>
+                <td>${totalSpentTimeByAllUsers} hrs</td>
+                <td>${issue.estimateTime} hrs</td>
+                <td>${issue.dueDate}</td>
             </tr>
             </tbody>
         </table>
 
         <%--worklog form--%>
         <div class="margin-top-30">
-            <form:form action="worklog/save" modelAttribute="workLog" method="POST">
+            <form:form action="${action}" modelAttribute="workLog" method="POST">
             <div class="col-sm-8 col-lg-offset-2">
                 <spring:bind path="startTime">
                     <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
-                        <label for="startTime">Your start time</label>
+                        <label for="startTime">Your workday date</label>
                         <form:input path="startTime" type="text" class="form-control" id="startTime"
                                     value="${date}"/>
                         <form:errors path="startTime" class="control-label"/>
@@ -57,7 +57,7 @@
 
                 <spring:bind path="amountOfTime">
                     <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
-                        <label for="amountOfTime">Your daily amount</label>
+                        <label for="amountOfTime">Your daily amount (1-8 hrs range)</label> <%--may specify user or project workday duration instead--%>
                         <form:input path="amountOfTime" type="text" class="form-control" id="amountOfTime"
                                     placeholder="Type your amount here" value="${worklog.amountOfTime}"/>
                         <form:errors path="amountOfTime" class="control-label"/>
@@ -95,7 +95,7 @@
                                 ${workLogIterator.user.firstName} ${workLogIterator.user.lastName}
                         </a></td>
                         <td><c:out value="${workLogIterator.startTime}"/></td>
-                        <td><c:out value="${workLogIterator.amountOfTime}hrs"/></td>
+                        <td><c:out value="${workLogIterator.amountOfTime} hrs"/></td>
                         <td>
                             <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
                                     class="fa fa-edit icon-table-u"></i></a>

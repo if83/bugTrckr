@@ -7,28 +7,31 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 public class WorkLog {
 
-    /*@NotNull*/
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
-    /*@NotNull*/
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    /*@NotNull*/
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
 
-    /*@NotNull*/
+    @NotNull
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -36,9 +39,9 @@ public class WorkLog {
     //TODO: rename this field in workLog table (workday or smth else)
     //TODO: refactor repo and services code accordingly to new field name
 
-    /*@NotNull
-    @Min(0)
-    @Max(8)*/ // here may be project or specified user workday duration
+    @NotNull
+    @Min(1)
+    @Max(8) // may specify user or project workday duration instead
     @Column(nullable = false)
     private Long amountOfTime;
 
