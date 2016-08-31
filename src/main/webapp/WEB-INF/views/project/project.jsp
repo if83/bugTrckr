@@ -97,8 +97,8 @@
                             </td>
                             <td>${users.role}</td>
                             <td class="text-center">
-                                <a href="<spring:url value='/projects/project/{projectId}/usersWithoutProject/{userId}/
-                            role'/>"><i class="fa fa-edit icon-table-u"></i></a> &nbsp&nbsp
+                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                                ${users.id}/role'/>"><i class="fa fa-edit icon-table-u"></i></a> &nbsp&nbsp
                                 <a href="<spring:url value='/projects/project/${project.id}/removeUser/${users.id}'/>">
                                     <i class="fa fa-remove icon-table-u"></i></a>
                             </td>

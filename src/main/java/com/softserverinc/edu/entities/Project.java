@@ -22,7 +22,7 @@ public class Project {
     @OneToMany(mappedBy="project")
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy="project")
+    @OneToMany(mappedBy="project", cascade = CascadeType.REMOVE)
     private Set<ProjectRelease> projectReleases = new HashSet<>();
 
     @Column(nullable = false)
@@ -37,14 +37,7 @@ public class Project {
     @Column(length = 10000, nullable = false)
     private String description;
 
-    @Transient
-    private boolean newProject;
-
     public Project() {
-    }
-
-    public boolean isNewProject() {
-        return (id == null);
     }
 
     public Long getId() {

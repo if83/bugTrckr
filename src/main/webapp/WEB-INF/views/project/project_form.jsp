@@ -74,6 +74,8 @@
                 </div>
             </spring:bind>
 
+            <form:hidden path="id"/>
+
             <spring:bind path="guestAddComment">
                 <div class="form-group ${status.error ? 'has-error' : ''} margin-top-30">
                     <label>Ability to comment issues in project:</label>

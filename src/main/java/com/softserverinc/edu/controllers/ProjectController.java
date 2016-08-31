@@ -51,9 +51,9 @@ public class ProjectController {
         return "projects";
     }
 
-    @RequestMapping(value = "projects/project/{id}", method = RequestMethod.GET)
-    public String projectById(@PathVariable("id") Long id, Model model) {
-        Project project = projectService.findById(id);
+    @GetMapping(value = "projects/project/{projectId}")
+    public String projectById(@PathVariable("projectId") Long projectId, Model model) {
+        Project project = projectService.findById(projectId);
         List<User> users = userService.findByProject(project);
         List<ProjectRelease> releases = releaseService.findByProject(project);
         model.addAttribute("usersList", users);
@@ -72,21 +72,16 @@ public class ProjectController {
 
     @PostMapping(value = "/projects/add")
     public String addProjectPost(@ModelAttribute("project") Project project,
-                                 BindingResult result, final RedirectAttributes redirectAttributes) {
-
+                                 RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("msg", "Project added successfully!");
-        if (result.hasErrors())
-            return "project_form";
-
         redirectAttributes.addFlashAttribute("css", "success");
-        if (project.isNewProject()) {
+        if (project.getId() == null) {
             redirectAttributes.addFlashAttribute("msg", "Project added successfully!");
             projectService.save(project);
         } else {
             redirectAttributes.addFlashAttribute("msg", "Project updated successfully!");
             projectService.update(project);
         }
-
         return "redirect:/projects/project/" + project.getId();
     }
 
@@ -118,11 +113,11 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject")
-    public String searchUserByName(@PathVariable("projectId") Long projectId,
-                                   @RequestParam(value = "firstName") String firstName,
-                                   @RequestParam(value = "lastName") String lastName, Model model) {
+    public String searchUserByEmail(@PathVariable("projectId") Long projectId,
+                                    @RequestParam(value = "email") String email,
+                                    @RequestParam(value = "role") UserRole role, Model model) {
         model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("userList", userService.findByFirstNameContainingAndLastNameContaining(firstName, lastName));
+        model.addAttribute("userList", userService.findByEmailContainingAndRole(email, role));
         populateDefaultModel(model);
         return "users_without_project";
     }
@@ -139,9 +134,11 @@ public class ProjectController {
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
     public String changeUserRoleGet(@PathVariable("projectId") Long projectId,
                                  @PathVariable("userId") Long userId, Model model) {
+        model.addAttribute("formaction", "new");
         Project project = projectService.findById(projectId);
+        populateDefaultModel(model);
         User user = userService.findOne(userId);
-        int role = 0;
+        UserRole role = null;
         model.addAttribute("role", role);
         model.addAttribute("project", project);
         model.addAttribute("user", user);
@@ -149,41 +146,23 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
-    public String changeUserRolePost(@ModelAttribute("role") int role, @PathVariable("projectId") Long projectId,
+    public String changeUserRolePost(@ModelAttribute("role") UserRole role, @PathVariable("projectId") Long projectId,
                              @PathVariable("userId") Long userId, Model model, RedirectAttributes redirectAttributes) {
         Project project = projectService.findById(projectId);
         User user = userService.findOne(userId);
         model.addAttribute("user", user);
         model.addAttribute("project", project);
-
-        if(role==1){
-            int count = 0;
-            for(User userInProject: project.getUsers())
-            {
-                if(count>=1) {
-                    return "user_role_form";
-                }
-                if(userInProject.getRole().equals(UserRole.ROLE_PROJECT_MANAGER)){
-                    count++;
-                }
-            }
-            user.setRole(UserRole.ROLE_PROJECT_MANAGER);
-        }
-        else if(role==2 & !project.getUsers().isEmpty()){
-            user.setRole(UserRole.ROLE_DEVELOPER);}
-        else if(role==3 & !project.getUsers().isEmpty()){
-            user.setRole(UserRole.ROLE_QA);}
-        else return "user_role_form";
-
+        user.setRole(role);
         user.setProject(project);
         userService.save(user);
-        redirectAttributes.addFlashAttribute("msg", user.getLastName() + user.getFirstName() +
-                " was added successfully");
         redirectAttributes.addFlashAttribute("css", "success");
-        return "redirect:/projects/project/{projectId}/usersWithoutProject";
+        redirectAttributes.addFlashAttribute("msg", String.format("%s %s was added successfully", user.getLastName(),
+                user.getFirstName()));
+        return "redirect:/projects/project/" + projectId;
     }
 
     private void populateDefaultModel(Model model) {
         model.addAttribute("statuses", ReleaseStatus.values());
+        model.addAttribute("roles", UserRole.values());
     }
 }

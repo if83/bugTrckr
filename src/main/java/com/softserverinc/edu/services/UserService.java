@@ -108,4 +108,9 @@ public class UserService {
     public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
         return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
+
+    @Transactional
+    public List<User> findByEmailContainingAndRole(String email, UserRole role){
+        return userRepository.findByEmailContainingAndRole(email, role);
+    }
 }
