@@ -1,6 +1,7 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.History;
+import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,8 +68,10 @@ public class UserController {
         //If role is not Admin send list of users without admins
         if(loggedUser.getRole() == UserRole.ROLE_ADMIN)
             puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
-        else
-            puser = this.userService.findByIsDeletedFalseAndEnabledIsAndRoleNot(1, UserRole.ROLE_ADMIN, pageable);
+        else {
+            Project project = projectService.findById(loggedUser.getProject().getId());
+            puser = userService.findByProjectAndIsDeletedFalseAndEnabledIs(project, 1, pageable);
+        }
 
         model.addAttribute("userList", puser);
         model.addAttribute("totalPagesCount", puser.getTotalPages());
@@ -158,6 +162,9 @@ public class UserController {
             model.addAttribute("fileUploadForm", new FileUploadForm());
         } ;
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(1);
         userService.save(user);
 
         LOGGER.debug("User updated or saved " + user.getId());

@@ -34,7 +34,8 @@
             </thead>
             <tbody>
             <tr class="text-center">
-                <td>${issue.estimateTime - totalSpentTimeByAllUsers} hrs</td>
+                <c:set var="leftTime" value="${issue.estimateTime - totalSpentTimeByAllUsers}"/>
+                <td>${leftTime} hrs</td>
                 <td>${totalSpentTimeByAllUsers} hrs</td>
                 <td>${issue.estimateTime} hrs</td>
                 <td>${issue.dueDate}</td>
@@ -89,6 +90,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <%--TODO: pagination--%>
                 <c:forEach var="workLogIterator" items="${workLogsOfCurrentIssueByAllUsers}">
                     <tr class="text-center">
                         <td><a href="<spring:url value='/user/${workLogIterator.user.id}/view'/>">
@@ -110,4 +112,30 @@
             </table>
         </div>
     </div>
+    <%--<c:if test="${isControllerPagable}">--%>
+    <div class="row">
+        <nav aria-label="Page navigation" id="pagerID">
+            <div class="text-center">
+                <ul class="pagination">
+                    <li>
+                        <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <c:forEach var="apage" begin="0" end="${userList.totalPages - 1}">
+                        <li>
+                            <a href="<spring:url value='/users?page=${apage}'/>"> <c:out value="${apage + 1}"/></a>
+                        </li>
+                    </c:forEach>
+                    <li>
+                        <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <%--</c:if>--%>
 </div>

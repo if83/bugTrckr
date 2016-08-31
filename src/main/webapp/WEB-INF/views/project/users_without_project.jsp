@@ -14,7 +14,8 @@
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li><a href="<spring:url value='/projects/project/${project.id}'/>">${project.title}</a></li>
-                <li><a href="<spring:url value='/project/${project.id}/usersWithoutProject'/>">Available Users</a></li>
+                <li><a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>">
+                    Available Users</a></li>
             </ol>
         </div>
     </div>
@@ -37,15 +38,8 @@
     <div class="col-sm-10 col-sm-offset-2">
         <form action="/projects/project/${project.id}/usersWithoutProject" method="POST" class="form-inline">
             <div class="input-group">
-                <input name="firstName" type="text" class="form-control form-text" placeholder="First name"/>
-                <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
-            </div>
-            <div class="input-group">
-                <input name="lastName" type="text" class="form-control form-text" placeholder="Last name"/>
+                <input name="email" type="text" class="form-control form-text" placeholder="E-mail"/>
+                <input name="role" type="hidden" type="text" value="${roles[4]}"/>
                 <span class="input-group-btn">
                         <button type="submit" class="btn btn-default">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -81,7 +75,7 @@
                             </td>
                             <td class="text-center">
                                 <a href="<spring:url value='/user/${user.id}/view'/>"
-                                   class="btn btn-primary btn-u">VIEW</a>
+                               class="btn btn-primary btn-u">INFO</a>
                             </td>
                         </tr>
                     </c:forEach>

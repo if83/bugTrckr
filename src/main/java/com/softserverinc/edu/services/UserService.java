@@ -55,6 +55,11 @@ public class UserService {
     }
 
     @Transactional
+    public Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable) {
+        return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
+    }
+
+    @Transactional
     public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameOrLastName(firstName, lastName);
     }
@@ -105,12 +110,12 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByIsDeletedFalseAndEnabledIsAndRoleNot(int enabled, UserRole role, Pageable pageable) {
-        return userRepository.findByIsDeletedFalseAndEnabledIsAndRoleNot(enabled, role, pageable);
+    public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
+        return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
 
     @Transactional
-    public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
-        return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
+    public List<User> findByEmailContainingAndRole(String email, UserRole role){
+        return userRepository.findByEmailContainingAndRole(email, role);
     }
 }

@@ -9,7 +9,7 @@
         <div class="col-sm-2 col-sm-offset-1">
             <h1 class="pull-left"> Select User Role </h1>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
@@ -37,12 +37,15 @@
 
 <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/role"  method="POST">
     <div class="col-sm-offset-3 col-sm-6 text-center">
-        <label>Role</label>
+        <label class="text-center">Select Role for User</label><br/>
         <select name="role" type="text" cssClass="form-control" id="userRoleInput">
-            <option value="0" label=" Select a role"/>
-            <option value="1" label="Poject Manager"/>
-            <option value="2" label="Developer"/>
-            <option value="3" label="Quality Assurance"/>
+            <c:if test="${project.getUsers().isEmpty()}">
+                <option value="${roles[1]}" label="Poject Manager"/>
+            </c:if>
+            <c:if test="${!project.getUsers().isEmpty()}">
+                <option value="${roles[2]}" label="Developer"/>
+                <option value="${roles[3]}" label="Quality Assurance"/>
+            </c:if>
         </select>
         <div class="col-sm-12">
             <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right"/>

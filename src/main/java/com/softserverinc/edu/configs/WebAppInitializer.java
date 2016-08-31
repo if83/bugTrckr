@@ -9,7 +9,6 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -44,9 +43,10 @@ public class WebAppInitializer implements WebApplicationInitializer {
         //adding a filter to container that handles all requests from /
         container.addFilter("springSecurityFilterChain", filter).addMappingForUrlPatterns(null, false, "/*");
 
+        // allow for lazy loading in web views despite the original transactions already being completed
         container.addFilter("OpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class)
                 .addMappingForUrlPatterns(null, false, "*");
-
+        
         // load the servlet only once
         registration.setLoadOnStartup(1);
         // add mapping this servlet to all requests
