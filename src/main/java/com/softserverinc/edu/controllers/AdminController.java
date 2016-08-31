@@ -3,7 +3,6 @@ package com.softserverinc.edu.controllers;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.softserverinc.edu.controllers.json.view.UsersJson;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
