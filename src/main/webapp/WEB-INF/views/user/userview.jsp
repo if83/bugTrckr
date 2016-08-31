@@ -83,3 +83,26 @@
     <div class="row"><p>&nbsp;</p></div>
 </div>
 
+
+<div class="row">
+    <div class="user-history col-sm-11 col-sm-offset-1">
+        <H3>User`s activity</H3>
+        <ul>
+            <c:forEach var="history" items="${allHistory}">
+                <c:choose>
+                    <c:when test="${history.action == 'CHANGE_STATUS'}">
+                        <li value='${history.id}'>
+                            <strong><a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName}</a></strong> changed status of <strong>${history.issue.title}</strong> to <strong>${history.issueStatus}</strong>
+                        </li>
+                    </c:when>
+                    <c:when test="${history.action == 'CHANGE_ASSIGNEE'}">
+                        <li value='${history.id}'>
+                            <strong><a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName}</a></strong> assigned <strong>${history.issue.title}</strong> to <strong><a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName}</a></strong>
+                        </li>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+        </ul>
+    </div>
+</div>
+

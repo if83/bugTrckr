@@ -23,6 +23,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByProject(Project project);
 
+    List<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled);
+
+    Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
+
     List<User> findByFirstNameOrLastName(String firstName, String lastName);
 
     List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);
@@ -32,8 +36,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByLastNameContaining(String lastName);
 
     Page<User> findAll(Pageable pageable);
-
-    Page<User> findByIsDeletedFalseAndEnabledIsAndRoleNot(int enabled, UserRole role, Pageable pageable);
 
     Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable);
 

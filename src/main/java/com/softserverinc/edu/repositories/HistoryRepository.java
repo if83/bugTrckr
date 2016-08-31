@@ -13,10 +13,10 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     List<History> findByIssue(Issue issue);
 
-    History findByParent(History parent);
-
     List<History> findByAssignedToUser(User assignedToUser);
 
     List<History> findByChangedByUser(User changedByUser);
+
+    List<History> findByAssignedToUserOrChangedByUserOrderByCreateDateDesc(User assignedToUser, User ChangedByUser);
 
 }
