@@ -64,6 +64,7 @@ public class Issue {
     @Column
     private Long estimateTime;
 
+    @Column
     private Long parentId;
 
     @Column(nullable = false, length = 10000)
@@ -242,5 +243,3 @@ public class Issue {
     }
 
 }
-
-

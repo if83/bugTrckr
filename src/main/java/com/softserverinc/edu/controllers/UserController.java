@@ -9,6 +9,7 @@ import com.softserverinc.edu.forms.UserFormValidator;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
+import com.softserverinc.edu.services.WorkLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class UserController {
 
     @Autowired
     private UserFormValidator userFormValidator;
+
+    @Autowired
+    private WorkLogService workLogService;
 
     /**
      * Set a form validator
@@ -183,6 +187,8 @@ public class UserController {
             model.addAttribute("msg", "User not found");
         }
         model.addAttribute("user", user);
+        model.addAttribute("workLogList", workLogService.findByUser(user));
+        model.addAttribute("smth", 654);
         List<History> allHistory = historyService.findAllHistoryForUser(user);
         model.addAttribute("allHistory", allHistory);
 

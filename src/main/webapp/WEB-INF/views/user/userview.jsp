@@ -62,7 +62,7 @@
 
         <div class="margin-top-30 row">
             <div class="col-sm-4">
-                <spring:url value="/user/${user.id}/edit" var="useredit"  />
+                <spring:url value="/user/${user.id}/edit" var="useredit"/>
                 <a class="btn btn-primary btn-u" href="${useredit}" role="button">Edit profile</a>
             </div>
             <div class="col-sm-8"></div>
@@ -83,26 +83,70 @@
     <div class="row"><p>&nbsp;</p></div>
 </div>
 
-
-<div class="row">
-    <div class="user-history col-sm-11 col-sm-offset-1">
-        <H3>User`s activity</H3>
-        <ul>
-            <c:forEach var="history" items="${allHistory}">
-                <c:choose>
-                    <c:when test="${history.action == 'CHANGE_STATUS'}">
-                        <li value='${history.id}'>
-                            <strong><a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName}</a></strong> changed status of <strong>${history.issue.title}</strong> to <strong>${history.issueStatus}</strong>
-                        </li>
-                    </c:when>
-                    <c:when test="${history.action == 'CHANGE_ASSIGNEE'}">
-                        <li value='${history.id}'>
-                            <strong><a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName}</a></strong> assigned <strong>${history.issue.title}</strong> to <strong><a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName}</a></strong>
-                        </li>
-                    </c:when>
-                </c:choose>
-            </c:forEach>
-        </ul>
-    </div>
+<%--history table--%>
+<div class="user-history col-sm-4 col-sm-offset-1">
+    <H3>User`s activity</H3>
+    <ul>
+        <c:forEach var="history" items="${allHistory}">
+            <c:choose>
+                <c:when test="${history.action == 'CHANGE_STATUS'}">
+                    <li value='${history.id}'>
+                        <strong><a
+                                href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName}</a></strong>
+                        changed status of <strong>${history.issue.title}</strong> to
+                        <strong>${history.issueStatus}</strong>
+                    </li>
+                </c:when>
+                <c:when test="${history.action == 'CHANGE_ASSIGNEE'}">
+                    <li value='${history.id}'>
+                        <strong><a
+                                href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName}</a></strong>
+                        assigned <strong>${history.issue.title}</strong> to <strong><a
+                            href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName}</a></strong>
+                    </li>
+                </c:when>
+            </c:choose>
+        </c:forEach>
+    </ul>
 </div>
 
+<%--worklog table--%>
+<div class="col-sm-7">
+    <h3 class="text-center">Worklog</h3>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">Project</th>
+            <th class="text-center">Issue</th>
+            <th class="text-center">Work date</th>
+            <th class="text-center">Logged</th>
+            <th><%--Edit--%></th>
+            <th><%--Remove--%></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="workLogIterator" items="${workLogList}">
+            <tr class="text-center">
+                <td>
+                    <a href="../../projects/project/${workLogIterator.issue.projectRelease.project.id}">
+                    <c:out value="${workLogIterator.issue.projectRelease.project.title}"/></a>
+                </td>
+                <td>
+                    <a href="../../issue/${workLogIterator.issue.id}">
+                    <c:out value="${workLogIterator.issue.title}"/></a>
+                </td>
+                <td><c:out value="${workLogIterator.startTime}"/></td>
+                <td><c:out value="${workLogIterator.amountOfTime}"/> hrs</td>
+                <td>
+                    <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
+                            class="fa fa-edit icon-table-u"></i></a>
+                </td>
+                <td>
+                    <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"><i
+                            class="fa fa-remove icon-table-u"></i></a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
