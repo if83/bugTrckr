@@ -122,6 +122,18 @@ CREATE TABLE `LabelIssue` (
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
+  CREATE TABLE `IssueComments` (
+	`id` INT NOT NULL,
+	`text` TEXT NOT NULL,
+	`timeStamp` TIMESTAMP NOT NULL,
+	`issueId` INT NOT NULL,
+	`userId` INT NOT NULL,
+	PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
 ALTER TABLE `User`
   ADD CONSTRAINT `User_fk0` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`)
   ON DELETE CASCADE
@@ -169,5 +181,15 @@ ALTER TABLE `LabelIssue`
 
 ALTER TABLE `LabelIssue`
   ADD CONSTRAINT `LabelIssue_fk1` FOREIGN KEY (`IssueId`) REFERENCES `Issue` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `IssueComments`
+  ADD CONSTRAINT `IssueComments_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue`(`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `IssueComments`
+  ADD CONSTRAINT `IssueComments_fk1` FOREIGN KEY (`userId`) REFERENCES `User`(`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
