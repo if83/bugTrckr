@@ -6,8 +6,8 @@
 4. in the file *AgileSoftware/src/main/resources/sql_maven_plugin.properties* change all properties to false;
 5. run maven goal `mvn clean package` for execute database-scripts and create war-package;
 6. run the project in the local server (for example *Tomcat*)
-7. for inserting images
-7. run MySQL terminal
+7. (optional) for inserting images
+    7. run MySQL terminal
          **mysql -u root -p**
     7. Check where is a directory configured by MySQL to work with files
         **SHOW VARIABLES LIKE "secure_file_priv";**
@@ -26,9 +26,9 @@
 
 In the Database will be user with admin rights, e-mail: admin@ss.com, and password: admin
 
-### Troubleshooting
+## Troubleshooting
 
-### Web server
+#### Web server
 
    In case a Tomcat will give you a warning like org.apache.catalina.webresources.Cache.getResource Unable to add the resource ... to the cache because there was insufficient free space
 
@@ -36,7 +36,7 @@ In the Database will be user with admin rights, e-mail: admin@ss.com, and passwo
 
    `<Resources cachingAllowed="true" cacheMaxSize="100000">`
    
-### Database
+#### Database
 
 In case you can not load images by LOAD_FILE function you may do
 
@@ -58,7 +58,7 @@ This guide highlights the most important and most common conventions for writing
 ### Formatting
 * Four spaces should be used as the unit of indentation (no tabs)
 * Don't write lines longer than 80 characters.
-* Avoid write methods longer than 10 lines.
+* Avoid write methods longer than 20 lines.
 * Don't write classes that are longer than 100 lines (not including comments).
 * Use empty line between method definitions.
 * Use ampty line between the local variables in a method and its first statement
@@ -76,13 +76,13 @@ This guide highlights the most important and most common conventions for writing
 ### Organization
 
 The order of things inside classes should be:
- 1) Static variables
- 2) Instance variables
- 3) Constructors
- 4) Static methods
- 5) Instance methods
- 6) Private static methods
- 7) Private instance methods
+1. Static variables
+2. Instance variables
+3. Constructors
+4. Static methods
+5. Instance methods
+6. Private static methods
+7. Private instance methods
 
 ### Comments
 * Write high level comments above classes or methods explaining what the code does, not how it does it. 
@@ -94,7 +94,7 @@ Basic project structure:
 
 ![structure](https://s10.postimg.org/ucgmwn2hl/Screenshot_from_2016_08_11_16_22_20.png)
 
-Directories:
+_Directories:_
 
 `src` directory must contain all of the source material for building the project.
 
@@ -118,7 +118,7 @@ Directories:
 
 `target` directory is created by Maven. It contains all the compiled classes, JAR files etc. 
 
-Packages:
+_Packages:_
 
 `com.softserverinc.edu.configs` package must contain config-classes (for example for database or for Spring MVC).
 
@@ -146,14 +146,17 @@ Packages:
 * Named objects should not be surrounded by backticks. If you need to use backticks because of something in your table name, rename your table.
 * Keep code succinct and devoid of redundant SQL—such as unnecessary quoting or parentheses or WHERE clauses that can otherwise be derived.
 * Include comments in SQL code where necessary. Use the C style opening /* and closing */ where possible otherwise preceed comments with -- and finish them with a new line.
+
 ### Tables
 * Use singular names for tables.
 * Never give a table the same name as one of its columns and vice versa.
 * Tables must have at least one key to be complete and useful.
 * For FOREIGN KEY constraints use such convention: `[referencing table name]_[referenced table name]_fk`
+
 ### Columns
 * Use the singular name.
 * Use CamelCase for names if it's necessary (it will be easy to support Java code).
+
 ### Scripts
 * Always use uppercase for the reserved keywords like SELECT and WHERE.
 * Include in scripts newlines/vertical space for better understanding of code. Newlines should be used for any query that is at all complex or longer than 72 characters.
@@ -182,8 +185,3 @@ Packages:
 * No dot (.) at the end of message.
 * Use such style for writing messages: `what to do + for what entity + details(optional)`.
 For example: `add ui-bootstrap.js dependency` or `add couple of missing semi colons`
-
-
-
-
- 

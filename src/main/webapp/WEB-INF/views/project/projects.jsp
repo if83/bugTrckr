@@ -100,7 +100,7 @@
                                 <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                         </td>
                         <td class="text-center">
-                            <a href="<spring:url value='/projects/${project.id}/remove' />" >
+                            <a href="<spring:url value='/projects/${project.id}/remove' />">
                                 <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                         </td>
                     </tr>
@@ -118,11 +118,11 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <c:forEach var="page" begin="0"  end="${listOfProjects.getTotalPages() - 1}">
-                            <li>
-                                <a href="<spring:url value='/projects?page=${page}'/>">${page + 1}</a>
-                            </li>
-                        </c:forEach>
+                            <c:forEach var="page" begin="0"  end="${listOfProjects.getTotalPages() - 1}">
+                                <li>
+                                    <a href="<spring:url value='/projects?page=${page}'/>">${page + 1}</a>
+                                </li>
+                            </c:forEach>
                         <li>
                             <a href="<spring:url value='/projects?page=${listOfProjects.getTotalPages() - 1}'/>" aria-label="End">
                                 <span aria-hidden="true">&raquo;</span>

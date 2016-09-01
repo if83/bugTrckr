@@ -80,12 +80,12 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <c:forEach var="page" begin="0"  end="${userList.getTotalPages() - 1}">
-                                <li>
-                                    <a href="<spring:url value='/projects/project/${project.id}
-                                /usersWithoutProject?page=${page}'/>">${page + 1}</a>
-                                </li>
-                            </c:forEach>
+                                <c:forEach var="page" begin="0"  end="${userList.getTotalPages() - 1}">
+                                    <li>
+                                        <a href="<spring:url value='/projects/project/${project.id}
+                                    /usersWithoutProject?page=${page}'/>">${page + 1}</a>
+                                    </li>
+                                </c:forEach>
                             <li>
                                 <a href="<spring:url value='/projects/project/${project.id}
                                 /usersWithoutProject?page=${userList.getTotalPages() - 1}'/>"

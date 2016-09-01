@@ -1,9 +1,7 @@
 package com.softserverinc.edu.services;
 
-import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +48,8 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public List<User> findByRoleNot(UserRole role) {
-        return userRepository.findByRoleNot(role);
+    public List<User> findByRoleNotAndIsDeletedFalse(UserRole role) {
+        return userRepository.findByRoleNotAndIsDeletedFalse(role);
     }
 
     @Transactional
@@ -71,7 +69,7 @@ public class UserService {
 
     public List<User> findByNotAssignedToIssue() {
         List<User> result = new ArrayList<>();
-        for(User user: findByRoleNot(UserRole.ROLE_ADMIN)) {
+        for(User user: findByRoleNotAndIsDeletedFalse(UserRole.ROLE_ADMIN)) {
             if(issueService.findByAssignee(user).isEmpty()) {
                 result.add(user);
             }

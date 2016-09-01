@@ -83,6 +83,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Instructs Spring to use CommonsMultipartResolver class as realization of multipartResolver
+     *
      * @return CommonsMultipartResolver instance
      */
     @Bean

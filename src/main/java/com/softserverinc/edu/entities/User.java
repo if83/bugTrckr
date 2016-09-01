@@ -5,7 +5,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -51,7 +50,7 @@ public class User {
     private UserRole role;
 
     @Lob
-    @Column(columnDefinition="mediumblob")
+    @Column(columnDefinition = "mediumblob")
     private byte[] imageData;
 
     @Column(length = 64)

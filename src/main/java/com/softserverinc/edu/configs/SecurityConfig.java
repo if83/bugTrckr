@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -29,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * By extending WebSecurityConfigurerAdapter we can use
      * Autowired annotation for authentication manager.
+     *
      * @param auth Manager authentication
      */
     @Autowired
@@ -53,32 +53,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-            //disable token in views for simplisity, in other wat we need to supply all security token for all jsps
-            http
-                    .csrf().disable()
-                        .authorizeRequests()
-                            .antMatchers("/admin**").hasRole("ADMIN")
-                            .antMatchers("/users").hasAnyRole("ADMIN", "PROJECT_MANAGER")
-                    //TODO:Lyutak configure more detailed access
-                            .antMatchers("/**").hasAnyRole("ADMIN", "PROJECT_MANAGER", "DEVELOPER", "USER", "GUEST")
-                            .anyRequest().authenticated()
-                    .and()
-                        .formLogin()
-                            .loginPage("/")
-                            .successForwardUrl("/")
-                                .usernameParameter("username")
-                                .passwordParameter("password")
-                            .permitAll()
-                    .and()
-                        .logout()
-                            .permitAll()
-                    .and()
-                        .exceptionHandling().accessDeniedPage("/accessDenied");
+        //disable token in views for simplisity, in other wat we need to supply all security token for all jsps
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/admin**").hasRole("ADMIN")
+                .antMatchers("/users").hasAnyRole("ADMIN", "PROJECT_MANAGER")
+                //TODO:Lyutak configure more detailed access
+                .antMatchers("/**").hasAnyRole("ADMIN", "PROJECT_MANAGER", "DEVELOPER", "USER", "GUEST")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/")
+                .successForwardUrl("/")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/accessDenied");
     }
 
 
     /**
      * Configure to ignore url resources
+     *
      * @param web - security object
      * @throws Exception
      */
@@ -94,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
         return encoder;
     }

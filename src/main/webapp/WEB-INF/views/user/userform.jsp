@@ -136,7 +136,8 @@
         <c:if test="${!empty fileUploadForm.fileName}">
             <div class="margin-top-30 row">
                 <figure>
-                    <img src="data:image/jpg;base64,<c:out value='${fileUploadForm.encodedImage}'/>" class="img-thumbnail"
+                    <img src="data:image/jpg;base64,<c:out value='${fileUploadForm.encodedImage}'/>"
+                         class="img-thumbnail"
                          alt="File name is ${fileUploadForm.fileName}"/>
                 </figure>
             </div>

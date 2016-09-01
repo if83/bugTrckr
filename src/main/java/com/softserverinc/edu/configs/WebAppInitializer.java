@@ -46,7 +46,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         // allow for lazy loading in web views despite the original transactions already being completed
         container.addFilter("OpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class)
                 .addMappingForUrlPatterns(null, false, "*");
-        
+
         // load the servlet only once
         registration.setLoadOnStartup(1);
         // add mapping this servlet to all requests

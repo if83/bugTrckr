@@ -23,12 +23,12 @@
             <div class="release-name">
                 Release: ${release.version}
                 <small>
-                    <a href="<spring:url value='/project/${release.project.id}/release/${release.id}/edit'/>">[edit]</a>
+                    <a class="viewLink" href="<spring:url value='/project/${release.project.id}/release/${release.id}/edit'/>">[edit]</a>
                 </small>
             </div>
             <div class="project-name">
                 Project:
-                <a href="<spring:url value='/project/${release.project.id}'/>">${release.project.title}</a>
+                <a class="viewLink" href="<spring:url value='/project/${release.project.id}'/>">${release.project.title}</a>
             </div>
             <div class="status-name">Status: ${release.releaseStatus}</div>
             <div class="release-description">Release description:</div>
@@ -36,7 +36,7 @@
         </div>
         <div class="release-issues col-sm-6">
             <a href="<spring:url value='/issue/add' />" class="btn btn-primary btn-u"><i
-                    class="fa fa-plus icon-bg-u"></i>Add issue</a>
+                    class="fa fa-plus icon-bg-u"></i> Add issue</a>
             <table class="table-issues table table-hover table-bordered">
                 <thead>
                 <tr>

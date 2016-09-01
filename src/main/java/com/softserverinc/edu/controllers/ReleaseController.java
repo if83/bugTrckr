@@ -42,7 +42,7 @@ public class ReleaseController {
     public String viewRelease(@PathVariable("releaseId") Long releaseId,
                               Model model) {
         ProjectRelease release = releaseService.findById(releaseId);
-        List<Issue> issues =  issueService.findByProjectRelease(release);
+        List<Issue> issues = issueService.findByProjectRelease(release);
         List<User> users = userService.findByNotAssignedToIssue();
         model.addAttribute("issues", issues);
         model.addAttribute("release", release);
@@ -82,13 +82,16 @@ public class ReleaseController {
                                  BindingResult result,
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
+        Project project = projectService.findById(projectId);
         if (result.hasErrors()) {
+            model.addAttribute("project", project);
+            model.addAttribute("formAction", "edit");
+            model.addAttribute("release", release);
             populateDefaultModelByReleaseStatuses(model);
             return "releaseform";
         }
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Success!");
-        Project project = projectService.findById(projectId);
         release.setProject(project);
         releaseService.save(release);
         return "redirect:/projects/project/{projectId}";

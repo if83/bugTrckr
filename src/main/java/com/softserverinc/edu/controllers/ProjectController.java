@@ -101,6 +101,7 @@ public class ProjectController {
     public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model,
                                     Pageable pageable){
         model.addAttribute("userList", userService.findByRole(UserRole.ROLE_USER, pageable));
+
         model.addAttribute("project", projectService.findById(projectId));
         return "users_without_project";
     }
@@ -113,7 +114,7 @@ public class ProjectController {
         return "users_without_project";
     }
 
-    @GetMapping(value="/projects/project/{projectId}/removeUser/{userId}")
+    @GetMapping(value = "/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable("userId") Long userId) {
         User user = userService.findOne(userId);
         user.setRole(UserRole.ROLE_USER);

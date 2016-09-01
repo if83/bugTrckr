@@ -71,13 +71,25 @@
 
     <!--Issue-->
     <definition name="issue" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Issue page"/>
+        <put-attribute name="title" value="Issues page"/>
         <put-attribute name="content" value="/WEB-INF/views/issue/issue.jsp"/>
     </definition>
 
     <definition name="issue_form" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Issue add/edit"/>
         <put-attribute name="content" value="/WEB-INF/views/issue/issue_form.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="issue_view" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Issue page"/>
+        <put-attribute name="content" value="/WEB-INF/views/issue/issue_view.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>

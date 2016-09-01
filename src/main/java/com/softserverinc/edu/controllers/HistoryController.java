@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HistoryController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(HistoryController.class);
+    @Autowired
+    HistoryService historyService;
 
     public String index() {
         return "history";
     }
 
-    @Autowired
-    HistoryService historyService;
     @RequestMapping(value = "/history", method = RequestMethod.GET)
-    public String listOfHistory(ModelMap model){
+    public String listOfHistory(ModelMap model) {
         model.addAttribute("listOfHistory", this.historyService.findAll());
         LOGGER.debug("History list");
         return "history";

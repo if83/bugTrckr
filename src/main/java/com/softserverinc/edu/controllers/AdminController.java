@@ -28,21 +28,20 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    public interface LocalUserList{};
-    public interface LocalUserDetails extends  LocalUserList{};
-
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @JsonView(LocalUserList.class)
     public ResponseEntity<List<UsersJson>> adminIndex() {
         List<User> users = userService.findAll();
         List<UsersJson> localUserses = new ArrayList<>();
-        for (User user: users) {
+        for (User user : users) {
             localUserses.add(addOneUser(user, false));
         }
         LOGGER.debug("admin controller User rest list ");
         return new ResponseEntity<>(localUserses, HttpStatus.OK);
     }
+
+    ;
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
@@ -51,6 +50,8 @@ public class AdminController {
         LOGGER.debug("admin controller delete user" + id);
         return "redirect:/admin/rest";
     }
+
+    ;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/deleted/{id}")
@@ -61,7 +62,6 @@ public class AdminController {
         LOGGER.debug("admin controller set deleted attr user " + id);
         return "redirect:/admin/rest";
     }
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/enabled/{id}")
@@ -76,12 +76,11 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     @JsonView(LocalUserDetails.class)
-    public ResponseEntity<UsersJson> adminUserDetails(@PathVariable long id){
+    public ResponseEntity<UsersJson> adminUserDetails(@PathVariable long id) {
         User user = userService.findOne(id);
         LOGGER.debug("admin controller User rest details " + id);
         return new ResponseEntity<UsersJson>(addOneUser(user, true), HttpStatus.OK);
     }
-
 
     private UsersJson addOneUser(User user, boolean details) {
         UsersJson oneLocalUser = new UsersJson();
@@ -92,15 +91,22 @@ public class AdminController {
         oneLocalUser.setRole(user.getRole());
         oneLocalUser.setDeleted(user.isDeleted());
         oneLocalUser.setEnabled(user.getEnabled());
-        if(user.getProject() != null)
+        if (user.getProject() != null)
             oneLocalUser.setProjectTitle(user.getProject().getTitle());
         oneLocalUser.setDescription(user.getDescription());
-        if(details){
+        if (details) {
             oneLocalUser.setImageFilename(user.getImageFilename());
             oneLocalUser.setImageData(user.getImageData());
             oneLocalUser.setDescription(user.getDescription());
         }
         return oneLocalUser;
+    }
+
+    public interface LocalUserList {
+    }
+
+
+    public interface LocalUserDetails extends LocalUserList {
     }
 
 }

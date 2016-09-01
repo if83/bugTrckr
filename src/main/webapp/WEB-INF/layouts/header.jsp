@@ -18,8 +18,10 @@
                         <sec:authorize
                                 access="hasAnyRole('ADMIN','PROJECT_MANAGER', 'DEVELOPER', 'QA', 'USER', 'GUEST')">
                             <li>
-                                You are logged as &nbsp&nbsp&nbsp <sec:authentication property="principal.username"/> &nbsp&nbsp&nbsp&nbsp
-                                <a class="btn btn-secondary btn-sm btn-u" href="<spring:url value='/logout'/>">Logout</a>
+                                You are logged as &nbsp&nbsp&nbsp <sec:authentication property="principal.username"/>
+                                &nbsp&nbsp&nbsp&nbsp
+                                <a class="btn btn-secondary btn-sm btn-u"
+                                   href="<spring:url value='/logout'/>">Logout</a>
                             </li>
                         </sec:authorize>
                     </div>

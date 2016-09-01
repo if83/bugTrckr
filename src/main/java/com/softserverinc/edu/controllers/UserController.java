@@ -1,8 +1,8 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.History;
-import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.HistoryDto;
+import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -71,7 +71,7 @@ public class UserController {
         Page<User> puser;
 
         //If role is not Admin send list of users without admins
-        if(loggedUser.getRole() == UserRole.ROLE_ADMIN)
+        if (loggedUser.getRole() == UserRole.ROLE_ADMIN)
             puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
         else {
             Project project = projectService.findById(loggedUser.getProject().getId());
@@ -109,10 +109,10 @@ public class UserController {
         model.addAttribute("formaction", "edit");
 
         // in case of entering direct ulr in browser
-        if(!model.containsAttribute("fileUploadForm"))
+        if (!model.containsAttribute("fileUploadForm"))
             model.addAttribute("fileUploadForm", new FileUploadForm());
 
-            LOGGER.debug("User edit\\" + id);
+        LOGGER.debug("User edit\\" + id);
         return "userform";
     }
 
@@ -126,7 +126,7 @@ public class UserController {
         model.addAttribute("formaction", "new");
         populateDefaultModel(model);
         // in case of entering direct ulr in browser
-        if(!model.containsAttribute("fileUploadForm"))
+        if (!model.containsAttribute("fileUploadForm"))
             model.addAttribute("fileUploadForm", new FileUploadForm());
         LOGGER.debug("User add form");
         return "userform";
@@ -150,22 +150,23 @@ public class UserController {
             }
         }
 
-        if(model.containsAttribute("fileUploadForm")) {
+        if (model.containsAttribute("fileUploadForm")) {
             FileUploadForm fileUploadForm = (FileUploadForm) model.asMap().get("fileUploadForm");
             //save photo new or update existing
-            if(fileUploadForm.getFileImage() != null) {
+            if (fileUploadForm.getFileImage() != null) {
                 user.setImageData(fileUploadForm.getFileImage());
                 user.setImageFilename(fileUploadForm.getFileName());
             } else {
                 //must explisitly reassign photo, otherwise it will be deleted
                 User userph = userService.findOne(user.getId());
-                if(userph.getImageData() != null) {
+                if (userph.getImageData() != null) {
                     user.setImageData(userph.getImageData());
                     user.setImageFilename(userph.getImageFilename());
                 }
             }
             model.addAttribute("fileUploadForm", new FileUploadForm());
-        } ;
+        }
+        ;
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -209,7 +210,6 @@ public class UserController {
     }
 
 
-
     @PostMapping(value = "/users/searchByName")
     public String userSearchByName(@RequestParam(value = "firstName") String firstName,
                                    @RequestParam(value = "lastName") String lastName,
@@ -251,7 +251,7 @@ public class UserController {
 
         String redirectPath = "redirect:/user/add";
 
-        if(userId != 0L ) {
+        if (userId != 0L) {
             redirectPath = "redirect:/user/" + userId + "/edit";
         }
 
@@ -265,7 +265,6 @@ public class UserController {
         LOGGER.debug("formUser() id: ", userId);
         return redirectPath;
     }
-
 
 
     /**

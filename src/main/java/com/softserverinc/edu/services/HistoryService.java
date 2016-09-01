@@ -74,7 +74,7 @@ public class HistoryService {
 
     public List<HistoryDto> convertHistoryToHistoryDto(List<History> historyList) {
         List<HistoryDto> result = new ArrayList<>();
-        for(History history : historyList) {
+        for (History history : historyList) {
             HistoryDto historyDto = new HistoryDto();
             historyDto.setAction(history.getAction());
             historyDto.setIssue(history.getIssue());

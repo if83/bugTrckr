@@ -40,12 +40,12 @@
     <div class="row release-add-button">
         <div class="col-sm-2 col-sm-offset-1">
             <a href="<spring:url value='/project/${project.id}/release/add' />" class="abtn-u-white">
-                <i class="fa fa-plus icon-bg-u"></i>Addrelease</a>
+                <i class="fa fa-plus icon-bg-u"></i> Add release</a>
         </div>
 
         <div class="col-sm-2 col-sm-offset-5">
             <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject' />"
-               class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i>Add Users</a>
+               class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add Users</a>
         </div>
     </div>
 
@@ -63,7 +63,8 @@
                 <c:forEach var="rel" items="${releases}">
                     <tr>
                         <td>
-                            <a class="viewLink"  href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
+                            <a class="viewLink"
+                               href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
                             </a>
                         </td>
                         <td>${rel.releaseStatus}</td>

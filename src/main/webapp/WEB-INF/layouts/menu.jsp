@@ -27,7 +27,7 @@
                 <li class="mainMenuIssueItem"><a href="<spring:url value='/issue'/>">Issue</a></li>
 
                 <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
-                    <li class="mainMenuUserItem" ><a href="<spring:url value='/users'/>">Users</a></li>
+                    <li class="mainMenuUserItem"><a href="<spring:url value='/users'/>">Users</a></li>
                 </sec:authorize>
 
                 <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">

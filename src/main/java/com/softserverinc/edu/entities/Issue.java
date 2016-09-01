@@ -195,6 +195,10 @@ public class Issue {
         return isDeleted;
     }
 
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
@@ -221,10 +225,6 @@ public class Issue {
 
     public void setEditAbility(Boolean editAbility) {
         this.editAbility = editAbility;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     @Override

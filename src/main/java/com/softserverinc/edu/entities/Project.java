@@ -22,10 +22,10 @@ public class Project {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @OneToMany(mappedBy="project")
+    @OneToMany(mappedBy = "project")
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy="project", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
     private Set<ProjectRelease> projectReleases = new HashSet<>();
 
     @NotNull
