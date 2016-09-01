@@ -5,17 +5,6 @@ span.select2-container .select2-selection {
     border-color: #ccc;
 }
 
-a.viewLink {
-    color: #784A3B;
-    text-decoration: none;
-}
-
-a.viewLink:hover,
-a.viewLink:focus {
-    color: #784A3B;
-    background: none;
-}
-
 input#imgfileInput.form-control {
     height: inherit;
 }

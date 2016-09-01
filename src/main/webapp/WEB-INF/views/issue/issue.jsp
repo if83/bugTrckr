@@ -48,12 +48,12 @@
                 <td><c:out value="${issue.priority}"/></td>
                 <td><c:out value="${issue.status}"/></td>
                 <td>
-                    <a href="<spring:url value='/projects/project/${issue.projectRelease.project.id}'/>">
+                    <a class="viewLink" href="<spring:url value='/projects/project/${issue.projectRelease.project.id}'/>">
                             ${issue.projectRelease.project.title}
                     </a>
                 </td>
                 <td>
-                    <a href="<spring:url value='/user/${issue.assignee.id}/view'/>">
+                    <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
                             ${issue.assignee.firstName} ${issue.assignee.lastName}
                     </a>
                 </td>

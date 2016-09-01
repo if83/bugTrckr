@@ -63,7 +63,7 @@
                     <c:forEach var="rel" items="${releases}">
                         <tr>
                             <td>
-                                <a href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
+                                <a class="viewLink"  href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
                                 </a>
                             </td>
                             <td>${rel.releaseStatus}</td>
@@ -92,7 +92,7 @@
                     <c:forEach var="users" items="${usersList}">
                         <tr>
                             <td>
-                                <a href="<spring:url value='/user/${users.id}/view' />">${users.firstName}
+                                <a class="viewLink" href="<spring:url value='/user/${users.id}/view' />">${users.firstName}
                                         ${users.lastName}</a>
                             </td>
                             <td>${users.role}</td>
