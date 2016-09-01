@@ -73,23 +73,15 @@
                         </div>
                     </spring:bind>
 
-                    <spring:bind path="labels">
+                    <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="labelsInput">Label</label>
-                            <form:input path="labels" type="text" cssClass="form-control" id="labelsInput"
-                                        placeholder="labels"/>
-                            <form:errors path="Labels" cssClass="control-label"/>
+                            <label for="assigneeInput">Assignee</label>
+                            <form:input path="assignee" type="text" cssClass="form-control" id="assigneeInput"
+                                        placeholder="Assignee"/>
+                            <form:errors path="assignee" cssClass="control-label"/>
                         </div>
                     </spring:bind>
 
-                    <spring:bind path="parentId">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="parentInput">Parent</label>
-                            <form:input path="parentId" type="text" cssClass="form-control" id="parentInput"
-                                        placeholder="parent"/>
-                            <form:errors path="parentId" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
                 </div>
 
                 <div class="col-sm-6">
@@ -122,14 +114,18 @@
                         </div>
                     </spring:bind>
 
-                    <spring:bind path="assignee">
+                    <c:if test="${formAction eq 'edit'}">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="assigneeInput">Assignee</label>
-                            <form:input path="assignee" type="text" cssClass="form-control" id="assigneeInput"
-                                        placeholder="Assignee"/>
-                            <form:errors path="assignee" cssClass="control-label"/>
+                            <label for="status">Type</label>
+                            <form:select path="status" type="text" cssClass="form-control" id="status"
+                                         placeholder="Status">
+                                <form:option value="" label="  Select a status"/>
+                                <form:options items="${statuses}"/>
+                            </form:select>
+                            <form:errors path="status" cssClass="control-label"/>
                         </div>
-                    </spring:bind>
+                    </c:if>
+
 
                 </div>
                 <div class="col-sm-6">

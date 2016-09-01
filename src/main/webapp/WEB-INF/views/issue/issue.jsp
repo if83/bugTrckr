@@ -32,7 +32,8 @@
             <th>Type</th>
             <th>Priority</th>
             <th>Status</th>
-            <th>ProjectRelease</th>
+            <th>Project</th>
+            <th>Release version</th>
             <th>Assigned User</th>
             <th>Create time</th>
             <th>Finish time</th>
@@ -48,10 +49,18 @@
                 <td><c:out value="${issue.priority}"/></td>
                 <td><c:out value="${issue.status}"/></td>
                 <td>
-                    <a class="viewLink" href="<spring:url value='/projects/project/${issue.projectRelease.project.id}'/>">
+                    <a class="viewLink"
+                       href="<spring:url value='projects/project/${issue.projectRelease.project.id}'/>">
                             ${issue.projectRelease.project.title}
                     </a>
                 </td>
+                <td>
+                    <a class="viewLink"
+                       href="<spring:url value='/project/${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">
+                            ${issue.projectRelease.version}
+                    </a>
+                </td>
+
                 <td>
                     <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
                             ${issue.assignee.firstName} ${issue.assignee.lastName}

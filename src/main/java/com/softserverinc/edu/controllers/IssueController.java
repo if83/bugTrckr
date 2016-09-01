@@ -6,7 +6,6 @@ import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
-import com.softserverinc.edu.forms.IssueFormValidator;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.UserService;
@@ -16,11 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,13 +38,6 @@ public class IssueController {
     @Autowired
     private HistoryService historyService;
 
-    @Autowired
-    private IssueFormValidator issueFormValidator;
-
-    @InitBinder("issueCommand")
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(issueFormValidator);
-    }
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String listOfIssues(Model model) {
@@ -88,11 +79,10 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/issue/add", method = RequestMethod.POST)
-    public String addIssuePost(@ModelAttribute("issue") @Validated Issue issue, BindingResult result, Model model,
+    public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
 
         if (result.hasErrors()) {
-            populateDefaultModel(model);
             return "issue";
         } else {
 
