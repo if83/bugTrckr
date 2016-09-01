@@ -48,8 +48,8 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public List<User> findByRoleNot(UserRole role) {
-        return userRepository.findByRoleNot(role);
+    public List<User> findByRoleNotAndIsDeletedFalse(UserRole role) {
+        return userRepository.findByRoleNotAndIsDeletedFalse(role);
     }
 
     @Transactional
@@ -69,8 +69,8 @@ public class UserService {
 
     public List<User> findByNotAssignedToIssue() {
         List<User> result = new ArrayList<>();
-        for (User user : findByRoleNot(UserRole.ROLE_ADMIN)) {
-            if (issueService.findByAssignee(user).isEmpty()) {
+        for(User user: findByRoleNotAndIsDeletedFalse(UserRole.ROLE_ADMIN)) {
+            if(issueService.findByAssignee(user).isEmpty()) {
                 result.add(user);
             }
         }
@@ -133,12 +133,12 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findByEmailContainingAndRole(String email, UserRole role) {
+    public List<User> findByEmailContainingAndRole(String email, UserRole role){
         return userRepository.findByEmailContainingAndRole(email, role);
     }
 
     @Transactional
-    public Page<User> findByRole(UserRole role, Pageable pageable) {
+    public Page<User> findByRole(UserRole role, Pageable pageable){
         return userRepository.findByRole(role, pageable);
 
     }
