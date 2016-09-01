@@ -1,7 +1,9 @@
 package com.softserverinc.edu.services;
 
+import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +21,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private IssueService issueService;
 
     @Transactional
     public User findOne(Long id) {
@@ -44,6 +50,10 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
+    public List<User> findByRoleNot(UserRole role) {
+        return userRepository.findByRoleNot(role);
+    }
+
     @Transactional
     public List<User> findByProject(Project project) {
         return userRepository.findByProject(project);
@@ -57,6 +67,16 @@ public class UserService {
     @Transactional
     public Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable) {
         return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
+    }
+
+    public List<User> findByNotAssignedToIssue() {
+        List<User> result = new ArrayList<>();
+        for(User user: findByRoleNot(UserRole.ROLE_ADMIN)) {
+            if(issueService.findByAssignee(user).isEmpty()) {
+                result.add(user);
+            }
+        }
+        return result;
     }
 
     @Transactional

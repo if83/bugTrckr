@@ -42,7 +42,7 @@ public class ReleaseController {
                               Model model) {
         ProjectRelease release = releaseService.findById(releaseId);
         List<Issue> issues =  issueService.findByProjectRelease(release);
-        List<User> users = userService.findAll();
+        List<User> users = userService.findByNotAssignedToIssue();
         model.addAttribute("issues", issues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);
@@ -90,17 +90,17 @@ public class ReleaseController {
         Project project = projectService.findById(projectId);
         release.setProject(project);
         releaseService.save(release);
-        return "redirect:/project/{projectId}";
-
+        return "redirect:/projects/project/{projectId}";
     }
 
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}/remove", method = RequestMethod.GET)
     public String removeReleaseGet(@PathVariable("releaseId") Long releaseId,
-                             RedirectAttributes redirectAttributes) {
+                                   @PathVariable("projectId") Long projectId,
+                                   RedirectAttributes redirectAttributes) {
         releaseService.delete(releaseId);
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Release is deleted!");
-        return "redirect:/project/{projectId}";
+        return "redirect:/projects/project/{projectId}";
     }
 
     private void populateDefaultModelByReleaseStatuses(Model model) {

@@ -19,7 +19,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-sm-8 text-left">
+        <div class="col-sm-6 text-left">
             <div class="release-name">
                 Release: ${release.version}
                 <small>
@@ -34,7 +34,7 @@
             <div class="release-description">Release description:</div>
             <p>${release.description}</p>
         </div>
-        <div class="release-issues col-sm-4">
+        <div class="release-issues col-sm-6">
             <a href="<spring:url value='/issue/add' />" class="btn btn-primary btn-u"><i
                     class="fa fa-plus icon-bg-u"></i>Add issue</a>
             <table class="table-issues table table-hover table-bordered">

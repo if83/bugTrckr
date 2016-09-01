@@ -2,6 +2,7 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -190,8 +191,8 @@ public class UserController {
         model.addAttribute("workLogList", workLogService.findByUser(user));
         model.addAttribute("smth", 654);
         List<History> allHistory = historyService.findAllHistoryForUser(user);
-        model.addAttribute("allHistory", allHistory);
-
+        List<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory);
+        model.addAttribute("allHistory", allHistoryDto);
         return "userview";
     }
 

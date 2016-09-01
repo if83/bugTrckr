@@ -89,7 +89,7 @@ public class IssueController {
 
     @RequestMapping(value = "/issue/add", method = RequestMethod.POST)
     public String addIssuePost(@ModelAttribute("issue") @Validated Issue issue, BindingResult result, Model model,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes, Principal principal) {
 
         if (result.hasErrors()) {
             populateDefaultModel(model);
@@ -104,8 +104,13 @@ public class IssueController {
                 redirectAttributes.addFlashAttribute("msg", "Issue updated successfully!");
             }
         }
-        issueService.save(issue);
+        User changedByUser = userService.findByEmailIs(principal.getName());
 
+        if (issue.isNewIssue()) {
+            historyService.writeToTheHistory(HistoryAction.CREATE_ISSUE, issueService.save(issue), changedByUser, getCurrentTime());
+        } else {
+            issueService.save(issue);
+        }
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
     }
@@ -119,8 +124,7 @@ public class IssueController {
         User assignedToUser = userService.findOne(Long.valueOf(userId));
         issue.setAssignee(assignedToUser);
         issue = issueService.save(issue);
-        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        historyService.writeToTheHistory(HistoryAction.CHANGE_ASSIGNEE, issue, changedByUser, createTime);
+        historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
     }
 
     @RequestMapping(value = "/issue/{issueId}/changeStatus", method = RequestMethod.POST)
@@ -132,13 +136,16 @@ public class IssueController {
         IssueStatus issueStatus = IssueStatus.valueOf(status);
         issue.setStatus(issueStatus);
         issue = issueService.save(issue);
-        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        historyService.writeToTheHistory(HistoryAction.CHANGE_STATUS, issue, changedByUser, createTime);
+        historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
     }
 
     private void populateDefaultModel(Model model) {
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("statuses", IssueStatus.values());
+    }
+
+    private String getCurrentTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 }

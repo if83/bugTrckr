@@ -20,16 +20,14 @@ public class History {
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    @OneToOne
-    @JoinColumn(name = "assignedToUserId", referencedColumnName = "id", nullable = false)
-    private User assignedToUser;
-
-    @OneToOne
-    @JoinColumn(name = "changedByUserId", referencedColumnName = "id", nullable = false)
-    private User changedByUser;
+    @Column
+    private Long assignedToUserId;
 
     @Column
-    private String createDate;
+    private Long changedByUserId;
+
+    @Column
+    private String createTime;
 
     @Column
     private IssueStatus issueStatus;
@@ -59,24 +57,28 @@ public class History {
         this.issue = issue;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public Long getAssignedToUserId() {
+        return assignedToUserId;
     }
 
-    public User getAssignedToUser() {
-        return assignedToUser;
+    public void setAssignedToUserId(Long assignedToUserId) {
+        this.assignedToUserId = assignedToUserId;
     }
 
-    public void setAssignedToUser(User assignedToUser) {
-        this.assignedToUser = assignedToUser;
+    public Long getChangedByUserId() {
+        return changedByUserId;
     }
 
-    public User getChangedByUser() {
-        return changedByUser;
+    public void setChangedByUserId(Long changedByUserId) {
+        this.changedByUserId = changedByUserId;
     }
 
-    public void setChangedByUser(User changedByUser) {
-        this.changedByUser = changedByUser;
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public IssueStatus getIssueStatus() {
@@ -85,14 +87,6 @@ public class History {
 
     public void setIssueStatus(IssueStatus issueStatus) {
         this.issueStatus = issueStatus;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateTime(String createDate) {
-        this.createDate = createDate;
     }
 
     public HistoryAction getAction() {
@@ -107,8 +101,8 @@ public class History {
         return isDeleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

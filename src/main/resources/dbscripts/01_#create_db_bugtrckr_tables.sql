@@ -91,7 +91,7 @@ CREATE TABLE `History` (
   `issueId`          INT         NOT NULL,
   `assignedToUserId` INT         NOT NULL,
   `changedByUserId`  INT         NOT NULL,
-  `createDate`       TIMESTAMP   NOT NULL,
+  `createTime`       TIMESTAMP   NOT NULL,
   `issueStatus`      VARCHAR(32) NOT NULL,
   `action`           VARCHAR(15) NOT NULL,
   `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
@@ -149,16 +149,6 @@ ALTER TABLE `Issue`
 
 ALTER TABLE `History`
   ADD CONSTRAINT `History_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk1` FOREIGN KEY (`assignedToUserId`) REFERENCES `User` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-ALTER TABLE `History`
-  ADD CONSTRAINT `History_fk3` FOREIGN KEY (`changedByUserId`) REFERENCES `User` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
