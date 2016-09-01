@@ -106,7 +106,7 @@
 
                     <spring:bind path="projectRelease">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="projectReleaseInput">ProjectRelease</label>
+                            <label for="projectReleaseInput">Release</label>
                             <form:input path="projectRelease" type="text" cssClass="form-control"
                                         id="projectReleaseInput"
                                         placeholder="ProjectRelease"/>
@@ -116,7 +116,7 @@
 
                     <c:if test="${formAction eq 'edit'}">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="status">Type</label>
+                            <label for="status">Status</label>
                             <form:select path="status" type="text" cssClass="form-control" id="status"
                                          placeholder="Status">
                                 <form:option value="" label="  Select a status"/>

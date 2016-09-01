@@ -81,25 +81,24 @@ public class IssueController {
     @RequestMapping(value = "/issue/add", method = RequestMethod.POST)
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
-
+        User changedByUser = userService.findByEmailIs(principal.getName());
         if (result.hasErrors()) {
             return "issue";
-        } else {
-
-            // Add message to flash scope
-            redirectAttributes.addFlashAttribute("css", "success");
-            if (issue.isNewIssue()) {
-                redirectAttributes.addFlashAttribute("msg", "Issue added successfully!");
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "Issue updated successfully!");
-            }
         }
-        User changedByUser = userService.findByEmailIs(principal.getName());
-
+        redirectAttributes.addFlashAttribute("css", "success");
         if (issue.isNewIssue()) {
-            historyService.writeToTheHistory(HistoryAction.CREATE_ISSUE, issueService.save(issue), changedByUser, getCurrentTime());
+            issue = issueService.save(issue);
+            historyService.writeToTheHistory(HistoryAction.CREATE_ISSUE, issue, changedByUser, getCurrentTime());
+            redirectAttributes.addFlashAttribute("msg", "Issue added successfully!");
         } else {
+            if (issueService.isStatusChanged(issue)) {
+                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
+            }
+            if (issueService.isAssigneeChanged(issue)) {
+                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
+            }
             issueService.save(issue);
+            redirectAttributes.addFlashAttribute("msg", "Issue updated successfully!");
         }
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
