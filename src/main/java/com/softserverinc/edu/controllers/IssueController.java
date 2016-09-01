@@ -47,6 +47,14 @@ public class IssueController {
         return "issue";
     }
 
+
+    @GetMapping(value = "issue/issue_view/{issueId}")
+    public String issueById(@PathVariable("issueId") Long issueId, Model model) {
+        Issue issue = issueService.findById(issueId);
+        model.addAttribute("issue", issue);
+        return "issue_view";
+    }
+
     @RequestMapping(value = "/issue/{id}/remove", method = RequestMethod.GET)
     public String removeIssue(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
         this.issueService.delete(id);

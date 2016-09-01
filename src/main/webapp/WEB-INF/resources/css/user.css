@@ -9,9 +9,9 @@ input#imgfileInput.form-control {
     height: inherit;
 }
 
-#pagerID .pagination li  a,
-#pagerID .pagination li  a:hover,
-#pagerID .pagination li  a:focus {
+#pagerID .pagination li a,
+#pagerID .pagination li a:hover,
+#pagerID .pagination li a:focus {
     color: #784A3B;
 }
 

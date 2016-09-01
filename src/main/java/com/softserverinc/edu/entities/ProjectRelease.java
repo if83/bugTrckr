@@ -20,7 +20,7 @@ public class ProjectRelease {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="projectId")
+    @JoinColumn(name = "projectId")
     private Project project;
 
     @NotEmpty
@@ -36,7 +36,7 @@ public class ProjectRelease {
     @Column(length = 10000)
     private String description;
 
-    @OneToMany(mappedBy="projectRelease")
+    @OneToMany(mappedBy = "projectRelease")
     private Set<Issue> issues = new HashSet<>();
 
     @Column

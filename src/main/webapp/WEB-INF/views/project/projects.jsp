@@ -101,7 +101,7 @@
                                 <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                         </td>
                         <td class="text-center">
-                            <a href="<spring:url value='/projects/${project.id}/remove' />" >
+                            <a href="<spring:url value='/projects/${project.id}/remove' />">
                                 <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                         </td>
                     </tr>
@@ -168,7 +168,7 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <c:forEach var="apage" begin="0"  end="${totalPagesCount - 1}">
+                        <c:forEach var="apage" begin="0" end="${totalPagesCount - 1}">
                             <li>
                                 <a href="<spring:url value='/projects?page=${apage}'/>">${apage + 1}</a>
                             </li>

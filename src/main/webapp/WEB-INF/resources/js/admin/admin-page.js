@@ -4,13 +4,13 @@ $(document).ready(function () {
     // Create a Deferred
     defer = $.Deferred();
     // Set object as a promise
-    defer.promise( userData );
+    defer.promise(userData);
 
     $.get("/admin/rest", "json")
         .done(function (data) {
             userData = data;
             defer.resolve();
-            });
+        });
 
     defer.done(function () {
         takeAllUsersOnce("#AllUsersTable", userData);
@@ -20,9 +20,9 @@ $(document).ready(function () {
 
     $('.nav-tabs a[href="#detailsUserTab"]').tab('show');
     $('.nav-tabs a[href="#allUsersTab"]').tab('show');
-    window.setTimeout(function(){
+    window.setTimeout(function () {
         $("#detailsUserTab").removeClass('active');
-    },500);
+    }, 500);
 
 });
 
@@ -30,8 +30,8 @@ $(document).ready(function () {
 function takeAllUsersOnce(tableID, userData) {
     var table = $(tableID).DataTable({
         'columnDefs': [
-            { responsivePriority: 1, targets: [2, 3] },
-            { responsivePriority: 2, targets: 3 }
+            {responsivePriority: 1, targets: [2, 3]},
+            {responsivePriority: 2, targets: 3}
         ],
         'dom': 'Bfrtip',
         'buttons': [
@@ -40,31 +40,31 @@ function takeAllUsersOnce(tableID, userData) {
             'print',
             'csv'
         ],
-        "data":userData,
+        "data": userData,
 
         "columns": [
-            { "data": 'id' },
-            { "data": 'firstName' },
-            { "data": 'lastName' },
-            { "data": 'email' },
-            { "data": 'role' },
-            { "data": 'projectTitle' },
+            {"data": 'id'},
+            {"data": 'firstName'},
+            {"data": 'lastName'},
+            {"data": 'email'},
+            {"data": 'role'},
+            {"data": 'projectTitle'},
             {
                 "data": 'deleted',
                 "render": function (row, type, set) {
-                        var clickfunc = ' onclick="CheckboxDeleteUserRecord(' + set.id + ', ' +  set.deleted +')"></div>';
-                        if(set.deleted == 1)
-                            return '<div class="checkbox"><input type="checkbox" checked' + clickfunc;
-                        else
-                            return '<div class="checkbox"><input type="checkbox"' + clickfunc;
+                    var clickfunc = ' onclick="CheckboxDeleteUserRecord(' + set.id + ', ' + set.deleted + ')"></div>';
+                    if (set.deleted == 1)
+                        return '<div class="checkbox"><input type="checkbox" checked' + clickfunc;
+                    else
+                        return '<div class="checkbox"><input type="checkbox"' + clickfunc;
                 },
                 className: "dt-body-center"
             },
             {
                 "data": 'enabled',
                 "render": function (row, type, set) {
-                    var clickfunc = '  onclick="CheckboxEnabledUserRecord(' + set.id + ', ' +  set.enabled + ')"></div>';
-                    if(set.enabled == 1)
+                    var clickfunc = '  onclick="CheckboxEnabledUserRecord(' + set.id + ', ' + set.enabled + ')"></div>';
+                    if (set.enabled == 1)
                         return '<div class="checkbox"><input type="checkbox" checked' + clickfunc;
 
                     else
@@ -76,12 +76,12 @@ function takeAllUsersOnce(tableID, userData) {
                 "data": 'id',
                 "className": "center",
                 "render": function (data) {
-                    return  '<div class="actionButtons"><a href="#" onclick="deleteUserRecord(' +
-                            data +
-                            ')"><i class="fa fa-trash fa-lg icon-table-u"></i></a>' +
-                            '<a href="#" onclick="getUserRecord(' +
-                            data +
-                             ')"><i class="fa fa-eye fa-lg icon-table-u"></i></a></div>';
+                    return '<div class="actionButtons"><a href="#" onclick="deleteUserRecord(' +
+                        data +
+                        ')"><i class="fa fa-trash fa-lg icon-table-u"></i></a>' +
+                        '<a href="#" onclick="getUserRecord(' +
+                        data +
+                        ')"><i class="fa fa-eye fa-lg icon-table-u"></i></a></div>';
                 }
             }
         ]
@@ -95,7 +95,7 @@ function deleteUserRecord(id) {
 
     var i = 0;
     table.rows().data().each(function (row) {
-        if(row.id == id) {
+        if (row.id == id) {
             table.row(i).remove().draw();
         }
         i++;
@@ -112,7 +112,7 @@ function getUserRecord(id) {
     // Create a Deferred
     defer = $.Deferred();
     // Set object as a promise
-    defer.promise( userData );
+    defer.promise(userData);
 
     $.get("/admin/rest/" + id, "json")
         .done(function (data) {
@@ -142,11 +142,11 @@ function getUserRecord(id) {
         $("#detailsUserTab7 h5").empty();
         $("#detailsUserTab7 h5").append(userData.projectTitle);
 
-        $("#detailsUserTab8").attr( "alt", userData.imageFilename );
+        $("#detailsUserTab8").attr("alt", userData.imageFilename);
         $("#detailsUserTab8").attr("src", "data:image/jpg;base64," + userData.imageData);
 
         $("#detailsUserTab9 h5").empty();
-        $("#detailsUserTab9 h5").append(userData.deleted == 0? '<p class="text-success">present</p>' : '<p class="text-danger">deleted</p>');
+        $("#detailsUserTab9 h5").append(userData.deleted == 0 ? '<p class="text-success">present</p>' : '<p class="text-danger">deleted</p>');
 
         $("#detailsUserTab10 h5").empty();
         $("#detailsUserTab10 h5").append(userData.enabled == 1 ? '<p class="text-success">enabled</p>' : '<p class="text-danger">disabled</p>');
@@ -160,7 +160,7 @@ function CheckboxDeleteUserRecord(id, deleted) {
     var table = $('#AllUsersTable').DataTable();
     var i = 0;
     table.rows().data().each(function (row) {
-        if(row.id == id) {
+        if (row.id == id) {
             row.deleted = (deleted == 1) ? 0 : 1;
         }
         i++;
@@ -177,7 +177,7 @@ function CheckboxEnabledUserRecord(id, enabled) {
     var table = $('#AllUsersTable').DataTable();
     var i = 0;
     table.rows().data().each(function (row) {
-        if(row.id == id) {
+        if (row.id == id) {
             row.enabled = (enabled == 1) ? 0 : 1;
         }
         i++;

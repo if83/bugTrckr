@@ -1,9 +1,7 @@
 package com.softserverinc.edu.services;
 
-import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +69,8 @@ public class UserService {
 
     public List<User> findByNotAssignedToIssue() {
         List<User> result = new ArrayList<>();
-        for(User user: findByRoleNot(UserRole.ROLE_ADMIN)) {
-            if(issueService.findByAssignee(user).isEmpty()) {
+        for (User user : findByRoleNot(UserRole.ROLE_ADMIN)) {
+            if (issueService.findByAssignee(user).isEmpty()) {
                 result.add(user);
             }
         }
@@ -135,12 +133,12 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findByEmailContainingAndRole(String email, UserRole role){
+    public List<User> findByEmailContainingAndRole(String email, UserRole role) {
         return userRepository.findByEmailContainingAndRole(email, role);
     }
 
     @Transactional
-    public Page<User> findByRole(UserRole role, Pageable pageable){
+    public Page<User> findByRole(UserRole role, Pageable pageable) {
         return userRepository.findByRole(role, pageable);
 
     }

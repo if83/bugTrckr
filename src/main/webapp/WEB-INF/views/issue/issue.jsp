@@ -20,7 +20,8 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i> Add issue</a>
+        <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i>
+            Add issue</a>
     </div>
 </div>
 <div class=class="margin-top-30">
@@ -45,7 +46,12 @@
         <tbody>
         <c:forEach var="issue" items="${listOfIssues}">
             <tr>
-                <td><c:out value="${issue.title}"/></td>
+                <td>
+                    <a class="viewLink"
+                       href="<spring:url value='issue/issue_view/${issue.id}'/>">
+                            ${issue.title}
+                    </a>
+                </td>
                 <td><c:out value="${issue.type}"/></td>
                 <td><c:out value="${issue.priority}"/></td>
                 <td><c:out value="${issue.status}"/></td>
@@ -73,7 +79,8 @@
                 <td><c:out value="${issue.estimateTime}"/></td>
                 <td>
                     <div class="actionButtons">
-					<a href="<spring:url value='/issue/${issue.id}/worklog' />"><i class="fa fa-hourglass-half icon-table-u"></i></a>
+                        <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
+                                class="fa fa-hourglass-half icon-table-u"></i></a>
                         &nbsp
                         <a href="<spring:url value='/issue/${issue.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
                         &nbsp
@@ -85,16 +92,4 @@
         </c:forEach>
         </tbody>
     </table>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <h2 class=""><a href="<spring:url value='/worklog'/>">Worklog</a></h2>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <h2 class=""><a href="<spring:url value='/label'/>">Label</a></h2>
-    </div>
 </div>

@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<fmt:formatDate value="${sampleDate}" var="dateString" pattern="dd/MM/yyyy" />
+<fmt:formatDate value="${sampleDate}" var="dateString" pattern="dd/MM/yyyy"/>
 
 <div class="margin-top-30 row">
     <div class="col-sm-12 col-md-8 col-md-offset-1">
@@ -99,7 +99,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="dueDateInput">Date to finish an issue</label>
                             <form:input path="dueDate" type="text" cssClass="form-control" id="dueDateInput"
-                                        placeholder="yyyy-MM-DD"  value="${dateString}"/>
+                                        placeholder="yyyy-MM-DD" value="${dateString}"/>
                             <form:errors path="dueDate" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -150,6 +150,7 @@
                     </div>
                 </div>
 
+                <form:hidden path="createTime"/>
                 <form:hidden path="id"/>
                 <form:hidden path="isDeleted"/>
                 <div class="col-sm-12">

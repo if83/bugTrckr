@@ -74,7 +74,7 @@ public class ProjectController {
     public String addProjectPost(@ModelAttribute("project") @Valid Project project, BindingResult result,
                                  RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
-        if(result.hasErrors())
+        if (result.hasErrors())
             return "project_form";
 
         if (project.getId() == null) {
@@ -89,7 +89,7 @@ public class ProjectController {
 
     @GetMapping(value = "/projects/{id}/remove")
     public String removeProject(@PathVariable("id") Long id, final RedirectAttributes redirectAttributes) {
-        for(User user: projectService.findById(id).getUsers()){
+        for (User user : projectService.findById(id).getUsers()) {
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);
         }
@@ -109,7 +109,7 @@ public class ProjectController {
 
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
     public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model,
-                                    Pageable pageable){
+                                    Pageable pageable) {
         Page<User> users = userService.findByRole(UserRole.ROLE_USER, pageable);
         model.addAttribute("userList", users);
         model.addAttribute("project", projectService.findById(projectId));
@@ -128,10 +128,10 @@ public class ProjectController {
         return "users_without_project";
     }
 
-    @GetMapping(value="/projects/project/{projectId}/removeUser/{userId}")
+    @GetMapping(value = "/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable("userId") Long userId) {
         User user = userService.findOne(userId);
-        if(user.getRole()==UserRole.ROLE_PROJECT_MANAGER)
+        if (user.getRole() == UserRole.ROLE_PROJECT_MANAGER)
             return "redirect: /projects/project/{projectId}";
         user.setRole(UserRole.ROLE_USER);
         user.setProject(null);
@@ -145,7 +145,7 @@ public class ProjectController {
         Project project = projectService.findById(projectId);
         populateDefaultModel(model);
         User user = userService.findOne(userId);
-        if(user.getRole()==UserRole.ROLE_PROJECT_MANAGER)
+        if (user.getRole() == UserRole.ROLE_PROJECT_MANAGER)
             return "redirect:/projects/project/projectId";
         UserRole role = null;
         model.addAttribute("role", role);

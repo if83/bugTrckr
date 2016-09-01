@@ -112,7 +112,7 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <c:forEach var="apage" begin="0"  end="${totalPagesCount - 1}">
+                            <c:forEach var="apage" begin="0" end="${totalPagesCount - 1}">
                                 <li>
                                     <a href="<spring:url value='/projects/project/${project.id}
                                 /usersWithoutProject?page=${apage}'/>">${apage + 1}</a>

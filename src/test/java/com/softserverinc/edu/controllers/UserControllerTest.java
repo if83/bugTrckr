@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -31,21 +31,21 @@ public class UserControllerTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders
-                        .webAppContextSetup(context)
-                        .apply(springSecurity())
-                        .build();
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
-    @WithMockUser(username="admin@ss.com",roles={"ADMIN"})
+    @WithMockUser(username = "admin@ss.com", roles = {"ADMIN"})
     public void getAdminUser() throws Exception {
         this.mockMvc.perform(get("/users"))
-        .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
 
 
     @Test
-    @WithMockUser(username="manager@ss.com",roles={"PROJECT_MANAGER"})
+    @WithMockUser(username = "manager@ss.com", roles = {"PROJECT_MANAGER"})
     public void getUserUser() throws Exception {
         this.mockMvc.perform(get("/users"))
                 .andExpect(status().isOk());

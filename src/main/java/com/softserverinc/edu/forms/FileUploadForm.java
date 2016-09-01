@@ -3,8 +3,6 @@ package com.softserverinc.edu.forms;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.io.IOException;
-
 /**
  * For fileImage uploading in form processing
  */
@@ -15,7 +13,7 @@ public class FileUploadForm {
 
     private byte[] fileImage;
 
-    private  String fileName;
+    private String fileName;
 
     private String encodedImage;
 
@@ -48,8 +46,8 @@ public class FileUploadForm {
     }
 
     public void setFileName(String fileName) {
-        if(fileName.length() >= 64)
-            fileName = fileName.substring(fileName.length() - (fileName.length() - 60), fileName.length()-1);
+        if (fileName.length() >= 64)
+            fileName = fileName.substring(fileName.length() - (fileName.length() - 60), fileName.length() - 1);
         this.fileName = fileName;
     }
 

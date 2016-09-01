@@ -45,7 +45,8 @@
             <spring:bind path="releaseStatus">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <label for="statusInput">Status</label>
-                    <form:select path="releaseStatus" type="text" class="form-control" id="statusInput" placeholder="Status">
+                    <form:select path="releaseStatus" type="text" class="form-control" id="statusInput"
+                                 placeholder="Status">
                         <form:option value="" label="Select a status"/>
                         <form:options items="${releaseStatuses}"/>
                     </form:select>

@@ -17,7 +17,7 @@ public class HistoryDto {
 
     private HistoryAction action;
 
-    public HistoryDto(){
+    public HistoryDto() {
     }
 
     public Issue getIssue() {
