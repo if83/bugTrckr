@@ -142,5 +142,6 @@ public class UserService {
     @Transactional
     public Page<User> findByRole(UserRole role, Pageable pageable){
         return userRepository.findByRole(role, pageable);
+
     }
 }

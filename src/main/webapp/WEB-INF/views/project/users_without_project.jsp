@@ -55,49 +55,49 @@
         <div class="col-sm-8 col-sm-offset-2">
             <table class="table table-hover table-bordered">
                 <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>E-mail</th>
-                        <th class="text-center">Add to Project</th>
-                        <th class="text-center">User Info</th>
-                    </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>E-mail</th>
+                    <th class="text-center">Add to Project</th>
+                    <th class="text-center">User Info</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <c:if test="${isControllerPagable}">
-                        <c:forEach var="user" items="${userList.content}">
-                            <tr>
-                                <td><c:out value="${user.firstName}"/></td>
-                                <td><c:out value="${user.lastName}"/></td>
-                                <td><c:out value="${user.email}"/></td>
-                                <td class="text-center">
-                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                <c:if test="${isControllerPagable}">
+                    <c:forEach var="user" items="${userList.content}">
+                        <tr>
+                            <td><c:out value="${user.firstName}"/></td>
+                            <td><c:out value="${user.lastName}"/></td>
+                            <td><c:out value="${user.email}"/></td>
+                            <td class="text-center">
+                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
                                 ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
-                                </td>
-                                <td class="text-center">
-                                    <a href="<spring:url value='/user/${user.id}/view'/>"
-                                       class="btn btn-primary btn-u">INFO</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${!isControllerPagable}">
-                        <c:forEach var="user" items="${userList}">
-                            <tr>
-                                <td><c:out value="${user.firstName}"/></td>
-                                <td><c:out value="${user.lastName}"/></td>
-                                <td><c:out value="${user.email}"/></td>
-                                <td class="text-center">
-                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                            </td>
+                            <td class="text-center">
+                                <a href="<spring:url value='/user/${user.id}/view'/>"
+                                   class="btn btn-primary btn-u">INFO</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${!isControllerPagable}">
+                    <c:forEach var="user" items="${userList}">
+                        <tr>
+                            <td><c:out value="${user.firstName}"/></td>
+                            <td><c:out value="${user.lastName}"/></td>
+                            <td><c:out value="${user.email}"/></td>
+                            <td class="text-center">
+                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
                                 ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
-                                </td>
-                                <td class="text-center">
-                                    <a href="<spring:url value='/user/${user.id}/view'/>"
-                                       class="btn btn-primary btn-u">INFO</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
+                            </td>
+                            <td class="text-center">
+                                <a href="<spring:url value='/user/${user.id}/view'/>"
+                                   class="btn btn-primary btn-u">INFO</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
                 </tbody>
             </table>
         </div>

@@ -50,111 +50,111 @@
     <div class="margin-top-30 col-sm-8 col-sm-offset-2">
         <table class="table table-hover table-bordered">
             <thead>
-                <tr>
-                    <th class="text-center">Project Title</th>
-                    <th class="text-center">Free to view</th>
-                    <th class="text-center">Free to comment</th>
-                    <th class="text-center">Free to add Issue</th>
-                    <th class="text-center">Edit</th>
-                    <th class="text-center">Delete</th>
-                </tr>
+            <tr>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Free to view</th>
+                <th class="text-center">Free to comment</th>
+                <th class="text-center">Free to add Issue</th>
+                <th class="text-center">Edit</th>
+                <th class="text-center">Delete</th>
+            </tr>
             </thead>
             <tbody>
-                <c:if test="${isControllerPagable}">
-                    <c:forEach var="project" items="${listOfProjects.content}">
-                        <tr>
-                            <td class="text-center">
-                                <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
-                                    <c:out value="${project.title}"/></a>
-                            </td>
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${project.guestView == true}">
-                                        <i class="glyphicon glyphicon-ok"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="glyphicon glyphicon-remove"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${project.guestAddComment == true}">
-                                        <i class="glyphicon glyphicon-ok"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="glyphicon glyphicon-remove"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td class="text-center">
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${project.guestCreateIssues == true}">
-                                        <i class="glyphicon glyphicon-ok"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="glyphicon glyphicon-remove"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/${project.id}/edit' />">
-                                    <i class="fa fa-edit fa-lg icon-table-u"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/${project.id}/remove' />" >
-                                    <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
-
-                <c:if test="${!isControllerPagable}">
-                    <c:forEach var="project" items="${listOfProjects}">
-                        <tr>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/project/${project.id}'/>">
-                                    <c:out value="${project.title}"/></a>
-                            </td>
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${project.guestView == true}">
+            <c:if test="${isControllerPagable}">
+                <c:forEach var="project" items="${listOfProjects.content}">
+                    <tr>
+                        <td class="text-center">
+                            <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
+                                <c:out value="${project.title}"/></a>
+                        </td>
+                        <td class="text-center">
+                            <c:choose>
+                            <c:when test="${project.guestView == true}">
+                            <i class="glyphicon glyphicon-ok"/>
+                            </c:when>
+                            <c:otherwise>
+                            <i class="glyphicon glyphicon-remove"/>
+                            </c:otherwise>
+                            </c:choose>
+                        <td class="text-center">
+                            <c:choose>
+                                <c:when test="${project.guestAddComment == true}">
                                     <i class="glyphicon glyphicon-ok"/>
-                                    </c:when>
-                                    <c:otherwise>
+                                </c:when>
+                                <c:otherwise>
                                     <i class="glyphicon glyphicon-remove"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${project.guestAddComment == true}">
-                                        <i class="glyphicon glyphicon-ok"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="glyphicon glyphicon-remove"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td class="text-center">
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${project.guestCreateIssues == true}">
-                                        <i class="glyphicon glyphicon-ok"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="glyphicon glyphicon-remove"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/${project.id}/edit' />">
-                                    <i class="fa fa-edit fa-lg icon-table-u"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/${project.id}/remove' />">
-                                    <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </td class="text-center">
+                        <td class="text-center">
+                            <c:choose>
+                                <c:when test="${project.guestCreateIssues == true}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="glyphicon glyphicon-remove"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td class="text-center">
+                            <a href="<spring:url value='/projects/${project.id}/edit' />">
+                                <i class="fa fa-edit fa-lg icon-table-u"></i></a>
+                        </td>
+                        <td class="text-center">
+                            <a href="<spring:url value='/projects/${project.id}/remove' />" >
+                                <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+
+            <c:if test="${!isControllerPagable}">
+                <c:forEach var="project" items="${listOfProjects}">
+                    <tr>
+                        <td class="text-center">
+                            <a href="<spring:url value='/projects/project/${project.id}'/>">
+                                <c:out value="${project.title}"/></a>
+                        </td>
+                        <td class="text-center">
+                            <c:choose>
+                            <c:when test="${project.guestView == true}">
+                            <i class="glyphicon glyphicon-ok"/>
+                            </c:when>
+                            <c:otherwise>
+                            <i class="glyphicon glyphicon-remove"/>
+                            </c:otherwise>
+                            </c:choose>
+                        <td class="text-center">
+                            <c:choose>
+                                <c:when test="${project.guestAddComment == true}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="glyphicon glyphicon-remove"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td class="text-center">
+                        <td class="text-center">
+                            <c:choose>
+                                <c:when test="${project.guestCreateIssues == true}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="glyphicon glyphicon-remove"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td class="text-center">
+                            <a href="<spring:url value='/projects/${project.id}/edit' />">
+                                <i class="fa fa-edit fa-lg icon-table-u"></i></a>
+                        </td>
+                        <td class="text-center">
+                            <a href="<spring:url value='/projects/${project.id}/remove' />">
+                                <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
             </tbody>
         </table>
     </div>

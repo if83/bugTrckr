@@ -18,6 +18,4 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
     List<WorkLog> findByAmountOfTime(Long amountOfTime);
 
-    List<WorkLog> findByIsDeleted(Boolean isDeleted);
-
 }
