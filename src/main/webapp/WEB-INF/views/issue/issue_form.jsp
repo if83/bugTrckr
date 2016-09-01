@@ -82,12 +82,12 @@
                         </div>
                     </spring:bind>
 
-                    <spring:bind path="parent">
+                    <spring:bind path="parentId">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="parentInput">Parent</label>
-                            <form:input path="parent" type="text" cssClass="form-control" id="parentInput"
+                            <form:input path="parentId" type="text" cssClass="form-control" id="parentInput"
                                         placeholder="parent"/>
-                            <form:errors path="parent" cssClass="control-label"/>
+                            <form:errors path="parentId" cssClass="control-label"/>
                         </div>
                     </spring:bind>
                 </div>

@@ -25,3 +25,12 @@ input#imgfileInput.form-control {
 #pagerID .pagination li  a:focus {
     color: #784A3B;
 }
+
+.user-history .createTime {
+    font-size: 11px;
+    color: darkgray;
+}
+
+.user-history .removed-user {
+    color: red;
+}

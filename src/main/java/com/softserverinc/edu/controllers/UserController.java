@@ -2,6 +2,7 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -9,6 +10,7 @@ import com.softserverinc.edu.forms.UserFormValidator;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
+import com.softserverinc.edu.services.WorkLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,9 @@ public class UserController {
 
     @Autowired
     private UserFormValidator userFormValidator;
+
+    @Autowired
+    private WorkLogService workLogService;
 
     /**
      * Set a form validator
@@ -183,9 +188,11 @@ public class UserController {
             model.addAttribute("msg", "User not found");
         }
         model.addAttribute("user", user);
+        model.addAttribute("workLogList", workLogService.findByUser(user));
+        model.addAttribute("smth", 654);
         List<History> allHistory = historyService.findAllHistoryForUser(user);
-        model.addAttribute("allHistory", allHistory);
-
+        List<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory);
+        model.addAttribute("allHistory", allHistoryDto);
         return "userview";
     }
 
