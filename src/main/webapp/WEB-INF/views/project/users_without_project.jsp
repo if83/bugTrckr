@@ -64,23 +64,70 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="user" items="${userList}">
-                        <tr>
-                            <td><c:out value="${user.firstName}"/></td>
-                            <td><c:out value="${user.lastName}"/></td>
-                            <td><c:out value="${user.email}"/></td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                    <c:if test="${isControllerPagable}">
+                        <c:forEach var="user" items="${userList.content}">
+                            <tr>
+                                <td><c:out value="${user.firstName}"/></td>
+                                <td><c:out value="${user.lastName}"/></td>
+                                <td><c:out value="${user.email}"/></td>
+                                <td class="text-center">
+                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
                                 ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/user/${user.id}/view'/>"
-                               class="btn btn-primary btn-u">INFO</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                                </td>
+                                <td class="text-center">
+                                    <a href="<spring:url value='/user/${user.id}/view'/>"
+                                       class="btn btn-primary btn-u">INFO</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${!isControllerPagable}">
+                        <c:forEach var="user" items="${userList}">
+                            <tr>
+                                <td><c:out value="${user.firstName}"/></td>
+                                <td><c:out value="${user.lastName}"/></td>
+                                <td><c:out value="${user.email}"/></td>
+                                <td class="text-center">
+                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                                ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="<spring:url value='/user/${user.id}/view'/>"
+                                       class="btn btn-primary btn-u">INFO</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </tbody>
             </table>
         </div>
+        <c:if test="${isControllerPagable && totalPagesCount> 1}">
+            <div class="row col-sm-offset-4 col-sm-4">
+                <nav aria-label="Page navigation" id="pagerID">
+                    <div class="text-center">
+                        <ul class="pagination">
+                            <li>
+                                <a href="<spring:url value='/projects/project/${project.id}
+                                /usersWithoutProject?page=0'/>" aria-label="Start">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <c:forEach var="apage" begin="0"  end="${totalPagesCount - 1}">
+                                <li>
+                                    <a href="<spring:url value='/projects/project/${project.id}
+                                /usersWithoutProject?page=${apage}'/>">${apage + 1}</a>
+                                </li>
+                            </c:forEach>
+                            <li>
+                                <a href="<spring:url value='/projects/project/${project.id}
+                                /usersWithoutProject?page=${totalPagesCount - 1}'/>"
+                                   aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </c:if>
     </div>
 </div>

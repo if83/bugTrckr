@@ -118,4 +118,9 @@ public class UserService {
     public List<User> findByEmailContainingAndRole(String email, UserRole role){
         return userRepository.findByEmailContainingAndRole(email, role);
     }
+
+    @Transactional
+    public Page<User> findByRole(UserRole role, Pageable pageable){
+        return userRepository.findByRole(role, pageable);
+    }
 }

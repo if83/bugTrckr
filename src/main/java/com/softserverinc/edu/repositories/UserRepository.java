@@ -40,4 +40,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable);
 
     List<User> findByEmailContainingAndRole(String email, UserRole role);
+
+    Page<User> findByRole(UserRole role, Pageable pageable);
 }

@@ -4,8 +4,10 @@ import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,13 +23,16 @@ public class ProjectRelease {
     @JoinColumn(name="projectId")
     private Project project;
 
+    @NotEmpty
     @Column(nullable = false, length = 32)
     private String version;
 
+    @NotNull
     @Column(nullable = false, length = 11)
     @Enumerated(EnumType.STRING)
     private ReleaseStatus releaseStatus;
 
+    @NotEmpty
     @Column(length = 10000)
     private String description;
 

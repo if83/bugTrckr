@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -77,7 +78,7 @@ public class ReleaseController {
 
     @RequestMapping(value = "/project/{projectId}/release/add", method = RequestMethod.POST)
     public String addReleasePost(@PathVariable("projectId") Long projectId,
-                                 @ModelAttribute("release") ProjectRelease release,
+                                 @ModelAttribute("release") @Valid ProjectRelease release,
                                  BindingResult result,
                                  Model model,
                                  RedirectAttributes redirectAttributes) {

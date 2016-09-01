@@ -3,7 +3,6 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
@@ -20,7 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -72,10 +71,12 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/projects/add")
-    public String addProjectPost(@ModelAttribute("project") Project project,
+    public String addProjectPost(@ModelAttribute("project") @Valid Project project, BindingResult result,
                                  RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("msg", "Project added successfully!");
         redirectAttributes.addFlashAttribute("css", "success");
+        if(result.hasErrors())
+            return "project_form";
+
         if (project.getId() == null) {
             redirectAttributes.addFlashAttribute("msg", "Project added successfully!");
             projectService.save(project);
@@ -107,9 +108,13 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
-    public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model){
-        model.addAttribute("userList", userService.findByRole(UserRole.ROLE_USER));
+    public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model,
+                                    Pageable pageable){
+        Page<User> users = userService.findByRole(UserRole.ROLE_USER, pageable);
+        model.addAttribute("userList", users);
         model.addAttribute("project", projectService.findById(projectId));
+        model.addAttribute("totalPagesCount", users.getTotalPages());
+        model.addAttribute("isControllerPagable", true);
         return "users_without_project";
     }
 
@@ -126,6 +131,8 @@ public class ProjectController {
     @GetMapping(value="/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable("userId") Long userId) {
         User user = userService.findOne(userId);
+        if(user.getRole()==UserRole.ROLE_PROJECT_MANAGER)
+            return "redirect: /projects/project/{projectId}";
         user.setRole(UserRole.ROLE_USER);
         user.setProject(null);
         userService.save(user);
@@ -135,10 +142,11 @@ public class ProjectController {
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
     public String changeUserRoleGet(@PathVariable("projectId") Long projectId,
                                  @PathVariable("userId") Long userId, Model model) {
-        model.addAttribute("formaction", "new");
         Project project = projectService.findById(projectId);
         populateDefaultModel(model);
         User user = userService.findOne(userId);
+        if(user.getRole()==UserRole.ROLE_PROJECT_MANAGER)
+            return "redirect:/projects/project/projectId";
         UserRole role = null;
         model.addAttribute("role", role);
         model.addAttribute("project", project);
@@ -163,7 +171,6 @@ public class ProjectController {
     }
 
     private void populateDefaultModel(Model model) {
-        model.addAttribute("statuses", ReleaseStatus.values());
         model.addAttribute("roles", UserRole.values());
     }
 }

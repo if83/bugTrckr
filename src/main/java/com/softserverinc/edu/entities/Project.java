@@ -3,8 +3,10 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ public class Project {
     @Column(unique = true, nullable = false)
     private Long id;
 
+    @NotEmpty
     @Column(nullable = false, length = 100)
     private String title;
 
@@ -25,15 +28,19 @@ public class Project {
     @OneToMany(mappedBy="project", cascade = CascadeType.REMOVE)
     private Set<ProjectRelease> projectReleases = new HashSet<>();
 
+    @NotNull
     @Column(nullable = false)
     private Boolean guestView;
 
+    @NotNull
     @Column(nullable = false)
     private Boolean guestCreateIssues;
 
+    @NotNull
     @Column(nullable = false)
     private Boolean guestAddComment;
 
+    @NotEmpty
     @Column(length = 10000, nullable = false)
     private String description;
 

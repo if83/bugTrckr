@@ -67,11 +67,11 @@
                                 </a>
                             </td>
                             <td>${rel.releaseStatus}</td>
-                            <td>
+                            <td class="text-center">
                                 <a href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
-                                        class="fa fa-edit icon-table-u"></i></a>
+                                        class="fa fa-edit fa-lg icon-table-u"></i></a>&nbsp&nbsp
                                 <a href="<spring:url value='/project/${project.id}/release/${rel.id}/remove' />"><i
-                                        class="fa fa-remove icon-table-u"></i></a>
+                                        class="fa fa-trash fa-lg icon-table-u"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -98,9 +98,9 @@
                             <td>${users.role}</td>
                             <td class="text-center">
                                 <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                ${users.id}/role'/>"><i class="fa fa-edit icon-table-u"></i></a> &nbsp&nbsp
+                                ${users.id}/role'/>"><i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
                                 <a href="<spring:url value='/projects/project/${project.id}/removeUser/${users.id}'/>">
-                                    <i class="fa fa-remove icon-table-u"></i></a>
+                                    <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
