@@ -55,5 +55,4 @@ public class WorkLogService {
     public WorkLog update(WorkLog workLog) {
         return workLogRepository.saveAndFlush(workLog);
     }
-
 }

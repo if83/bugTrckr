@@ -58,15 +58,16 @@
 
                 <spring:bind path="amountOfTime">
                     <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
-                        <label for="amountOfTime">Your daily amount (1-8 hrs range)</label> <%--may specify user or project workday duration instead--%>
+                        <label for="amountOfTime">Your daily amount (1-8 hrs
+                            range)</label> <%--may specify user or project workday duration instead--%>
                         <form:input path="amountOfTime" type="text" class="form-control" id="amountOfTime"
                                     placeholder="Type your amount here" value="${worklog.amountOfTime}"/>
                         <form:errors path="amountOfTime" class="control-label"/>
                     </div>
                 </spring:bind>
-                <form:hidden path="user" value="${issue.assignee.id}"/>
-                <form:hidden path="issue" value="${issue.id}"/>
-                <form:hidden path="id" value="${id}"/>
+                <form:hidden path="user"/><%-- value="${issue.assignee.id}"/>--%>
+                <form:hidden path="issue"/><%-- value="${issue.id}"/>--%>
+                <form:hidden path="id"/><%-- value="${id}"/>--%>
 
                 <div class="col-sm-10 col-sm-offset-1">
                     <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right"/>
@@ -77,6 +78,7 @@
     </div>
 
     <%--detailed data--%>
+    <%--TODO: pagination--%>
     <div class="col-sm-6">
         <div class="margin-top-30">
             <table class="table table-hover">
@@ -90,7 +92,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%--TODO: pagination--%>
                 <c:forEach var="workLogIterator" items="${workLogsOfCurrentIssueByAllUsers}">
                     <tr class="text-center">
                         <td><a href="<spring:url value='/user/${workLogIterator.user.id}/view'/>">
@@ -112,30 +113,3 @@
             </table>
         </div>
     </div>
-    <%--<c:if test="${isControllerPagable}">--%>
-    <div class="row">
-        <nav aria-label="Page navigation" id="pagerID">
-            <div class="text-center">
-                <ul class="pagination">
-                    <li>
-                        <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-
-                    <c:forEach var="apage" begin="0" end="${userList.totalPages - 1}">
-                        <li>
-                            <a href="<spring:url value='/users?page=${apage}'/>"> <c:out value="${apage + 1}"/></a>
-                        </li>
-                    </c:forEach>
-                    <li>
-                        <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <%--</c:if>--%>
-</div>

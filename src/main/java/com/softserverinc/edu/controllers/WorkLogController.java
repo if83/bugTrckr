@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -40,13 +41,13 @@ public class WorkLogController {
 
     @RequestMapping(value = "issue/{issueId}/worklog/save", method = RequestMethod.POST)
     public String addWorkLogPost(@PathVariable Long issueId,
-                                 @ModelAttribute("worklog") @Validated WorkLog workLog,
+                                 @ModelAttribute("worklog") @Valid WorkLog workLog,
                                  BindingResult result,
                                  ModelMap model,
                                  final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("msg", "Worklog saved successfully!");
         if (result.hasErrors()) {
-            newWorkLogModelMap(model, issueId);
+            /*newWorkLogModelMap(model, issueId);*/
             return "redirect:/issue/" + issueId + "/worklog";
         } else {
             redirectAttributes.addFlashAttribute("css", "success");
@@ -77,8 +78,6 @@ public class WorkLogController {
 
     private void newWorkLogModelMap(ModelMap model, Long issueId) {
         model.addAttribute("action", "worklog/save");
-        model.addAttribute("id", 0);
-        model.addAttribute("issue", getCurrentIssue(issueId));
         model.addAttribute("workLog", getNewWorkLog(issueId));
         model.addAttribute("date", getCurrentDate());
 
@@ -89,7 +88,7 @@ public class WorkLogController {
         WorkLog currentWorkLog = workLogService.findOne(workLogId);
         model.addAttribute("action", "../../worklog/save");
         model.addAttribute("id", currentWorkLog.getId());
-        model.addAttribute("issue", currentWorkLog.getIssue());
+        /*model.addAttribute("issue", currentWorkLog.getIssue());*/
         model.addAttribute("workLog", currentWorkLog);
         model.addAttribute("date", currentWorkLog.getStartTime());
 
@@ -97,12 +96,16 @@ public class WorkLogController {
     }
 
     private void populateWorkLogModelMap(ModelMap model, Long issueId) {
+        model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("totalSpentTimeByAllUsers", getTotalSpentTimeForIssueByAllUsers(issueId));
-        model.addAttribute("workLogsOfCurrentIssueByAllUsers", getWorkLogOfCurrentIssueByAllUsers(issueId));
+        model.addAttribute("workLogsOfCurrentIssueByAllUsers", workLogService.findByIssue(getCurrentIssue(issueId)));
     }
 
     private WorkLog getNewWorkLog(Long issueId) {
         WorkLog workLog = new WorkLog();
+        workLog.setId(0L);
+        workLog.setIssue(issueService.findById(issueId));
+        workLog.setUser(issueService.findById(issueId).getAssignee());
         return workLog;
     }
 
@@ -115,13 +118,9 @@ public class WorkLogController {
         return dateFormatSQL.format(new Date());
     }
 
-    private List<WorkLog> getWorkLogOfCurrentIssueByAllUsers(Long issueId) {
-        return workLogService.findByIssue(getCurrentIssue(issueId));
-    }
-
     private Long getTotalSpentTimeForIssueByAllUsers(Long issueId) {
         Long totalSpentTime = new Long(0);
-        List<WorkLog> workLogList = getWorkLogOfCurrentIssueByAllUsers(issueId);
+        List<WorkLog> workLogList = workLogService.findByIssue(getCurrentIssue(issueId));
         for (WorkLog worklogIterator : workLogList) {
             totalSpentTime += worklogIterator.getAmountOfTime();
         }
