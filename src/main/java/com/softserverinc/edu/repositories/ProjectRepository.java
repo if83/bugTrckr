@@ -14,9 +14,11 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+    Page<Project> findByTitleContaining(String title, Pageable pageable);
+
     List<Project> findByTitle(String title);
 
-    Project findByUsers(User user);
+    List <Project> findByUsers(User user);
 
     Project findByProjectReleases(ProjectRelease projectRelease);
 

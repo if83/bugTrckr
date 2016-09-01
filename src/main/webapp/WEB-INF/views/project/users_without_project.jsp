@@ -21,25 +21,12 @@
     </div>
 </div>
 
-<c:if test="${not empty msg}">
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-8">
-            <div class="alert alert-${css} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>${msg}</strong>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <div class="margin-top-30 row">
     <div class="col-sm-10 col-sm-offset-2">
-        <form action="/projects/project/${project.id}/usersWithoutProject" method="POST" class="form-inline">
+        <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST" class="form-inline">
             <div class="input-group">
+                <%--<input name="role" hidden type="text" value=""/>--%>
                 <input name="email" type="text" class="form-control form-text" placeholder="E-mail"/>
-                <input name="role" type="hidden" type="text" value="${roles[4]}"/>
                 <span class="input-group-btn">
                         <button type="submit" class="btn btn-default">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -64,7 +51,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:if test="${isControllerPagable}">
                     <c:forEach var="user" items="${userList.content}">
                         <tr>
                             <td><c:out value="${user.firstName}"/></td>
@@ -80,28 +66,10 @@
                             </td>
                         </tr>
                     </c:forEach>
-                </c:if>
-                <c:if test="${!isControllerPagable}">
-                    <c:forEach var="user" items="${userList}">
-                        <tr>
-                            <td><c:out value="${user.firstName}"/></td>
-                            <td><c:out value="${user.lastName}"/></td>
-                            <td><c:out value="${user.email}"/></td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/user/${user.id}/view'/>"
-                                   class="btn btn-primary btn-u">INFO</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
                 </tbody>
             </table>
         </div>
-        <c:if test="${isControllerPagable && totalPagesCount> 1}">
+        <c:if test="${userList.getTotalPages()> 1}">
             <div class="row col-sm-offset-4 col-sm-4">
                 <nav aria-label="Page navigation" id="pagerID">
                     <div class="text-center">
@@ -112,15 +80,15 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <c:forEach var="apage" begin="0"  end="${totalPagesCount - 1}">
+                            <c:forEach var="page" begin="0"  end="${userList.getTotalPages() - 1}">
                                 <li>
                                     <a href="<spring:url value='/projects/project/${project.id}
-                                /usersWithoutProject?page=${apage}'/>">${apage + 1}</a>
+                                /usersWithoutProject?page=${page}'/>">${page + 1}</a>
                                 </li>
                             </c:forEach>
                             <li>
                                 <a href="<spring:url value='/projects/project/${project.id}
-                                /usersWithoutProject?page=${totalPagesCount - 1}'/>"
+                                /usersWithoutProject?page=${userList.getTotalPages() - 1}'/>"
                                    aria-label="End"><span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

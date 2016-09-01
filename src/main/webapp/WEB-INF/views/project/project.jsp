@@ -89,18 +89,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="users" items="${usersList}">
+                <c:forEach var="user" items="${usersList}">
                     <tr>
                         <td>
-                            <a class="viewLink" href="<spring:url value='/user/${users.id}/view' />">${users.firstName}
+                            <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
                                     ${users.lastName}</a>
                         </td>
-                        <td>${users.role}</td>
+                        <td>${user.role}</td>
                         <td class="text-center">
-                            <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                ${users.id}/role'/>"><i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
-                            <a href="<spring:url value='/projects/project/${project.id}/removeUser/${users.id}'/>">
-                                <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                            <c:choose>
+                                <c:when test="${!user.role.isProjectManager()}">
+                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                                ${user.id}/role'/>"><i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
+                                    <a href="<spring:url value='/projects/project/${project.id}/removeUser/${user.id}'/>">
+                                        <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                </c:when>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>

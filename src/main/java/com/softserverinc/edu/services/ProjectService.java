@@ -26,7 +26,11 @@ public class ProjectService {
         return projectRepository.findByTitle(title);
     }
 
-    public Project findByUsers(User user) {
+    public Page<Project> findByTitleContaining(String title, Pageable pageable) {
+        return projectRepository.findByTitleContaining(title, pageable);
+    }
+
+    public List<Project> findByUsers(User user) {
         return projectRepository.findByUsers(user);
     }
 
