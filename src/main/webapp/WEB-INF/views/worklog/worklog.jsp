@@ -65,9 +65,9 @@
                         <form:errors path="amountOfTime" class="control-label"/>
                     </div>
                 </spring:bind>
-                <form:hidden path="user"/><%-- value="${issue.assignee.id}"/>--%>
-                <form:hidden path="issue"/><%-- value="${issue.id}"/>--%>
-                <form:hidden path="id"/><%-- value="${id}"/>--%>
+                <form:hidden path="user"/>
+                <form:hidden path="issue"/>
+                <form:hidden path="id"/>
 
                 <div class="col-sm-10 col-sm-offset-1">
                     <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right"/>
