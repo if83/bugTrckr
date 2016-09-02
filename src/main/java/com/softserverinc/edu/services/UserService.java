@@ -63,8 +63,8 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled) {
-        return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled);
+    public List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled) {
+        return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled);
     }
 
     @Transactional
@@ -133,7 +133,7 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByRoleAndIsDeletedFalseAndEnabledIs(UserRole role, Pageable pageable, int enabled){
-        return userRepository.findByRoleAndIsDeletedFalseAndEnabledIs(role, pageable, enabled);
+    public Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled, Pageable pageable){
+        return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 }

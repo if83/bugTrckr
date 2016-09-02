@@ -47,8 +47,8 @@ public class ProjectController {
 
     @GetMapping(value = "projects/project/{projectId}")
     public String projectPage(@PathVariable("projectId") Long projectId, Model model) {
-        model.addAttribute("usersList", userService.findByProjectAndIsDeletedFalseAndEnabledIs
-                (projectService.findById(projectId), 1));
+        model.addAttribute("usersList", userService.findByProjectAndIsDeletedAndEnabledIs
+                (projectService.findById(projectId), false, 1));
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("releases", releaseService.findByProject(projectService.findById(projectId)));
         return "project";
@@ -101,7 +101,7 @@ public class ProjectController {
     public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model,
                                     Pageable pageable){
         model.addAttribute("userList",
-                userService.findByRoleAndIsDeletedFalseAndEnabledIs(UserRole.ROLE_USER, pageable, 1));
+                userService.findByRoleAndIsDeletedAndEnabledIs(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
         return "users_without_project";
     }
