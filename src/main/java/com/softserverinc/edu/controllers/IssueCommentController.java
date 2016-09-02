@@ -28,13 +28,11 @@ public class IssueCommentController {
                                   @ModelAttribute("newIssueComment") @Valid IssueComment newIssueComment,
                                   BindingResult result,
                                   ModelMap model) {
-        if (result.hasErrors()) {
+        if (result.hasErrors())
             return "redirect:/issue/" + issueId;
-        } else {
-            issueCommentService.save(newIssueComment);
-            LOGGER.info("Comment saved, id= " + newIssueComment.getId());
-            return "redirect:/issue/" + issueId;
-        }
+        issueCommentService.save(newIssueComment);
+        LOGGER.info("Comment saved, id= " + newIssueComment.getId());
+        return "redirect:/issue/" + issueId;
     }
 
     @RequestMapping(value = "issue/{issueId}/comment/{commentId}/remove", method = RequestMethod.GET)
@@ -44,13 +42,4 @@ public class IssueCommentController {
         LOGGER.debug("Comment " + commentId + " is removed!");
         return "redirect:/issue/" + issueId;
     }
-
-    /*@RequestMapping(value = "issue/{issueId}/comment/{commentId}/edit", method = RequestMethod.GET)
-    public String editIssueComment(@PathVariable("commentId") long commentId,
-                                   @PathVariable("issueId") long issueId,
-                                   ModelMap model) {
-        model.addAttribute("newIssueComment", issueCommentService.findOne(commentId));
-        return "redirect:/issue/" + issueId;
-    }*/
-
 }

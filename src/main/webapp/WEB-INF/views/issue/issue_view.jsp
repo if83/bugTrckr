@@ -1,8 +1,3 @@
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>--%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -95,7 +90,6 @@
             <div class="col-sm-9">${issue.description}</div>
         </div>
     </div>
-
 </div>
 
 <div class="col-sm-3">
@@ -104,6 +98,7 @@
 
 <div class="col-sm-6 margin-top-30">
     <%--comments list--%>
+    <%--TODO: comments pagination--%>
     <div>
         <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
             <table class="table">
@@ -122,10 +117,10 @@
                 </tr>
                 <tr>
                     <th class="pull-right">
-                        <%--<a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit' />">--%>
+                        <a href="<spring:url value='#'/>">
                             <i class="fa fa-edit icon-table-u"></i></a>
                         &nbsp;
-                        <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />">
+                        <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove'/>">
                             <i class="fa fa-remove icon-table-u"></i></a>
                     </th>
                 </tr>
@@ -153,15 +148,8 @@
             </div>
         </form:form>
     </div>
-
 </div>
 
 <div class="col-sm-3">
 
 </div>
-
-
-
-
-
-

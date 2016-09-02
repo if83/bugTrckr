@@ -47,13 +47,11 @@ public class WorkLogController {
     public String addWorkLogPost(@PathVariable Long issueId,
                                  @ModelAttribute("worklog") @Valid WorkLog workLog,
                                  BindingResult result) {
-        if (result.hasErrors()) {
+        if (result.hasErrors())
             return "redirect:/issue/" + issueId + "/worklog";
-        } else {
-            workLogService.save(workLog);
-            LOGGER.info("Worklog saved, id= " + workLog.getId());
-            return "redirect:/issue/" + issueId + "/worklog";
-        }
+        workLogService.save(workLog);
+        LOGGER.info("Worklog saved, id= " + workLog.getId());
+        return "redirect:/issue/" + issueId + "/worklog";
     }
 
     @RequestMapping(value = "issue/{issueId}/worklog/{workLogId}/edit", method = RequestMethod.GET)
