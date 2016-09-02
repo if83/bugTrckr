@@ -61,7 +61,7 @@
         </div>
 
         <div class="row">
-            <label class="col-sm-3">Assisgnee</label>
+            <label class="col-sm-3">Assignee</label>
             <div class="col-sm-9"><p>${issue.assignee.firstName} ${issue.assignee.lastName} </p></div>
         </div>
 

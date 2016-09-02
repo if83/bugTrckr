@@ -44,7 +44,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="titleInput">Title</label>
                             <form:input path="title" type="text" cssClass="form-control" id="titleInput"
-                                        placeholder="title"/>
+                                        placeholder="Title"/>
                             <form:errors path="Title" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -77,7 +77,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="assigneeInput">Assignee</label>
                             <form:input path="assignee" type="text" cssClass="form-control" id="assigneeInput"
-                                        placeholder="Assignee"/>
+                                        placeholder="Assignee Id"/>
                             <form:errors path="assignee" cssClass="control-label"/>
                         </div>
                     </spring:bind>

@@ -2,3 +2,8 @@ language: java
 
 jdk:
   - oraclejdk8
+
+  before_install:
+  mvn install -DskipTests=true -Ddrop-database=true  -Dcreate-database=true -Dcreate-tables=true -Dfill-in-the-tables=true -Dmaven.javadoc.skip=true -B -V
+
+  install: true
