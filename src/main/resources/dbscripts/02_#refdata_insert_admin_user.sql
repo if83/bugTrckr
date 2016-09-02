@@ -110,15 +110,15 @@ VALUES
    'guest7');
 
 INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue1', 'TASK', 'LOW', '2', '2', '2016-02-02', '32100000', '1', 'some text', '0', '0');
+VALUES ('Issue1', 'TASK', 'LOW', '2', '2', '2016-02-02', '40', '1', 'some text', '0', '0');
 INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue2', 'BUG', 'MEDIUM', '3', '3', '2016-02-02', '434500000', '2', 'some text', '0', '0');
+VALUES ('Issue2', 'BUG', 'MEDIUM', '3', '3', '2016-02-02', '30', '2', 'some text', '0', '0');
 INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue3', 'IMPROVEMENT', 'HIGH', '4', '4', '2016-02-02', '534500000', '3', 'some text', '0', '0');
+VALUES ('Issue3', 'IMPROVEMENT', 'HIGH', '4', '4', '2016-02-02', '25', '3', 'some text', '0', '0');
 INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue4', 'EPIC', 'CRITICAL', '3', '3', '2016-02-02', '53450000', '4', 'some text', '0', '0');
+VALUES ('Issue4', 'EPIC', 'CRITICAL', '3', '3', '2016-02-02', '5', '4', 'some text', '0', '0');
 INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue5', 'TASK', 'BLOCKER', '4', '4', '2016-02-02', '56450000', '5', 'some text', '0', '0');
+VALUES ('Issue5', 'TASK', 'BLOCKER', '4', '4', '2016-02-02', '15', '5', 'some text', '0', '0');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
 VALUES ('user6', 'user6', 'user6@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
