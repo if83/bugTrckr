@@ -6,6 +6,7 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-12">
+            <h3 class="col-sm-offset-1 pull-left">${project.title}</h3>
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/' />">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>

@@ -64,6 +64,41 @@ INSERT INTO User (firstName, lastName, email, password, role, description, proje
 VALUES ('quality_e4', 'quality_e4', 'quality_e3@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuIJu4uF3lOaaY/48mo5hoeSjpe5w.JHG',
         'ROLE_QA', 'qa', '4');
 
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_5', '1', '1', '0', 'description to project 5');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_6', '1', '0', '1', 'description to project 6');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_7', '1', '0', '1', 'description to project 7');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_8', '1', '0', '1', 'description to project 8');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_9', '0', '0', '1', 'description to project 9');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_10', '1', '1', '1', 'description to project 10');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_11', '0', '1', '1', 'description to project 11');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_12', '1', '1', '0', 'description to project 12');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_13', '1', '1', '1', 'description to project 13');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_14', '0', '0', '0', 'description to project 14');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_15', '0', '0', '1', 'description to project 15');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_16', '1', '0', '1', 'description to project 16');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_17', '1', '0', '0', 'description to project 17');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_18', '1', '1', '0', 'description to project 18');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_19', '0', '1', '1', 'description to project 19');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_20', '1', '0', '1', 'description to project 20');
+INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
+VALUES ('project_21', '1', '1', '1', 'description to project 21');
+
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('user1', 'user1', 'user1@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
         'user1');
