@@ -28,7 +28,7 @@
             </div>
             <div class="project-name">
                 Project:
-                <a class="viewLink" href="<spring:url value='/project/${release.project.id}'/>">${release.project.title}</a>
+                <a class="viewLink" href="<spring:url value='/projects/project/${release.project.id}'/>">${release.project.title}</a>
             </div>
             <div class="status-name">Status: ${release.releaseStatus}</div>
             <div class="release-description">Release description:</div>
@@ -83,9 +83,9 @@
                         </td>
                         <td>
                             <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
-                                    class="fa fa-edit icon-table-u"></i></a>
+                                    class="fa fa-edit fa-lg icon-table-u"></i></a>
                             <a href="<spring:url value='/issue/${issue.id}/remove'/>"><i
-                                    class="fa fa-remove icon-table-u"></i></a>
+                                    class="fa fa-trash fa-lg icon-table-u"></i></a>
                         </td>
                     </tr>
                 </c:forEach>

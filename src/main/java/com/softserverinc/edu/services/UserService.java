@@ -1,6 +1,7 @@
 package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
@@ -52,6 +53,10 @@ public class UserService {
         return userRepository.findByRoleNotAndIsDeletedFalse(role);
     }
 
+    public List<User> findAllAvaliableForRelease(ProjectRelease release) {
+        return userRepository.findByProjectAndIsDeletedFalse(release.getProject());
+    }
+
     @Transactional
     public List<User> findByProject(Project project) {
         return userRepository.findByProject(project);
@@ -65,16 +70,6 @@ public class UserService {
     @Transactional
     public Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable) {
         return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
-    }
-
-    public List<User> findByNotAssignedToIssue() {
-        List<User> result = new ArrayList<>();
-        for(User user: findByRoleNotAndIsDeletedFalse(UserRole.ROLE_ADMIN)) {
-            if(issueService.findByAssignee(user).isEmpty()) {
-                result.add(user);
-            }
-        }
-        return result;
     }
 
     @Transactional

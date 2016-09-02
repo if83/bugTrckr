@@ -43,7 +43,7 @@ public class ReleaseController {
                               Model model) {
         ProjectRelease release = releaseService.findById(releaseId);
         List<Issue> issues = issueService.findByProjectRelease(release);
-        List<User> users = userService.findByNotAssignedToIssue();
+        List<User> users = userService.findAllAvaliableForRelease(release);
         model.addAttribute("issues", issues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);

@@ -47,18 +47,12 @@ public class IssueService {
 
     public boolean isStatusChanged(Issue changedIssue) {
         Issue oldIssue = findById(changedIssue.getId());
-        if (!(oldIssue.getStatus().equals(changedIssue.getStatus()))) {
-            return true;
-        }
-        return false;
+        return !(oldIssue.getStatus().equals(changedIssue.getStatus()));
     }
 
     public boolean isAssigneeChanged(Issue changedIssue) {
         Issue oldIssue = findById(changedIssue.getId());
-        if (!(oldIssue.getAssignee().equals(changedIssue.getAssignee()))) {
-            return true;
-        }
-        return false;
+        return !(oldIssue.getAssignee().equals(changedIssue.getAssignee()));
     }
 
     public List<Issue> findByAssignee(User assignee) {
