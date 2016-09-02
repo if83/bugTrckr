@@ -100,8 +100,8 @@ public class ProjectController {
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
     public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model,
                                     Pageable pageable){
-        model.addAttribute("userList", userService.findByRole(UserRole.ROLE_USER, pageable));
-
+        model.addAttribute("userList",
+                userService.findByRoleAndIsDeletedFalseAndEnabledIs(UserRole.ROLE_USER, pageable, 1));
         model.addAttribute("project", projectService.findById(projectId));
         return "users_without_project";
     }

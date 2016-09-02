@@ -138,7 +138,7 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByRole(UserRole role, Pageable pageable){
-        return userRepository.findByRole(role, pageable);
+    public Page<User> findByRoleAndIsDeletedFalseAndEnabledIs(UserRole role, Pageable pageable, int enabled){
+        return userRepository.findByRoleAndIsDeletedFalseAndEnabledIs(role, pageable, enabled);
     }
 }
