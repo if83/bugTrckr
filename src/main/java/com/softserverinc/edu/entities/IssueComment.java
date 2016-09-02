@@ -26,7 +26,6 @@ public class IssueComment {
     @Column(nullable = false)
     private String text;
 
-    @NotNull
     @Generated(GenerationTime.INSERT)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)

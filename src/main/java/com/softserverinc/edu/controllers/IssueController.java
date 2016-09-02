@@ -1,12 +1,14 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Issue;
+import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.services.HistoryService;
+import com.softserverinc.edu.services.IssueCommentService;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
@@ -38,6 +40,9 @@ public class IssueController {
     @Autowired
     private HistoryService historyService;
 
+    @Autowired
+    private IssueCommentService issueCommentService;
+
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String listOfIssues(Model model) {
@@ -48,10 +53,12 @@ public class IssueController {
     }
 
 
-    @GetMapping(value = "issue/issue_view/{issueId}")
-    public String issueById(@PathVariable("issueId") Long issueId, Model model) {
+    @GetMapping(value = "issue/{issueId}")
+    public String issueById(@PathVariable("issueId") Long issueId, Model model, Principal principal) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         return "issue_view";
     }
 
@@ -140,6 +147,14 @@ public class IssueController {
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("statuses", IssueStatus.values());
+    }
+
+    private IssueComment getNewIssueComment(Principal principal, Long issueId) {
+        IssueComment issueComment = new IssueComment();
+        issueComment.setId(0L);
+        issueComment.setUser(userService.findOne(userService.findByEmailIs(principal.getName()).getId()));
+        issueComment.setIssue(issueService.findById(issueId));
+        return issueComment;
     }
 
     private String getCurrentTime() {

@@ -1,13 +1,19 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>--%>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left"> User Detail </h1>
+            <h1 class="pull-left"> Issue details </h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
@@ -89,6 +95,68 @@
             <div class="col-sm-9">${issue.description}</div>
         </div>
     </div>
+
+</div>
+
+<div class="col-sm-3">
+    <%--TODO: fix layout--%>
+</div>
+
+<div class="col-sm-6 margin-top-30">
+    <%--comments list--%>
+    <div>
+        <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <c:out value="${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}"/>
+                        &nbsp;commented at <c:out value="${issueCommentsListIterator.timeStamp}"/>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <%--TODO: fix bold font--%>
+                <tr>
+                    <th><c:out value="${issueCommentsListIterator.text}"/></th>
+                </tr>
+                <tr>
+                    <th class="pull-right">
+                        <%--<a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit' />">--%>
+                            <i class="fa fa-edit icon-table-u"></i></a>
+                        &nbsp;
+                        <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />">
+                            <i class="fa fa-remove icon-table-u"></i></a>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+        </c:forEach>
+    </div>
+
+    <%--comment form--%>
+    <div>
+        <form:form action="${newIssueComment.issue.id}/comment/save" modelAttribute="newIssueComment" method="POST">
+            <spring:bind path="text">
+                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
+                    <form:textarea path="text" cols="103" id="text" rows="5"
+                                   placeholder="Comment here..." value="${newIssueComment.text}"></form:textarea>
+                    <form:errors path="text" class="control-label"/>
+                </div>
+            </spring:bind>
+            <form:hidden path="user"/>
+            <form:hidden path="issue"/>
+            <form:hidden path="id"/>
+            <div class="col-sm-10 col-sm-offset-1">
+                <input type="submit" value="Comment" class="margin-top-30 btn-u pull-right"/>
+            </div>
+        </form:form>
+    </div>
+
+</div>
+
+<div class="col-sm-3">
 
 </div>
 

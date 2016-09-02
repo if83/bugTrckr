@@ -48,7 +48,7 @@
             <tr>
                 <td>
                     <a class="viewLink"
-                       href="<spring:url value='issue/issue_view/${issue.id}'/>">
+                       href="<spring:url value='issue/${issue.id}'/>">
                             ${issue.title}
                     </a>
                 </td>
