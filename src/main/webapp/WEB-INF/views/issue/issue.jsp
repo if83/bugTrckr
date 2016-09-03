@@ -18,6 +18,20 @@
     </div>
 </div>
 
+<c:if test="${not empty msg}">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+            <div class="alert alert-${css} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>${msg}</strong>
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <div class="margin-top-30 row">
     <div class="col-sm-2 col-sm-offset-1">
         <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i>
@@ -39,7 +53,7 @@
             <th>Create time</th>
             <th>Finish time</th>
             <th>Last updated</th>
-            <th>Estimate time</th>
+            <th>Estimate time, hrs</th>
             <th><%--Actions--%></th>
         </tr>
         </thead>

@@ -65,9 +65,9 @@ public class IssueController {
     @RequestMapping(value = "/issue/{id}/remove", method = RequestMethod.GET)
     public String removeIssue(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
         this.issueService.delete(id);
-        redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Issue is removed!");
-        LOGGER.debug("Issue is removed", "Issue id = " + id);
+        redirectAttributes.addFlashAttribute("alert", "success");
+        redirectAttributes.addFlashAttribute("msg", "Issue removed successfully!");
+        LOGGER.debug("Issue removed successfully!", "Issue id = " + id);
         return "redirect:/issue";
     }
 
@@ -84,8 +84,6 @@ public class IssueController {
     public String addIssue(Model model) {
         Issue issue = new Issue();
         model.addAttribute("sampleDate", new Date());
-        issue.setId(0L);
-        issue.setIsDeleted(false);
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "new");
         populateDefaultModel(model);
@@ -100,11 +98,11 @@ public class IssueController {
         if (result.hasErrors()) {
             return "issue";
         }
-        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("alert", "success");
         if (issue.isNewIssue()) {
             issue = issueService.save(issue);
             historyService.writeToTheHistory(HistoryAction.CREATE_ISSUE, issue, changedByUser, getCurrentTime());
-            redirectAttributes.addFlashAttribute("msg", "Issue added successfully!");
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
         } else {
             if (issueService.isStatusChanged(issue)) {
                 historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
@@ -113,7 +111,7 @@ public class IssueController {
                 historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
             }
             issueService.save(issue);
-            redirectAttributes.addFlashAttribute("msg", "Issue updated successfully!");
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
         }
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";

@@ -6,9 +6,11 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -20,25 +22,31 @@ public class Issue {
     @Column(unique = true, nullable = false)
     private Long id;
 
+    @NotNull
     @Column(nullable = false, length = 32)
     private String title;
 
+    @NotNull
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueType type;
 
+    @NotNull
     @Column(nullable = false, length = 32, columnDefinition = "varchar(32) default OPEN")
     @Enumerated(EnumType.STRING)
     private IssueStatus status = IssueStatus.OPEN;
 
+    @NotNull
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
     private ProjectRelease projectRelease;
 
+    @NotEmpty
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
@@ -46,18 +54,20 @@ public class Issue {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "issues")
     private Set<Label> labels;
 
+    @NotNull
     @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date createTime = new Date();
 
     @Column
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dueDate;
 
+    @NotNull
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date lastUpdateDate;
 
@@ -67,13 +77,12 @@ public class Issue {
     @Column
     private Long parentId;
 
+    @NotNull
     @Column(nullable = false, length = 10000)
     private String description;
 
-    @Column
-    private Boolean isDeleted;
-
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private Boolean editAbility;
 
     public Issue() {
@@ -187,36 +196,12 @@ public class Issue {
         return (this.id == null || this.id == 0L);
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public boolean getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
     }
 
     public Boolean getEditAbility() {

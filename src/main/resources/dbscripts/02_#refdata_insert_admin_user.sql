@@ -12,11 +12,16 @@ INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDe
 VALUES ('1', 'Beta 0.6.1', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci aperiam assumenda at aut corporis cumque cupiditate doloremque, earum error facilis inventore iste laboriosam magni, natus non officiis placeat quis rem sequi sit suscipit tenetur voluptate? Molestias perspiciatis reiciendis voluptatem!
 ', '0');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
-VALUES ('1', 'Beta 0.7.5', 'IN_PROGRESS', 'Adipisci autem cupiditate deleniti deserunt ducimus ex itaque mollitia non odio repellendus.', '0');
+VALUES ('1', 'Beta 0.7.5', 'IN_PROGRESS',
+        'Adipisci autem cupiditate deleniti deserunt ducimus ex itaque mollitia non odio repellendus.', '0');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
-VALUES ('1', '1.0', 'IN_PROGRESS', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.', '0');
+VALUES ('1', '1.0', 'IN_PROGRESS',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.',
+        '0');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
-VALUES ( '1', '2.4', 'OPEN', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.', '0');
+VALUES ('1', '2.4', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.',
+        '0');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('manager', 'manager', 'manager@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
@@ -154,43 +159,44 @@ VALUES
   ('guest7', 'guest7', 'guest7@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
    'guest7');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
-VALUES ('developer23', 'developer23', 'developer23@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-        'ROLE_DEVELOPER', 'pm', '1', '1');
+VALUES
+  ('developer23', 'developer23', 'developer23@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_DEVELOPER', 'pm', '1', '1');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
-VALUES ('developer24', 'developer24', 'developer24@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-        'ROLE_DEVELOPER', 'pm', '1', '1');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Remove configs', 'TASK', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'IN_PROGRESS', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Fix UI in search', 'TASK', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'IN_PROGRESS', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('GUI doesn`t loads', 'BUG', 'LOW', '1', '26', '2016-02-02', '32100000', '1', 'some text', '0', 'INVALID', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Fix typos', 'TASK', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'OPEN', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Update libs', 'BUG', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'IN_PROGRESS', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Don`t store user', 'TASK', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'OPEN', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Slow speed', 'EPIC', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'IN_PROGRESS', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Not logout', 'TASK', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'QA_VALIDATION', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Add default val', 'TASK', 'LOW', '1', '4', '2016-02-02', '32100000', '1', 'some text', '0', 'IN_PROGRESS', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status, isDeleted)
-VALUES ('Fix JS', 'TASK', 'LOW', '1', '2', '2016-02-02', '32100000', '1', 'some text', '0', 'IN_PROGRESS', '0');
+VALUES
+  ('developer24', 'developer24', 'developer24@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_DEVELOPER', 'pm', '1', '1');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Remove configs', 'TASK', 'LOW', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Fix UI in search', 'TASK', 'LOW', '1', '2', '2016-02-02', '10', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('GUI doesn`t loads', 'BUG', 'LOW', '1', '26', '2016-02-02', '30', '1', 'some text', '0', 'INVALID');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Fix typos', 'TASK', 'LOW', '1', '2', '2016-02-02', '50', '1', 'some text', '0', 'OPEN');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Update libs', 'BUG', 'LOW', '1', '2', '2016-02-02', '13', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Don`t store user', 'TASK', 'LOW', '1', '2', '2016-02-02', '54', '1', 'some text', '0', 'OPEN');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Slow speed', 'EPIC', 'LOW', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Not logout', 'TASK', 'LOW', '1', '2', '2016-02-02', '58', '1', 'some text', '0', 'QA_VALIDATION');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Add default val', 'TASK', 'LOW', '1', '4', '2016-02-02', '46', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Fix JS', 'TASK', 'LOW', '1', '2', '2016-02-02', '12', '1', 'some text', '0', 'IN_PROGRESS');
 
-
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue1', 'TASK', 'LOW', '2', '2', '2016-02-02', '40', '1', 'some text', '0', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue2', 'BUG', 'MEDIUM', '3', '3', '2016-02-02', '30', '2', 'some text', '0', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue3', 'IMPROVEMENT', 'HIGH', '4', '4', '2016-02-02', '25', '3', 'some text', '0', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue4', 'EPIC', 'CRITICAL', '3', '3', '2016-02-02', '5', '4', 'some text', '0', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, isDeleted)
-VALUES ('Issue5', 'TASK', 'BLOCKER', '4', '4', '2016-02-02', '15', '5', 'some text', '0', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Check Opera browser', 'TASK', 'LOW', '2', '2', '2016-02-02', '40', '1', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Fix styles', 'BUG', 'MEDIUM', '3', '3', '2016-02-02', '30', '2', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Remove new user', 'IMPROVEMENT', 'HIGH', '4', '4', '2016-02-02', '25', '3', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Add some options', 'EPIC', 'CRITICAL', '3', '3', '2016-02-02', '5', '4', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Remove pictures', 'TASK', 'BLOCKER', '4', '4', '2016-02-02', '15', '5', 'some text', '0');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
 VALUES ('user6', 'user6', 'user6@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
@@ -215,59 +221,77 @@ VALUES
    'user11', '1');
 
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user12', 'user12', 'user12@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user12');
+VALUES
+  ('user12', 'user12', 'user12@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user12');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user13', 'user13', 'user13@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user13');
+VALUES
+  ('user13', 'user13', 'user13@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user13');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user14', 'user14', 'user14@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user14');
+VALUES
+  ('user14', 'user14', 'user14@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user14');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user15', 'user15', 'user15@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user15');
+VALUES
+  ('user15', 'user15', 'user15@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user15');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user16', 'user16', 'user16@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user16');
+VALUES
+  ('user16', 'user16', 'user16@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user16');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user17', 'user17', 'user17@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user17');
+VALUES
+  ('user17', 'user17', 'user17@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user17');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user18', 'user18', 'user18@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user18');
+VALUES
+  ('user18', 'user18', 'user18@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user18');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user19', 'user19', 'user19@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user19');
+VALUES
+  ('user19', 'user19', 'user19@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user19');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user20', 'user20', 'user20@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user20');
+VALUES
+  ('user20', 'user20', 'user20@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user20');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user21', 'user21', 'user21@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user21');
+VALUES
+  ('user21', 'user21', 'user21@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user21');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user22', 'user22', 'user22@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user22');
+VALUES
+  ('user22', 'user22', 'user22@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user22');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user23', 'user23', 'user23@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user23');
+VALUES
+  ('user23', 'user23', 'user23@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user23');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user24', 'user24', 'user24@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user24');
+VALUES
+  ('user24', 'user24', 'user24@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user24');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user25', 'user25', 'user25@ss.com', '$2a$12$7f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user25');
+VALUES
+  ('user25', 'user25', 'user25@ss.com', '$2a$12$7f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user25');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user26', 'user26', 'user26@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user26');
+VALUES
+  ('user26', 'user26', 'user26@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user26');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user27', 'user27', 'user27@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user27');
+VALUES
+  ('user27', 'user27', 'user27@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user27');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user28', 'user28', 'user28@ss.com', '$2a$12$7f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user28');
+VALUES
+  ('user28', 'user28', 'user28@ss.com', '$2a$12$7f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user28');
 INSERT INTO User (firstName, lastName, email, password, role, description)
-VALUES ('user29', 'user29', 'user29@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user29');
+VALUES
+  ('user29', 'user29', 'user29@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+   'user29');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
 VALUES ('developer8', 'developer8', 'developer8@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
@@ -289,11 +313,13 @@ VALUES ('manager8', 'manager8', 'manager8@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0e
         'ROLE_PROJECT_MANAGER', 'pm', '2', '1');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES ('developer8', 'developer8', 'developer124@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-        'ROLE_DEVELOPER', 'developer8', '1', '1');
-        INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES ('developer8', 'developer8', 'developer127@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-        'ROLE_DEVELOPER', 'developer8', '1', '1');
+VALUES
+  ('developer8', 'developer8', 'developer124@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+   'ROLE_DEVELOPER', 'developer8', '1', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
+VALUES
+  ('developer8', 'developer8', 'developer127@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+   'ROLE_DEVELOPER', 'developer8', '1', '1');
 
 UPDATE User
 SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename = 'large.jpg'

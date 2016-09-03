@@ -5,6 +5,11 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
 
 <c:choose>
     <c:when test="${formAction eq 'new'}">
@@ -88,7 +93,7 @@
 
                     <spring:bind path="estimateTime">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="estimateTimeInput">Estimate time</label>
+                            <label for="estimateTimeInput">Estimate time in hours</label>
                             <form:input path="estimateTime" type="text" cssClass="form-control" id="estimateTimeInput"
                                         placeholder="estimateTime"/>
                             <form:errors path="estimateTime" cssClass="control-label"/>
@@ -97,9 +102,9 @@
 
                     <spring:bind path="dueDate">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="dueDateInput">Date to finish an issue</label>
-                            <form:input path="dueDate" type="text" cssClass="form-control" id="dueDateInput"
-                                        placeholder="yyyy-MM-DD" value="${dateString}"/>
+                            <label for="datepicker">Date to finish an issue</label>
+                            <form:input path="dueDate" type="text" cssClass="form-control" id="datepicker"
+                                         value="${dateString}"/>
                             <form:errors path="dueDate" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -152,7 +157,6 @@
 
                 <form:hidden path="createTime"/>
                 <form:hidden path="id"/>
-                <form:hidden path="isDeleted"/>
                 <div class="col-sm-12">
                     <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
                 </div>
