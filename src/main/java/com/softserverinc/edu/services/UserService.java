@@ -12,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -128,12 +127,12 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByEmailAndRole(String email, UserRole role, Pageable pageable){
+    public Page<User> findByEmailAndRole(String email, UserRole role, Pageable pageable) {
         return userRepository.findByEmailAndRole(email, role, pageable);
     }
 
     @Transactional
-    public Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled, Pageable pageable){
+    public Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled, Pageable pageable) {
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 }

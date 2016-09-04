@@ -6,7 +6,6 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -31,7 +30,6 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     private IssueType type;
 
-    @NotNull
     @Column(nullable = false, length = 32, columnDefinition = "varchar(32) default OPEN")
     @Enumerated(EnumType.STRING)
     private IssueStatus status = IssueStatus.OPEN;
@@ -46,7 +44,6 @@ public class Issue {
     @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
     private ProjectRelease projectRelease;
 
-    @NotEmpty
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
@@ -65,7 +62,6 @@ public class Issue {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dueDate;
 
-    @NotNull
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yyyy")

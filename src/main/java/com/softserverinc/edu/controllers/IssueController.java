@@ -14,6 +14,7 @@ import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,10 +46,16 @@ public class IssueController {
 
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
-    public String listOfIssues(Model model) {
-        model.addAttribute("listOfIssues", this.issueService.findAll());
-        populateDefaultModel(model);
+    public String listOfIssues(Model model, Pageable pageable) {
+        model.addAttribute("listOfIssues", issueService.findAll(pageable));
         LOGGER.debug("Issue list controller");
+        return "issue";
+    }
+
+    @PostMapping(value = "/issue/search")
+    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
+        model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
+        populateDefaultModel(model);
         return "issue";
     }
 
@@ -75,6 +82,7 @@ public class IssueController {
     public String editIssue(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("issue", this.issueService.findById(id));
         model.addAttribute("formAction", "edit");
+        populateDefaultModel(model);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
     }
@@ -85,8 +93,8 @@ public class IssueController {
         Issue issue = new Issue();
         model.addAttribute("sampleDate", new Date());
         model.addAttribute("issue", issue);
-        model.addAttribute("formAction", "new");
         populateDefaultModel(model);
+        model.addAttribute("formAction", "new");
         LOGGER.debug("Issue add form");
         return "issue_form";
     }
@@ -95,14 +103,16 @@ public class IssueController {
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = userService.findByEmailIs(principal.getName());
+        populateDefaultModel(model);
         if (result.hasErrors()) {
-            return "issue";
+            model.addAttribute("formAction", "new");
+            return "issue_form";
         }
         redirectAttributes.addFlashAttribute("alert", "success");
         if (issue.isNewIssue()) {
             issue = issueService.save(issue);
             historyService.writeToTheHistory(HistoryAction.CREATE_ISSUE, issue, changedByUser, getCurrentTime());
-            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
+            redirectAttributes.addFlashAttribute("msg", "Issue is added successfully!");
         } else {
             if (issueService.isStatusChanged(issue)) {
                 historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
@@ -110,8 +120,8 @@ public class IssueController {
             if (issueService.isAssigneeChanged(issue)) {
                 historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
             }
+            redirectAttributes.addFlashAttribute("msg", "Issue is updated successfully!");
             issueService.save(issue);
-            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
         }
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
@@ -142,6 +152,7 @@ public class IssueController {
     }
 
     private void populateDefaultModel(Model model) {
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("statuses", IssueStatus.values());

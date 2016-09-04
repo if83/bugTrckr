@@ -122,13 +122,13 @@ CREATE TABLE `LabelIssue` (
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-  CREATE TABLE `IssueComment` (
-	`id`          INT       NOT NULL AUTO_INCREMENT,
-	`text`        TEXT      NOT NULL,
-	`timeStamp`   TIMESTAMP NOT NULL,
-	`issueId`     INT       NOT NULL,
-	`userId`      INT       NOT NULL,
-	PRIMARY KEY (`id`)
+CREATE TABLE `IssueComment` (
+  `id`        INT       NOT NULL AUTO_INCREMENT,
+  `text`      TEXT      NOT NULL,
+  `timeStamp` TIMESTAMP NOT NULL,
+  `issueId`   INT       NOT NULL,
+  `userId`    INT       NOT NULL,
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -185,11 +185,11 @@ ALTER TABLE `LabelIssue`
   ON UPDATE CASCADE;
 
 ALTER TABLE `IssueComment`
-  ADD CONSTRAINT `IssueComments_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue`(`id`)
+  ADD CONSTRAINT `IssueComments_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
 ALTER TABLE `IssueComment`
-  ADD CONSTRAINT `IssueComments_fk1` FOREIGN KEY (`userId`) REFERENCES `User`(`id`)
+  ADD CONSTRAINT `IssueComments_fk1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;

@@ -3,16 +3,17 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left">Issue</h1>
+            <h1 class="pull-left">Issues</h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
-                <li class="active">Issue</li>
+                <li class="active">Issues</li>
             </ol>
         </div>
     </div>
@@ -32,12 +33,21 @@
     </div>
 </c:if>
 
-<div class="margin-top-30 row">
-    <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i>
-            Add issue</a>
-    </div>
+<div class="col-sm-2 col-sm-offset-1">
+    <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u pull-left">
+        <i class="fa fa-plus icon-bg-u"></i>Add Issue</a>
 </div>
+
+<div class="col-sm-4 col-sm-offset-1">
+    <form action="/issue/search" method="POST">
+        <div class="input-group">
+            <input name="title" type="text" class="form-control form-text" placeholder="Search By Issue's Title"/>
+            <span class="input-group-btn"><button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
+        </div>
+    </form>
+</div>
+
 <div class=class="margin-top-30">
     <table class="table table-hover">
 
@@ -58,7 +68,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="issue" items="${listOfIssues}">
+        <c:forEach var="issue" items="${listOfIssues.content}">
             <tr>
                 <td>
                     <a class="viewLink"
@@ -96,7 +106,8 @@
                         <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
                                 class="fa fa-hourglass-half icon-table-u"></i></a>
                         &nbsp
-                        <a href="<spring:url value='/issue/${issue.id}/edit' />"><i class="fa fa-edit icon-table-u"></i></a>
+                        <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
+                                class="fa fa-edit icon-table-u"></i></a>
                         &nbsp
                         <a href="<spring:url value='/issue/${issue.id}/remove' />"><i
                                 class="fa fa-remove icon-table-u"></i></a>
@@ -106,4 +117,5 @@
         </c:forEach>
         </tbody>
     </table>
+
 </div>

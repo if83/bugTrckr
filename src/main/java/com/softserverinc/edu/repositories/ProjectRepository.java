@@ -17,7 +17,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     List<Project> findByTitle(String title);
 
-    List <Project> findByUsers(User user);
+    List<Project> findByUsers(User user);
 
     Project findByProjectReleases(ProjectRelease projectRelease);
 

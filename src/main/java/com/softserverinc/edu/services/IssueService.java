@@ -1,14 +1,13 @@
 package com.softserverinc.edu.services;
 
-import com.softserverinc.edu.entities.Issue;
-import com.softserverinc.edu.entities.Label;
-import com.softserverinc.edu.entities.ProjectRelease;
-import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.*;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.repositories.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,4 +101,11 @@ public class IssueService {
         return issueRepository.saveAndFlush(issue);
     }
 
+    public Page<Issue> findByTitleContaining(String title, Pageable pageable) {
+        return issueRepository.findByTitleContaining(title, pageable);
+    }
+
+    public Page<Issue> findAll(Pageable pageable) {
+        return issueRepository.findAll(pageable);
+    }
 }

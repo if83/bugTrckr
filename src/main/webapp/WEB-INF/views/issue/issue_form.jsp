@@ -5,10 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
 
 <c:choose>
@@ -80,9 +76,12 @@
 
                     <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="assigneeInput">Assignee</label>
-                            <form:input path="assignee" type="text" cssClass="form-control" id="assigneeInput"
-                                        placeholder="Assignee Id"/>
+                            <label for="assigneeInput">Assignee Id</label>
+                            <form:select path="assignee" type="text" cssClass="form-control" id="assigneeInput"
+                                         placeholder="Assignee Id">
+                                <form:option value="${issue.assignee}" label="  Choose an assignee Id"/>
+                                <form:options items="${users}"/>
+                            </form:select>
                             <form:errors path="assignee" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -104,7 +103,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="datepicker">Date to finish an issue</label>
                             <form:input path="dueDate" type="text" cssClass="form-control" id="datepicker"
-                                         value="${dateString}"/>
+                                        value="${dateString}"/>
                             <form:errors path="dueDate" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -155,6 +154,7 @@
                     </div>
                 </div>
 
+                <form:hidden path="lastUpdateDate"/>
                 <form:hidden path="createTime"/>
                 <form:hidden path="id"/>
                 <div class="col-sm-12">

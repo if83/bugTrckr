@@ -1,12 +1,11 @@
 package com.softserverinc.edu.repositories;
 
-import com.softserverinc.edu.entities.Issue;
-import com.softserverinc.edu.entities.Label;
-import com.softserverinc.edu.entities.ProjectRelease;
-import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.*;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +16,8 @@ import java.util.List;
 public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     List<Issue> findByTitle(String title);
+
+    Page<Issue> findByTitleContaining(String title, Pageable pageable);
 
     List<Issue> findByType(IssueType type);
 
@@ -42,4 +43,5 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     void delete(Long id);
 
+    Page<Issue> findAll(Pageable pageable);
 }

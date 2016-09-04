@@ -51,21 +51,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="user" items="${userList.content}">
-                        <tr>
-                            <td><c:out value="${user.firstName}"/></td>
-                            <td><c:out value="${user.lastName}"/></td>
-                            <td><c:out value="${user.email}"/></td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                <c:forEach var="user" items="${userList.content}">
+                    <tr>
+                        <td><c:out value="${user.firstName}"/></td>
+                        <td><c:out value="${user.lastName}"/></td>
+                        <td><c:out value="${user.email}"/></td>
+                        <td class="text-center">
+                            <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
                                 ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
-                            </td>
-                            <td class="text-center">
-                                <a href="<spring:url value='/user/${user.id}/view'/>"
-                                   class="btn btn-primary btn-u">INFO</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                        </td>
+                        <td class="text-center">
+                            <a href="<spring:url value='/user/${user.id}/view'/>"
+                               class="btn btn-primary btn-u">INFO</a>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -80,12 +80,12 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                                <c:forEach var="page" begin="0"  end="${userList.getTotalPages() - 1}">
-                                    <li>
-                                        <a href="<spring:url value='/projects/project/${project.id}
+                            <c:forEach var="page" begin="0" end="${userList.getTotalPages() - 1}">
+                                <li>
+                                    <a href="<spring:url value='/projects/project/${project.id}
                                     /usersWithoutProject?page=${page}'/>">${page + 1}</a>
-                                    </li>
-                                </c:forEach>
+                                </li>
+                            </c:forEach>
                             <li>
                                 <a href="<spring:url value='/projects/project/${project.id}
                                 /usersWithoutProject?page=${userList.getTotalPages() - 1}'/>"
