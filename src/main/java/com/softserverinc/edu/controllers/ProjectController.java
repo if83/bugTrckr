@@ -73,17 +73,13 @@ public class ProjectController {
             projectService.save(project);
         } else {
             redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
-            projectService.update(project);
+            projectService.save(project);
         }
         return "redirect:/projects/project/" + project.getId();
     }
 
     @GetMapping(value = "/projects/{id}/remove")
     public String removeProject(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        for(User user: projectService.findById(id).getUsers()){
-            user.setRole(UserRole.ROLE_USER);
-            user.setProject(null);
-        }
         projectService.delete(id);
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Project was deleted!");
@@ -116,10 +112,7 @@ public class ProjectController {
 
     @GetMapping(value = "/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable("userId") Long userId) {
-        User user = userService.findOne(userId);
-        user.setRole(UserRole.ROLE_USER);
-        user.setProject(null);
-        userService.save(user);
+        userService.deleteFromProject(userId);
         return "redirect: /projects/project/{projectId}";
     }
 
@@ -135,22 +128,19 @@ public class ProjectController {
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
     public String changeUserRolePost(@ModelAttribute("role") UserRole role, @PathVariable("projectId") Long projectId,
                                      @PathVariable("userId") Long userId, Model model, RedirectAttributes redirectAttributes) {
-        Project project = projectService.findById(projectId);
         User user = userService.findOne(userId);
+        Project project = projectService.findById(projectId);
         model.addAttribute("user", user);
         model.addAttribute("project", project);
-        user.setRole(role);
         redirectAttributes.addFlashAttribute("alert", "success");
         if(user.getProject() == project){
-            userService.update(user);
-            redirectAttributes.addFlashAttribute("msg", String.format("%s %s role was changed", user.getLastName(),
-                    user.getFirstName()));
+            redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to %s", user.getLastName(),
+                    user.getFirstName(), role));
         } else{
-            user.setProject(project);
-            userService.save(user);
-            redirectAttributes.addFlashAttribute("msg", String.format("%s %s was added to %s", user.getLastName(),
-                    user.getFirstName(), project.getTitle()));
+            redirectAttributes.addFlashAttribute("msg", String.format("%s %s %s was added to %s ", role,
+                    user.getLastName(), user.getFirstName(), project.getTitle()));
         }
+        userService.changeUserRole(user, project, role);
         return "redirect:/projects/project/" + projectId;
     }
 

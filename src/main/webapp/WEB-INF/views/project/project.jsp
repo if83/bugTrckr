@@ -97,7 +97,7 @@
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
                                     ${users.lastName}</a>
                         </td>
-                        <td>${user.role}</td>
+                        <td>${user.role.toString()}</td>
                         <td class="text-center">
                             <c:choose>
                                 <c:when test="${!user.role.isProjectManager()}">

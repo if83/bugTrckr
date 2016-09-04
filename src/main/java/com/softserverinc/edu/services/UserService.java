@@ -21,6 +21,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private IssueService issueService;
 
     @Transactional
@@ -134,5 +137,22 @@ public class UserService {
     @Transactional
     public Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled, Pageable pageable) {
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
+    }
+
+    @Transactional
+    public User deleteFromProject(Long id) {
+        User user = userService.findOne(id);
+        user.setRole(UserRole.ROLE_USER);
+        user.setProject(null);
+        return userService.save(userRepository.getOne(id));
+    }
+
+    @Transactional
+    public User changeUserRole(User user, Project project, UserRole role){
+        user.setRole(role);
+        if(!(user.getProject() ==  project)) {
+            user.setProject(project);
+        }
+        return userService.save(user);
     }
 }

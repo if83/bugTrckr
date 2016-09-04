@@ -88,11 +88,11 @@ VALUES ('project_7', '1', '0', '1', 'description to project 7');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_8', '1', '0', '1', 'description to project 8');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_9', '0', '0', '1', 'description to project 9');
+VALUES ('project_9', '0', '0', '0', 'description to project 9');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_10', '1', '1', '1', 'description to project 10');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_11', '0', '1', '1', 'description to project 11');
+VALUES ('project_11', '1', '1', '1', 'description to project 11');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_12', '1', '1', '0', 'description to project 12');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
@@ -100,7 +100,7 @@ VALUES ('project_13', '1', '1', '1', 'description to project 13');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_14', '0', '0', '0', 'description to project 14');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_15', '0', '0', '1', 'description to project 15');
+VALUES ('project_15', '0', '0', '0', 'description to project 15');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_16', '1', '0', '1', 'description to project 16');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
@@ -108,7 +108,7 @@ VALUES ('project_17', '1', '0', '0', 'description to project 17');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_18', '1', '1', '0', 'description to project 18');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_19', '0', '1', '1', 'description to project 19');
+VALUES ('project_19', '0', '0', '0', 'description to project 19');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_20', '1', '0', '1', 'description to project 20');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
