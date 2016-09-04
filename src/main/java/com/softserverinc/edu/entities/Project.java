@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,8 @@ public class Project {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Please enter Project Title")
+    @Size(max = 100, message = "Project title must be no longer than 100 characters")
     @Column(nullable = false, length = 100)
     private String title;
 
@@ -28,23 +30,24 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
     private Set<ProjectRelease> projectReleases = new HashSet<>();
 
-    @NotNull
     @Column(nullable = false)
     private Boolean guestView;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean guestCreateIssues;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean guestAddComment;
 
-    @NotEmpty
+    @NotEmpty(message = "Please enter project description")
+    @Size(max = 10000, message = "Project title must be no longer than 10000 characters")
     @Column(length = 10000, nullable = false)
     private String description;
 
     public Project() {
+        guestAddComment = false;
+        guestCreateIssues = false;
+        guestView = false;
     }
 
     public Long getId() {

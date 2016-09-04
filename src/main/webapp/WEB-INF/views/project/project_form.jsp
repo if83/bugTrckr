@@ -42,43 +42,26 @@
                 </div>
             </spring:bind>
 
-            <spring:bind path="guestView">
-                <div class="form-group ${status.error ? 'has-error' : ''} margin-top-30">
-                    <label>Ability to review project by guests:</label>
-                    <label class="pull-right"><form:radiobutton path="guestView" value="false"/>False</label>
-                    <label class="pull-right"><form:radiobutton path="guestView" value="true"/>
-                        True &nbsp&nbsp</label>
-                    <form:errors path="guestView" class="control-label"/>
-                </div>
-            </spring:bind>
+            <label class="margin-top-30"><form:checkbox id="guest" path="guestView" value="true"/>
+                &nbsp&nbspEnable project review by guests</label>
 
-            <spring:bind path="guestCreateIssues">
-                <div class="form-group ${status.error ? 'has-error' : ''} margin-top-30">
-                    <label>Ability to create issue by guests:</label>
-                    <label class="pull-right"><form:radiobutton path="guestCreateIssues" value="false"/>False</label>
-                    <label class="pull-right"><form:radiobutton path="guestCreateIssues" value="true"/>
-                        True &nbsp&nbsp</label>
-                    <form:errors path="guestCreateIssues" class="control-label"/>
-                </div>
-            </spring:bind>
-
-            <form:hidden path="id"/>
-
-            <spring:bind path="guestAddComment">
-                <div class="form-group ${status.error ? 'has-error' : ''} margin-top-30">
-                    <label>Ability to comment issues in project:</label>
-                    <label class="pull-right"><form:radiobutton path="guestAddComment" value="false"/>False</label>
-                    <label class="pull-right"><form:radiobutton path="guestAddComment" value="true"/>
-                        True &nbsp&nbsp</label>
-                    <form:errors path="guestAddComment" class="control-label"/>
-                </div>
-            </spring:bind>
+            <div id="enableView" hidden>
+                <label class="margin-top-30"><form:checkbox id="issue" path="guestCreateIssues" value="true"/>
+                    &nbsp&nbspEnable creation of issue by guests</label>
+                <label class="margin-top-30"><form:checkbox id="comment" path="guestAddComment" value="true"/>
+                    &nbsp&nbspEnable commenting of issues in project</label>
+            </div>
         </div>
 
-        <div class="col-sm-10 col-sm-offset-1">
-            <label for="editor1">Description</label><br/>
-            <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
-        </div>
+        <form:hidden path="id"/>
+
+        <spring:bind path="description">
+            <div class="margin-top-30 col-sm-10 col-sm-offset-1 form-group ${status.error ? 'has-error' : ''}">
+                <label for="editor1">Description</label><br/>
+                <form:errors path="description" class="control-label"/>
+                <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
+            </div>
+        </spring:bind>
 
         <div class="col-sm-10 col-sm-offset-1">
             <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>

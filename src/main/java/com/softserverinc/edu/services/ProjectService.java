@@ -3,6 +3,7 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,12 @@ public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
 
     public Project findById(Long id) {
         return projectRepository.findOne(id);
@@ -65,11 +72,11 @@ public class ProjectService {
 
     @Transactional
     public void delete(Long id) {
+        for(User user: projectService.findById(id).getUsers()){
+            user.setRole(UserRole.ROLE_USER);
+            user.setProject(null);
+            userService.save(user);
+        }
         projectRepository.delete(id);
-    }
-
-    @Transactional
-    public Project update(Project project) {
-        return projectRepository.saveAndFlush(project);
     }
 }
