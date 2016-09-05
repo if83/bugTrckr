@@ -60,11 +60,6 @@
                                         ${issue.status}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="statuses-label">
-                                    <c:forEach var="status" items="${issueStatuses}">
-                                        <li value='${status}'>
-                                            <a href="#">${status}</a>
-                                        </li>
-                                    </c:forEach>
                                 </ul>
                             </div>
                         </td>

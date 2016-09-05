@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,35 @@ public class IssueService {
 
     public List<Issue> findByPriority(IssuePriority priority) {
         return issueRepository.findByPriority(priority);
+    }
+
+    public List<IssueStatus> getAvaliableIssueStatuses(Issue issue) {
+        List<IssueStatus> result = new ArrayList<>();
+        IssueStatus issueStatus = issue.getStatus();
+        switch (issueStatus) {
+            case OPEN:
+                result.add(IssueStatus.IN_PROGRESS);
+                result.add(IssueStatus.INVALID);
+                return result;
+            case IN_PROGRESS:
+                result.add(IssueStatus.OPEN);
+                result.add(IssueStatus.QA_VALIDATION);
+                result.add(IssueStatus.INVALID);
+                return result;
+            case INVALID:
+                result.add(IssueStatus.OPEN);
+                return result;
+            case QA_VALIDATION:
+                result.add(IssueStatus.OPEN);
+                result.add(IssueStatus.RESOLVED);
+                return result;
+            case RESOLVED:
+                result.add(IssueStatus.OPEN);
+                result.add(IssueStatus.INVALID);
+                return result;
+            default:
+                return result;
+        }
     }
 
     public List<Issue> findByProjectRelease(ProjectRelease projectRelease) {

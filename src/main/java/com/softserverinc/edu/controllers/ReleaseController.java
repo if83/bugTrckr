@@ -47,7 +47,6 @@ public class ReleaseController {
         model.addAttribute("issues", issues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);
-        populateDefaultModelByIssueStatuses(model);
         return "release";
     }
 
@@ -109,10 +108,6 @@ public class ReleaseController {
 
     private void populateDefaultModelByReleaseStatuses(Model model) {
         model.addAttribute("releaseStatuses", ReleaseStatus.values());
-    }
-
-    private void populateDefaultModelByIssueStatuses(Model model) {
-        model.addAttribute("issueStatuses", IssueStatus.values());
     }
 
 }

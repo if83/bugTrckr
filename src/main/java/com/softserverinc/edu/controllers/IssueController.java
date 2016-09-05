@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class IssueController {
@@ -149,6 +150,12 @@ public class IssueController {
         issue.setStatus(issueStatus);
         issue = issueService.save(issue);
         historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
+    }
+
+    @RequestMapping(value = "/getAvaliableIssueStatuses", method = RequestMethod.POST)
+    public @ResponseBody List<IssueStatus> getAvaliableIssueStatuses(@RequestParam("issueId") String issueId) {
+        Issue issue = issueService.findById(Long.valueOf(issueId));
+        return issueService.getAvaliableIssueStatuses(issue);
     }
 
     private void populateDefaultModel(Model model) {
