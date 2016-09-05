@@ -1,35 +1,41 @@
 $(document).ready(function () {
 
     // changing assignee of issue from dropdown in issues-table
-    $(".users-dropdown li").on('click', function () {
+    $(".users-dropdown").on('click', 'li', function () {
         var selectedUserName = $(this).text();
-        var selectedUserId = $(this).val();
-        $(this).parents(".users-dropdown").find(".users-label").text(selectedUserName);
-        var issueId = $(this).parents("tr").find("input[name='issueId']").val();
         var queryObj = {};
-        queryObj.userId = selectedUserId;
+        queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
+        queryObj.data = $(this).val();
+        queryObj.action = "changeAssignee";
+        $(this).parents(".users-dropdown").find(".users-label").text(selectedUserName);
         $.ajax({
-            url: "/issue/" + issueId + "/changeAssignee",
+            url: "/issue/changeIssue",
             data: queryObj,
             type: 'POST'
         });
+        $(".users-dropdown").removeClass("open");
+        return false;
     });
 
     // changing status of issue from dropdown in issues-table
     $(".statuses-dropdown").on('click', 'li', function () {
         var selectedStatusName = $(this).text();
-        $(this).parents(".statuses-dropdown").find(".statuses-label").text(selectedStatusName);
-        var issueId = $(this).parents("tr").find("input[name='issueId']").val();
         var queryObj = {};
-        queryObj.status = selectedStatusName;
+        queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
+        queryObj.data = selectedStatusName;
+        queryObj.action = "changeStatus";
+        $(this).parents(".statuses-dropdown").find(".statuses-label").text(selectedStatusName);
         $.ajax({
-            url: "/issue/" + issueId + "/changeStatus",
+            url: "/issue/changeIssue",
             data: queryObj,
             type: 'POST'
         });
+        $(".statuses-dropdown").removeClass("open");
+        return false;
     });
 
-    $(".statuses-dropdown .statuses-label").on('click', function () {
+    // load avaliable statuses for dropdown-menu
+    $(".statuses-dropdown").on('click', '.statuses-label', function () {
         $(".statuses-dropdown .dropdown-menu").html('');
         var issueId = $(this).parents("tr").find("input[name='issueId']").val();
         var queryObj = {};

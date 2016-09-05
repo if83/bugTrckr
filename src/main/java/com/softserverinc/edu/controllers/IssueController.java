@@ -128,28 +128,22 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    @RequestMapping(value = "/issue/{issueId}/changeAssignee", method = RequestMethod.POST)
-    public void changeAssignee(@PathVariable("issueId") Long issueId,
-                               @RequestParam("userId") String userId,
-                               Principal principal) {
+    @RequestMapping(value = "/issue/changeIssue", method = RequestMethod.POST)
+    public void changeIssueByAjax(@RequestParam("issueId") Long issueId,
+                                  @RequestParam("action") String action,
+                                  @RequestParam("data") String data,
+                                  Principal principal) {
         Issue issue = issueService.findById(issueId);
         User changedByUser = userService.findByEmailIs(principal.getName());
-        User assignedToUser = userService.findOne(Long.valueOf(userId));
-        issue.setAssignee(assignedToUser);
-        issue = issueService.save(issue);
-        historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
-    }
-
-    @RequestMapping(value = "/issue/{issueId}/changeStatus", method = RequestMethod.POST)
-    public void changeStatus(@PathVariable("issueId") Long issueId,
-                             @RequestParam("status") String status,
-                             Principal principal) {
-        Issue issue = issueService.findById(issueId);
-        User changedByUser = userService.findByEmailIs(principal.getName());
-        IssueStatus issueStatus = IssueStatus.valueOf(status);
-        issue.setStatus(issueStatus);
-        issue = issueService.save(issue);
-        historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
+        if (action.equals("changeAssignee")) {
+            issue.setAssignee(userService.findOne(Long.valueOf(data)));
+            issue = issueService.save(issue);
+            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
+        } else {
+            issue.setStatus(IssueStatus.valueOf(data));
+            issue = issueService.save(issue);
+            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
+        }
     }
 
     @RequestMapping(value = "/getAvaliableIssueStatuses", method = RequestMethod.POST)

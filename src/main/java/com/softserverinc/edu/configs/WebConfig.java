@@ -84,25 +84,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return rb;
     }
 
-/*    @Bean
-    public UrlBasedViewResolver urlBasedViewResolver() {
-        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".jsp");
-        resolver.setCache(false);
-        resolver.setViewClass(JstlView.class);
-        return resolver;
-    }
-
-    @Bean
-    public ViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/views/");
-        bean.setSuffix(".jsp");
-        return bean;
-    }*/
-
     /**
      * Instructs Spring to use CommonsMultipartResolver class as realization of multipartResolver
      *
