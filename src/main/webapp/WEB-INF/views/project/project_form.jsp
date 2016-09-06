@@ -42,10 +42,11 @@
                 </div>
             </spring:bind>
 
-            <label class="margin-top-30"><form:checkbox id="guest" path="guestView" value="true"/>
-                &nbsp&nbspEnable project review by guests</label>
+            <label class="margin-top-30">
+                <form:checkbox id="guest" path="guestView" value="true"/>&nbsp&nbspEnable project review by guests
+            </label>
 
-            <div id="enableView" hidden>
+            <div id="enableView">
                 <label class="margin-top-30"><form:checkbox id="issue" path="guestCreateIssues" value="true"/>
                     &nbsp&nbspEnable creation of issue by guests</label>
                 <label class="margin-top-30"><form:checkbox id="comment" path="guestAddComment" value="true"/>

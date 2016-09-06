@@ -77,6 +77,6 @@ public class ProjectService {
             user.setProject(null);
             userService.save(user);
         }
-        projectRepository.delete(id);
+        projectService.delete(id);
     }
 }

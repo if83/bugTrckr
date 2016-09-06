@@ -7,7 +7,7 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-3 col-sm-offset-1">
-            <h1 class="pull-left">Users without projects</h1>
+            <h1 class="pull-left">Users Without Projects</h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
@@ -21,23 +21,25 @@
     </div>
 </div>
 
-<div class="margin-top-30 row">
-    <div class="col-sm-10 col-sm-offset-2">
-        <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST" class="form-inline">
-            <div class="input-group">
-                <%--<input name="role" hidden type="text" value=""/>--%>
-                <input name="email" type="text" class="form-control form-text" placeholder="E-mail"/>
-                <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
-            </div>
-        </form>
+<div class="row margin-top-20">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="input-group">
+            <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST" class="form-inline">
+                <select class="form-control form-inline" style="width: auto" type="text" name="searchedParam">
+                    <option value="Email">E-mail</option>
+                    <option value="First Name">First Name</option>
+                    <option value="Last Name">Last Name</option>
+                </select>
+                <span class="input-group-btn"><input type="text" class="form-control" name="searchedString"
+                                                     placeholder="Search...">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search"></span></button></span>
+            </form>
+        </div>
     </div>
 </div>
 
-<div class="margin-top-30">
+<div class="margin-top-20">
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <table class="table table-hover table-bordered">

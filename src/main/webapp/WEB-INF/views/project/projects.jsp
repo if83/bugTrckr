@@ -31,23 +31,27 @@
     </div>
 </c:if>
 
-<div class="col-sm-2 col-sm-offset-1">
-    <a href="<spring:url value='/projects/add/' />" class="btn btn-primary btn-u pull-left">
-        <i class="fa fa-plus icon-bg-u"></i>Add Project</a>
+<div class="row margin-top-20">
+    <div class="col-sm-2 col-sm-offset-2">
+        <a href="<spring:url value='/projects/add/' />" class="btn btn-primary btn-u pull-left">
+            <i class="fa fa-plus icon-bg-u"></i>Add Project</a>
+    </div>
 </div>
 
-<div class="col-sm-4 col-sm-offset-1">
-    <form action="search" method="POST">
-        <div class="input-group">
-            <input name="title" type="text" class="form-control form-text" placeholder="Search By Project's Title"/>
+<div class="row margin-top-20">
+    <div class="col-sm-3 col-sm-offset-2">
+        <form action="/search" method="POST">
+            <div class="input-group">
+                <input name="title" type="text" class="form-control form-text" placeholder="Search By Project's Title"/>
             <span class="input-group-btn"><button type="submit" class="btn btn-default">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
-        </div>
-    </form>
+            </div>
+        </form>
+    </div>
 </div>
 
-<div class="margin-top-30">
-    <div class="margin-top-30 col-sm-8 col-sm-offset-2">
+<div class="row">
+    <div class="margin-top-20 col-sm-8 col-sm-offset-2">
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
@@ -68,12 +72,12 @@
                         </td>
                         <td class="text-center">
                             <c:choose>
-                            <c:when test="${project.guestView == true}">
-                            <i class="glyphicon glyphicon-ok"/>
-                            </c:when>
-                            <c:otherwise>
-                            <i class="glyphicon glyphicon-remove"/>
-                            </c:otherwise>
+                                <c:when test="${project.guestView == true}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="glyphicon glyphicon-remove"/>
+                                </c:otherwise>
                             </c:choose>
                         <td class="text-center">
                             <c:choose>

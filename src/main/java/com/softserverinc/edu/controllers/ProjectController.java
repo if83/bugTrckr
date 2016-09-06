@@ -33,7 +33,7 @@ public class ProjectController {
     @Autowired
     private ProjectReleaseService releaseService;
 
-    @RequestMapping(value = "/projects", method = RequestMethod.GET)
+    @GetMapping(value = "/projects")
     public String listOfProjects(ModelMap model, Pageable pageable) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
         return "projects";
@@ -47,8 +47,8 @@ public class ProjectController {
 
     @GetMapping(value = "projects/project/{projectId}")
     public String projectPage(@PathVariable("projectId") Long projectId, Model model) {
-        model.addAttribute("usersList", userService.findByProjectAndIsDeletedAndEnabledIs
-                (projectService.findById(projectId), false, 1));
+        model.addAttribute("usersList",
+                userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("releases", releaseService.findByProject(projectService.findById(projectId)));
         return "project";
@@ -70,11 +70,11 @@ public class ProjectController {
         }
         if (project.getId() == null) {
             redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
-            projectService.save(project);
+
         } else {
             redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
-            projectService.save(project);
         }
+        projectService.save(project);
         return "redirect:/projects/project/" + project.getId();
     }
 
@@ -94,8 +94,7 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
-    public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model,
-                                    Pageable pageable){
+    public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model, Pageable pageable){
         model.addAttribute("userList",
                 userService.findByRoleAndIsDeletedAndEnabledIs(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
@@ -103,10 +102,13 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/search")
-    public String searchUserByEmail(@RequestParam(value = "email") String email,
-                                    @PathVariable("projectId") Long projectId, Model model, Pageable pageable) {
+    public String searchUsersWithoutProjects(@RequestParam(value = "searchedParam") String searchedParam,
+                                            @RequestParam(value = "searchedString") String searchedString,
+                                            @PathVariable("projectId") Long projectId, Model model,
+                                            Pageable pageable) {
         model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("userList", userService.findByEmailAndRole(email, UserRole.ROLE_USER, pageable));
+        model.addAttribute("userList", userService.searchByUsersWithoutProject(searchedParam, searchedString,
+                pageable));
         return "users_without_project";
     }
 
@@ -126,16 +128,18 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
-    public String changeUserRolePost(@ModelAttribute("role") UserRole role, @PathVariable("projectId") Long projectId,
-                                     @PathVariable("userId") Long userId, Model model, RedirectAttributes redirectAttributes) {
+    public String changeUserRolePost(@ModelAttribute("role") UserRole role,
+                                     @PathVariable("projectId") Long projectId,
+                                     @PathVariable("userId") Long userId, Model model,
+                                     RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
         model.addAttribute("user", user);
         model.addAttribute("project", project);
         redirectAttributes.addFlashAttribute("alert", "success");
         if(user.getProject() == project){
-            redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to %s", user.getLastName(),
-                    user.getFirstName(), role));
+            redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to %s",
+                    user.getLastName(), user.getFirstName(), role));
         } else{
             redirectAttributes.addFlashAttribute("msg", String.format("%s %s %s was added to %s ", role,
                     user.getLastName(), user.getFirstName(), project.getTitle()));

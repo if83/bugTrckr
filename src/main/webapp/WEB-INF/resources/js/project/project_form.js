@@ -1,26 +1,24 @@
 $(document).ready(function () {
+    if ($('#guest').is(':checked')){
+        $('#enableView').show();
+    }else {
+        $('#enableView').hide();
+    }
+    
     $('#guest').change(function(){
-        if($(this).is(':checked')){
-            $('#enableView').show();
-        } else {
-            $('#enableView').hide();
-        }
+       if ($(this).is(':checked')){
+           $('#enableView').show();
+           $('#issue').attr('disabled', false);
+           $('#comment').attr('disabled', false);
+       }else {
+           $('#enableView').hide();
+           $('#issue').attr('disabled', true);
+           $('#comment').attr('disabled', true);
+       }
     });
     
-    $('#issue, #comment').change(function () {
-        if (($('#issue').is(":checked")) | $('#comment').is(":checked")) {
-            $('#guest').attr('disabled', true);
-        } else {
-            $('#guest').attr('disabled', false);
-        }
+    CKEDITOR.replace('editor1', {
+            toolbar: 'Basic'
     });
 });
-
-$(document).ready(function () {
-    CKEDITOR.replace('editor1',
-        {
-            toolbar: 'Basic'
-        });
-});
-
 

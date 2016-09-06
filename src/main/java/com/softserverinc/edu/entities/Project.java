@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class Project {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @NotEmpty(message = "Please enter Project Title")
+    @NotEmpty(message = "Please enter project title")
     @Size(max = 100, message = "Project title must be no longer than 100 characters")
     @Column(nullable = false, length = 100)
     private String title;
@@ -45,9 +44,6 @@ public class Project {
     private String description;
 
     public Project() {
-        guestAddComment = false;
-        guestCreateIssues = false;
-        guestView = false;
     }
 
     public Long getId() {

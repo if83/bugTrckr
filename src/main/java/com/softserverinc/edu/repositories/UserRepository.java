@@ -43,8 +43,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable);
 
-    Page<User> findByEmailAndRole(String email, UserRole role, Pageable pageable);
+    Page<User> findByEmailAndRoleAndIsDeletedAndEnabledIs(String email, UserRole role, boolean isDeleted,
+                                                                 int enable, Pageable pageable);
 
     Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled, Pageable pageable);
 
+    Page<User> findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(String firstName,  UserRole role,
+                                                                        boolean isDeleted, int enabled,
+                                                                        Pageable pageable);
+
+    Page<User> findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(String lastName,  UserRole role,
+                                                                       boolean isDeleted, int enabled,
+                                                                       Pageable pageable);
 }
