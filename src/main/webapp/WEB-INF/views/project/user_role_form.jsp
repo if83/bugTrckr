@@ -25,23 +25,8 @@
     <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/role" method="POST">
         <h3 class="text-center">Select Role for User</h3><br/>
         <select class="form-control" name="role" type="text">
-            <c:choose>
-                <c:when test="${project.getUsers().isEmpty()}">
-                    <option class="text-center" value="${PM}">Project Manager</option>
-                </c:when>
-                <c:otherwise>
-                    <c:if test="${user.getRole().isDeveloper()}">
-                        <option class="text-center" value="${QA}">Quality Assurance</option>
-                    </c:if>
-                    <c:if test="${user.getRole().isQA()}">
-                        <option class="text-center" value="${DEV}">Developer</option>
-                    </c:if>
-                    <c:if test="${user.getRole().isUser()}">
-                        <option class="text-center" value="${DEV}">Developer</option>
-                        <option class="text-center" value="${QA}">Quality Assurance</option>
-                    </c:if>
-                </c:otherwise>
-            </c:choose>
+            <option class="text-center" value="${DEV}">Developer</option>
+            <option class="text-center" value="${QA}">Quality Assurance</option>
         </select>
         <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right"/>
     </form>

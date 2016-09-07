@@ -95,7 +95,7 @@
                     <tr>
                         <td>
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
-                                    ${users.lastName}</a>
+                                    ${user.lastName}</a>
                         </td>
                         <td>${user.role.toString()}</td>
                         <td class="text-center">

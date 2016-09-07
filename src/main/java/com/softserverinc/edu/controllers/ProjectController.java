@@ -121,10 +121,20 @@ public class ProjectController {
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
     public String changeUserRoleGet(@PathVariable("projectId") Long projectId,
                                     @PathVariable("userId") Long userId, Model model) {
-        usersRolesInProject(model);
-        model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("user", userService.findOne(userId));
-        return "user_role_form";
+        User user = userService.findOne(userId);
+        Project project = projectService.findById(projectId);
+        if(user.getProject() != null){
+            userService.changeUserRoleInProject(user);
+            return "redirect:/projects/project/" + projectId;
+        }else if(project.getUsers().isEmpty()){
+            userService.changeUserRole(user, project, UserRole.ROLE_PROJECT_MANAGER);
+            return "redirect:/projects/project/" + projectId;
+        }else{
+            usersRolesInProject(model);
+            model.addAttribute("project", project);
+            model.addAttribute("user", user);
+            return "user_role_form";
+        }
     }
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")

@@ -169,9 +169,24 @@ public class UserService {
 
     @Transactional
     public User changeUserRole(User user, Project project, UserRole role){
-        user.setRole(role);
-        if(user.getProject() !=  project) {
+        if(project.getUsers().isEmpty()) {
             user.setProject(project);
+            user.setRole(UserRole.ROLE_PROJECT_MANAGER);
+        }else{
+            user.setRole(role);
+            if(user.getProject() !=  project) {
+                user.setProject(project);
+            }
+        }
+        return userService.save(user);
+    }
+
+    @Transactional
+    public User changeUserRoleInProject(User user){
+        if (user.getRole() == UserRole.ROLE_DEVELOPER) {
+            user.setRole(UserRole.ROLE_QA);
+        } else {
+            user.setRole(UserRole.ROLE_DEVELOPER);
         }
         return userService.save(user);
     }

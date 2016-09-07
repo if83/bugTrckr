@@ -59,8 +59,16 @@
                         <td><c:out value="${user.lastName}"/></td>
                         <td><c:out value="${user.email}"/></td>
                         <td class="text-center">
-                            <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
+                            <c:choose>
+                                <c:when test="${project.getUsers().isEmpty()}">
+                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                                    ${user.id}/role'/>" class="btn btn-primary btn-u">ADD PM</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
+                                    ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                         <td class="text-center">
                             <a href="<spring:url value='/user/${user.id}/view'/>"
