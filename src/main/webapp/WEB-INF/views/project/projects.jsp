@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="breadcrumbs">
     <div class="row">
@@ -31,12 +32,14 @@
     </div>
 </c:if>
 
-<div class="row margin-top-20">
-    <div class="col-sm-2 col-sm-offset-2">
-        <a href="<spring:url value='/projects/add/' />" class="btn btn-primary btn-u pull-left">
-            <i class="fa fa-plus icon-bg-u"></i>Add Project</a>
+<sec:authorize access="hasRole('ADMIN')">
+    <div class="row margin-top-20">
+        <div class="col-sm-2 col-sm-offset-2">
+            <a href="<spring:url value='/projects/add/' />" class="btn btn-primary btn-u pull-left">
+                <i class="fa fa-plus icon-bg-u"></i>Add Project</a>
+        </div>
     </div>
-</div>
+</sec:authorize>
 
 <div class="row margin-top-20">
     <div class="col-sm-3 col-sm-offset-2">
@@ -59,8 +62,10 @@
                 <th class="text-center">Free to view</th>
                 <th class="text-center">Free to comment</th>
                 <th class="text-center">Free to add Issue</th>
+                <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                 <th class="text-center">Edit</th>
                 <th class="text-center">Delete</th>
+                </sec:authorize>
             </tr>
             </thead>
             <tbody>
@@ -99,14 +104,16 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td class="text-center">
-                            <a href="<spring:url value='/projects/${project.id}/edit' />">
-                                <i class="fa fa-edit fa-lg icon-table-u"></i></a>
-                        </td>
-                        <td class="text-center">
-                            <a href="<spring:url value='/projects/${project.id}/remove' />">
-                                <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                        </td>
+                        <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
+                            <td class="text-center">
+                                <a href="<spring:url value='/projects/${project.id}/edit' />">
+                                    <i class="fa fa-edit fa-lg icon-table-u"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="<spring:url value='/projects/${project.id}/remove' />">
+                                    <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                            </td>
+                        </sec:authorize>
                     </tr>
                 </c:forEach>
             </tbody>

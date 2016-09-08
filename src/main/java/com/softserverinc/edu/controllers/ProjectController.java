@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class ProjectController {
@@ -45,8 +49,10 @@ public class ProjectController {
         return "projects";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA', 'GUEST') and " +
+            "@projectService.findById(#projectId).guestView)")
     @GetMapping(value = "projects/project/{projectId}")
-    public String projectPage(@PathVariable("projectId") Long projectId, Model model) {
+    public String projectPage(@PathVariable @P("projectId") Long projectId, Model model) {
         model.addAttribute("usersList",
                 userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
         model.addAttribute("project", projectService.findById(projectId));
@@ -54,6 +60,7 @@ public class ProjectController {
         return "project";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/projects/add")
     public String addProject(Model model) {
         model.addAttribute("project", new Project());
@@ -78,23 +85,29 @@ public class ProjectController {
         return "redirect:/projects/project/" + project.getId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/projects/{id}/remove")
-    public String removeProject(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String removeProject(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         projectService.delete(id);
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Project was deleted!");
         return "redirect:/projects";
     }
 
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
+            "#id == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping(value = "/projects/{id}/edit")
-    public String editProject(@PathVariable("id") Long id, Model model) {
+    public String editProject(@PathVariable @P("id") Long id, Model model, @Param("principal") Principal principal) {
         model.addAttribute("project", projectService.findById(id));
         model.addAttribute("formaction", "edit");
         return "project_form";
     }
 
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
+            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
-    public String addUsersToProject(@PathVariable("projectId") Long projectId, Model model, Pageable pageable){
+    public String addUsersToProject(@PathVariable @P("projectId") Long projectId,
+                                    Model model, @Param("principal") Principal principal, Pageable pageable){
         model.addAttribute("userList",
                 userService.findByRoleAndIsDeletedAndEnabledIs(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
@@ -112,15 +125,20 @@ public class ProjectController {
         return "users_without_project";
     }
 
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
+            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/removeUser/{userId}")
-    public String removeUserFromProject(@PathVariable("userId") Long userId) {
+    public String removeUserFromProject(@PathVariable Long userId, @PathVariable @P("projectId") Long projectId,
+                                        @Param("principal") Principal principal) {
         userService.deleteFromProject(userId);
         return "redirect: /projects/project/{projectId}";
     }
 
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
+            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
-    public String changeUserRoleGet(@PathVariable("projectId") Long projectId,
-                                    @PathVariable("userId") Long userId, Model model) {
+    public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable Long userId,
+                                    Model model, @Param("principal") Principal principal) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
         if(user.getProject() != null){
@@ -139,8 +157,7 @@ public class ProjectController {
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
     public String changeUserRolePost(@ModelAttribute("role") UserRole role,
-                                     @PathVariable("projectId") Long projectId,
-                                     @PathVariable("userId") Long userId, Model model,
+                                     @PathVariable Long projectId, @PathVariable Long userId, Model model,
                                      RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);

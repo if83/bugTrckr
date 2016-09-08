@@ -20,7 +20,7 @@
         <div class="col-sm-2 col-sm-offset-1">
             <h1 class="pull-left"> ${breadcrumsname} </h1>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
