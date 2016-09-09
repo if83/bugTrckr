@@ -64,17 +64,31 @@ public class Label {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Label label = (Label) o;
+
+        return new EqualsBuilder()
+                .append(id, label.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+        return new ToStringBuilder(this)
+                .append("title", title)
+                .append("id", id)
+                .toString();
     }
+
 }

@@ -195,17 +195,35 @@ public class User {
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
-    @Override
     public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return new EqualsBuilder()
+                .append(id, user.id)
+                .append(email, user.email)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(email)
+                .toHashCode();
     }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("email", email)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .toString();
+    }
+
 }

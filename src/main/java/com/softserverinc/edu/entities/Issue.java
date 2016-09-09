@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -209,18 +210,33 @@ public class Issue {
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
-    @Override
     public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Issue issue = (Issue) o;
+
+        return new EqualsBuilder()
+                .append(id, issue.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("title", title)
+                .append("type", type)
+                .append("status", status)
+                .toString();
     }
 
 }

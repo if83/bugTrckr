@@ -111,17 +111,31 @@ public class Project {
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Project project = (Project) o;
+
+        return new EqualsBuilder()
+                .append(id, project.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("title", title)
+                .toString();
+    }
+
 }
