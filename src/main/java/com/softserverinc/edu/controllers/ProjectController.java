@@ -109,11 +109,12 @@ public class ProjectController {
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
             "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
-    public String addUsersToProject(@PathVariable @P("projectId") Long projectId,
+    public String usersWithoutProject(@PathVariable @P("projectId") Long projectId,
                                     Model model, @Param("principal") Principal principal, Pageable pageable){
         model.addAttribute("userList",
                 userService.findByRoleAndIsDeletedAndEnabledIs(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
+        usersRolesInProject(model);
         return "users_without_project";
     }
 
@@ -139,33 +140,27 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
             "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
-    @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
-    public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable Long userId,
+    @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
+    public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable("userId") Long userId,
                                     Model model, @Param("principal") Principal principal) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
-        if(user.getProject() != null){
-            userService.changeUserRoleInProject(user);
-            return "redirect:/projects/project/" + projectId;
-        }else if(project.getUsers().isEmpty()){
+        if(project.getUsers().isEmpty())
+        {
             userService.changeUserRole(user, project, UserRole.ROLE_PROJECT_MANAGER);
             return "redirect:/projects/project/" + projectId;
-        }else{
-            usersRolesInProject(model);
-            model.addAttribute("project", project);
-            model.addAttribute("user", user);
-            return "user_role_form";
+        } else{
+            userService.changeUserRoleInProject(user);
+            return "redirect:/projects/project/" + projectId;
         }
     }
 
-    @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/role")
+    @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/selectRole")
     public String changeUserRolePost(@ModelAttribute("role") UserRole role,
-                                     @PathVariable Long projectId, @PathVariable Long userId, Model model,
+                                     @PathVariable Long projectId, @PathVariable("userId") Long userId,
                                      RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
-        model.addAttribute("user", user);
-        model.addAttribute("project", project);
         redirectAttributes.addFlashAttribute("alert", "success");
         if(user.getProject() == project){
             redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to %s",
@@ -179,9 +174,7 @@ public class ProjectController {
     }
 
     private void usersRolesInProject(Model model) {
-        model.addAttribute("PM", UserRole.ROLE_PROJECT_MANAGER);
         model.addAttribute("DEV", UserRole.ROLE_DEVELOPER);
         model.addAttribute("QA", UserRole.ROLE_QA);
-        model.addAttribute("USER", UserRole.ROLE_USER);
     }
 }

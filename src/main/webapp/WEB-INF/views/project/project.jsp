@@ -139,7 +139,7 @@
                                 <c:choose>
                                     <c:when test="${!user.role.isProjectManager()}">
                                         <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                ${user.id}/role'/>"><i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
+                                ${user.id}/changeRole'/>"><i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
                                         <a href="<spring:url value='/projects/project/${project.id}/removeUser/${user.id}'/>">
                                             <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                                     </c:when>

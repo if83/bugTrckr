@@ -62,11 +62,11 @@
                             <c:choose>
                                 <c:when test="${project.getUsers().isEmpty()}">
                                     <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                    ${user.id}/role'/>" class="btn btn-primary btn-u">ADD PM</a>
+                                    ${user.id}/changeRole'/>" class="btn btn-primary btn-u">ADD PM</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                    ${user.id}/role'/>" class="btn btn-primary btn-u">ADD</a>
+                                    <a type="button" class="btn btn-primary btn-u" data-toggle="modal" data-target="#modalForm"
+                                       href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole'/>" class="btn btn-primary btn-u">ADD</a>
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -75,10 +75,33 @@
                                class="btn btn-primary btn-u">INFO</a>
                         </td>
                     </tr>
+                    <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole" method="post">
+                        <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title text-center" id="myModalLabel">Select Role for User</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <select class="form-control" name="role" type="text">
+                                            <option class="text-center" value="${DEV}">Developer</option>
+                                            <option class="text-center" value="${QA}">Quality Assurance</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-u" value="Submit"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
+
         <c:if test="${userList.getTotalPages()> 1}">
             <div class="row col-sm-offset-4 col-sm-4">
                 <nav aria-label="Page navigation" id="pagerID">
