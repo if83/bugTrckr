@@ -11,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -49,7 +48,10 @@ public class Issue {
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "issues")
+    @ManyToMany()
+    @JoinTable(name = "Label_Issue",
+            joinColumns = @JoinColumn(name = "issueId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "labelId", referencedColumnName = "id"))
     private Set<Label> labels;
 
     @NotNull

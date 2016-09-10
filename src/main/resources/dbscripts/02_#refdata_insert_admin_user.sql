@@ -352,3 +352,9 @@ INSERT INTO Label (`title`, `isDeleted`) VALUES ('Python', '0');
 INSERT INTO Label (`title`, `isDeleted`) VALUES ('HTML', '0');
 INSERT INTO Label (`title`, `isDeleted`) VALUES ('CSS', '0');
 
+INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','1');
+INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','3');
+INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','5');
+INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','4');
+INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','1');
+

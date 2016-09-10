@@ -114,12 +114,12 @@ CREATE TABLE `WorkLog` (
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `LabelIssue` (
+CREATE TABLE `Label_Issue` (
   `labelId` INT,
-  `IssueId` INT
+  `issueId` INT,
+PRIMARY KEY (`labelId`,`issueId`)
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `IssueComment` (
@@ -174,13 +174,13 @@ ALTER TABLE `WorkLog`
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
-ALTER TABLE `LabelIssue`
-  ADD CONSTRAINT `LabelIssue_fk0` FOREIGN KEY (`labelId`) REFERENCES `Label` (`id`)
+ALTER TABLE `Label_Issue`
+  ADD CONSTRAINT `Label_Issue_fk0` FOREIGN KEY (`labelId`) REFERENCES `Label` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
-ALTER TABLE `LabelIssue`
-  ADD CONSTRAINT `LabelIssue_fk1` FOREIGN KEY (`IssueId`) REFERENCES `Issue` (`id`)
+ALTER TABLE `Label_Issue`
+  ADD CONSTRAINT `Label_Issue_fk1` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 

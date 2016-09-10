@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRoleNotAndIsDeletedFalse(UserRole role);
 
-    List<User> findByProjectAndIsDeletedFalse(Project project);
+    List<User> findByProjectAndIsDeleted(Project project, boolean isDeleted);
 
     List<User> findByProject(Project project);
 

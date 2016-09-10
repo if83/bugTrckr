@@ -12,17 +12,14 @@ import java.util.Set;
 public class Label {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false, length = 32)
     private String title;
 
-    @ManyToMany()
-    @JoinTable(name = "LabelIssue",
-            joinColumns = @JoinColumn(name = "labelId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "IssueId", referencedColumnName = "id"))
+    @ManyToMany(mappedBy = "labels")
     private Set<Issue> issues;
 
     @Column

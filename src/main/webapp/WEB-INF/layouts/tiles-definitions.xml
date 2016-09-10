@@ -81,6 +81,7 @@
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
             <add-attribute value="/css/issue/jquery-ui.css"/>
+            <add-attribute value="/css/issue/select2.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
@@ -88,6 +89,8 @@
             <add-attribute value="/js/issue/datepicker.js"/>
             <add-attribute value="/js/issue/jquery-1.12.4.js"/>
             <add-attribute value="/js/issue/jquery-ui.js"/>
+            <add-attribute value="/js/issue/select2.min.js"/>
+            <add-attribute value="/js/issue/issue-page.js"/>
         </put-list-attribute>
     </definition>
 

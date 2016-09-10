@@ -2,15 +2,13 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.IssueComment;
+import com.softserverinc.edu.entities.Label;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
-import com.softserverinc.edu.services.HistoryService;
-import com.softserverinc.edu.services.IssueCommentService;
-import com.softserverinc.edu.services.IssueService;
-import com.softserverinc.edu.services.UserService;
+import com.softserverinc.edu.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class IssueController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
-
 
     @Autowired
     private IssueService issueService;
@@ -45,6 +41,8 @@ public class IssueController {
     @Autowired
     private IssueCommentService issueCommentService;
 
+    @Autowired
+    private LabelService labelService;
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String listOfIssues(Model model, Pageable pageable) {
@@ -59,7 +57,6 @@ public class IssueController {
         populateDefaultModel(model);
         return "issue";
     }
-
 
     @GetMapping(value = "issue/{issueId}")
     public String issueById(@PathVariable("issueId") Long issueId, Model model, Principal principal) {
@@ -157,6 +154,7 @@ public class IssueController {
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("statuses", IssueStatus.values());
+        model.addAttribute("allLabels", labelService.findAll());
     }
 
     private IssueComment getNewIssueComment(Principal principal, Long issueId) {
