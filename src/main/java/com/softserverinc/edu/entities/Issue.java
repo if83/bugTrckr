@@ -45,7 +45,7 @@ public class Issue {
     private ProjectRelease projectRelease;
 
     @OneToOne
-    @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "assigneeId", referencedColumnName = "id")
     private User assignee;
 
     @ManyToMany()

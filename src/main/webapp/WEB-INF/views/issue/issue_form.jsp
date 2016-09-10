@@ -41,13 +41,7 @@
             <form:form commandName="issueCommand" action="/issue/add" modelAttribute="issue" method="POST">
                 <div class="col-sm-6">
 
-                    <spring:bind path="labels">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="labelsSelect2">Labels</label></br>
-                            <form:select id="labelsSelect2" path="labels" items="${allLabels}" itemLabel="title" itemValue="id" multiple="multiple" style="width:380px;"/>
-                            <form:errors path="labels" class="control-label"/>
-                        </div>
-                    </spring:bind>
+
 
                     <spring:bind path="title">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -91,6 +85,14 @@
                                 <form:options items="${users}"/>
                             </form:select>
                             <form:errors path="assignee" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="labels">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="labelsSelect2">Labels</label></br>
+                            <form:select id="labelsSelect2" path="labels" items="${allLabels}" itemLabel="title" itemValue="id" multiple="multiple" style="width:380px;"/>
+                            <form:errors path="labels" class="control-label"/>
                         </div>
                     </spring:bind>
 

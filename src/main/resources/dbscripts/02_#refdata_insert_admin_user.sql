@@ -5,23 +5,23 @@ VALUES ('admin', 'admin', 'admin@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_1', '1', '0', '0', 'description to project 1');
 -- it doesn't work with INSERT INTO projectRelease syntax
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('1', 'Beta 0.6', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.
-', '0');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
+');
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('1', 'Beta 0.6.1', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci aperiam assumenda at aut corporis cumque cupiditate doloremque, earum error facilis inventore iste laboriosam magni, natus non officiis placeat quis rem sequi sit suscipit tenetur voluptate? Molestias perspiciatis reiciendis voluptatem!
-', '0');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
+');
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('1', 'Beta 0.7.5', 'IN_PROGRESS',
-        'Adipisci autem cupiditate deleniti deserunt ducimus ex itaque mollitia non odio repellendus.', '0');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
+        'Adipisci autem cupiditate deleniti deserunt ducimus ex itaque mollitia non odio repellendus.');
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('1', '1.0', 'IN_PROGRESS',
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.',
-        '0');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('1', '2.4', 'OPEN',
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.',
-        '0');
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
 
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('manager', 'manager', 'manager@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
@@ -35,8 +35,8 @@ VALUES ('quality_e', 'quality_e', 'quality_e@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4Y
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_2', '1', '1', '0', 'description to project 2');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
-VALUES ('2', '2', 'OPEN', 'RELEASE 2', '0');
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('2', '2', 'OPEN', 'RELEASE 2');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('manager2', 'manager2', 'manager1@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
         'ROLE_PROJECT_MANAGER', 'pm', '2');
@@ -49,8 +49,8 @@ VALUES ('quality_e2', 'quality_e2', 'quality_e1@ss.com', '$2a$12$bTRBMwG6lnCVzvV
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_3', '1', '1', '1', 'description to project 3');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
-VALUES ('3', '3', 'OPEN', 'RELEASE 3', '0');
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('3', '3', 'OPEN', 'RELEASE 3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES
   ('manager3', 'manager3', 'manager2@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
@@ -65,8 +65,8 @@ VALUES ('quality_e3', 'quality_e3', 'quality_e2@ss.com', '$2a$12$bTRBMwG6lnCVzvV
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_4', '0', '0', '0', 'description to project 2');
-INSERT INTO ProjectRelease (projectId, version, releaseStatus, description, isDeleted)
-VALUES ('4', '4', 'OPEN', 'RELEASE 4', '0');
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('4', '4', 'OPEN', 'RELEASE 4');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES
   ('manager4', 'manager4', 'manager3@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
@@ -346,11 +346,11 @@ UPDATE User
 SET imageData = LOAD_FILE('/var/lib/mysql-files/famous1_mini.jpg'), imageFilename = 'famous1_mini.jpg'
 WHERE `role` = 'ROLE_GUEST';
 
-INSERT INTO Label (`title`, `isDeleted`) VALUES ('Java', '0');
-INSERT INTO Label (`title`, `isDeleted`) VALUES ('C#', '0');
-INSERT INTO Label (`title`, `isDeleted`) VALUES ('Python', '0');
-INSERT INTO Label (`title`, `isDeleted`) VALUES ('HTML', '0');
-INSERT INTO Label (`title`, `isDeleted`) VALUES ('CSS', '0');
+INSERT INTO Label (`title`) VALUES ('Java');
+INSERT INTO Label (`title`) VALUES ('C#');
+INSERT INTO Label (`title`) VALUES ('Python');
+INSERT INTO Label (`title`) VALUES ('HTML');
+INSERT INTO Label (`title`) VALUES ('CSS');
 
 INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','1');
 INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','3');

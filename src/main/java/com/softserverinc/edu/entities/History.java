@@ -35,9 +35,6 @@ public class History {
     @Column
     private HistoryAction action;
 
-    @Column
-    private boolean isDeleted;
-
     public History() {
     }
 
@@ -95,14 +92,6 @@ public class History {
 
     public void setAction(HistoryAction action) {
         this.action = action;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 
     @Override

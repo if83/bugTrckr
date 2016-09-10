@@ -25,7 +25,6 @@ CREATE TABLE `Project` (
   `guestCreateIssues` BOOLEAN      NOT NULL,
   `guestAddComment`   BOOLEAN      NOT NULL,
   `description`       TEXT,
-  `isDeleted`         BOOLEAN      NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -41,7 +40,6 @@ CREATE TABLE `ProjectRelease` (
   `version`       VARCHAR(32) NOT NULL,
   `releaseStatus` VARCHAR(11) NOT NULL,
   `description`   TEXT,
-  `isDeleted`     BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -55,7 +53,7 @@ CREATE TABLE `Issue` (
   `priority`         VARCHAR(32) NOT NULL,
   `status`           VARCHAR(32) NOT NULL DEFAULT 'OPEN',
   `projectReleaseId` INT         NOT NULL,
-  `assigneeId`       INT         NOT NULL,
+  `assigneeId`       INT,
 
   #TODO: createTime must be initialized only one time, lastUpdateDate => when anything is changed, just update this time.
   #   `createTime`       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -69,7 +67,6 @@ CREATE TABLE `Issue` (
   `parentId`         INT,
   `description`      TEXT,
   `editAbility`      BOOLEAN     NOT NULL DEFAULT '0',
-  `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -79,7 +76,6 @@ CREATE TABLE `Issue` (
 CREATE TABLE `Label` (
   `id`        INT         NOT NULL AUTO_INCREMENT,
   `title`     VARCHAR(32) NOT NULL,
-  `isDeleted` BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -94,7 +90,6 @@ CREATE TABLE `History` (
   `createTime`       TIMESTAMP   NOT NULL,
   `issueStatus`      VARCHAR(32) NOT NULL,
   `action`           VARCHAR(15) NOT NULL,
-  `isDeleted`        BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -107,7 +102,6 @@ CREATE TABLE `WorkLog` (
   `userId`       INT     NOT NULL,
   `startTime`    DATE    NOT NULL,
   `amountOfTime` INT     NOT NULL,
-  `isDeleted`    BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

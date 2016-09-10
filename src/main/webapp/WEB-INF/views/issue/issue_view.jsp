@@ -50,14 +50,38 @@
         </div>
 
         <div class="row">
-            <label class="col-sm-3">Release version</label>
-            <div class="col-sm-9"><p>${issue.projectRelease.project.title} Release : ${issue.projectRelease.version}</p>
+            <label class="col-sm-3">Project</label>
+            <div class="col-sm-9">
+                <p>
+                    <a class="viewLink"
+                       href="<spring:url value='/projects/project/${issue.projectRelease.project.id}'/>">
+                        ${issue.projectRelease.project.title}
+                    </a>
+                </p></div>
+        </div>
+
+        <div class="row">
+            <label class="col-sm-3">Release</label>
+            <div class="col-sm-9"><p>
+                <a class="viewLink"
+                   href="<spring:url
+                       value='/projects/project/
+                       ${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">
+                    ${issue.projectRelease.version}
+                </a>
+            </p>
             </div>
         </div>
 
         <div class="row">
             <label class="col-sm-3">Assignee</label>
-            <div class="col-sm-9"><p>${issue.assignee.firstName} ${issue.assignee.lastName} </p></div>
+            <div class="col-sm-9"><p>
+                <a class="viewLink"
+                   href="<spring:url
+                       value='/user/${issue.assignee.id}/view'/>">
+                    ${issue.assignee.firstName} ${issue.assignee.lastName}</a>
+            </p>
+            </div>
         </div>
 
         <div class="row">
@@ -83,6 +107,15 @@
         <div class="row">
             <label class="col-sm-3">Ability to edit</label>
             <div class="col-sm-9">${issue.editAbility}</div>
+        </div>
+
+        <div class="row">
+            <label class="col-sm-3">Labels</label>
+            <div class="col-sm-6">
+                <c:forEach var="label" items="${issue.labels}">
+                    <c:out value="${label.title}"></c:out>
+                </c:forEach>
+            </div>
         </div>
 
         <div class="row">

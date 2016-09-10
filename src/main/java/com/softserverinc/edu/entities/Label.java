@@ -3,7 +3,6 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,9 +20,6 @@ public class Label {
 
     @ManyToMany(mappedBy = "labels")
     private Set<Issue> issues;
-
-    @Column
-    private boolean isDeleted;
 
     public Label() {
     }
@@ -50,14 +46,6 @@ public class Label {
 
     public void setIssues(Set<Issue> issues) {
         this.issues = issues;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     @Override

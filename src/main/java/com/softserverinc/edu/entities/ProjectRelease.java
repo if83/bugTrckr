@@ -39,9 +39,6 @@ public class ProjectRelease {
     @OneToMany(mappedBy = "projectRelease")
     private Set<Issue> issues = new HashSet<>();
 
-    @Column
-    private boolean isDeleted;
-
     public ProjectRelease() {
     }
 
@@ -91,14 +88,6 @@ public class ProjectRelease {
 
     public void setIssues(Set<Issue> issues) {
         this.issues = issues;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 
     @Override
