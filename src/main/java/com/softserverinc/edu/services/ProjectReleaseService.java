@@ -6,6 +6,8 @@ import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.repositories.ProjectReleaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,10 @@ public class ProjectReleaseService {
         return projectReleaseRepository.findByProject(project);
     }
 
+    public Page<ProjectRelease> findByProject(Project project, Pageable pageable) {
+        return projectReleaseRepository.findByProject(project, pageable);
+    }
+
     public ProjectRelease findByIssues(Issue issue) {
         return projectReleaseRepository.findByIssues(issue);
     }
@@ -39,6 +45,10 @@ public class ProjectReleaseService {
 
     public List<ProjectRelease> findAll() {
         return projectReleaseRepository.findAll();
+    }
+
+    public Page<ProjectRelease> findAll(Pageable  pageable) {
+        return projectReleaseRepository.findAll(pageable);
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.ProjectReleaseService;
@@ -9,6 +10,7 @@ import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.method.P;
@@ -52,11 +54,12 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA', 'GUEST') and " +
             "@projectService.findById(#projectId).guestView)")
     @GetMapping(value = "projects/project/{projectId}")
-    public String projectPage(@PathVariable @P("projectId") Long projectId, Model model) {
+    public String projectPage(@PathVariable @P("projectId") Long projectId, Model model, Pageable pageable) {
+        Page<ProjectRelease> pageableReleases = releaseService.findByProject(projectService.findById(projectId), pageable);
         model.addAttribute("usersList",
                 userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
         model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("releases", releaseService.findByProject(projectService.findById(projectId)));
+        model.addAttribute("releaseList", pageableReleases);
         return "project";
     }
 

@@ -49,7 +49,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="issue" items="${issues}">
+                <c:forEach var="issue" items="${issueList.content}">
                     <tr>
                         <input name="issueId" type="hidden" value="${issue.id}"/>
                         <td>${issue.title}</td>
@@ -88,6 +88,29 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <c:if test="${issueList.getTotalPages()> 1}">
+                <nav aria-label="Page navigation" id="pagerID">
+                    <div class="text-center">
+                        <ul class="pagination">
+                            <li>
+                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=0'/>" aria-label="Start">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <c:forEach var="page" begin="0" end="${issueList.getTotalPages() - 1}">
+                                <li>
+                                    <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=${page}'/>">${page + 1}</a>
+                                </li>
+                            </c:forEach>
+                            <li>
+                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=${issueList.getTotalPages() - 1}'/>"
+                                   aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </c:if>
         </div>
     </div>
 

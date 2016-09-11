@@ -4,13 +4,14 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,11 +41,12 @@ public class ReleaseController {
 
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}", method = RequestMethod.GET)
     public String viewRelease(@PathVariable("releaseId") Long releaseId,
-                              Model model) {
+                              Model model,
+                              Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
-        List<Issue> issues = issueService.findByProjectRelease(release);
+        Page<Issue> pageableIssues = issueService.findByProjectRelease(release, pageable);
         List<User> users = userService.findAllAvaliableForRelease(release);
-        model.addAttribute("issues", issues);
+        model.addAttribute("issueList", pageableIssues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);
         return "release";
