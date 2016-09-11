@@ -37,9 +37,8 @@ $(document).ready(function () {
     // load avaliable statuses for dropdown-menu
     $(".statuses-dropdown").on('click', '.statuses-label', function () {
         $(".statuses-dropdown .dropdown-menu").html('');
-        var issueId = $(this).parents("tr").find("input[name='issueId']").val();
         var queryObj = {};
-        queryObj.issueId = issueId;
+        queryObj.selectedStatus = $.trim($(this).text());
         $.ajax({
             url: "/getAvaliableIssueStatuses",
             data: queryObj,

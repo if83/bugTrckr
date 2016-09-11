@@ -41,10 +41,9 @@ public class IssueService {
         return issueRepository.findByPriority(priority);
     }
 
-    public List<IssueStatus> getAvaliableIssueStatuses(Issue issue) {
+    public List<IssueStatus> getAvaliableIssueStatusesForStatus(IssueStatus status) {
         List<IssueStatus> result = new ArrayList<>();
-        IssueStatus issueStatus = issue.getStatus();
-        switch (issueStatus) {
+        switch (status) {
             case OPEN:
                 result.add(IssueStatus.IN_PROGRESS);
                 result.add(IssueStatus.INVALID);

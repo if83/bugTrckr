@@ -92,7 +92,10 @@ public class IssueController {
     public String editIssue(@PathVariable @P("id") long id, Model model,
                             RedirectAttributes redirectAttrs , @Param("principal") Principal principal) {
         model.addAttribute("issue", this.issueService.findById(id));
+        Issue issue = issueService.findById(id);
+        model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
+        model.addAttribute("statuses", issueService.getAvaliableIssueStatusesForStatus(issue.getStatus()));
         populateDefaultModel(model);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
@@ -157,9 +160,8 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/getAvaliableIssueStatuses", method = RequestMethod.POST)
-    public @ResponseBody List<IssueStatus> getAvaliableIssueStatuses(@RequestParam("issueId") String issueId) {
-        Issue issue = issueService.findById(Long.valueOf(issueId));
-        return issueService.getAvaliableIssueStatuses(issue);
+    public @ResponseBody List<IssueStatus> getAvaliableIssueStatuses(@RequestParam("selectedStatus") String selectedStatus) {
+        return issueService.getAvaliableIssueStatusesForStatus(IssueStatus.valueOf(selectedStatus));
     }
 
     private void populateDefaultModel(Model model) {
@@ -167,7 +169,6 @@ public class IssueController {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
-        model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("allLabels", labelService.findAll());
     }
 

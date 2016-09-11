@@ -41,7 +41,6 @@
             <form:form commandName="issueCommand" action="/issue/add" modelAttribute="issue" method="POST">
                 <div class="col-sm-6">
 
-
                     <spring:bind path="title">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="titleInput">Title</label>
@@ -79,8 +78,7 @@
                     <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="assigneeInput">Assignee Id</label>
-                            <form:select path="assignee" type="text" cssClass="form-control selectpicker"
-                                         id="assigneeInput"
+                            <form:select path="assignee" type="text" cssClass="form-control selectpicker" id="assigneeInput"
                                          items="${users}" itemLabel="firstName" itemValue="id" data-live-search="true">
                             </form:select>
                             <form:errors path="assignee" cssClass="control-label"/>
@@ -141,15 +139,13 @@
                     <c:if test="${formAction eq 'edit'}">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="status">Status</label>
-                            <form:select path="status" type="text" cssClass=" selectpicker form-control" id="status"
-                                         placeholder="Status" data-live-search="true">
-                                <form:option value="" label="  Select a status"/>
+                            <form:select path="status" type="text" cssClass="form-control" id="status" placeholder="Status">
+                                <form:option value="${issue.status}" label="${issue.status}"/>
                                 <form:options items="${statuses}"/>
                             </form:select>
                             <form:errors path="status" cssClass="control-label"/>
                         </div>
                     </c:if>
-
 
                 </div>
 
