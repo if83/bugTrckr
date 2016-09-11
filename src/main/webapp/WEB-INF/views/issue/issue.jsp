@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="breadcrumbs">
     <div class="row">
@@ -103,14 +104,19 @@
                 <td><c:out value="${issue.estimateTime}"/></td>
                 <td>
                     <div class="actionButtons">
+                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
                         <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
                                 class="fa fa-hourglass-half icon-table-u"></i></a>
                         &nbsp
+                        </sec:authorize>
+                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER') or
+                        (hasAnyRole('DEVELOPER', 'QA') and @issueService.findById(${issue.id}).editAbility)">
                         <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
                                 class="fa fa-edit icon-table-u"></i></a>
                         &nbsp
                         <a href="<spring:url value='/issue/${issue.id}/remove' />"><i
                                 class="fa fa-remove icon-table-u"></i></a>
+                        </sec:authorize>
                     </div>
                 </td>
             </tr>

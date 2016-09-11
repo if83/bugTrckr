@@ -2,7 +2,6 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.IssueComment;
-import com.softserverinc.edu.entities.Label;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssuePriority;
@@ -13,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class IssueController {
@@ -57,7 +58,6 @@ public class IssueController {
         populateDefaultModel(model);
         return "issue";
     }
-
     @GetMapping(value = "issue/{issueId}")
     public String issueById(@PathVariable("issueId") Long issueId, Model model, Principal principal) {
         Issue issue = issueService.findById(issueId);
@@ -66,7 +66,7 @@ public class IssueController {
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         return "issue_view";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
     @RequestMapping(value = "/issue/{id}/remove", method = RequestMethod.GET)
     public String removeIssue(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
         this.issueService.delete(id);
@@ -76,6 +76,8 @@ public class IssueController {
         return "redirect:/issue";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA') and " +
+            "@issueService.findById(#id).editAbility)")
     @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
     public String editIssue(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("issue", this.issueService.findById(id));
@@ -85,7 +87,7 @@ public class IssueController {
         return "issue_form";
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')")
     @RequestMapping(value = "/issue/add", method = RequestMethod.GET)
     public String addIssue(Model model) {
         Issue issue = new Issue();
