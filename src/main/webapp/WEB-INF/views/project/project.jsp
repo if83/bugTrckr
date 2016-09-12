@@ -164,7 +164,8 @@
                                                             Cancel
                                                         </button>
                                                         <a href="<spring:url
-                                                        value='/projects/project/${project.id}/usersWithoutProject/${user.id}/changeRole'/>"
+                                                        value='/projects/project/${project.id}/usersWithoutProject/
+                                                        ${user.id}/changeRole'/>"
                                                            class="btn btn-u">Confirm
                                                         </a>
                                                     </div>
@@ -192,7 +193,9 @@
                                                         from ${project.title}</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button class="btn btn-default" data-dismiss="modal">
+                                                            Cancel
+                                                        </button>
                                                         <a href="<spring:url
                                                         value='/projects/project/${project.id}/removeUser/${user.id}'/>"
                                                            class="btn btn-u">Remove

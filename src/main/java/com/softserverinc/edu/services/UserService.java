@@ -124,38 +124,21 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByEmailAndRoleAndIsDeletedAndEnabledIs(String email, UserRole role, boolean isDeleted,
-                                                                 int enable, Pageable pageable){
-        return userRepository.findByEmailAndRoleAndIsDeletedAndEnabledIs(email, role, isDeleted, enable, pageable);
-    }
-
-    public Page<User> findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(String firstName,  UserRole
-            role, boolean isDeleted, int enabled, Pageable pageable) {
-        return userRepository.findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(firstName,
-                role, isDeleted, enabled, pageable);
-    }
-
-    public Page<User> findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(String lastName, UserRole
-            role, boolean isDeleted, int enabled, Pageable pageable) {
-        return userRepository.findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(
-                lastName, role, isDeleted, enabled, pageable);
-    }
-
-    public Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled,
-                                                         Pageable pageable){
+    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled,
+                                                Pageable pageable){
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 
     @Transactional
     public Page<User> searchByUsersWithoutProject(String searchParam, String searchedString, Pageable pageable){
         if (searchParam.equals("First Name")) {
-            return userService.findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
+            return userRepository.findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
                     UserRole.ROLE_USER, false, 1, pageable);
         }if(searchParam.equals("Last Name")){
-            return userService.findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
+            return userRepository.findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
                     UserRole.ROLE_USER, false, 1, pageable);
         }
-        else return userService.findByEmailAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
+        else return userRepository.findByEmailAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
                     false, 1, pageable);
     }
 
@@ -169,25 +152,16 @@ public class UserService {
 
     @Transactional
     public User changeUserRole(User user, Project project, UserRole role){
-        if(project.getUsers().isEmpty()) {
-            user.setProject(project);
-            user.setRole(UserRole.ROLE_PROJECT_MANAGER);
-        }else{
-            user.setRole(role);
-            if(user.getProject() !=  project) {
-                user.setProject(project);
+        if(user.getProject() == project){
+            if (user.getRole().isDeveloper()) {
+                user.setRole(UserRole.ROLE_QA);
+            } else {
+                user.setRole(UserRole.ROLE_DEVELOPER);
             }
+            return userService.save(user);
         }
-        return userService.save(user);
-    }
-
-    @Transactional
-    public User changeUserRoleInProject(User user){
-        if (user.getRole() == UserRole.ROLE_DEVELOPER) {
-            user.setRole(UserRole.ROLE_QA);
-        } else {
-            user.setRole(UserRole.ROLE_DEVELOPER);
-        }
+        user.setRole(role);
+        user.setProject(project);
         return userService.save(user);
     }
 }

@@ -65,8 +65,12 @@
                                     ${user.id}/changeRole'/>" class="btn btn-primary btn-u">ADD PM</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a type="button" class="btn btn-primary btn-u" data-toggle="modal" data-target="#modalForm"
-                                       href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole'/>" class="btn btn-primary btn-u">ADD</a>
+                                    <a type="button" class="btn btn-primary btn-u" data-toggle="modal"
+                                       data-target="#modalForm"
+                                       href="<spring:url value='/projects/project/
+                                       ${project.id}/usersWithoutProject/${user.id}/selectRole'/>"
+                                       class="btn btn-primary btn-u">ADD
+                                    </a>
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -75,12 +79,17 @@
                                class="btn btn-primary btn-u">INFO</a>
                         </td>
                     </tr>
-                    <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole" method="post">
-                        <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <%--Modal form for selecting user role--%>
+                    <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole"
+                          method="post">
+                        <div class="modal fade" id="modalForm" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                         <h4 class="modal-title text-center" id="myModalLabel">Select Role for User</h4>
                                     </div>
                                     <div class="modal-body">
@@ -90,7 +99,8 @@
                                         </select>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                        </button>
                                         <input type="submit" class="btn btn-u" value="Submit"/>
                                     </div>
                                 </div>

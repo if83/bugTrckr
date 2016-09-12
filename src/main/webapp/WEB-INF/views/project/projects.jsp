@@ -64,79 +64,83 @@
                 <th class="text-center">Free to add Issue</th>
                 <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                 <th class="text-center">Edit</th>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ADMIN')">
                 <th class="text-center">Delete</th>
                 </sec:authorize>
             </tr>
             </thead>
             <tbody>
-                <c:forEach var="project" items="${listOfProjects.content}">
-                    <tr>
+            <c:forEach var="project" items="${listOfProjects.content}">
+                <tr>
+                    <td class="text-center">
+                        <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
+                            <c:out value="${project.title}"/></a>
+                    </td>
+                    <td class="text-center">
+                        <c:choose>
+                        <c:when test="${project.guestView}">
+                        <i class="glyphicon glyphicon-ok"/>
+                        </c:when>
+                        <c:otherwise>
+                        <i class="glyphicon glyphicon-remove"/>
+                        </c:otherwise>
+                        </c:choose>
+                    <td class="text-center">
+                        <c:choose>
+                            <c:when test="${project.guestAddComment}">
+                                <i class="glyphicon glyphicon-ok"/>
+                            </c:when>
+                            <c:otherwise>
+                                <i class="glyphicon glyphicon-remove"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </td class="text-center">
+                    <td class="text-center">
+                        <c:choose>
+                            <c:when test="${project.guestCreateIssues}">
+                                <i class="glyphicon glyphicon-ok"/>
+                            </c:when>
+                            <c:otherwise>
+                                <i class="glyphicon glyphicon-remove"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                         <td class="text-center">
-                            <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
-                                <c:out value="${project.title}"/></a>
+                            <a href="<spring:url value='/projects/${project.id}/edit' />">
+                                <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                         </td>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ADMIN')">
                         <td class="text-center">
-                            <c:choose>
-                                <c:when test="${project.guestView}">
-                                    <i class="glyphicon glyphicon-ok"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="glyphicon glyphicon-remove"/>
-                                </c:otherwise>
-                            </c:choose>
-                        <td class="text-center">
-                            <c:choose>
-                                <c:when test="${project.guestAddComment}">
-                                    <i class="glyphicon glyphicon-ok"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="glyphicon glyphicon-remove"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </td class="text-center">
-                        <td class="text-center">
-                            <c:choose>
-                                <c:when test="${project.guestCreateIssues}">
-                                    <i class="glyphicon glyphicon-ok"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="glyphicon glyphicon-remove"/>
-                                </c:otherwise>
-                            </c:choose>
+                            <a data-toggle="modal" data-target="#removeModal${project.id}">
+                                <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                         </td>
-                        <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
-                            <td class="text-center">
-                                <a href="<spring:url value='/projects/${project.id}/edit' />">
-                                    <i class="fa fa-edit fa-lg icon-table-u"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a data-toggle="modal" data-target="#removeModal${project.id}">
-                                    <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                <!-- Modal confirmation for removing project-->
-                                <div class="modal fade" id="removeModal${project.id}" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close"><span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title pull-left">Removal</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Confirm removal of ${project.title}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <a href="<spring:url value='/projects/${project.id}/remove' />"
-                                                   class="btn btn-u">Confirm</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                    </sec:authorize>
+                    <!-- Modal confirmation for removing project-->
+                    <div class="modal fade" id="removeModal${project.id}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close"><span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title pull-left">Removal</h4>
                                 </div>
-                            </td>
-                        </sec:authorize>
-                    </tr>
-                </c:forEach>
+                                <div class="modal-body">
+                                    Confirm removal of ${project.title}
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <a href="<spring:url value='/projects/${project.id}/remove' />"
+                                       class="btn btn-u">Confirm</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>
