@@ -131,17 +131,76 @@
                     <tr>
                         <td>
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
-                                    ${user.lastName}</a>
+                                    ${user.lastName}
+                            </a>
                         </td>
                         <td>${user.role.toString()}</td>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                             <td class="text-center">
                                 <c:choose>
                                     <c:when test="${!user.role.isProjectManager()}">
-                                        <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                ${user.id}/changeRole'/>"><i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
-                                        <a href="<spring:url value='/projects/project/${project.id}/removeUser/${user.id}'/>">
+                                        <!--changing user role-->
+                                        <a data-toggle="modal" data-target="#changingRole${user.id}${project.id}">
+                                            <i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
+
+                                        <!-- Modal for confirmation of changing of user role -->
+                                        <div class="modal fade" id="changingRole${user.id}${project.id}" tabindex="-1"
+                                             role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title pull-left">
+                                                            Change of role
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body"><p>Confirm the change
+                                                        of ${user.firstName} ${user.lastName} role</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-default" data-dismiss="modal">
+                                                            Cancel
+                                                        </button>
+                                                        <a href="<spring:url
+                                                        value='/projects/project/${project.id}/usersWithoutProject/${user.id}/changeRole'/>"
+                                                           class="btn btn-u">Confirm
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--Removing user from project -->
+                                        <a data-toggle="modal" data-target="#removingOfUser${user.id}${project.id}">
                                             <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+
+                                        <!-- Modal for confirmation of removing user from project-->
+                                        <div class="modal fade" id="removingOfUser${user.id}${project.id}" tabindex="-1"
+                                             role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title pull-left">Removal user from project</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Confirm the removal ${user.firstName} ${user.lastName}
+                                                        from ${project.title}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <a href="<spring:url
+                                                        value='/projects/project/${project.id}/removeUser/${user.id}'/>"
+                                                           class="btn btn-u">Remove
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </c:when>
                                 </c:choose>
                             </td>

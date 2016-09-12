@@ -77,7 +77,7 @@
                         </td>
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${project.guestView == true}">
+                                <c:when test="${project.guestView}">
                                     <i class="glyphicon glyphicon-ok"/>
                                 </c:when>
                                 <c:otherwise>
@@ -86,7 +86,7 @@
                             </c:choose>
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${project.guestAddComment == true}">
+                                <c:when test="${project.guestAddComment}">
                                     <i class="glyphicon glyphicon-ok"/>
                                 </c:when>
                                 <c:otherwise>
@@ -96,7 +96,7 @@
                         </td class="text-center">
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${project.guestCreateIssues == true}">
+                                <c:when test="${project.guestCreateIssues}">
                                     <i class="glyphicon glyphicon-ok"/>
                                 </c:when>
                                 <c:otherwise>
@@ -110,8 +110,29 @@
                                     <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                             </td>
                             <td class="text-center">
-                                <a href="<spring:url value='/projects/${project.id}/remove' />">
+                                <a data-toggle="modal" data-target="#removeModal${project.id}">
                                     <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                <!-- Modal confirmation for removing project-->
+                                <div class="modal fade" id="removeModal${project.id}" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title pull-left">Removal</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Confirm removal of ${project.title}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                <a href="<spring:url value='/projects/${project.id}/remove' />"
+                                                   class="btn btn-u">Confirm</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </sec:authorize>
                     </tr>

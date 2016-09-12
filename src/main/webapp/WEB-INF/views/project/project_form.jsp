@@ -65,7 +65,29 @@
         </spring:bind>
 
         <div class="col-sm-10 col-sm-offset-1">
-            <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
+            <button type="button" class="margin-top-30 btn-u pull-right" data-toggle="modal"
+                    data-target="#projectCreatingModal">${buttonname}
+            </button>
+        </div>
+
+        <!-- Modal confirmation for creating/editing of project -->
+        <div class="modal fade" id="projectCreatingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" >${buttonname}ing of Project</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        Please confirm ${buttonname.toLowerCase()}ing of project
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" value="Confirm" class="btn btn-u"/>
+                    </div>
+                </div>
+            </div>
         </div>
     </form:form>
 </div>
