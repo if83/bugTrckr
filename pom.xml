@@ -25,7 +25,10 @@
         <!--Database-->
         <jdbc-driver-version>6.0.3</jdbc-driver-version>
         <spring-data-jpa-version>1.10.2.RELEASE</spring-data-jpa-version>
+
+        <!--Hibernate-->
         <hibernate-version>5.2.1.Final</hibernate-version>
+        <hibernate-search-version>5.5.4.Final</hibernate-search-version>
 
         <!--Maven plugins-->
         <maven-war-plugin-version>2.6</maven-war-plugin-version>
@@ -152,6 +155,19 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>${hibernate-search-version}</version>
+        </dependency>
+
+        <!-- Infinispan integration: -->
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-directory-provider</artifactId>
+            <version>8.1.0.Final</version>
         </dependency>
 
         <!--Bean and form validation enabled by spring @EnableWebMvc annotation-->

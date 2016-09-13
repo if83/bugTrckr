@@ -6,6 +6,8 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,6 +16,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Indexed
 public class Issue {
 
     @Id
@@ -23,6 +26,7 @@ public class Issue {
 
     @NotNull
     @Column(nullable = false, length = 32)
+    @Field(index = Index.YES, analyze= Analyze.YES, store= Store.NO)
     private String title;
 
     @NotNull
@@ -83,11 +87,22 @@ public class Issue {
 
     @NotNull
     @Column(nullable = false, length = 10000)
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String description;
 
     @NotNull
     @Column(nullable = false)
     private Boolean editAbility;
+
+//    @PrePersist
+//    public void onPrePersist() {
+//        createTime = lastUpdateDate = new Date();
+//    }
+//
+//    @PreUpdate
+//    public void onUpdate() {
+//        lastUpdateDate = new Date();
+//    }
 
     public Issue() {
     }
