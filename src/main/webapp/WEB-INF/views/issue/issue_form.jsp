@@ -42,21 +42,20 @@
                 <div class="col-sm-6">
 
 
-
                     <spring:bind path="title">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="titleInput">Title</label>
                             <form:input path="title" type="text" cssClass="form-control" id="titleInput"
                                         placeholder="Title"/>
-                            <form:errors path="Title" cssClass="control-label"/>
+                            <form:errors path="title" cssClass="control-label"/>
                         </div>
                     </spring:bind>
 
                     <spring:bind path="type">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="typeInput">Type</label>
-                            <form:select path="type" type="text" cssClass="form-control" id="typeInput"
-                                         placeholder="Type">
+                            <form:select path="type" type="text" cssClass="selectpicker form-control" id="typeInput"
+                                         placeholder="Type" data-live-search="true">
                                 <form:option value="" label="  Select a type"/>
                                 <form:options items="${types}"/>
                             </form:select>
@@ -67,8 +66,9 @@
                     <spring:bind path="priority">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="priorityInput">Priority</label>
-                            <form:select path="priority" type="text" cssClass="form-control" id="priorityInput"
-                                         placeholder="Priority">
+                            <form:select path="priority" type="text" cssClass="selectpicker form-control"
+                                         id="priorityInput"
+                                         placeholder="Priority" data-live-search="true">
                                 <form:option value="" label="  Choose the piority"/>
                                 <form:options items="${priority}"/>
                             </form:select>
@@ -79,10 +79,9 @@
                     <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="assigneeInput">Assignee Id</label>
-                            <form:select path="assignee" type="text" cssClass="form-control" id="assigneeInput"
-                                         placeholder="Assignee Id">
-                                <form:option value="${issue.assignee}" label="  Choose an assignee Id"/>
-                                <form:options items="${users}"/>
+                            <form:select path="assignee" type="text" cssClass="form-control selectpicker"
+                                         id="assigneeInput"
+                                         items="${users}" itemLabel="firstName" itemValue="id" data-live-search="true">
                             </form:select>
                             <form:errors path="assignee" cssClass="control-label"/>
                         </div>
@@ -91,7 +90,9 @@
                     <spring:bind path="labels">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="labelsSelect2">Labels</label></br>
-                            <form:select id="labelsSelect2" path="labels" items="${allLabels}" itemLabel="title" itemValue="id" multiple="multiple" style="width:380px;"/>
+                            <form:select id="labelsSelect2" path="labels" items="${allLabels}" data-live-search="true"
+                                         itemLabel="title" itemValue="id" multiple="multiple" style="width:380px;"
+                                         cssClass="form-control selectpicker"/>
                             <form:errors path="labels" class="control-label"/>
                         </div>
                     </spring:bind>
@@ -118,12 +119,21 @@
                         </div>
                     </spring:bind>
 
+                    <spring:bind path="project">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="projectInput">Project</label>
+                            <form:select path="project" type="text" cssClass="selectpicker form-control"
+                                         id="projectInput" data-live-search="true"
+                                         items="${projects}" itemLabel="title" itemValue="id"/>
+                            <form:errors path="project" cssClass="control-label"/>
+                        </div>
+                    </spring:bind>
+
                     <spring:bind path="projectRelease">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="projectReleaseInput">Release</label>
-                            <form:input path="projectRelease" type="text" cssClass="form-control"
-                                        id="projectReleaseInput"
-                                        placeholder="ProjectRelease"/>
+                            <form:input path="projectRelease" type="text" cssClass="selectpicker form-control"
+                                        id="projectReleaseInput" placeholder="ProjectRelease"/>
                             <form:errors path="projectRelease" cssClass="control-label"/>
                         </div>
                     </spring:bind>
@@ -131,8 +141,8 @@
                     <c:if test="${formAction eq 'edit'}">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="status">Status</label>
-                            <form:select path="status" type="text" cssClass="form-control" id="status"
-                                         placeholder="Status">
+                            <form:select path="status" type="text" cssClass=" selectpicker form-control" id="status"
+                                         placeholder="Status" data-live-search="true">
                                 <form:option value="" label="  Select a status"/>
                                 <form:options items="${statuses}"/>
                             </form:select>

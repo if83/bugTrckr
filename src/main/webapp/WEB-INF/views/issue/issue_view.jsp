@@ -54,8 +54,8 @@
             <div class="col-sm-9">
                 <p>
                     <a class="viewLink"
-                       href="<spring:url value='/projects/project/${issue.projectRelease.project.id}'/>">
-                        ${issue.projectRelease.project.title}
+                       href="<spring:url value='/projects/project/${issue.project.id}'/>">
+                        ${issue.project.title}
                     </a>
                 </p></div>
         </div>

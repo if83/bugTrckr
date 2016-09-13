@@ -22,6 +22,7 @@
             <add-attribute value="/css/select2.min.css"/>
             <add-attribute value="/css/font-awesome.min.css"/>
             <add-attribute value="/css/site.css"/>
+            <add-attribute value="/css/bootstrap-select.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts">
             <add-attribute value="/js/jquery-2.2.4.min.js"/>
@@ -29,6 +30,8 @@
             <add-attribute value="/js/select2.full.min.js"/>
             <add-attribute value="/js/jquery.validate.min.js"/>
             <add-attribute value="/js/menu.js"/>
+            <add-attribute value="/js/issue/selectpicker.js"/>
+            <add-attribute value="/js/bootstrap-select.min.js"/>
         </put-list-attribute>
     </definition>
 

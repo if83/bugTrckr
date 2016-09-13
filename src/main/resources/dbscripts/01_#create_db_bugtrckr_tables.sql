@@ -53,6 +53,7 @@ CREATE TABLE `Issue` (
   `priority`         VARCHAR(32) NOT NULL,
   `status`           VARCHAR(32) NOT NULL DEFAULT 'OPEN',
   `projectReleaseId` INT         NOT NULL,
+  `projectId`        INT         NOT NULL,
   `assigneeId`       INT,
 
   #TODO: createTime must be initialized only one time, lastUpdateDate => when anything is changed, just update this time.
@@ -150,6 +151,11 @@ ALTER TABLE `Issue`
 
 ALTER TABLE `Issue`
   ADD CONSTRAINT `Issue_fk2` FOREIGN KEY (`parentId`) REFERENCES `Issue` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `Issue`
+  ADD CONSTRAINT `Issue_fk3` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 

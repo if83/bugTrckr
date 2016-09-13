@@ -82,8 +82,8 @@
                 <td><c:out value="${issue.status}"/></td>
                 <td>
                     <a class="viewLink"
-                       href="<spring:url value='projects/project/${issue.projectRelease.project.id}'/>">
-                            ${issue.projectRelease.project.title}
+                       href="<spring:url value='projects/project/${issue.project.id}'/>">
+                            ${issue.project.title}
                     </a>
                 </td>
                 <td>
@@ -109,15 +109,38 @@
                                 class="fa fa-hourglass-half icon-table-u"></i></a>
                         &nbsp
                         </sec:authorize>
-                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER') or
-                        (hasAnyRole('DEVELOPER', 'QA') and @issueService.findById(${issue.id}).editAbility)">
+                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
                         <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
                                 class="fa fa-edit icon-table-u"></i></a>
                         &nbsp
-                        <a href="<spring:url value='/issue/${issue.id}/remove' />"><i
-                                class="fa fa-remove icon-table-u"></i></a>
                         </sec:authorize>
-                    </div>
+                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
+                        <a data-toggle="modal" data-target="#removeModal${issue.id}">
+                            <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                        </sec:authorize>
+
+                        <!-- Modal confirmation for removing issue-->
+                        <div class="modal fade" id="removeModal${issue.id}" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title pull-left">Removal</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Please conform the deleting of <b>${issue.title}</b> ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <a href="<spring:url value='/issue/${issue.id}/remove' />"
+                                           class="btn btn-u">Confirm</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                 </td>
             </tr>
         </c:forEach>

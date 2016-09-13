@@ -44,6 +44,11 @@ public class Issue {
     @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
     private ProjectRelease projectRelease;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
+    private Project project;
+
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id")
     private User assignee;
@@ -141,6 +146,15 @@ public class Issue {
 
     public void setAssignee(User assignee) {
         this.assignee = assignee;
+    }
+
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Set<Label> getLabels() {

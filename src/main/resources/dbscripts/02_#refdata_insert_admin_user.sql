@@ -166,37 +166,37 @@ INSERT INTO User (firstName, lastName, email, password, role, description, proje
 VALUES
   ('developer24', 'developer24', 'developer24@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
    'ROLE_DEVELOPER', 'pm', '1', '1');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Remove configs', 'TASK', 'LOW', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Fix UI in search', 'TASK', 'LOW', '1', '2', '2016-02-02', '10', '1', 'some text', '0', 'IN_PROGRESS');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('GUI doesn`t loads', 'BUG', 'LOW', '1', '26', '2016-02-02', '30', '1', 'some text', '0', 'INVALID');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Fix typos', 'TASK', 'LOW', '1', '2', '2016-02-02', '50', '1', 'some text', '0', 'OPEN');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Update libs', 'BUG', 'LOW', '1', '2', '2016-02-02', '13', '1', 'some text', '0', 'IN_PROGRESS');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Don`t store user', 'TASK', 'LOW', '1', '2', '2016-02-02', '54', '1', 'some text', '0', 'OPEN');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Slow speed', 'EPIC', 'LOW', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Not logout', 'TASK', 'LOW', '1', '2', '2016-02-02', '58', '1', 'some text', '0', 'QA_VALIDATION');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Add default val', 'TASK', 'LOW', '1', '4', '2016-02-02', '46', '1', 'some text', '0', 'IN_PROGRESS');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
-VALUES ('Fix JS', 'TASK', 'LOW', '1', '2', '2016-02-02', '12', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Remove configs', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Fix UI in search', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '10', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('GUI doesn`t loads', 'BUG', 'LOW', '1', '1', '26', '2016-02-02', '30', '1', 'some text', '0', 'INVALID');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Fix typos', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '50', '1', 'some text', '0', 'OPEN');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Update libs', 'BUG', 'LOW', '1', '1', '2', '2016-02-02', '13', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Don`t store user', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '54', '1', 'some text', '0', 'OPEN');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Slow speed', 'EPIC', 'LOW', '1', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Not logout', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '58', '1', 'some text', '0', 'QA_VALIDATION');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId,  assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Add default val', 'TASK', 'LOW', '1', '1', '4', '2016-02-02', '46', '1', 'some text', '0', 'IN_PROGRESS');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
+VALUES ('Fix JS', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '12', '1', 'some text', '0', 'IN_PROGRESS');
 
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
-VALUES ('Check Opera browser', 'TASK', 'LOW', '2', '2', '2016-02-02', '40', '1', 'some text', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
-VALUES ('Fix styles', 'BUG', 'MEDIUM', '3', '3', '2016-02-02', '30', '2', 'some text', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
-VALUES ('Remove new user', 'IMPROVEMENT', 'HIGH', '4', '4', '2016-02-02', '25', '3', 'some text', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
-VALUES ('Add some options', 'EPIC', 'CRITICAL', '3', '3', '2016-02-02', '5', '4', 'some text', '0');
-INSERT INTO Issue (title, type, priority, projectReleaseId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
-VALUES ('Remove pictures', 'TASK', 'BLOCKER', '4', '4', '2016-02-02', '15', '5', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Check Opera browser', 'TASK', 'LOW', '1', '2', '2', '2016-02-02', '40', '1', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Fix styles', 'BUG', 'MEDIUM', '3', '1', '3', '2016-02-02', '30', '2', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Remove new user', 'IMPROVEMENT', 'HIGH', '4', '1', '4', '2016-02-02', '25', '3', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Add some options', 'EPIC', 'CRITICAL', '3','1',  '3', '2016-02-02', '5', '4', 'some text', '0');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility)
+VALUES ('Remove pictures', 'TASK', 'BLOCKER', '4', '1', '4', '2016-02-02', '15', '5', 'some text', '0');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
 VALUES ('user6', 'user6', 'user6@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',

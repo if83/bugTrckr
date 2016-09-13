@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,12 @@ public class IssueController {
     @Autowired
     private LabelService labelService;
 
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private ProjectReleaseService projectReleaseService;
+
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String listOfIssues(Model model, Pageable pageable) {
         model.addAttribute("listOfIssues", issueService.findAll(pageable));
@@ -77,9 +85,12 @@ public class IssueController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA') and " +
-            "@issueService.findById(#id).editAbility)")
+            "(@issueService.findById(#id).editAbility) and " +
+            "(@userService.findByEmail(#principal.getName()).get(0).getId() " +
+            "== @issueService.findById(#id).getAssignee().getId()))")
     @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
-    public String editIssue(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
+    public String editIssue(@PathVariable @P("id") long id, Model model,
+                            RedirectAttributes redirectAttrs , @Param("principal") Principal principal) {
         model.addAttribute("issue", this.issueService.findById(id));
         model.addAttribute("formAction", "edit");
         populateDefaultModel(model);
@@ -152,6 +163,7 @@ public class IssueController {
     }
 
     private void populateDefaultModel(Model model) {
+        model.addAttribute("projects", projectService.findAll());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
