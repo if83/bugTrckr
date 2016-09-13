@@ -3,19 +3,15 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 public class WorkLog {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -35,17 +31,17 @@ public class WorkLog {
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date startTime;
-    //TODO: rename this field in workLog table (workday or smth else)
-    //TODO: refactor repo and services code accordingly to new field name
+    private Date startDate;
 
     @NotNull
-    @Min(1)
-    @Max(8) // may specify user or project workday duration instead
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
+
+    @NotNull
     @Column(nullable = false)
     private Long amountOfTime;
-
-    //TODO: delete all usages of isDeleted field in worklog table from sql scripts
 
     public WorkLog() {
     }
@@ -74,12 +70,20 @@ public class WorkLog {
         this.user = user;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Long getAmountOfTime() {
@@ -93,11 +97,8 @@ public class WorkLog {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
         if (o == null || getClass() != o.getClass()) return false;
-
         WorkLog workLog = (WorkLog) o;
-
         return new EqualsBuilder()
                 .append(id, workLog.id)
                 .isEquals();
@@ -116,5 +117,5 @@ public class WorkLog {
                 .append("id", id)
                 .toString();
     }
-
 }
+//TODO: prokhorenkovkv fix timezones

@@ -101,7 +101,8 @@ CREATE TABLE `WorkLog` (
   `id`           INT     NOT NULL AUTO_INCREMENT,
   `issueId`      INT     NOT NULL,
   `userId`       INT     NOT NULL,
-  `startTime`    DATE    NOT NULL,
+  `startDate`    DATE    NOT NULL,
+  `endDate`      DATE    NOT NULL,
   `amountOfTime` INT     NOT NULL,
   PRIMARY KEY (`id`)
 )
