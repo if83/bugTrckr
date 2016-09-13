@@ -6,10 +6,11 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -21,15 +22,16 @@ public class IssueRep {
 //    EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    JpaTransactionManager transactionManager;
+    EntityManagerFactory entityManagerFactory;
 //    @Autowired
 //    private SessionFactory sessionFactory;
 
 //    Using JPA to index data
+    @Transactional
     public void indexIssues() throws Exception {
 
         try {
-            EntityManager entityManager = transactionManager.getEntityManagerFactory().createEntityManager();
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
 
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
             fullTextEntityManager.createIndexer().startAndWait();
@@ -39,10 +41,11 @@ public class IssueRep {
     }
 
     //    Using JPA to create and execute a search
+    @Transactional
     public List<Issue> searchInIssue(String searchText) throws Exception {
         try {
 
-            EntityManager session = transactionManager.getEntityManagerFactory().createEntityManager();
+            EntityManager session = entityManagerFactory.createEntityManager();
 
             FullTextEntityManager fullTextEntityManager =
                     Search.getFullTextEntityManager(session);
