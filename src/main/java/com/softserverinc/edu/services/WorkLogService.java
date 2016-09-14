@@ -85,7 +85,7 @@ public class WorkLogService {
 
     public String getPermissionToCreateWorkLog(Principal principal, Long issueId){
         if ((userService.findByEmail(principal.getName()).get(0)).equals(getCurrentIssue(issueId).getAssignee())){
-            return (userService.findByEmail(principal.getName()).get(0)).getRole().toString().toUpperCase();
+            return (userService.findByEmail(principal.getName()).get(0)).getRole().toString().toUpperCase().replace(' ', '_');
         }
         return null;
     }
