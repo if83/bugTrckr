@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -179,7 +180,7 @@ public class UserController {
 
 
     @GetMapping(value = "/user/{id}/view")
-    public String viewUser(@PathVariable("id") long id, Model model) {
+    public String viewUser(@PathVariable("id") long id, Model model, @PageableDefault(value = 20) Pageable pageable) {
 
         LOGGER.debug("viewUser() id: {}", id);
 
@@ -190,9 +191,8 @@ public class UserController {
         }
         model.addAttribute("user", user);
         model.addAttribute("workLogList", workLogService.findByUser(user));
-        model.addAttribute("smth", 654);
-        List<History> allHistory = historyService.findAllHistoryForUser(user);
-        List<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory);
+        Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
+        Page<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
         return "userview";
     }

@@ -90,7 +90,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <c:if test="${releaseList.getTotalPages()> 1}">
                 <nav aria-label="Page navigation" id="pagerID">
                     <div class="text-center">
                         <ul class="pagination">
@@ -112,7 +111,6 @@
                         </ul>
                     </div>
                 </nav>
-            </c:if>
         </div>
 
         <div class="col-sm-7 col-sm-offset-1">

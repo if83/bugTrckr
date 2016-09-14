@@ -12,6 +12,7 @@ import com.softserverinc.edu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,7 +43,7 @@ public class ReleaseController {
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}", method = RequestMethod.GET)
     public String viewRelease(@PathVariable("releaseId") Long releaseId,
                               Model model,
-                              Pageable pageable) {
+                              @PageableDefault(value = 10) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         Page<Issue> pageableIssues = issueService.findByProjectRelease(release, pageable);
         List<User> users = userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(release.getProject().getId()), false, 1);

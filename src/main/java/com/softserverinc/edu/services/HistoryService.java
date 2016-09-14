@@ -7,6 +7,9 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.repositories.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +49,10 @@ public class HistoryService {
         return historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(user.getId(), user.getId());
     }
 
+    public Page<History> findAllHistoryForUser(User user, Pageable pageable) {
+        return historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(user.getId(), user.getId(), pageable);
+    }
+
     @Transactional
     public History save(History history) {
         return historyRepository.saveAndFlush(history);
@@ -72,7 +79,7 @@ public class HistoryService {
         save(history);
     }
 
-    public List<HistoryDto> convertHistoryToHistoryDto(List<History> historyList) {
+    public Page<HistoryDto> convertHistoryToHistoryDto(Page<History> historyList, Pageable pageable) {
         List<HistoryDto> result = new ArrayList<>();
         for (History history : historyList) {
             HistoryDto historyDto = new HistoryDto();
@@ -84,7 +91,8 @@ public class HistoryService {
             historyDto.setCreateTime(history.getCreateTime());
             result.add(historyDto);
         }
-        return result;
+        Page<HistoryDto> historiesPage = new PageImpl<>(result, pageable, historyList.getTotalElements());
+        return historiesPage;
     }
 
 }

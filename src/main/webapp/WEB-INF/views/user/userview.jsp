@@ -85,9 +85,9 @@
 
 <div class="row">
     <div class="user-history col-sm-6">
-        <H3>User`s activity</H3>
+        <H3 class="text-center">User`s activity</H3>
         <ul>
-            <c:forEach var="history" items="${allHistory}">
+            <c:forEach var="history" items="${allHistory.content}">
                 <c:choose>
                     <c:when test="${history.action == 'CREATE_ISSUE'}">
                         <li>
@@ -162,7 +162,30 @@
                 </c:choose>
             </c:forEach>
         </ul>
+        <nav aria-label="Page navigation" id="pagerID">
+            <div class="text-center">
+                <ul class="pagination">
+                    <li>
+                        <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                        <li>
+                            <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
+                        </li>
+                    </c:forEach>
+                    <li>
+                        <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
+                           aria-label="End"><span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </div>
+
+
     <%--worklog table--%>
     <div class="col-sm-6">
         <h3 class="text-center">Worklog</h3>
