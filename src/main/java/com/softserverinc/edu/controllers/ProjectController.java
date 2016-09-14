@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -40,13 +41,14 @@ public class ProjectController {
     private ProjectReleaseService releaseService;
 
     @GetMapping(value = "/projects")
-    public String listOfProjects(ModelMap model, Pageable pageable) {
+    public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
         return "projects";
     }
 
     @PostMapping(value = "/search")
-    public String projectSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
+    public String projectSearchByTitle(@RequestParam(value = "title") String title, Model model,
+                                       @PageableDefault(value = 12) Pageable pageable) {
         model.addAttribute("listOfProjects", projectService.findByTitleContaining(title, pageable));
         return "projects";
     }
@@ -54,7 +56,8 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA', 'GUEST') and " +
             "@projectService.findById(#projectId).guestView)")
     @GetMapping(value = "projects/project/{projectId}")
-    public String projectPage(@PathVariable @P("projectId") Long projectId, Model model, Pageable pageable) {
+    public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
+                              @PageableDefault(value = 12) Pageable pageable) {
         Page<ProjectRelease> pageableReleases = releaseService.findByProject(projectService.findById(projectId), pageable);
         model.addAttribute("usersList",
                 userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
@@ -110,7 +113,8 @@ public class ProjectController {
             "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
     public String usersWithoutProject(@PathVariable @P("projectId") Long projectId,
-                                    Model model, @Param("principal") Principal principal, Pageable pageable){
+                                      Model model, @Param("principal") Principal principal,
+                                      @PageableDefault(value = 12)Pageable pageable){
         model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
         usersRolesInProject(model);
@@ -119,8 +123,9 @@ public class ProjectController {
 
     @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/search")
     public String searchUsersWithoutProjects(@RequestParam(value = "searchedParam") String searchedParam,
-                                            @RequestParam(value = "searchedString") String searchedString,
-                                            @PathVariable("projectId") Long projectId, Model model, Pageable pageable){
+                                             @RequestParam(value = "searchedString") String searchedString,
+                                             @PathVariable("projectId") Long projectId, Model model,
+                                             @PageableDefault(value = 12) Pageable pageable){
         usersRolesInProject(model);
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("userList", userService.searchByUsersWithoutProject(searchedParam, searchedString,
