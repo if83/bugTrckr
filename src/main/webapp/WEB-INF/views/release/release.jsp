@@ -19,7 +19,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-sm-6 text-left">
+        <div class="col-sm-5 text-left">
             <div class="release-name">
                 Release: ${release.version}
                 <small>
@@ -36,7 +36,7 @@
             <div class="release-description">Release description:</div>
             <p>${release.description}</p>
         </div>
-        <div class="release-issues col-sm-6">
+        <div class="release-issues col-sm-7">
             <a href="<spring:url value='/issue/add' />" class="btn btn-primary btn-u"><i
                     class="fa fa-plus icon-bg-u"></i> Add issue</a>
             <table class="table-issues table table-hover table-bordered">
@@ -54,29 +54,16 @@
                         <input name="issueId" type="hidden" value="${issue.id}"/>
                         <td>${issue.title}</td>
                         <td>
-                            <div class="dropdown statuses-dropdown">
-                                <button class="statuses-label" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        ${issue.status}
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="statuses-label">
-                                </ul>
-                            </div>
+                            <select class="statuses-dropdown selectpicker">
+                                <option selected="selected" value="${issue.status}">${issue.status}</option>
+                            </select>
                         </td>
                         <td>
-                            <div class="dropdown users-dropdown">
-                                <button class="users-label" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        ${issue.assignee.firstName}
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="users-label">
-                                    <c:forEach var="user" items="${users}">
-                                        <li value='${user.id}'>
-                                            <a href="#">${user.firstName}</a>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
+                            <form:select class="users-dropdown selectpicker" data-live-search="true" path="users">
+                                <form:option selected="selected" label="${issue.assignee.firstName}"
+                                             value="${issue.assignee.id}"/>
+                                <form:options items="${users}" itemLabel="firstName" itemValue="id"/>
+                            </form:select>
                         </td>
                         <td>
                             <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
@@ -93,7 +80,8 @@
                     <div class="text-center">
                         <ul class="pagination">
                             <li>
-                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=0'/>" aria-label="Start">
+                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=0'/>"
+                                   aria-label="Start">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
@@ -113,6 +101,5 @@
             </c:if>
         </div>
     </div>
-
 </div>
 

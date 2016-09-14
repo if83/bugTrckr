@@ -6,7 +6,6 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-
 <c:choose>
     <c:when test="${formAction eq 'new'}">
         <c:set var="breadcrumsname" scope="session" value="Create Issue"/>
@@ -54,7 +53,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="typeInput">Type</label>
                             <form:select path="type" type="text" cssClass="selectpicker form-control" id="typeInput"
-                                         placeholder="Type" data-live-search="true">
+                                         placeholder="Type">
                                 <form:option value="" label="  Select a type"/>
                                 <form:options items="${types}"/>
                             </form:select>
@@ -67,7 +66,7 @@
                             <label for="priorityInput">Priority</label>
                             <form:select path="priority" type="text" cssClass="selectpicker form-control"
                                          id="priorityInput"
-                                         placeholder="Priority" data-live-search="true">
+                                         placeholder="Priority">
                                 <form:option value="" label="  Choose the piority"/>
                                 <form:options items="${priority}"/>
                             </form:select>
@@ -77,20 +76,19 @@
 
                     <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="assigneeInput">Assignee Id</label>
-                            <form:select path="assignee" type="text" cssClass="form-control selectpicker" id="assigneeInput"
-                                         items="${users}" itemLabel="firstName" itemValue="id" data-live-search="true">
+                            <label for="assignee">Assignee</label>
+                            <form:select path="assignee" id="assignee" items="${users}" itemLabel="firstName" itemValue="id" cssClass="selectpicker form-control" data-live-search="true">
+                            <form:errors path="assignee" class="control-label"/>
                             </form:select>
-                            <form:errors path="assignee" cssClass="control-label"/>
                         </div>
                     </spring:bind>
 
                     <spring:bind path="labels">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="labelsSelect2">Labels</label></br>
-                            <form:select id="labelsSelect2" path="labels" items="${allLabels}" data-live-search="true"
-                                         itemLabel="title" itemValue="id" multiple="multiple" style="width:380px;"
-                                         cssClass="form-control selectpicker"/>
+                            <form:select id="labelsSelect2" path="labels" items="${allLabels}"
+                                         itemLabel="title" itemValue="id" multiple="multiple"
+                                         cssClass="form-control"/>
                             <form:errors path="labels" class="control-label"/>
                         </div>
                     </spring:bind>
@@ -130,21 +128,22 @@
                     <spring:bind path="projectRelease">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="projectReleaseInput">Release</label>
-                            <form:input path="projectRelease" type="text" cssClass="selectpicker form-control"
+                            <form:input path="projectRelease" type="text" cssClass="form-control"
                                         id="projectReleaseInput" placeholder="ProjectRelease"/>
                             <form:errors path="projectRelease" cssClass="control-label"/>
                         </div>
                     </spring:bind>
 
                     <c:if test="${formAction eq 'edit'}">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="status">Status</label>
-                            <form:select path="status" type="text" cssClass="form-control" id="status" placeholder="Status">
-                                <form:option value="${issue.status}" label="${issue.status}"/>
-                                <form:options items="${statuses}"/>
-                            </form:select>
-                            <form:errors path="status" cssClass="control-label"/>
-                        </div>
+                        <spring:bind path="status">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label for="status">Status</label>
+                                <form:select path="status" type="text" cssClass="selectpicker form-control" id="status">
+                                    <form:option selected="selected" value="${issue.status}" label="${issue.status}"/>
+                                </form:select>
+                                <form:errors path="status" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
                     </c:if>
 
                 </div>

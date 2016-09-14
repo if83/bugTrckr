@@ -96,6 +96,7 @@ public class IssueController {
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableIssueStatusesForStatus(issue.getStatus()));
+        model.addAttribute("users", userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(issue.getProjectRelease().getProject().getId()), false, 1));
         populateDefaultModel(model);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
@@ -107,6 +108,7 @@ public class IssueController {
         Issue issue = new Issue();
         model.addAttribute("sampleDate", new Date());
         model.addAttribute("issue", issue);
+        model.addAttribute("users", userService.findAll());
         populateDefaultModel(model);
         model.addAttribute("formAction", "new");
         LOGGER.debug("Issue add form");
@@ -144,16 +146,16 @@ public class IssueController {
     @RequestMapping(value = "/issue/changeIssue", method = RequestMethod.POST)
     public void changeIssueByAjax(@RequestParam("issueId") Long issueId,
                                   @RequestParam("action") String action,
-                                  @RequestParam("data") String data,
+                                  @RequestParam("inputData") String inputData,
                                   Principal principal) {
         Issue issue = issueService.findById(issueId);
         User changedByUser = userService.findByEmailIs(principal.getName());
         if (action.equals("changeAssignee")) {
-            issue.setAssignee(userService.findOne(Long.valueOf(data)));
+            issue.setAssignee(userService.findOne(Long.valueOf(inputData)));
             issue = issueService.save(issue);
             historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
         } else {
-            issue.setStatus(IssueStatus.valueOf(data));
+            issue.setStatus(IssueStatus.valueOf(inputData));
             issue = issueService.save(issue);
             historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
         }
@@ -166,7 +168,6 @@ public class IssueController {
 
     private void populateDefaultModel(Model model) {
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("users", userService.findAll());
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("allLabels", labelService.findAll());

@@ -1,52 +1,48 @@
 $(document).ready(function () {
 
-    // changing assignee of issue from dropdown in issues-table
-    $(".users-dropdown").on('click', 'li', function () {
-        var selectedUserName = $(this).text();
+    // change assignee of issue from dropdown in issues table
+    $('.users-dropdown').on('changed.bs.select', function (e) {
         var queryObj = {};
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
-        queryObj.data = $(this).val();
+        queryObj.inputData = $(e.currentTarget).val();
         queryObj.action = "changeAssignee";
-        $(this).parents(".users-dropdown").find(".users-label").text(selectedUserName);
         $.ajax({
             url: "/issue/changeIssue",
             data: queryObj,
             type: 'POST'
         });
-        $(".users-dropdown").removeClass("open");
-        return false;
     });
 
-    // changing status of issue from dropdown in issues-table
-    $(".statuses-dropdown").on('click', 'li', function () {
-        var selectedStatusName = $(this).text();
+
+    // change status of issue from dropdown in issues-table
+    $(".statuses-dropdown").on('changed.bs.select', function (e) {
         var queryObj = {};
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
-        queryObj.data = selectedStatusName;
+        queryObj.inputData = $(e.currentTarget).val();
         queryObj.action = "changeStatus";
-        $(this).parents(".statuses-dropdown").find(".statuses-label").text(selectedStatusName);
         $.ajax({
             url: "/issue/changeIssue",
             data: queryObj,
             type: 'POST'
         });
-        $(".statuses-dropdown").removeClass("open");
-        return false;
     });
 
-    // load avaliable statuses for dropdown-menu
-    $(".statuses-dropdown").on('click', '.statuses-label', function () {
-        $(".statuses-dropdown .dropdown-menu").html('');
+    // change status of issue and load avaliable statuses when open statuses dropdown in issues-table
+    $(".statuses-dropdown").on("show.bs.select", function (e) {
+        var self = $(this);
         var queryObj = {};
-        queryObj.selectedStatus = $.trim($(this).text());
+        var selectedStatus = $(e.currentTarget).val();
+        $(self).find('option').not(':selected').remove();
+        queryObj.selectedStatus = selectedStatus;
         $.ajax({
             url: "/getAvaliableIssueStatuses",
             data: queryObj,
             type: 'POST',
             success: function (statuses) {
                 $.each(statuses, function (index, value) {
-                    var html = "<li value='" + value + "'><a href=''>" + value + "</a></li>";
-                    $(".statuses-dropdown .dropdown-menu").append(html);
+                    var html = "<option value='" + value + "'>" + value + "</option>";
+                    $(self).append(html);
+                    $(self).selectpicker('refresh');
                 });
             }
         });

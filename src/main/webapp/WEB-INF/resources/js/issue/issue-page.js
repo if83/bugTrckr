@@ -1,6 +1,6 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-    // changing (or adding) labels to issue
+    // change (or add) labels to issue on issue-form
     $("#labelsSelect2").select2({
         tags: true,
         createTag: function (tag) {
@@ -8,11 +8,11 @@ $(document).ready(function(){
                 id: tag.term,
                 text: tag.term,
                 // add indicator:
-                isNew : true
+                isNew: true
             };
         }
-    }).on("select2:select", function(e) {
-        if(e.params.data.isNew){
+    }).on("select2:select", function (e) {
+        if (e.params.data.isNew) {
             var queryObj = {};
             queryObj.labelName = e.params.data.text;
             $.ajax({
@@ -20,17 +20,19 @@ $(document).ready(function(){
                 type: 'POST',
                 data: queryObj,
                 success: function (labelId) {
-                   $('option[value="'+e.params.data.text+'"]').replaceWith('<option selected="selected" value="'+labelId+'">'+e.params.data.text+'</option>');
+                    var html = '<option selected="selected" value="' + labelId + '">' + e.params.data.text + '</option>';
+                    $('option[value="' + e.params.data.text + '"]').replaceWith(html);
                 }
             });
         }
         return false;
     });
 
-    // changing status of issue from dropdown in issues-form
-    $("#status").on("change", function () {
+    // change status of issue and load avaliable statuses when open statuses dropdown on issue-form 
+    $("#status").on("show.bs.select", function () {
+        var self = $(this);
         var queryObj = {};
-        var selectedStatus = $(this).val();
+        var selectedStatus = $(self).val();
         $(this).find('option').not(':selected').remove();
         queryObj.selectedStatus = selectedStatus;
         $.ajax({
@@ -40,7 +42,8 @@ $(document).ready(function(){
             success: function (statuses) {
                 $.each(statuses, function (index, value) {
                     var html = "<option value='" + value + "'>" + value + "</option>";
-                    $("#status").append(html);
+                    $(self).append(html);
+                    $(self).selectpicker('refresh');
                 });
             }
         });

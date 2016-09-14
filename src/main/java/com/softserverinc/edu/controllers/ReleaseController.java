@@ -45,7 +45,7 @@ public class ReleaseController {
                               Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         Page<Issue> pageableIssues = issueService.findByProjectRelease(release, pageable);
-        List<User> users = userService.findAllAvaliableForRelease(release);
+        List<User> users = userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(release.getProject().getId()), false, 1);
         model.addAttribute("issueList", pageableIssues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);

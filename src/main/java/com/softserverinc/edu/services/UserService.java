@@ -52,7 +52,7 @@ public class UserService {
     }
 
     public List<User> findAllAvaliableForRelease(ProjectRelease release) {
-        return userRepository.findByProjectAndIsDeleted(release.getProject(), false);
+        return userRepository.findByProject(release.getProject());
     }
 
     @Transactional

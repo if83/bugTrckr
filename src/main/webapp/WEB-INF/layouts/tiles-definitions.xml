@@ -27,6 +27,7 @@
         <put-list-attribute name="javascripts">
             <add-attribute value="/js/jquery-2.2.4.min.js"/>
             <add-attribute value="/js/bootstrap.min.js"/>
+            <add-attribute value="/js/bootstrap-select.min.js"/>
             <add-attribute value="/js/select2.full.min.js"/>
             <add-attribute value="/js/jquery.validate.min.js"/>
             <add-attribute value="/js/menu.js"/>
@@ -84,15 +85,12 @@
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
             <add-attribute value="/css/issue/jquery-ui.css"/>
-            <add-attribute value="/css/issue/select2.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
             <add-attribute value="/js/issue/datepicker.js"/>
-            <add-attribute value="/js/issue/jquery-1.12.4.js"/>
             <add-attribute value="/js/issue/jquery-ui.js"/>
-            <add-attribute value="/js/issue/select2.min.js"/>
             <add-attribute value="/js/issue/issue-page.js"/>
         </put-list-attribute>
     </definition>
