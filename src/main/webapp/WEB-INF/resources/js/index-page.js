@@ -1,20 +1,34 @@
 $(document).ready(function () {
-
-    //form login validation
-    $('#loginform').validate({ // initialize the plugin
-        invalidHandler: function (event, validator) {
-            $("#loginform div.input-group").addClass("has-error");
-        },
+    if(window.location.href.indexOf("/?error")> -1){
+        $("#loginFormModal").modal();
+        $("#error").show();
+    }else {
+        $("#error").hide();
+    }
+    $("#loginform").validate({
         rules: {
-            email: {
+            "username": {
                 required: true,
-                email: true
+                email: true,
+                maxlength: 64
             },
-            password: {
+            "password": {
                 required: true,
-                minlength: 5
-            }
-        }
+                minlength: 5,
+                maxlength: 15
+            },
+        },
+        messages: {
+            "username": {
+                email: "Email isn't correct",
+                required: "Please enter email",
+                maxlength: "Email must be not longer than 64 characters"
+            },
+            "password": {
+                required: "Please enter the password",
+                minlength: "Password must be at least 5 characters long",
+                maxlenght: "Password must be not longer than 15 characters"
+            },
+        },
     });
-
 });

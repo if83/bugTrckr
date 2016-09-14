@@ -4,18 +4,14 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
-public class LoginForm implements Serializable {
+public class LoginForm {
 
-    private static final long serialVersionUID = 1L;
-
-    @NotEmpty(message = "Please enter your username addresss.")
+    @NotEmpty
     @Email
     private String username;
 
-    @NotEmpty(message = "Please enter your password.")
-    @Size(min = 5, max = 15, message = "Your password must between 6 and 15 characters")
+    @Size(min = 5, max = 15)
     private String password;
 
     public String getUsername() {
@@ -33,5 +29,4 @@ public class LoginForm implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
