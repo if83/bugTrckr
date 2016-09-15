@@ -187,7 +187,7 @@
 
 
     <%--worklog table--%>
-    <div class="col-sm-6">
+    <div class="col-sm-5 text-center">
         <h3 class="text-center">Worklog</h3>
         <table class="table table-hover">
             <thead>
@@ -196,8 +196,10 @@
                 <th class="text-center">Issue</th>
                 <th class="text-center">Work period</th>
                 <th class="text-center">Logged</th>
-                <th><%--Edit--%></th>
-                <th><%--Remove--%></th>
+                <c:if test="${principal == user}">
+                    <th><%--Edit--%></th>
+                    <th><%--Remove--%></th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -213,20 +215,20 @@
                     </td>
                     <td>${workLogIterator.startDate} - ${workLogIterator.endDate}</td>
                     <td>${workLogIterator.amountOfTime} hrs</td>
-                    <td>
-                        <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
-                                class="fa fa-edit icon-table-u"></i></a>
-                    </td>
-                    <td>
-                        <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"><i
-                                class="fa fa-remove icon-table-u"></i></a>
-                    </td>
+                    <c:if test="${principal == workLogIterator.user}">
+                        <td>
+                            <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
+                                    class="fa fa-edit icon-table-u"></i></a>
+                        </td>
+                        <td>
+                            <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"><i
+                                    class="fa fa-remove icon-table-u"></i></a>
+                        </td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-    </div>
-    <div>
         <c:if test="${workLogList.getTotalPages()> 1}">
             <div class="row col-sm-offset-4 col-sm-4">
                 <nav aria-label="Page navigation" id="pagerID">

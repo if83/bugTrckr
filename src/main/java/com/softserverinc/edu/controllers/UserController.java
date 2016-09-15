@@ -179,7 +179,8 @@ public class UserController {
     @GetMapping(value = "/user/{id}/view")
     public String viewUser(@PathVariable("id") long id, Model model,
                            @Qualifier("history")@PageableDefault(value = 20) Pageable pageable,
-                           @Qualifier("workLog")@PageableDefault(value = 20) Pageable workLogPageable) {
+                           @Qualifier("workLog")@PageableDefault(value = 20) Pageable workLogPageable,
+                           Principal principal) {
 
         LOGGER.debug("viewUser() id: {}", id);
 
@@ -189,6 +190,7 @@ public class UserController {
             model.addAttribute("msg", "User not found");
         }
 
+        model.addAttribute("principal", (userService.findByEmail(principal.getName())).get(0));
         model.addAttribute("user", user);
         Page<WorkLog> workLogList = workLogService.findByUser(user, workLogPageable);
         model.addAttribute("workLogList", workLogList);

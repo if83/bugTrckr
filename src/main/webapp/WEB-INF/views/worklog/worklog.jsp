@@ -111,6 +111,7 @@
                 <th class="text-center">Logged</th>
                 <th><%--Edit--%></th>
                 <th><%--Remove--%></th>
+
             </tr>
             </thead>
             <tbody>
@@ -138,9 +139,7 @@
                             <td>
                                 <i class="fa fa-lock icon-table-u"></i>
                             </td>
-                            <td>
-                                <i class="fa fa-lock icon-table-u"></i>
-                            </td>
+                            <td></td>
                         </c:otherwise>
                     </c:choose>
                 </tr>
