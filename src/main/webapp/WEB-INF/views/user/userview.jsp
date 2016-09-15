@@ -162,21 +162,21 @@
                 </c:choose>
             </c:forEach>
         </ul>
-        <nav aria-label="Page navigation" id="pagerID">
+        <nav aria-label="Page navigation" id="1pagerID">
             <div class="text-center">
                 <ul class="pagination">
                     <li>
-                        <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
+                        <a href="<spring:url value='/user/${user.id}/view?history_page=0'/>" aria-label="Start">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                    <%--<c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
                         <li>
-                            <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
+                            <a href="<spring:url value='/user/${user.id}/view?history_page=${page}'/>">${page + 1}</a>
                         </li>
-                    </c:forEach>
+                    </c:forEach>--%>
                     <li>
-                        <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
+                        <a href="<spring:url value='/user/${user.id}/view?history_page=${allHistory.getTotalPages() - 1}'/>"
                            aria-label="End"><span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -194,14 +194,14 @@
             <tr>
                 <th class="text-center">Project</th>
                 <th class="text-center">Issue</th>
-                <th class="text-center">Work date</th>
+                <th class="text-center">Work period</th>
                 <th class="text-center">Logged</th>
                 <th><%--Edit--%></th>
                 <th><%--Remove--%></th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="workLogIterator" items="${workLogList}">
+            <c:forEach var="workLogIterator" items="${workLogList.content}">
                 <tr class="text-center">
                     <td>
                         <a href="../../projects/project/${workLogIterator.issue.projectRelease.project.id}">
@@ -211,8 +211,8 @@
                         <a href="../../issue/${workLogIterator.issue.id}">
                             <c:out value="${workLogIterator.issue.title}"/></a>
                     </td>
-                    <td><c:out value="${workLogIterator.startTime}"/></td>
-                    <td><c:out value="${workLogIterator.amountOfTime}"/> hrs</td>
+                    <td>${workLogIterator.startDate} - ${workLogIterator.endDate}</td>
+                    <td>${workLogIterator.amountOfTime} hrs</td>
                     <td>
                         <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
                                 class="fa fa-edit icon-table-u"></i></a>
@@ -225,6 +225,34 @@
             </c:forEach>
             </tbody>
         </table>
+    </div>
+    <div>
+        <c:if test="${workLogList.getTotalPages()> 1}">
+            <div class="row col-sm-offset-4 col-sm-4">
+                <nav aria-label="Page navigation" id="pagerID">
+                    <div class="text-center">
+                        <ul class="pagination">
+                            <li>
+                                <a href="<spring:url value='?workLog_page=0'/>" aria-label="Start">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <c:forEach var="page" begin="0" end="${workLogList.getTotalPages() - 1}">
+                                <li>
+                                    <a href="<spring:url value='?workLog_page=${page}'/>">${page + 1}</a>
+                                </li>
+                            </c:forEach>
+                            <li>
+                                <a href="<spring:url value='?workLog_page=${workLogList.getTotalPages() - 1}'/>"
+                                   aria-label="End">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </c:if>
     </div>
 </div>
 

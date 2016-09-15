@@ -36,6 +36,10 @@ public class WorkLogService {
         return workLogRepository.findByUser(user);
     }
 
+    public Page<WorkLog> findByUser(User user, Pageable pageable) {
+        return workLogRepository.findByUser(user, pageable);
+    }
+
     public List<WorkLog> findByUserAndIssue(User user, Issue issue) {
         return workLogRepository.findByUserAndIssue(user, issue);
     }
@@ -92,7 +96,7 @@ public class WorkLogService {
 
     public String getPermissionToEditWorkLog(Principal principal, Long issueId){
         if (didCurrentUserWorkOnCurrentIssue(principal, issueId)){
-            return (userService.findByEmail(principal.getName()).get(0)).getRole().toString().toUpperCase();
+            return (userService.findByEmail(principal.getName()).get(0)).getRole().toString().toUpperCase().replace(' ', '_');
         }
         return null;
     }

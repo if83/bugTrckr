@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,8 +47,8 @@ public class WorkLogController {
             "findByIssues(@issueService.findById(#issueId))).getGuestView() == true")
     @RequestMapping(value = "issue/{issueId}/worklog", method = RequestMethod.GET)
     public String addWorkLogGET(@PathVariable Long issueId, ModelMap model,
-                                Principal principal, Pageable pageable) {
-        System.out.println();
+                                Principal principal,
+                                @PageableDefault(value = 12) Pageable pageable) {
         workLogService.forNewWorkLogModel(model, issueId, principal, pageable);
         return "worklog";
     }

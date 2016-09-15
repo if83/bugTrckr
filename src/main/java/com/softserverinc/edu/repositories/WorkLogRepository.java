@@ -14,6 +14,8 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
     List<WorkLog> findByUser(User user);
 
+    Page<WorkLog> findByUser(User user, Pageable pageable);
+
     List<WorkLog> findByUserAndIssue(User user, Issue issue);
 
     List<WorkLog> findByIssue(Issue issue);

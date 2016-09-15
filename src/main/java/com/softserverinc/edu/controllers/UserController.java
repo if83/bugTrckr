@@ -1,9 +1,6 @@
 package com.softserverinc.edu.controllers;
 
-import com.softserverinc.edu.entities.History;
-import com.softserverinc.edu.entities.HistoryDto;
-import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.*;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
 import com.softserverinc.edu.forms.UserFormValidator;
@@ -14,6 +11,7 @@ import com.softserverinc.edu.services.WorkLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,7 +27,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 
 /**
  * User controller
@@ -180,7 +177,9 @@ public class UserController {
 
 
     @GetMapping(value = "/user/{id}/view")
-    public String viewUser(@PathVariable("id") long id, Model model, @PageableDefault(value = 20) Pageable pageable) {
+    public String viewUser(@PathVariable("id") long id, Model model,
+                           @Qualifier("history")@PageableDefault(value = 20) Pageable pageable,
+                           @Qualifier("workLog")@PageableDefault(value = 20) Pageable workLogPageable) {
 
         LOGGER.debug("viewUser() id: {}", id);
 
@@ -189,8 +188,11 @@ public class UserController {
             model.addAttribute("css", "danger");
             model.addAttribute("msg", "User not found");
         }
+
         model.addAttribute("user", user);
-        model.addAttribute("workLogList", workLogService.findByUser(user));
+        Page<WorkLog> workLogList = workLogService.findByUser(user, workLogPageable);
+        model.addAttribute("workLogList", workLogList);
+
         Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
         Page<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
