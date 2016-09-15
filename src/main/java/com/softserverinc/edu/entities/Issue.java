@@ -49,8 +49,9 @@ public class Issue {
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
     private Project project;
 
+    @NotNull
     @OneToOne
-    @JoinColumn(name = "assigneeId", referencedColumnName = "id")
+    @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
 
     @ManyToMany()

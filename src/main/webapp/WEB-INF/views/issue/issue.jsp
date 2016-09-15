@@ -50,101 +50,124 @@
 </div>
 
 <div class=class="margin-top-30">
-    <table class="table table-hover">
+<table class="table table-hover">
 
-        <thead>
+<thead>
+<tr>
+    <th>Issue name</th>
+    <th>Type</th>
+    <th>Priority</th>
+    <th>Status</th>
+    <th>Project</th>
+    <th>Release version</th>
+    <th>Assigned User</th>
+    <th>Last updated</th>
+    <th>Estimate time, hrs</th>
+    <th><%--Actions--%></th>
+</tr>
+</thead>
+    <c:forEach var="issue" items="${listOfIssues.content}">
+        <sec:authorize access="hasRole('ADMIN') or hasAnyRole('DEVELOPER', 'QA', 'PROJECT_MANAGER', 'GUEST', 'USER')
+        and ${issue.project.guestView}">
         <tr>
-            <th>Issue name</th>
-            <th>Type</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Project</th>
-            <th>Release version</th>
-            <th>Assigned User</th>
-            <th>Create time</th>
-            <th>Finish time</th>
-            <th>Last updated</th>
-            <th>Estimate time, hrs</th>
-            <th><%--Actions--%></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="issue" items="${listOfIssues.content}">
-            <tr>
-                <td>
-                    <a class="viewLink"
-                       href="<spring:url value='issue/${issue.id}'/>">
-                            ${issue.title}
-                    </a>
-                </td>
-                <td><c:out value="${issue.type}"/></td>
-                <td><c:out value="${issue.priority}"/></td>
-                <td><c:out value="${issue.status}"/></td>
-                <td>
-                    <a class="viewLink"
-                       href="<spring:url value='projects/project/${issue.project.id}'/>">
-                            ${issue.project.title}
-                    </a>
-                </td>
-                <td>
-                    <a class="viewLink"
-                       href="<spring:url value='/project/${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">
-                            ${issue.projectRelease.version}
-                    </a>
-                </td>
+            <td>
+                <a class="viewLink"
+                   href="<spring:url value='issue/${issue.id}'/>">
+                        ${issue.title}
+                </a>
+            </td>
+            <td><c:out value="${issue.type}"/></td>
+            <td><c:out value="${issue.priority}"/></td>
+            <td><c:out value="${issue.status}"/></td>
+            <td>
+                <a class="viewLink"
+                   href="<spring:url value='projects/project/${issue.project.id}'/>">
+                        ${issue.project.title}
+                </a>
+            </td>
+            <td>
+                <a class="viewLink"
+                   href="<spring:url value='/project/${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">
+                        ${issue.projectRelease.version}
+                </a>
+            </td>
 
-                <td>
-                    <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
-                            ${issue.assignee.firstName} ${issue.assignee.lastName}
-                    </a>
-                </td>
-                <td><c:out value="${issue.createTime}"/></td>
-                <td><c:out value="${issue.dueDate}"/></td>
-                <td><c:out value="${issue.lastUpdateDate}"/></td>
-                <td><c:out value="${issue.estimateTime}"/></td>
-                <td>
-                    <div class="actionButtons">
-                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
-                        <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
-                                class="fa fa-hourglass-half icon-table-u"></i></a>
-                        &nbsp
-                        </sec:authorize>
-                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
-                        <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
-                                class="fa fa-edit icon-table-u"></i></a>
-                        &nbsp
-                        </sec:authorize>
-                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
-                        <a data-toggle="modal" data-target="#removeModal${issue.id}">
-                            <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                        </sec:authorize>
+            <td>
+                <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
+                        ${issue.assignee.firstName} ${issue.assignee.lastName}
+                </a>
+            </td>
+            <td><c:out value="${issue.lastUpdateDate}"/></td>
+            <td><c:out value="${issue.estimateTime}"/></td>
+            <td>
+                <div class="actionButtons">
+                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
+                    <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
+                            class="fa fa-hourglass-half icon-table-u"></i></a>
+                    &nbsp
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
+                    <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
+                            class="fa fa-edit icon-table-u"></i></a>
+                    &nbsp
+                    </sec:authorize>
+                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
+                    <a data-toggle="modal" data-target="#removeModal${issue.id}">
+                        <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                    </sec:authorize>
 
-                        <!-- Modal confirmation for removing issue-->
-                        <div class="modal fade" id="removeModal${issue.id}" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">&times;</span>
-                                        </button>
-                                        <h4 class="modal-title pull-left">Removal</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        Please conform the deleting of <b>${issue.title}</b> ?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        <a href="<spring:url value='/issue/${issue.id}/remove' />"
-                                           class="btn btn-u">Confirm</a>
-                                    </div>
+                    <!-- Modal confirmation for removing issue-->
+                    <div class="modal fade" id="removeModal${issue.id}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close"><span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title pull-left">Removal</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Please conform the deleting of <b>${issue.title}</b> ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <a href="<spring:url value='/issue/${issue.id}/remove' />"
+                                       class="btn btn-u">Confirm</a>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
+            </td>
+        </tr>
+        </sec:authorize>
+    </c:forEach>
+    </tbody>
     </table>
-
-</div>
+    <c:if test="${listOfIssues.getTotalPages()> 1}">
+        <div class="row col-sm-offset-4 col-sm-4">
+            <nav aria-label="Page navigation" id="pagerID">
+                <div class="text-center">
+                    <ul class="pagination">
+                        <li>
+                            <a href="<spring:url value='/issue?page=0'/>" aria-label="Start">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <c:forEach var="page" begin="0"  end="${listOfIssues.getTotalPages() - 1}">
+                            <li>
+                                <a href="<spring:url value='/issue?page=${page}'/>">${page + 1}</a>
+                            </li>
+                        </c:forEach>
+                        <li>
+                            <a href="<spring:url value='/issue?page=${listOfIssues.getTotalPages() - 1}'/>"
+                               aria-label="End">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </c:if>
+    </div>

@@ -128,8 +128,9 @@
                     <spring:bind path="projectRelease">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="projectReleaseInput">Release</label>
-                            <form:input path="projectRelease" type="text" cssClass="form-control"
-                                        id="projectReleaseInput" placeholder="ProjectRelease"/>
+                            <form:select path="projectRelease" type="text" cssClass="selectpicker form-control"
+                                         id="projectReleaseInput" data-live-search="true"
+                                         items="${projectReleases}" itemLabel="version" itemValue="id"/>
                             <form:errors path="projectRelease" cssClass="control-label"/>
                         </div>
                     </spring:bind>

@@ -74,9 +74,17 @@ public class IssueController {
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         return "issue_view";
     }
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('PROJECT_MANAGER') and " +
+            "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
+            "== @issueService.findById(#id).getProject().getId()" +
+            "or hasAnyRole('DEVELOPER', 'QA') and " +
+            " @userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
+            "== @issueService.findById(#id).getProject().getId() and "+
+            "@userService.findByEmail(#principal.getName()).get(0).getId() " +
+            "== @issueService.findById(#id).getAssignee().getId()")
     @RequestMapping(value = "/issue/{id}/remove", method = RequestMethod.GET)
-    public String removeIssue(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
+    public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes,
+                              @Param("principal") Principal principal) {
         this.issueService.delete(id);
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Issue removed successfully!");
@@ -84,10 +92,10 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA') and " +
-            "(@issueService.findById(#id).editAbility) and " +
-            "(@userService.findByEmail(#principal.getName()).get(0).getId() " +
-            "== @issueService.findById(#id).getAssignee().getId()))")
+    @PreAuthorize("hasRole('ADMIN') or hasAnyRole('DEVELOPER', 'QA', 'PROJECT_MANAGER') and " +
+            "@issueService.findById(#id).editAbility and " +
+            "@userService.findByEmail(#principal.getName()).get(0).getId() " +
+            "== @issueService.findById(#id).getAssignee().getId()")
     @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
     public String editIssue(@PathVariable @P("id") long id, Model model,
                             RedirectAttributes redirectAttrs , @Param("principal") Principal principal) {
@@ -167,6 +175,7 @@ public class IssueController {
     }
 
     private void populateDefaultModel(Model model) {
+        model.addAttribute("projectReleases", projectReleaseService.findAll());
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());

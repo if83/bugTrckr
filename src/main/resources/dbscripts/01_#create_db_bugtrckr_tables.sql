@@ -54,7 +54,7 @@ CREATE TABLE `Issue` (
   `status`           VARCHAR(32) NOT NULL DEFAULT 'OPEN',
   `projectReleaseId` INT         NOT NULL,
   `projectId`        INT         NOT NULL,
-  `assigneeId`       INT,
+  `assigneeId`       INT         NOT NULL,
 
   #TODO: createTime must be initialized only one time, lastUpdateDate => when anything is changed, just update this time.
   #   `createTime`       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
