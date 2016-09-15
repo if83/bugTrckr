@@ -63,18 +63,18 @@ public class WorkLogController {
                                  BindingResult result,
                                  Principal principal,
                                  Pageable pageable) {
-        if (!workLogFormValidator.validateAmountOfTime(workLog) ||
+        if (/*!workLogFormValidator.validateAmountOfTime(workLog) ||
                 !workLogFormValidator.validateWorkingOnIssueDates(workLog,
-                        userService.findByEmail(principal.getName()).get(0), issueId) ||
+                        userService.findByEmail(principal.getName()).get(0), issueId) ||*/
                 result.hasErrors()) {
-            return "redirect: /issue/" + issueId + "/worklog";
+            return "redirect:/issue/" + issueId + "/worklog";
         }
         workLogService.save(workLog);
         LOGGER.info("Worklog saved, id= " + workLog.getId());
         return "redirect:/issue/" + issueId + "/worklog";
     }
 
-    @PreAuthorize("@userService.findByEmail(#principal.getName()).get(0) == " +
+    /*@PreAuthorize("@userService.findByEmail(#principal.getName()).get(0) == " +
             "@workLogService.findOne(#workLogId).getUser()")
     @RequestMapping(value = "issue/{issueId}/worklog/{workLogId}/edit", method = RequestMethod.GET)
     public String editWorkLog(@PathVariable Long workLogId, @PathVariable Long issueId,
@@ -82,7 +82,7 @@ public class WorkLogController {
         model.addAttribute("issueId", issueId);
         workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, pageable);
         return "worklog";
-    }
+    }*/
 
     @PreAuthorize("@userService.findByEmail(#principal.getName()).get(0) ==" +
             "@workLogService.findOne(#worklogId).getUser()")

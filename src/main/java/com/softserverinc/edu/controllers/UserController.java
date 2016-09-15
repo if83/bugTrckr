@@ -1,6 +1,9 @@
 package com.softserverinc.edu.controllers;
 
-import com.softserverinc.edu.entities.*;
+import com.softserverinc.edu.entities.History;
+import com.softserverinc.edu.entities.HistoryDto;
+import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
 import com.softserverinc.edu.forms.UserFormValidator;
@@ -11,7 +14,6 @@ import com.softserverinc.edu.services.WorkLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -62,7 +64,6 @@ public class UserController {
         binder.setValidator(userFormValidator);
     }
 
-
     @GetMapping(value = "/users")
     public String userForm(Model model, Pageable pageable, Principal principal) {
         User loggedUser = userService.findByEmailIs(principal.getName());
@@ -100,7 +101,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-
     @GetMapping(value = "/user/{id}/edit")
     public String editUser(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("user", this.userService.findOne(id));
@@ -113,7 +113,6 @@ public class UserController {
         LOGGER.debug("User edit\\" + id);
         return "userform";
     }
-
 
     @GetMapping(value = "/user/add")
     public String addUser(Model model) {
@@ -175,11 +174,9 @@ public class UserController {
         return "redirect:/users";
     }
 
-
     @GetMapping(value = "/user/{id}/view")
     public String viewUser(@PathVariable("id") long id, Model model,
-                           @Qualifier("history")@PageableDefault(value = 20) Pageable pageable,
-                           @Qualifier("workLog")@PageableDefault(value = 20) Pageable workLogPageable,
+                           @PageableDefault(value = 20) Pageable pageable,
                            Principal principal) {
 
         LOGGER.debug("viewUser() id: {}", id);
@@ -189,13 +186,12 @@ public class UserController {
             model.addAttribute("css", "danger");
             model.addAttribute("msg", "User not found");
         }
-        
+
         Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
         Page<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
         return "userview";
     }
-
 
     @GetMapping(value = "/user/details")
     public String viewUserByDetails(Principal principal) {
@@ -207,7 +203,6 @@ public class UserController {
         LOGGER.debug("viewUser() details");
         return "redirect:/user/" + id + "/view";
     }
-
 
     @PostMapping(value = "/users/searchByName")
     public String userSearchByName(@RequestParam(value = "firstName") String firstName,
@@ -224,7 +219,6 @@ public class UserController {
         return "users";
     }
 
-
     @PostMapping(value = "/users/searchByEmail")
     public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
         model.addAttribute("userList", this.userService.findByEmailContaining(userEmail));
@@ -233,7 +227,6 @@ public class UserController {
         return "users";
     }
 
-
     @PostMapping(value = "/users/searchByRole")
     public String userSearchByRole(@RequestParam(value = "role") UserRole role, Model model) {
         model.addAttribute("userList", this.userService.findByRole(role));
@@ -241,7 +234,6 @@ public class UserController {
         LOGGER.debug("User search list ByRole POST");
         return "users";
     }
-
 
     @PostMapping(value = "/user/addimage")
     public String fileUploadPost(@RequestParam("userId") long userId,
@@ -264,7 +256,6 @@ public class UserController {
         LOGGER.debug("formUser() id: ", userId);
         return redirectPath;
     }
-
 
     /**
      * Set default values

@@ -98,8 +98,7 @@
 
 
 <%--detailed data--%>
-<%--TODO: prokhorenkovkv worklog pagination in users profile--%>
-<%--TODO: prokhorenkovkv datepicker--%>
+<%--TODO: prokhorenkovkv add datepicker--%>
 <%--TODO: prokhorenkovkv add frontend validation--%>
 <div class="col-sm-6">
     <div class="margin-top-30 col-sm-10 pull-left">

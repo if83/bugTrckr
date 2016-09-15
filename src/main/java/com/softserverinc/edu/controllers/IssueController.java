@@ -17,6 +17,7 @@ import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -53,6 +54,9 @@ public class IssueController {
     @Autowired
     private ProjectReleaseService projectReleaseService;
 
+    @Autowired
+    private WorkLogService workLogService;
+
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String listOfIssues(Model model, Pageable pageable) {
         model.addAttribute("listOfIssues", issueService.findAll(pageable));
@@ -68,11 +72,25 @@ public class IssueController {
     }
 
     @GetMapping(value = "issue/{issueId}")
-    public String issueById(@PathVariable("issueId") Long issueId, Model model, Principal principal) {
+    public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal, Pageable pageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        workLogService.forNewWorkLogModel(model, issueId, principal, pageable);
+        return "issue_view";
+    }
+
+    @GetMapping(value = "issue/{issueId}/worklog/{workLogId}/edit")
+    public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
+                                       @PathVariable("workLogId") Long workLogId,
+                                       ModelMap model, Principal principal,
+                                       Pageable pageable) {
+        Issue issue = issueService.findById(issueId);
+        model.addAttribute("issue", issue);
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, pageable);
         return "issue_view";
     }
 
