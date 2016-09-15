@@ -100,11 +100,13 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <c:if test="${releaseList.getTotalPages()> 1}">
                 <nav aria-label="Page navigation" id="pagerID">
                     <div class="text-center">
                         <ul class="pagination">
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}?page=0'/>" aria-label="Start">
+                                <a href="<spring:url value='/projects/project/${project.id}?page=0'/>"
+                                   aria-label="Start">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
@@ -121,6 +123,7 @@
                         </ul>
                     </div>
                 </nav>
+            </c:if>
         </div>
 
         <div class="col-sm-7 col-sm-offset-1">

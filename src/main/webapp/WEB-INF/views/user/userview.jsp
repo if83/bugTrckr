@@ -162,29 +162,30 @@
                 </c:choose>
             </c:forEach>
         </ul>
-        <nav aria-label="Page navigation" id="1pagerID">
-            <div class="text-center">
-                <ul class="pagination">
-                    <li>
-                        <a href="<spring:url value='/user/${user.id}/view?history_page=0'/>" aria-label="Start">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <%--<c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+        <c:if test="${allHistory.getTotalPages()> 1}">
+            <nav aria-label="Page navigation" id="pagerID">
+                <div class="text-center">
+                    <ul class="pagination">
                         <li>
-                            <a href="<spring:url value='/user/${user.id}/view?history_page=${page}'/>">${page + 1}</a>
+                            <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
                         </li>
-                    </c:forEach>--%>
-                    <li>
-                        <a href="<spring:url value='/user/${user.id}/view?history_page=${allHistory.getTotalPages() - 1}'/>"
-                           aria-label="End"><span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                        <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                            <li>
+                                <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
+                            </li>
+                        </c:forEach>
+                        <li>
+                            <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
+                               aria-label="End"><span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </c:if>
     </div>
-
 
     <%--worklog table--%>
     <div class="col-sm-5 text-center">
