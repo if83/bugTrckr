@@ -9,7 +9,7 @@
 
     <!--Absent attributes:
       - content
-      - tilte
+      - title
       -->
 
     <definition name="abstractDefaultTemplate" template="/WEB-INF/layouts/template.jsp">
@@ -30,6 +30,7 @@
             <add-attribute value="/js/select2.full.min.js"/>
             <add-attribute value="/js/jquery.validate.min.js"/>
             <add-attribute value="/js/menu.js"/>
+            <add-attribute value="/js/issue/datepicker.js"/>
             <add-attribute value="/js/issue/selectpicker.js"/>
             <add-attribute value="/js/bootstrap-select.min.js"/>
         </put-list-attribute>
@@ -88,7 +89,6 @@
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
-            <add-attribute value="/js/issue/datepicker.js"/>
             <add-attribute value="/js/issue/jquery-ui.js"/>
             <add-attribute value="/js/issue/issue-page.js"/>
         </put-list-attribute>

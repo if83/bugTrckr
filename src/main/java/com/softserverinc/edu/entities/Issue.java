@@ -6,6 +6,7 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -21,11 +22,11 @@ public class Issue {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @NotNull
+    @NotEmpty(message = "Please enter the issue title")
     @Column(nullable = false, length = 32)
     private String title;
 
-    @NotNull
+    @NotNull(message = "Please select issue type")
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueType type;
@@ -34,22 +35,22 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     private IssueStatus status = IssueStatus.OPEN;
 
-    @NotNull
+    @NotNull(message = "Please select issue priority")
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
-    @NotNull
+    @NotNull(message = "Please select release")
     @ManyToOne
     @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
     private ProjectRelease projectRelease;
 
-    @NotNull
+    @NotNull(message = "Please select project")
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
     private Project project;
 
-    @NotNull
+    @NotNull(message = "Please select assignee")
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
@@ -82,11 +83,11 @@ public class Issue {
     @Column
     private Long parentId;
 
-    @NotNull
+    @NotNull(message = "Please enter description")
     @Column(nullable = false, length = 10000)
     private String description;
 
-    @NotNull
+    @NotNull(message = "Please choose if users can edit this issue")
     @Column(nullable = false)
     private Boolean editAbility;
 

@@ -63,7 +63,7 @@
         <div class="row">
             <label class="col-sm-3">Release</label>
             <div class="col-sm-9"><p>
-                <a class="viewLink"g
+                <a class="viewLink"
                    href="<spring:url
                        value='/projects/project/
                        ${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">

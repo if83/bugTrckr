@@ -66,6 +66,7 @@ public class IssueController {
         populateDefaultModel(model);
         return "issue";
     }
+
     @GetMapping(value = "issue/{issueId}")
     public String issueById(@PathVariable("issueId") Long issueId, Model model, Principal principal) {
         Issue issue = issueService.findById(issueId);
@@ -74,12 +75,13 @@ public class IssueController {
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         return "issue_view";
     }
+
     @PreAuthorize("hasRole('ADMIN') or hasRole('PROJECT_MANAGER') and " +
             "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
             "== @issueService.findById(#id).getProject().getId()" +
             "or hasAnyRole('DEVELOPER', 'QA') and " +
             " @userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
-            "== @issueService.findById(#id).getProject().getId() and "+
+            "== @issueService.findById(#id).getProject().getId() and " +
             "@userService.findByEmail(#principal.getName()).get(0).getId() " +
             "== @issueService.findById(#id).getAssignee().getId()")
     @RequestMapping(value = "/issue/{id}/remove", method = RequestMethod.GET)
@@ -98,7 +100,7 @@ public class IssueController {
             "== @issueService.findById(#id).getAssignee().getId()")
     @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
     public String editIssue(@PathVariable @P("id") long id, Model model,
-                            RedirectAttributes redirectAttrs , @Param("principal") Principal principal) {
+                            RedirectAttributes redirectAttrs, @Param("principal") Principal principal) {
         model.addAttribute("issue", this.issueService.findById(id));
         Issue issue = issueService.findById(id);
         model.addAttribute("issue", issue);
@@ -170,7 +172,9 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/getAvaliableIssueStatuses", method = RequestMethod.POST)
-    public @ResponseBody List<IssueStatus> getAvaliableIssueStatuses(@RequestParam("selectedStatus") String selectedStatus) {
+    public
+    @ResponseBody
+    List<IssueStatus> getAvaliableIssueStatuses(@RequestParam("selectedStatus") String selectedStatus) {
         return issueService.getAvaliableIssueStatusesForStatus(IssueStatus.valueOf(selectedStatus));
     }
 

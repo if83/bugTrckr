@@ -77,8 +77,9 @@
                     <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="assignee">Assignee</label>
-                            <form:select path="assignee" id="assignee" items="${users}" itemLabel="firstName" itemValue="id" cssClass="selectpicker form-control" data-live-search="true">
-                            <form:errors path="assignee" class="control-label"/>
+                            <form:select path="assignee" id="assignee" items="${users}" itemLabel="firstName"
+                                         itemValue="id" cssClass="selectpicker form-control" data-live-search="true">
+                                <form:errors path="assignee" class="control-label"/>
                             </form:select>
                         </div>
                     </spring:bind>
