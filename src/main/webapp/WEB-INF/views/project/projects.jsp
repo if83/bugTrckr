@@ -32,6 +32,7 @@
     </div>
 </c:if>
 
+<%--Button for adding project--%>
 <sec:authorize access="hasRole('ADMIN')">
     <div class="row margin-top-20">
         <div class="col-sm-2 col-sm-offset-2">
@@ -41,6 +42,7 @@
     </div>
 </sec:authorize>
 
+<%--Searching projects by title --%>
 <div class="row margin-top-20">
     <div class="col-sm-3 col-sm-offset-2">
         <form action="/search" method="POST">
@@ -53,6 +55,7 @@
     </div>
 </div>
 
+<%--Table of projects--%>
 <div class="row">
     <div class="margin-top-20 col-sm-8 col-sm-offset-2">
         <table class="table table-hover table-bordered">
@@ -79,12 +82,12 @@
                     </td>
                     <td class="text-center">
                         <c:choose>
-                        <c:when test="${project.guestView}">
-                        <i class="glyphicon glyphicon-ok"/>
-                        </c:when>
-                        <c:otherwise>
-                        <i class="glyphicon glyphicon-remove"/>
-                        </c:otherwise>
+                            <c:when test="${project.guestView}">
+                                <i class="glyphicon glyphicon-ok"/>
+                            </c:when>
+                            <c:otherwise>
+                                <i class="glyphicon glyphicon-remove"/>
+                            </c:otherwise>
                         </c:choose>
                     <td class="text-center">
                         <c:choose>
@@ -106,7 +109,22 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
+                    <sec:authorize access="hasRole('PROJECT_MANAGER')">
+                        <c:choose>
+                            <c:when test="${project == loggedUser.getProject()}">
+                                <td class="text-center">
+                                    <a href="<spring:url value='/projects/${project.id}/edit' />">
+                                        <i class="fa fa-edit fa-lg icon-table-u"></i></a>
+                                </td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="text-center">
+                                    <i class="fa fa-lock icon-table-u"></i>
+                                </td>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ADMIN')">
                         <td class="text-center">
                             <a href="<spring:url value='/projects/${project.id}/edit' />">
                                 <i class="fa fa-edit fa-lg icon-table-u"></i></a>

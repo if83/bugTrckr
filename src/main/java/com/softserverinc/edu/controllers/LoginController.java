@@ -29,7 +29,11 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String loginPost(@ModelAttribute("loginForm") @Valid LoginForm loginForm, Model model) {
+    public String loginPost(@ModelAttribute("loginForm") @Valid LoginForm loginForm,
+                            BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "index";
+        }
         model.addAttribute("loginForm", loginForm);
         LOGGER.debug("Login username: " + loginForm.getUsername());
         LOGGER.debug("Login password: " + loginForm.getPassword());

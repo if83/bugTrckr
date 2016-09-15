@@ -187,7 +187,7 @@
                                                         <h4 class="modal-title pull-left">Removal user from project</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Confirm the removal ${user.firstName} ${user.lastName}
+                                                        <p>Confirm the removal of ${user.firstName} ${user.lastName}
                                                         from ${project.title}</p>
                                                     </div>
                                                     <div class="modal-footer">

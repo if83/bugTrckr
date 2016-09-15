@@ -21,21 +21,26 @@
                             <button type="button" class="btn btn-u pull-right" data-toggle="modal"
                                     data-target="#loginFormModal">Log in
                             </button>
+
                             <!-- Modal for login form -->
-                            <div class="modal fade" id="loginFormModal" tabindex="-1" role="dialog">
+                            <div class="modal fade" id="loginFormModal" tabindex="-1"
+                                 role="dialog">
                                 <div class="modal-dialog" role="document">
-                                    <div class="modal-body">
+                                    <div class="modal-content">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">Log into BugTrckr</h4>
+                                        </div>
                                         <form:form commandName="loginForm" modelAttribute="loginForm" action="/"
                                                    id="loginform" class="reg-page" method="POST">
-                                            <div class="reg-header">
-                                                <h3>Log into BugTrckr</h3>
-                                            </div>
                                             <div class="alert-danger">
-                                                <h3 class="text-center alert-danger" id="error">
+                                                <h5 class="text-center alert alert-danger" id="error">
                                                     Invalid email or password
-                                                </h3>
+                                                </h5>
                                             </div>
-                                            <div class="input-group center-block" id="email">
+
+                                            <div id="msg" class="alert alert-danger margin-bottom-20" hidden></div>
+
+                                            <div class="input-group" id="email">
                                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                                 <form:input path="username" name="username" type="username"
                                                             placeholder="Email" class="form-control"/>
@@ -44,15 +49,15 @@
                                             <div class="input-group" id="password">
                                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                                 <form:input path="password" name="password" type="password"
-                                                            placeholder="Password" class="form-control"></form:input>
+                                                            placeholder="Password" class="form-control"/>
                                                 <form:errors path="password"/>
                                             </div>
-                                            <div class="margin-bottom-30">
-                                                <button class="col-sm-offset-8 btn btn-default" data-dismiss="modal">
-                                                    Cancel
-                                                </button>
-                                                <input class="col-sm-2 btn btn-u pull-right" type="submit"
-                                                       value="Login"/>
+
+                                            <div class="form-group margin-bottom-40">
+                                                <div class="controls pull-right">
+                                                    <button type="submit" class="btn-u pull-right"><i
+                                                            class="glyphicon glyphicon-log-in"></i> Log in</button>
+                                                </div>
                                             </div>
                                         </form:form>
                                     </div>

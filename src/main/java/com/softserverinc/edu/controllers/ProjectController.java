@@ -41,8 +41,9 @@ public class ProjectController {
     private ProjectReleaseService releaseService;
 
     @GetMapping(value = "/projects")
-    public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable) {
+    public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable, Principal principal) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
+        model.addAttribute("loggedUser", userService.findByEmailIs(principal.getName()));
         return "projects";
     }
 
@@ -58,7 +59,8 @@ public class ProjectController {
     @GetMapping(value = "projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
                               @PageableDefault(value = 12) Pageable pageable) {
-        Page<ProjectRelease> pageableReleases = releaseService.findByProject(projectService.findById(projectId), pageable);
+        Page<ProjectRelease> pageableReleases = releaseService.findByProject(projectService.findById(projectId),
+                pageable);
         model.addAttribute("usersList",
                 userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
         model.addAttribute("project", projectService.findById(projectId));

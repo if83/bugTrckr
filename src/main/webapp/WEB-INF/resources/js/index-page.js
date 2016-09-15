@@ -27,8 +27,10 @@ $(document).ready(function () {
             "password": {
                 required: "Please enter the password",
                 minlength: "Password must be at least 5 characters long",
-                maxlenght: "Password must be not longer than 15 characters"
+                maxlength: "Password must be not longer than 15 characters"
             },
         },
+        errorElement : 'div',
+        errorLabelContainer: '#msg'
     });
 });
