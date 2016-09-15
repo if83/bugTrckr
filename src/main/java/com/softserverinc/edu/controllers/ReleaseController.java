@@ -16,10 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -46,6 +43,20 @@ public class ReleaseController {
                               @PageableDefault(value = 10) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         Page<Issue> pageableIssues = issueService.findByProjectRelease(release, pageable);
+        List<User> users = userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(release.getProject().getId()), false, 1);
+        model.addAttribute("issueList", pageableIssues);
+        model.addAttribute("release", release);
+        model.addAttribute("users", users);
+        return "release";
+    }
+
+    @RequestMapping(value = "/project/{projectId}/release/{releaseId}/issuesSearch", method = RequestMethod.POST)
+    public String searchByIssueName(@RequestParam(value = "searchedString") String searchedString,
+                                    @PathVariable("releaseId") Long releaseId,
+                                    Model model,
+                                    @PageableDefault(value = 10) Pageable pageable) {
+        ProjectRelease release = releaseService.findById(releaseId);
+        Page<Issue> pageableIssues = issueService.findByProjectReleaseAndTitleContaining(release, searchedString, pageable);
         List<User> users = userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(release.getProject().getId()), false, 1);
         model.addAttribute("issueList", pageableIssues);
         model.addAttribute("release", release);

@@ -31,6 +31,10 @@ public class ProjectReleaseService {
         return projectReleaseRepository.findByProject(project, pageable);
     }
 
+    public Page<ProjectRelease> searchByVersionNameContaining(Project project, String searchedString, Pageable pageable) {
+        return projectReleaseRepository.findByProjectAndVersionContaining(project, searchedString, pageable);
+    }
+
     public ProjectRelease findByIssues(Issue issue) {
         return projectReleaseRepository.findByIssues(issue);
     }

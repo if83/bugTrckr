@@ -5,3 +5,9 @@
 .release-add-button {
     margin: 30px 30px;
 }
+
+.search-by-releases {
+    width: 200px;
+    margin:0 auto;
+    margin-bottom: 30px;
+}

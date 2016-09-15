@@ -68,6 +68,19 @@ public class ProjectController {
         return "project";
     }
 
+    @RequestMapping(value = "/projects/project/{projectId}/releases/search", method = RequestMethod.POST)
+    public String searchByReleaseTitle(@RequestParam(value = "searchedString") String searchedString,
+                                       @PathVariable("projectId") Long projectId,
+                                       Model model,
+                                       @PageableDefault(value = 12) Pageable pageable) {
+        Page<ProjectRelease> pageableReleases = releaseService.searchByVersionNameContaining(projectService.findById(projectId), searchedString, pageable);
+        model.addAttribute("usersList",
+                userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
+        model.addAttribute("project", projectService.findById(projectId));
+        model.addAttribute("releaseList", pageableReleases);
+        return "project";
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/projects/add")
     public String addProject(Model model) {

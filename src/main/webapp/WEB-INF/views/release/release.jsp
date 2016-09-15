@@ -39,6 +39,16 @@
         <div class="release-issues col-sm-7">
             <a href="<spring:url value='/issue/add' />" class="btn btn-primary btn-u"><i
                     class="fa fa-plus icon-bg-u"></i> Add issue</a>
+            <div class="input-group search-by-issues">
+                <form action="/project/${release.project.id}/release/${release.id}/issuesSearch" method="POST" class="form-inline">
+                    <span class="input-group-btn">
+                        <input type="text" class="form-control" name="searchedString" placeholder="Search...">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </form>
+            </div>
             <table class="table-issues table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -75,30 +85,28 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <c:if test="${issueList.getTotalPages()> 1}">
-                <nav aria-label="Page navigation" id="pagerID">
-                    <div class="text-center">
-                        <ul class="pagination">
+            <nav aria-label="Page navigation" id="pagerID">
+                <div class="text-center">
+                    <ul class="pagination">
+                        <li>
+                            <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=0'/>"
+                               aria-label="Start">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <c:forEach var="page" begin="0" end="${issueList.getTotalPages() - 1}">
                             <li>
-                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=0'/>"
-                                   aria-label="Start">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
+                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=${page}'/>">${page + 1}</a>
                             </li>
-                            <c:forEach var="page" begin="0" end="${issueList.getTotalPages() - 1}">
-                                <li>
-                                    <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=${page}'/>">${page + 1}</a>
-                                </li>
-                            </c:forEach>
-                            <li>
-                                <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=${issueList.getTotalPages() - 1}'/>"
-                                   aria-label="End"><span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </c:if>
+                        </c:forEach>
+                        <li>
+                            <a href="<spring:url value='/project/${release.project.id}/release/${release.id}?page=${issueList.getTotalPages() - 1}'/>"
+                               aria-label="End"><span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </div>
 </div>

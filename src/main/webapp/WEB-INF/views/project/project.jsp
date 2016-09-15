@@ -59,6 +59,16 @@
 
     <div class="row">
         <div class="col-sm-4">
+            <div class="input-group search-by-releases ">
+                <form action="/projects/project/${project.id}/releases/search" method="POST" class="form-inline">
+                    <span class="input-group-btn">
+                        <input type="text" class="form-control" name="searchedString" placeholder="Search...">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </form>
+            </div>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>

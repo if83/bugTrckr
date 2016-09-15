@@ -25,4 +25,6 @@ public interface ProjectReleaseRepository extends JpaRepository<ProjectRelease, 
 
     Page<ProjectRelease> findByProject(Project project, Pageable pageable);
 
+    Page<ProjectRelease> findByProjectAndVersionContaining(Project project, String version, Pageable pageable);
+
 }

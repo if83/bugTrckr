@@ -77,6 +77,10 @@ public class IssueService {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
     }
 
+    public Page<Issue> findByProjectReleaseAndTitleContaining(ProjectRelease projectRelease, String searchedString, Pageable pageable) {
+        return issueRepository.findByProjectReleaseAndTitleContaining(projectRelease, searchedString, pageable);
+    }
+
     public boolean isStatusChanged(Issue changedIssue) {
         Issue oldIssue = findById(changedIssue.getId());
         return !(oldIssue.getStatus().equals(changedIssue.getStatus()));

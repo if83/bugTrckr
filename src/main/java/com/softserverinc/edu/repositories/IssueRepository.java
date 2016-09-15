@@ -29,6 +29,8 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     Page<Issue> findByProjectRelease(ProjectRelease projectRelease, Pageable pageable);
 
+    Page<Issue> findByProjectReleaseAndTitleContaining(ProjectRelease projectRelease, String title, Pageable pageable);
+
     List<Issue> findByAssignee(User assignee);
 
     List<Issue> findByLabels(Label label);
