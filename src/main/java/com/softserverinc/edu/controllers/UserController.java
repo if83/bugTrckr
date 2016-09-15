@@ -189,12 +189,7 @@ public class UserController {
             model.addAttribute("css", "danger");
             model.addAttribute("msg", "User not found");
         }
-
-        model.addAttribute("principal", (userService.findByEmail(principal.getName())).get(0));
-        model.addAttribute("user", user);
-        Page<WorkLog> workLogList = workLogService.findByUser(user, workLogPageable);
-        model.addAttribute("workLogList", workLogList);
-
+        
         Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
         Page<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
