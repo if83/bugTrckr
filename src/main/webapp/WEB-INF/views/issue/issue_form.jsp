@@ -154,8 +154,7 @@
                     <spring:bind path="editAbility">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label>Ability to edit an issue:</label>
-                            <label class="pull-right"><form:radiobutton path="editAbility" value="false"/>False</label>
-                            <label class="pull-right"><form:radiobutton path="editAbility" value="true"/>True
+                            <form:checkbox id="issue" path="editAbility" value="false"/>
                                 &nbsp&nbsp</label>
                             <form:errors path="editAbility" class="control-label"/>
                         </div>

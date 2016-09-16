@@ -49,57 +49,56 @@
     </form>
 </div>
 
-<div class=class="margin-top-30">
-    <table class="table table-hover">
+<div class="margin-top-30">
+    <table class="table table-hover table-striped">
 
         <thead>
         <tr>
-            <th>Issue name</th>
-            <th>Type</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Project</th>
-            <th>Release version</th>
-            <th>Assigned User</th>
-            <th>Last updated</th>
-            <th>Estimate time, hrs</th>
-            <th><%--Actions--%></th>
+            <th class="text-center">Issue name</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Priority</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Project</th>
+            <th class="text-center">Release version</th>
+            <th class="text-center">Assigned User</th>
+            <th class="text-center">Estimate time, hrs</th>
+            <th class="text-center">Actions</th>
         </tr>
+
         </thead>
         <c:forEach var="issue" items="${listOfIssues.content}">
-            <sec:authorize access="hasRole('ADMIN') or hasAnyRole('DEVELOPER', 'QA', 'PROJECT_MANAGER', 'GUEST', 'USER')
-        and ${issue.project.guestView}">
+            <sec:authorize access="hasAnyRole('ADMIN', 'DEVELOPER', 'QA', 'PROJECT_MANAGER', 'USER')
+            or hasRole('GUEST') and ${issue.project.guestView}">
                 <tr>
-                    <td>
+                    <td class="text-center">
                         <a class="viewLink"
                            href="<spring:url value='issue/${issue.id}'/>">
                                 ${issue.title}
                         </a>
                     </td>
-                    <td><c:out value="${issue.type}"/></td>
-                    <td><c:out value="${issue.priority}"/></td>
-                    <td><c:out value="${issue.status}"/></td>
-                    <td>
+                    <td class="text-center"><c:out value="${issue.type}"/></td>
+                    <td class="text-center"><c:out value="${issue.priority}"/></td>
+                    <td class="text-center"><c:out value="${issue.status}"/></td>
+                    <td class="text-center">
                         <a class="viewLink"
                            href="<spring:url value='projects/project/${issue.project.id}'/>">
                                 ${issue.project.title}
                         </a>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a class="viewLink"
                            href="<spring:url value='/project/${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">
                                 ${issue.projectRelease.version}
                         </a>
                     </td>
 
-                    <td>
+                    <td class="text-center">
                         <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
                                 ${issue.assignee.firstName} ${issue.assignee.lastName}
                         </a>
                     </td>
-                    <td><c:out value="${issue.lastUpdateDate}"/></td>
-                    <td><c:out value="${issue.estimateTime}"/></td>
-                    <td>
+                    <td class="text-center"><c:out value="${issue.estimateTime}"/></td>
+                    <td class="text-center">
                         <div class="actionButtons">
                             <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
                             <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i

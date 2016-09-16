@@ -65,9 +65,10 @@ public class IssueController {
     }
 
     @PostMapping(value = "/issue/search")
-    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
+    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model,
+                                     Pageable pageable, Issue issue, Principal principal) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
-        populateDefaultModel(model);
+        populateDefaultModel(model, issue, principal);
         return "issue";
     }
 
@@ -112,9 +113,14 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasAnyRole('DEVELOPER', 'QA', 'PROJECT_MANAGER') and " +
+    @PreAuthorize("hasRole('ADMIN') or hasRole('PROJECT_MANAGER') and " +
+            "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
+            "== @issueService.findById(#id).getProject().getId()" +
+            "or hasAnyRole('DEVELOPER', 'QA') and " +
             "@issueService.findById(#id).editAbility and " +
-            "@userService.findByEmail(#principal.getName()).get(0).getId() " +
+            "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
+            "== @issueService.findById(#id).getProject().getId() and" +
+            "@userService.findByEmail(#principal.getName()).get(0).getId()" +
             "== @issueService.findById(#id).getAssignee().getId()")
     @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
     public String editIssue(@PathVariable @P("id") long id, Model model,
@@ -125,19 +131,17 @@ public class IssueController {
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableIssueStatusesForStatus(issue.getStatus()));
         model.addAttribute("users", userService.findUsersInProject(projectService.findById(issue.getProjectRelease().getProject().getId()), false, 1));
-        populateDefaultModel(model);
+        populateDefaultModel(model, issue, principal);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')")
     @RequestMapping(value = "/issue/add", method = RequestMethod.GET)
-    public String addIssue(Model model) {
+    public String addIssue(Model model, Principal principal) {
         Issue issue = new Issue();
+        populateDefaultModel(model, issue, principal);
         model.addAttribute("sampleDate", new Date());
         model.addAttribute("issue", issue);
-        model.addAttribute("users", userService.findAll());
-        populateDefaultModel(model);
         model.addAttribute("formAction", "new");
         LOGGER.debug("Issue add form");
         return "issue_form";
@@ -147,7 +151,7 @@ public class IssueController {
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = userService.findByEmailIs(principal.getName());
-        populateDefaultModel(model);
+        populateDefaultModel(model, issue, principal);
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");
             return "issue_form";
@@ -196,8 +200,15 @@ public class IssueController {
         return issueService.getAvaliableIssueStatusesForStatus(IssueStatus.valueOf(selectedStatus));
     }
 
-    private void populateDefaultModel(Model model) {
-        model.addAttribute("projectReleases", projectReleaseService.findAll());
+    private void populateDefaultModel(Model model, Issue issue, Principal principal) {
+        if (userService.findByEmail(principal.getName()).get(0).getProject() == null){
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("projectReleases", projectReleaseService.findAll());
+        } else {
+            issue.setProject(userService.findByEmail(principal.getName()).get(0).getProject());
+            model.addAttribute("users", userService.findUsersInProject(issue.getProject(), false, 1));
+            model.addAttribute("projectReleases", projectReleaseService.findByProject(issue.getProject()));
+        }
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
