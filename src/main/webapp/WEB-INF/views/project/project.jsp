@@ -59,7 +59,7 @@
 
     <div class="row">
         <div class="col-sm-4">
-            <div class="input-group search-by-releases ">
+            <div class="input-group search-by-releases">
                 <form action="/projects/project/${project.id}/releases/search" method="POST" class="form-inline">
                     <span class="input-group-btn">
                         <input type="text" class="form-control" name="searchedString" placeholder="Search...">
@@ -127,6 +127,26 @@
         </div>
 
         <div class="col-sm-7 col-sm-offset-1">
+            <%--Search form for users in project--%>
+            <div class="input-group margin-bottom-30 col-sm-11">
+                <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
+                    <select class="form-control form-inline search-by-name" type="text" name="searchedParam">
+                        <option value="First Name">First Name</option>
+                        <option value="Last Name">Last Name</option>
+                    </select>
+                    <select class="form-control form-inline search-by-role" type="text" name="role">
+                        <option value="">Any Role</option>
+                        <option value="${PM}">Project Manager</option>
+                        <option value="${DEV}">Developer</option>
+                        <option value="${QA}">QA</option>
+                    </select>
+                    <div class="input-group-btn search-by-string">
+                        <input type="text" class="form-control" name="searchedString" placeholder="Search...">
+                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"/></button>
+                    </div>
+                </form>
+            </div>
+            <%--Table of users in project--%>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -223,7 +243,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <%--pagination of users list--%>
+            <%--pagination of user table--%>
             <c:if test="${usersList.getTotalPages()> 1}">
                 <nav aria-label="Page navigation" id="pagerID">
                     <div class="text-center">
@@ -236,11 +256,13 @@
                             </li>
                             <c:forEach var="page" begin="0" end="${usersList.getTotalPages() - 1}">
                                 <li>
-                                    <a href="<spring:url value='/projects/project/${project.id}?project_page=${page}'/>">${page + 1}</a>
+                                    <a href="<spring:url
+                                    value='/projects/project/${project.id}?project_page=${page}'/>">${page + 1}</a>
                                 </li>
                             </c:forEach>
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}?project_page=${usersList.getTotalPages() - 1}'/>"
+                                <a href="<spring:url
+                                value='/projects/project/${project.id}?project_page=${usersList.getTotalPages() - 1}'/>"
                                    aria-label="End"><span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

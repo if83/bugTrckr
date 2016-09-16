@@ -1,7 +1,6 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.ProjectReleaseService;
@@ -11,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
@@ -61,6 +59,7 @@ public class ProjectController {
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
                               @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
                               @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject) {
+        usersRolesInProject(model);
         model.addAttribute("usersList", userService.findUsersInProjectPageable(projectService.findById(projectId),
                 false, 1, pageableProject));
         model.addAttribute("project", projectService.findById(projectId));
@@ -69,16 +68,31 @@ public class ProjectController {
         return "project";
     }
 
+    @PostMapping(value = "/projects/project/{projectId}/users_search")
+    public String searchUsersWithoutProjects(@RequestParam(value = "searchedParam") String searchedParam,
+                                             @RequestParam(value = "role") UserRole role,
+                                             @RequestParam(value = "searchedString") String searchedString,
+                                             @PathVariable("projectId") Long projectId, Model model,
+                                             @PageableDefault(value = 12) Pageable pageable){
+        usersRolesInProject(model);
+        Project project = projectService.findById(projectId);
+        model.addAttribute("releaseList", releaseService.findByProject(project, pageable));
+        model.addAttribute("project", project);
+        model.addAttribute("usersList", userService.searchByUsersInProject(project, searchedParam, role, searchedString,
+                pageable));
+        return "project";
+    }
+
     @RequestMapping(value = "/projects/project/{projectId}/releases/search", method = RequestMethod.POST)
     public String searchByReleaseTitle(@RequestParam(value = "searchedString") String searchedString,
                                        @PathVariable("projectId") Long projectId,
                                        Model model,
                                        @PageableDefault(value = 12) Pageable pageable) {
-        Page<ProjectRelease> pageableReleases = releaseService.searchByVersionNameContaining(projectService.findById(projectId), searchedString, pageable);
-        model.addAttribute("usersList",
-                userService.findUsersInProject(projectService.findById(projectId), false, 1));
-        model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("releaseList", pageableReleases);
+        Project project = projectService.findById(projectId);
+        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageable));
+        model.addAttribute("project", project);
+        model.addAttribute("releaseList", releaseService.searchByVersionNameContaining(project, searchedString,
+                pageable));
         return "project";
     }
 
@@ -199,5 +213,6 @@ public class ProjectController {
     private void usersRolesInProject(Model model) {
         model.addAttribute("DEV", UserRole.ROLE_DEVELOPER);
         model.addAttribute("QA", UserRole.ROLE_QA);
+        model.addAttribute("PM", UserRole.ROLE_PROJECT_MANAGER);
     }
 }

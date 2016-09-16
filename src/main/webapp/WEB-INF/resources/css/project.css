@@ -11,3 +11,19 @@
     margin:0 auto;
     margin-bottom: 30px;
 }
+
+.search-by-name {
+    max-width: 20%;
+}
+
+.search-by-role {
+    max-width: 30%;
+}
+
+.search-by-string {
+    max-width: 50%;
+}
+
+.margin-bottom-30{
+    margin-bottom: 30px;
+}

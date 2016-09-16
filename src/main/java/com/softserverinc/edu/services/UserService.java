@@ -138,14 +138,37 @@ public class UserService {
     @Transactional
     public Page<User> searchByUsersWithoutProject(String searchParam, String searchedString, Pageable pageable){
         if (searchParam.equals("First Name")) {
-            return userRepository.findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
-                    UserRole.ROLE_USER, false, 1, pageable);
+            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(null,
+                    searchedString, UserRole.ROLE_USER, false, 1, pageable);
         }if(searchParam.equals("Last Name")){
-            return userRepository.findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
+            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(null, searchedString,
                     UserRole.ROLE_USER, false, 1, pageable);
         }
         else return userRepository.findByEmailAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
                     false, 1, pageable);
+    }
+
+    @Transactional
+    public Page<User> searchByUsersInProject(Project project, String searchParam, UserRole role, String searchedString,
+                                             Pageable pageable){
+        if(role == null){
+            if (searchParam.equals("First Name")) {
+                return userRepository.findByProjectAndFirstNameContainingAndIsDeletedAndEnabledIs(project,
+                        searchedString, false, 1, pageable);
+            }if(searchParam.equals("Last Name")){
+                return userRepository.findByProjectAndLastNameContainingAndIsDeletedAndEnabledIs(project,
+                        searchedString, false, 1, pageable);
+            }
+            else return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, pageable);
+        }
+        if (searchParam.equals("First Name")) {
+            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
+                    searchedString, role, false, 1, pageable);
+        }if(searchParam.equals("Last Name")){
+            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
+                    searchedString, role, false, 1, pageable);
+        }
+        else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
     }
 
     @Transactional
