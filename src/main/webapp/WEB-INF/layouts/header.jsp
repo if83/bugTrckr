@@ -7,57 +7,67 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
 
-
-        <div class="nav navbar navbar-left">
-                <a href="<spring:url value='/'/>">
-                    <img src="<spring:url value='/images/AS.png'/>" style="width: 70px;"></a>
-        </div>
-
-        <div class="navbar-header">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">BugTrckr</a>
-            </div>
-        </div>
-
-        <ul class="nav navbar-nav">
-            <li class="mainMenuHomeItem active"><a href="<spring:url value='/'/>">Home</a></li>
-            <li class="mainMenuProjectItem"><a href="<spring:url value='/projects'/>">Projects</a></li>
-            <li class="mainMenuIssueItem"><a href="<spring:url value='/issue'/>">Issues</a></li>
-
-            <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
-                <li class="mainMenuUserItem"><a href="<spring:url value='/users'/>">Users</a></li>
-            </sec:authorize>
-
-            <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
-                <li class="mainMenuUserItem"><a href="<spring:url value='/user/details'/>">Profile</a></li>
-            </sec:authorize>
-
-            <sec:authorize access="hasRole('ADMIN')">
-                <li class="mainMenuAdminItem"><a href="<spring:url value='/admin'/>">Admin</a></li>
-            </sec:authorize>
-
-            <li class="mainMenuAboutItem"><a href="<spring:url value='/about'/>">About</a></li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-left">
             <li>
-                <a>
-                    <form action="/contentSearch" method="POST" class="form-inline">
-                        <input class="form-control" type="text" placeholder="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                <a href="<spring:url value='/'/>">
+                    <img src="<spring:url value='/images/AS.png'/>" style="width: 50px;">
                 </a>
             </li>
+        </ul>
 
-            <li>
-                <a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-nav-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand">BugTrckr</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-nav-collapse">
+
+            <ul class="nav navbar-nav">
+
+                <li class="mainMenuProjectItem"><a href="<spring:url value='/projects'/>">Projects</a></li>
+                <li class="mainMenuIssueItem"><a href="<spring:url value='/issue'/>">Issues</a></li>
+
+                <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')">
+                    <li class="mainMenuUserItem"><a href="<spring:url value='/users'/>">Users</a></li>
+                </sec:authorize>
+
+                <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
+                    <li class="mainMenuUserItem"><a href="<spring:url value='/user/details'/>">Profile</a></li>
+                </sec:authorize>
+
+                <sec:authorize access="hasRole('ADMIN')">
+                    <li class="mainMenuAdminItem"><a href="<spring:url value='/admin'/>">Admin</a></li>
+                </sec:authorize>
+
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a>
+                        <form action="/contentSearch" method="POST" class="form-inline">
+                            <input class="form-control" type="text" placeholder="Search">
+                            <button class="btn btn-u pull-right" type="submit">Search</button>
+                        </form>
+                    </a>
+                </li>
+
+                <li>
                     <sec:authorize access="!hasAnyRole('ADMIN','PROJECT_MANAGER', 'DEVELOPER', 'QA', 'USER',
-                        'GUEST')">
+                'GUEST')">
                         <!-- Button trigger login form -->
-                        <button type="button" class="btn btn-u pull-right" data-toggle="modal"
-                                data-target="#loginFormModal">Log in
-                        </button>
+                        <a>
 
+                            <button type="button" class="btn btn-u pull-right" data-toggle="modal"
+                                    data-target="#loginFormModal">Log in
+                            </button>
+                        </a>
                         <!-- Modal for login form -->
                         <div class="modal fade" id="loginFormModal" tabindex="-1"
                              role="dialog">
@@ -68,11 +78,6 @@
                                     </div>
                                     <form:form commandName="loginForm" modelAttribute="loginForm" action="/"
                                                id="loginform" class="reg-page" method="POST">
-                                        <div class="alert-danger">
-                                            <h5 class="text-center alert alert-danger" id="error">
-                                                Invalid email or password
-                                            </h5>
-                                        </div>
 
                                         <div id="msg" class="alert alert-danger margin-bottom-20" hidden></div>
 
@@ -82,6 +87,7 @@
                                                         placeholder="Email" class="form-control"/>
                                             <form:errors path="username"/>
                                         </div>
+
                                         <div class="input-group" id="password">
                                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                             <form:input path="password" name="password" type="password"
@@ -92,7 +98,8 @@
                                         <div class="form-group margin-bottom-40">
                                             <div class="controls pull-right">
                                                 <button type="submit" class="btn-u pull-right"><i
-                                                        class="glyphicon glyphicon-log-in"></i> Log in</button>
+                                                        class="glyphicon glyphicon-log-in"></i> Log in
+                                                </button>
                                             </div>
                                         </div>
                                     </form:form>
@@ -100,17 +107,21 @@
                             </div>
                         </div>
                     </sec:authorize>
+
                     <sec:authorize
                             access="hasAnyRole('ADMIN','PROJECT_MANAGER', 'DEVELOPER', 'QA', 'USER', 'GUEST')">
-                        <div>
-                            <sec:authentication property="principal.username"/>
-                            <a class="btn btn-u"
-                               href="<spring:url value='/logout'/>">Logout</a>
-                        </div>
+                        <a href="<spring:url value='/logout'/>">
+                            <button type="button" class="btn btn-u pull-right">
+                                Logout
+                            </button>
+                        </a>
                     </sec:authorize>
-                </a>
+                </li>
 
-            </li>
-        </ul>
+            </ul>
+
+        </div>
+
     </div>
+
 </nav>

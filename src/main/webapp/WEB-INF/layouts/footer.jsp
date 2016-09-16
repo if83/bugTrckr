@@ -6,14 +6,12 @@
 <div class="footer">
     <footer class="container-fluid">
         <div class="row">
-            <div class="col-sm-6">
-                <p>2016 © All Rights Reserved</p>
-                <p>Bug Trckr</p>
+            <div class="col-sm-6">2016 © All Rights Reserved <br/>BugTrckr</p>
             </div>
             <div class="col-sm-6">
                 <sec:authorize access="isAuthenticated()">
                     <p class="pull-right">Your role is
-                        <sec:authentication property="principal.authorities"/>
+                        <sec:authentication property="principal.username"/>
                     </p>
                 </sec:authorize>
             </div>
