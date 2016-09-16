@@ -48,4 +48,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     void delete(Long id);
 
     Page<Issue> findAll(Pageable pageable);
+
+    Page<Issue> findByProjectId(Long projectId, Pageable pageable);
 }

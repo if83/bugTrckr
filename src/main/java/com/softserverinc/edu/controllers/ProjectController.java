@@ -4,6 +4,7 @@ import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
+import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
@@ -41,6 +42,9 @@ public class ProjectController {
     @Autowired
     private ProjectReleaseService releaseService;
 
+    @Autowired
+    private IssueService issueService;
+
     @GetMapping(value = "/projects")
     public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable, Principal principal) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
@@ -60,13 +64,14 @@ public class ProjectController {
     @GetMapping(value = "projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
                               @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
-                              @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject) {
+                              @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject,
+                              @Qualifier("issue") @PageableDefault(value = 12) Pageable pageableIssue) {
         usersRolesInProject(model);
-        model.addAttribute("usersList", userService.findUsersInProjectPageable(projectService.findById(projectId),
-                false, 1, pageableProject));
-        model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("releaseList", releaseService.findByProject(projectService.findById(projectId),
-                pageableRelease));
+        Project project = projectService.findById(projectId);
+        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageableProject));
+        model.addAttribute("project", project);
+        model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
+        model.addAttribute("listOfIssues", issueService.findByProjectId(projectId, pageableIssue));
         return "project";
     }
 

@@ -158,7 +158,7 @@
                 <div class="col-sm-1">
                     <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                         <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>"
-                           class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add release</a>
+                           class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add User</a>
                     </sec:authorize>
                 </div>
             </div>
@@ -237,7 +237,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>Confirm the removal of ${user.firstName} ${user.lastName}
-                                                        from ${project.title}</p>
+                                                            from ${project.title}</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">
@@ -286,6 +286,76 @@
                     </div>
                 </nav>
             </c:if>
+        </div>
+            <%--Table of issues in project--%>
+            <div class="margin-top-30 col-sm-12">
+                <h3>Issues</h3>
+                <table class="table table-hover table-bordered margin-top-30">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Issue name</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Release version</th>
+                        <th class="text-center">Assigned User</th>
+                    </tr>
+                    </thead>
+                    <c:forEach var="issue" items="${listOfIssues.content}">
+                        <sec:authorize access="hasAnyRole('ADMIN', 'DEVELOPER', 'QA', 'PROJECT_MANAGER', 'USER')
+                            or hasRole('GUEST') and ${issue.project.guestView}">
+                            <tr>
+                                <td class="text-center">
+                                    <a class="viewLink"
+                                       href="<spring:url value='/issue/${issue.id}'/>">
+                                            ${issue.title}
+                                    </a>
+                                </td>
+                                <td class="text-center"><c:out value="${issue.type}"/></td>
+                                <td class="text-center"><c:out value="${issue.status}"/></td>
+                                <td class="text-center">
+                                    <a class="viewLink"
+                                       href="<spring:url value='/project/${issue.projectRelease.project.id}/release/
+                               ${issue.projectRelease.id}'/>">
+                                            ${issue.projectRelease.version}
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
+                                            ${issue.assignee.firstName} ${issue.assignee.lastName}
+                                    </a>
+                                </td>
+                            </tr>
+                        </sec:authorize>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <c:if test="${listOfIssues.getTotalPages()> 1}">
+                    <nav aria-label="Page navigation" id="pagerID">
+                        <div class="text-center">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="<spring:url value='/projects/project/${project.id}?issue_page=0'/>"
+                                       aria-label="Start">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <c:forEach var="page" begin="0" end="${listOfIssues.getTotalPages() - 1}">
+                                    <li>
+                                        <a href="<spring:url
+                                    value='/projects/project/${project.id}?issue_page=${page}'/>">${page + 1}</a>
+                                    </li>
+                                </c:forEach>
+                                <li>
+                                    <a href="<spring:url
+                                value='/projects/project/${project.id}?issue_page=${listOfIssues.getTotalPages() - 1}'/>"
+                                       aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </c:if>
+            </div>
         </div>
     </div>
 </div>

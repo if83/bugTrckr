@@ -145,4 +145,9 @@ public class IssueService {
     public Page<Issue> findAll(Pageable pageable) {
         return issueRepository.findAll(pageable);
     }
+
+    @Transactional
+    public Page<Issue> findByProjectId(Long projectId, Pageable pageable) {
+        return issueRepository.findByProjectId(projectId, pageable);
+    }
 }
