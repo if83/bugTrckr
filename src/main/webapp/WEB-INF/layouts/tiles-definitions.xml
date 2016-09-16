@@ -31,6 +31,7 @@
             <add-attribute value="/js/jquery.validate.min.js"/>
             <add-attribute value="/js/menu.js"/>
             <add-attribute value="/js/bootstrap-select.min.js"/>
+            <add-attribute value="/js/issue/issue_view.js"/>
         </put-list-attribute>
     </definition>
 
