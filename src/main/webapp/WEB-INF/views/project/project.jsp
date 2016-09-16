@@ -43,32 +43,33 @@
         </div>
     </div>
 
-    <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
-        <div class="row release-add-button">
-            <div class="col-sm-2 col-sm-offset-1">
-                <a href="<spring:url value='/project/${project.id}/release/add' />" class="abtn-u-white">
-                    <i class="fa fa-plus icon-bg-u"></i> Add release</a>
-            </div>
-
-            <div class="col-sm-2 col-sm-offset-5">
-                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject' />"
-                   class="abtn-u-white"><i class="fa fa-plus icon-bg-u"></i> Add Users</a>
-            </div>
-        </div>
-    </sec:authorize>
-
     <div class="row">
+        <%--Releases in project--%>
         <div class="col-sm-4">
-            <div class="input-group search-by-releases">
-                <form action="/projects/project/${project.id}/releases/search" method="POST" class="form-inline">
-                    <span class="input-group-btn">
-                        <input type="text" class="form-control" name="searchedString" placeholder="Search...">
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </form>
+            <h3>Releases</h3>
+            <div class="row releases-panel">
+                <div class="col-sm-7">
+                    <%--search panel--%>
+                    <form action="/projects/project/${project.id}/releases/search" method="POST"
+                          class="form-inline">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="searchedString"
+                                   placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <%--add button--%>
+                <div class="col-sm-5">
+                    <a href="<spring:url value='/project/${project.id}/release/add'/>"
+                       class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add release</a>
+                </div>
             </div>
+            <%--table of releases--%>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -127,24 +128,39 @@
         </div>
 
         <div class="col-sm-7 col-sm-offset-1">
-            <%--Search form for users in project--%>
-            <div class="input-group margin-bottom-30 col-sm-11">
-                <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
-                    <select class="form-control form-inline search-by-name" type="text" name="searchedParam">
-                        <option value="First Name">First Name</option>
-                        <option value="Last Name">Last Name</option>
-                    </select>
-                    <select class="form-control form-inline search-by-role" type="text" name="role">
-                        <option value="">Any Role</option>
-                        <option value="${PM}">Project Manager</option>
-                        <option value="${DEV}">Developer</option>
-                        <option value="${QA}">QA</option>
-                    </select>
-                    <div class="input-group-btn search-by-string">
-                        <input type="text" class="form-control" name="searchedString" placeholder="Search...">
-                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"/></button>
-                    </div>
-                </form>
+            <h3>Users</h3>
+            <div class="row users-panel">
+                <div class="col-sm-11">
+                    <%--Search form for users in project--%>
+                    <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
+                        <select class="form-control form-inline search-by-name" type="text" name="searchedParam">
+                            <option value="First Name">First Name</option>
+                            <option value="Last Name">Last Name</option>
+                        </select>
+                        <select class="form-control form-inline search-by-role" type="text" name="role">
+                            <option value="">Any Role</option>
+                            <option value="${PM}">Project Manager</option>
+                            <option value="${DEV}">Developer</option>
+                            <option value="${QA}">QA</option>
+                        </select>
+                        <div class="input-group form-inline search-by-string">
+                            <input type="text" class="form-control" name="searchedString"
+                                   placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <%--add user button--%>
+                <div class="col-sm-1">
+                    <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
+                        <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>"
+                           class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add release</a>
+                    </sec:authorize>
+                </div>
             </div>
             <%--Table of users in project--%>
             <table class="table table-hover table-bordered">

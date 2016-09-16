@@ -1,6 +1,7 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.ProjectReleaseService;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
@@ -87,12 +89,13 @@ public class ProjectController {
     public String searchByReleaseTitle(@RequestParam(value = "searchedString") String searchedString,
                                        @PathVariable("projectId") Long projectId,
                                        Model model,
-                                       @PageableDefault(value = 12) Pageable pageable) {
-        Project project = projectService.findById(projectId);
-        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageable));
-        model.addAttribute("project", project);
-        model.addAttribute("releaseList", releaseService.searchByVersionNameContaining(project, searchedString,
-                pageable));
+                                       @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
+                                       @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject) {
+        Page<ProjectRelease> pageableReleases = releaseService.searchByVersionNameContaining(projectService.findById(projectId), searchedString, pageableRelease);
+        model.addAttribute("releaseList", pageableReleases);
+        model.addAttribute("usersList", userService.findUsersInProjectPageable(projectService.findById(projectId),
+                false, 1, pageableProject));
+        model.addAttribute("project", projectService.findById(projectId));
         return "project";
     }
 

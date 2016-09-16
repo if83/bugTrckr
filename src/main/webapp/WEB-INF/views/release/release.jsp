@@ -36,20 +36,32 @@
             <div class="release-description">Release description:</div>
             <p>${release.description}</p>
         </div>
+        <%--Issues in release--%>
         <div class="release-issues col-sm-7">
-            <a href="<spring:url value='/issue/add' />" class="btn btn-primary btn-u"><i
-                    class="fa fa-plus icon-bg-u"></i> Add issue</a>
-            <div class="input-group search-by-issues">
-                <form action="/project/${release.project.id}/release/${release.id}/issuesSearch" method="POST"
-                      class="form-inline">
-                    <span class="input-group-btn">
-                        <input type="text" class="form-control" name="searchedString" placeholder="Search...">
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </form>
+            <h3>Issues</h3>
+            <div class="row issues-panel">
+                <div class="col-sm-9">
+                    <%--search panel--%>
+                    <form action="/project/${release.project.id}/release/${release.id}/issuesSearch" method="POST"
+                          class="form-inline">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="searchedString"
+                                   placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <%--add issue button--%>
+                <div class="col-sm-3">
+                    <a href="<spring:url value='/issue/add'/>"
+                       class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add issue</a>
+                </div>
             </div>
+            <%--issues table--%>
             <table class="table-issues table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -65,13 +77,13 @@
                         <input name="issueId" type="hidden" value="${issue.id}"/>
                         <td>${issue.title}</td>
                         <td>
-                            <select class="statuses-dropdown selectpicker">
+                            <select class="statuses-dropdown selectpicker" data-width="150px">
                                 <option selected="selected" value="${issue.status}">${issue.status}</option>
                             </select>
                         </td>
                         <td>
-                            <form:select class="users-dropdown selectpicker" data-live-search="true" path="users">
-                                <form:option selected="selected" label="${issue.assignee.firstName}"
+                            <form:select class="users-dropdown selectpicker" data-live-search="true" data-width="200px" path="users">
+                                <form:option selected="selected" label="${issue.assignee.firstName} ${issue.assignee.lastName}"
                                              value="${issue.assignee.id}"/>
                                 <form:options items="${users}" itemLabel="firstName" itemValue="id"/>
                             </form:select>

@@ -16,16 +16,19 @@
     font-weight: bold;
 }
 
+.issues-panel {
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
 .release-issues {
-    margin-top: 30px;
-    padding-left: 30px;
+    margin-top: 20px;
 }
 
-.release-issues .table-issues {
-    margin-top: 30px;
+.issues-panel a {
+    width: 100%;
 }
 
-.search-by-issues {
-    width: 200px;
-    margin-top: 30px;
+.issues-panel .input-group {
+    width: 100%
 }

@@ -114,8 +114,6 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
     </definition>
 
@@ -126,8 +124,6 @@
             <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
     </definition>
 
@@ -150,8 +146,6 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
     </definition>
 
