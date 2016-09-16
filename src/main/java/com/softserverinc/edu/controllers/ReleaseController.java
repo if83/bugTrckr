@@ -43,7 +43,7 @@ public class ReleaseController {
                               @PageableDefault(value = 10) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         Page<Issue> pageableIssues = issueService.findByProjectRelease(release, pageable);
-        List<User> users = userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(release.getProject().getId()), false, 1);
+        List<User> users = userService.findUsersInProject(projectService.findById(release.getProject().getId()), false, 1);
         model.addAttribute("issueList", pageableIssues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);
@@ -57,7 +57,7 @@ public class ReleaseController {
                                     @PageableDefault(value = 10) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         Page<Issue> pageableIssues = issueService.findByProjectReleaseAndTitleContaining(release, searchedString, pageable);
-        List<User> users = userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(release.getProject().getId()), false, 1);
+        List<User> users = userService.findUsersInProject(projectService.findById(release.getProject().getId()), false, 1);
         model.addAttribute("issueList", pageableIssues);
         model.addAttribute("release", release);
         model.addAttribute("users", users);

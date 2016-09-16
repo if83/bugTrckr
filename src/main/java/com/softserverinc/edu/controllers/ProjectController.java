@@ -10,6 +10,7 @@ import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
@@ -58,13 +59,13 @@ public class ProjectController {
             "@projectService.findById(#projectId).guestView)")
     @GetMapping(value = "projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
-                              @PageableDefault(value = 12) Pageable pageable) {
-        Page<ProjectRelease> pageableReleases = releaseService.findByProject(projectService.findById(projectId),
-                pageable);
-        model.addAttribute("usersList",
-                userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
+                              @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
+                              @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject) {
+        model.addAttribute("usersList", userService.findUsersInProjectPageable(projectService.findById(projectId),
+                false, 1, pageableProject));
         model.addAttribute("project", projectService.findById(projectId));
-        model.addAttribute("releaseList", pageableReleases);
+        model.addAttribute("releaseList", releaseService.findByProject(projectService.findById(projectId),
+                pageableRelease));
         return "project";
     }
 
@@ -75,7 +76,7 @@ public class ProjectController {
                                        @PageableDefault(value = 12) Pageable pageable) {
         Page<ProjectRelease> pageableReleases = releaseService.searchByVersionNameContaining(projectService.findById(projectId), searchedString, pageable);
         model.addAttribute("usersList",
-                userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(projectId), false, 1));
+                userService.findUsersInProject(projectService.findById(projectId), false, 1));
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("releaseList", pageableReleases);
         return "project";

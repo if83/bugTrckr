@@ -105,18 +105,18 @@
                     <div class="text-center">
                         <ul class="pagination">
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}?page=0'/>"
+                                <a href="<spring:url value='/projects/project/${project.id}?release_page=0'/>"
                                    aria-label="Start">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             <c:forEach var="page" begin="0" end="${releaseList.getTotalPages() - 1}">
                                 <li>
-                                    <a href="<spring:url value='/projects/project/${project.id}?page=${page}'/>">${page + 1}</a>
+                                    <a href="<spring:url value='/projects/project/${project.id}?release_page=${page}'/>">${page + 1}</a>
                                 </li>
                             </c:forEach>
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}?page=${releaseList.getTotalPages() - 1}'/>"
+                                <a href="<spring:url value='/projects/project/${project.id}?release_page=${releaseList.getTotalPages() - 1}'/>"
                                    aria-label="End"><span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
@@ -138,7 +138,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${usersList}">
+                <c:forEach var="user" items="${usersList.content}">
                     <tr>
                         <td>
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
@@ -223,6 +223,31 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <%--pagination of users list--%>
+            <c:if test="${usersList.getTotalPages()> 1}">
+                <nav aria-label="Page navigation" id="pagerID">
+                    <div class="text-center">
+                        <ul class="pagination">
+                            <li>
+                                <a href="<spring:url value='/projects/project/${project.id}?project_page=0'/>"
+                                   aria-label="Start">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <c:forEach var="page" begin="0" end="${usersList.getTotalPages() - 1}">
+                                <li>
+                                    <a href="<spring:url value='/projects/project/${project.id}?project_page=${page}'/>">${page + 1}</a>
+                                </li>
+                            </c:forEach>
+                            <li>
+                                <a href="<spring:url value='/projects/project/${project.id}?project_page=${usersList.getTotalPages() - 1}'/>"
+                                   aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </c:if>
         </div>
     </div>
 </div>

@@ -29,6 +29,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled);
 
+    Page<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled, Pageable pageable);
+
     Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
 
     List<User> findByFirstNameOrLastName(String firstName, String lastName);

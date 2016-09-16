@@ -124,7 +124,7 @@ public class IssueController {
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableIssueStatusesForStatus(issue.getStatus()));
-        model.addAttribute("users", userService.findByProjectAndIsDeletedAndEnabledIs(projectService.findById(issue.getProjectRelease().getProject().getId()), false, 1));
+        model.addAttribute("users", userService.findUsersInProject(projectService.findById(issue.getProjectRelease().getProject().getId()), false, 1));
         populateDefaultModel(model);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";

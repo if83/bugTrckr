@@ -7,7 +7,9 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,11 +58,16 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled) {
+    public List<User> findUsersInProject(Project project, boolean isDeleted, int enabled) {
         List<User> users = userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled);
         users.sort((user1, user2) -> Integer.valueOf(user1.getRole().ordinal()).compareTo
                 (Integer.valueOf(user2.getRole().ordinal())));
         return users;
+    }
+
+    @Transactional
+    public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable){
+        return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled, pageable);
     }
 
     @Transactional
@@ -124,8 +131,7 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled,
-                                                Pageable pageable){
+    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled, Pageable pageable){
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 
