@@ -25,6 +25,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByProjectAndIsDeleted(Project project, boolean isDeleted);
 
+    User findByProjectAndRoleIsAndIsDeleted(Project project, UserRole role, boolean isDeleted);
+
     List<User> findByProject(Project project);
 
     List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled);

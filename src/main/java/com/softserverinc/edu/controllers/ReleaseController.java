@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,8 +39,9 @@ public class ReleaseController {
     @Autowired
     private ProjectReleaseService releaseService;
 
+    @PreAuthorize("@releaseSecurityService.hasPermissionToViewRelease(#releaseId)")
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}", method = RequestMethod.GET)
-    public String viewRelease(@PathVariable("releaseId") Long releaseId,
+    public String viewRelease(@PathVariable @P("releaseId") Long releaseId,
                               Model model,
                               @PageableDefault(value = 10) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
@@ -64,8 +67,9 @@ public class ReleaseController {
         return "release";
     }
 
+    @PreAuthorize("@releaseSecurityService.hasPermissionToAddRelease(#projectId)")
     @RequestMapping(value = "/project/{projectId}/release/add", method = RequestMethod.GET)
-    public String addReleaseGet(@PathVariable("projectId") Long projectId,
+    public String addReleaseGet(@PathVariable @P("projectId") Long projectId,
                                 Model model) {
         Project project = projectService.findById(projectId);
         ProjectRelease release = new ProjectRelease();
@@ -76,9 +80,10 @@ public class ReleaseController {
         return "releaseform";
     }
 
+    @PreAuthorize("@releaseSecurityService.hasPermissionToEditRelease(#releaseId)")
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}/edit", method = RequestMethod.GET)
-    public String editReleaseGet(@PathVariable("projectId") Long projectId,
-                                 @PathVariable("releaseId") Long releaseId,
+    public String editReleaseGet(@PathVariable ("projectId") Long projectId,
+                                 @PathVariable @P("releaseId") Long releaseId,
                                  Model model) {
         ProjectRelease release = releaseService.findById(releaseId);
         Project project = projectService.findById(projectId);
@@ -89,8 +94,9 @@ public class ReleaseController {
         return "releaseform";
     }
 
+    @PreAuthorize("@releaseSecurityService.hasPermissionToAddRelease(#projectId)")
     @RequestMapping(value = "/project/{projectId}/release/add", method = RequestMethod.POST)
-    public String addReleasePost(@PathVariable("projectId") Long projectId,
+    public String addReleasePost(@PathVariable @P("projectId") Long projectId,
                                  @ModelAttribute("release") @Valid ProjectRelease release,
                                  BindingResult result,
                                  Model model,
@@ -110,9 +116,9 @@ public class ReleaseController {
         return "redirect:/projects/project/{projectId}";
     }
 
+    @PreAuthorize("@releaseSecurityService.hasPermissionToRemoveRelease(#releaseId)")
     @RequestMapping(value = "/project/{projectId}/release/{releaseId}/remove", method = RequestMethod.GET)
-    public String removeReleaseGet(@PathVariable("releaseId") Long releaseId,
-                                   @PathVariable("projectId") Long projectId,
+    public String removeReleaseGet(@PathVariable @P("releaseId") Long releaseId,
                                    RedirectAttributes redirectAttributes) {
         releaseService.delete(releaseId);
         redirectAttributes.addFlashAttribute("alert", "success");

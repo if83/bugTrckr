@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="breadcrumbs">
     <div class="row">
@@ -22,10 +23,12 @@
         <div class="col-sm-5 text-left">
             <div class="release-name">
                 Release: ${release.version}
-                <small>
-                    <a class="viewLink"
-                       href="<spring:url value='/project/${release.project.id}/release/${release.id}/edit'/>">[edit]</a>
-                </small>
+                <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                    <small>
+                        <a class="viewLink"
+                           href="<spring:url value='/project/${release.project.id}/release/${release.id}/edit'/>">[edit]</a>
+                    </small>
+                </sec:authorize>
             </div>
             <div class="project-name">
                 Project:

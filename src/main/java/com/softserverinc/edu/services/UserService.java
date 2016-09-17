@@ -57,6 +57,10 @@ public class UserService {
         return userRepository.findByProject(release.getProject());
     }
 
+    public User getProjectManagerOfProject(Project project) {
+        return userRepository.findByProjectAndRoleIsAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false);
+    }
+
     @Transactional
     public List<User> findUsersInProject(Project project, boolean isDeleted, int enabled) {
         List<User> users = userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled);
