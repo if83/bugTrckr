@@ -80,6 +80,7 @@ public class IssueController {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("historyList", historyService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         workLogService.forNewWorkLogModel(model, issueId, principal, pageable);
         return "issue_view";

@@ -43,7 +43,7 @@ public class WorkLogController {
     @Autowired
     private WorkLogFormValidator workLogFormValidator;
 
-    @PreAuthorize("@projectService.findByProjectReleases(@projectReleaseService." +
+    @PreAuthorize("hasRole('ADMIN') or @projectService.findByProjectReleases(@projectReleaseService." +
             "findByIssues(@issueService.findById(#issueId))).getGuestView() == true")
     @RequestMapping(value = "issue/{issueId}/worklog", method = RequestMethod.GET)
     public String addWorkLogGET(@PathVariable Long issueId, ModelMap model,
@@ -53,7 +53,7 @@ public class WorkLogController {
         return "worklog";
     }
 
-    @PreAuthorize("@userService.findByEmail(#principal.getName()).get(0) == " +
+    @PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
             "@issueService.findById(#issueId).getAssignee() or " +
             "@userService.findByEmail(#principal.getName()).get(0) == " +
             "#workLog.getUser()")
@@ -74,7 +74,7 @@ public class WorkLogController {
         return "redirect:/issue/" + issueId + "/worklog";
     }
 
-    /*@PreAuthorize("@userService.findByEmail(#principal.getName()).get(0) == " +
+    /*@PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
             "@workLogService.findOne(#workLogId).getUser()")
     @RequestMapping(value = "issue/{issueId}/worklog/{workLogId}/edit", method = RequestMethod.GET)
     public String editWorkLog(@PathVariable Long workLogId, @PathVariable Long issueId,
@@ -84,7 +84,7 @@ public class WorkLogController {
         return "worklog";
     }*/
 
-    @PreAuthorize("@userService.findByEmail(#principal.getName()).get(0) ==" +
+    @PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) ==" +
             "@workLogService.findOne(#worklogId).getUser()")
     @RequestMapping(value = "issue/{issueId}/worklog/{worklogId}/remove", method = RequestMethod.GET)
     public String removeWorkLog(@PathVariable("worklogId") long worklogId, Principal principal) {
