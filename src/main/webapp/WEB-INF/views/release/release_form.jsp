@@ -30,7 +30,7 @@
     </div>
 </div>
 
-
+<%--release form--%>
 <form:form action="/project/${project.id}/release/add" modelAttribute="release" method="POST">
     <div class="row">
         <div class="col-sm-12 col-md-5 col-md-offset-1">
@@ -65,5 +65,3 @@
         </div>
     </div>
 </form:form>
-
-

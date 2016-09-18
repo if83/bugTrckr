@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,16 +24,16 @@ public class ProjectRelease {
     @JoinColumn(name = "projectId")
     private Project project;
 
-    @NotEmpty
+    @NotEmpty(message = "")
+    @Size(max = 32, message = "")
     @Column(nullable = false, length = 32)
     private String version;
 
-    @NotNull
+    @NotNull(message = "")
     @Column(nullable = false, length = 11)
     @Enumerated(EnumType.STRING)
     private ReleaseStatus releaseStatus;
 
-    @NotEmpty
     @Column(length = 10000)
     private String description;
 

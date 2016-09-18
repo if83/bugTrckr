@@ -6,6 +6,9 @@ $(document).ready(function () {
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
         queryObj.inputData = $(e.currentTarget).val();
         queryObj.action = "changeAssignee";
+        // show popup about change of status
+        $('#modalChangeIssue').find('.modal-body').text("Assignee changed to " + $(this).find('option:selected').text());
+        $('#modalChangeIssue').modal('show');
         $.ajax({
             url: "/issue/changeIssue",
             data: queryObj,
@@ -13,13 +16,16 @@ $(document).ready(function () {
         });
     });
 
-
     // change status of issue from dropdown in issues-table
     $(".statuses-dropdown").on('changed.bs.select', function (e) {
         var queryObj = {};
+        var selectedStatus = $(e.currentTarget).val();
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
-        queryObj.inputData = $(e.currentTarget).val();
+        queryObj.inputData = selectedStatus;
         queryObj.action = "changeStatus";
+        // show popup about change of status
+        $('#modalChangeIssue').find('.modal-body').text("Status changed to " + selectedStatus);
+        $('#modalChangeIssue').modal('show');
         $.ajax({
             url: "/issue/changeIssue",
             data: queryObj,
@@ -47,6 +53,13 @@ $(document).ready(function () {
             }
         });
     });
+
+    // hide popup of changing issue after some time
+    $('#modalChangeIssue').on('show.bs.modal', function (event) {
+        setTimeout(function(){
+            $('#modalChangeIssue').modal('hide')
+        }, 1500);
+    })
 
 });
 
