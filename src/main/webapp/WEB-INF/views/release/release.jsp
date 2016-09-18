@@ -10,7 +10,7 @@
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/' />">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
-                <li><a href="<spring:url value='/project/${release.project.id}'/>">${release.project.title}</a></li>
+                <li><a href="<spring:url value='/projects/project/${release.project.id}'/>">${release.project.title}</a></li>
                 <li class="active">release ${release.version}</li>
             </ol>
         </div>
@@ -20,6 +20,7 @@
 <div class="container">
 
     <div class="row">
+        <%--Release description--%>
         <div class="col-sm-5 text-left">
             <div class="release-name">
                 Release: ${release.version}
@@ -78,29 +79,61 @@
                 <c:forEach var="issue" items="${issueList.content}">
                     <tr>
                         <input name="issueId" type="hidden" value="${issue.id}"/>
-                        <td>${issue.title}</td>
+                        <input name="issueTitle" type="hidden" value="${issue.title}"/>
+                        <td>
+                            <a class="viewLink" href="<spring:url value='/issue/${issue.id}'/>">${issue.title}</a>
+                        </td>
                         <td>
                             <select class="statuses-dropdown selectpicker" data-width="150px">
                                 <option selected="selected" value="${issue.status}">${issue.status}</option>
                             </select>
                         </td>
                         <td>
-                            <form:select class="users-dropdown selectpicker" data-live-search="true" data-width="200px" path="users">
-                                <form:option selected="selected" label="${issue.assignee.firstName} ${issue.assignee.lastName}"
-                                             value="${issue.assignee.id}"/>
-                                <form:options items="${users}" itemLabel="firstName" itemValue="id"/>
-                            </form:select>
+                            <select class="users-dropdown selectpicker" data-live-search="true" data-width="200px">
+                                <option selected="selected" value="${issue.assignee.id}">${issue.assignee.firstName} ${issue.assignee.lastName}</option>
+                                <c:forEach var="user" items="${users}">
+                                    <option value="${user.id}">${user.firstName} ${user.lastName}</option>
+                                </c:forEach>
+                            </select>
                         </td>
                         <td>
                             <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
                                     class="fa fa-edit fa-lg icon-table-u"></i></a>
-                            <a href="<spring:url value='/issue/${issue.id}/remove'/>"><i
+                            <a href="" data-toggle="modal" data-target="#removeIssueBtn-${issue.id}"><i
                                     class="fa fa-trash fa-lg icon-table-u"></i></a>
+                            <!-- Modal for confirmation remove issue from release-->
+                            <div class="modal fade" id="removeIssueBtn-${issue.id}" tabindex="-1"
+                                 role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title pull-left">Remove Issue from release</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Confirm remove of ${issue.title}
+                                                from ${release.version}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <a href="<spring:url
+                                                        value='/issue/${issue.id}/remove'/>"
+                                               class="btn btn-u">Remove
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+            <%--Pagination of issue-table--%>
             <c:if test="${issueList.getTotalPages()> 1}">
                 <nav aria-label="Page navigation" id="pagerID">
                     <div class="text-center">
@@ -129,3 +162,13 @@
     </div>
 </div>
 
+<!-- Popup for notifying of changing issue-->
+<div class="modal fade" id="modalChangeIssue" tabindex="-1" data-backdrop="false"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+            </div>
+        </div>
+    </div>
+</div>

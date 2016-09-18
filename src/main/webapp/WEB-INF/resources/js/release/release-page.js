@@ -3,11 +3,14 @@ $(document).ready(function () {
     // change assignee of issue from dropdown in issues table
     $('.users-dropdown').on('changed.bs.select', function (e) {
         var queryObj = {};
+        var issueTitle = $(this).parents("tr").find("input[name='issueTitle']").val();
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
         queryObj.inputData = $(e.currentTarget).val();
         queryObj.action = "changeAssignee";
         // show popup about change of status
-        $('#modalChangeIssue').find('.modal-body').text("Assignee changed to " + $(this).find('option:selected').text());
+        $('#modalChangeIssue').find('.modal-body')
+            .html("Assignee of <strong>" + issueTitle + "</strong> changed to <strong>"
+                + $(this).find('option:selected').text() + "</strong>");
         $('#modalChangeIssue').modal('show');
         $.ajax({
             url: "/issue/changeIssue",
@@ -20,11 +23,14 @@ $(document).ready(function () {
     $(".statuses-dropdown").on('changed.bs.select', function (e) {
         var queryObj = {};
         var selectedStatus = $(e.currentTarget).val();
+        var issueTitle = $(this).parents("tr").find("input[name='issueTitle']").val();
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
         queryObj.inputData = selectedStatus;
         queryObj.action = "changeStatus";
         // show popup about change of status
-        $('#modalChangeIssue').find('.modal-body').text("Status changed to " + selectedStatus);
+        $('#modalChangeIssue').find('.modal-body')
+            .html("Status of <strong>" + issueTitle + "</strong> changed to <strong>"
+                + selectedStatus + "</strong>");
         $('#modalChangeIssue').modal('show');
         $.ajax({
             url: "/issue/changeIssue",
@@ -58,9 +64,7 @@ $(document).ready(function () {
     $('#modalChangeIssue').on('show.bs.modal', function (event) {
         setTimeout(function(){
             $('#modalChangeIssue').modal('hide')
-        }, 1500);
+        }, 2000);
     })
 
 });
-
-

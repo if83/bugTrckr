@@ -25,10 +25,24 @@
     margin-top: 20px;
 }
 
+.release-issues .fa-edit {
+    margin-left: 4px;
+    margin-right: 7px;
+}
+
 .issues-panel a {
     width: 100%;
 }
 
 .issues-panel .input-group {
     width: 100%
+}
+
+label.error {
+    margin-top: 10px;
+    color: #d33700;
+}
+
+#modalChangeIssue .modal-content {
+    background-color: #DBFFD5;
 }

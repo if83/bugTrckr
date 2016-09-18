@@ -23,3 +23,7 @@ input#imgfileInput.form-control {
 .user-history .removed-user {
     color: red;
 }
+
+.user-history ul li {
+    margin-top: 8px;
+}

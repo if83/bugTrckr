@@ -77,8 +77,8 @@
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
-                    <th>Version</th>
-                    <th>Status</th>
+                    <th class="text-center">Version</th>
+                    <th class="text-center">Status</th>
                     <sec:authorize access="@projectSecurityService.hasPermissionToEditProject(${project.id})">
                         <th class="text-center">Actions</th>
                     </sec:authorize>
@@ -87,7 +87,7 @@
                 <tbody>
                 <c:forEach var="rel" items="${releaseList.content}">
                     <tr>
-                        <td>
+                        <td class="text-center">
                             <sec:authorize access="@releaseSecurityService.hasPermissionToViewRelease(${rel.id})">
                                 <a class="viewLink"
                                    href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
@@ -97,13 +97,40 @@
                                 ${rel.version}
                             </sec:authorize>
                         </td>
-                        <td>${rel.releaseStatus}</td>
+                        <td class="text-center">${rel.releaseStatus}</td>
                         <sec:authorize access="@projectSecurityService.hasPermissionToEditProject(${project.id})">
                             <td class="text-center">
                                 <a href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
-                                        class="fa fa-edit fa-lg icon-table-u"></i></a>&nbsp&nbsp
-                                <a href="<spring:url value='/project/${project.id}/release/${rel.id}/remove' />"><i
+                                        class="fa fa-edit fa-lg icon-table-u"></i></a>
+                                <a href="" data-toggle="modal" data-target="#removeReleaseBtn-${rel.id}"><i
                                         class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                <!-- Modal for confirmation remove release from project-->
+                                <div class="modal fade" id="removeReleaseBtn-${rel.id}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title pull-left">Remove release from project</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Confirm remove of ${rel.version}
+                                                    from ${project.title}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a href="<spring:url
+                                                        value='/project/${project.id}/release/${rel.id}/remove'/>"
+                                                   class="btn btn-u">Remove
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </sec:authorize>
                     </tr>
@@ -144,11 +171,11 @@
                 <div class="col-sm-11">
                     <%--Search form for users in project--%>
                     <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
-                        <select class="form-control form-inline search-by-name" type="text" name="searchedParam">
+                        <select class="form-control form-inline search-by-name selectpicker" data-width="110px" type="text" name="searchedParam">
                             <option value="First Name">First Name</option>
                             <option value="Last Name">Last Name</option>
                         </select>
-                        <select class="form-control form-inline search-by-role" type="text" name="role">
+                        <select class="form-control form-inline search-by-role selectpicker" data-width="150px" type="text" name="role">
                             <option value="">Any Role</option>
                             <option value="${PM}">Project Manager</option>
                             <option value="${DEV}">Developer</option>
@@ -177,8 +204,8 @@
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
-                    <th>User name</th>
-                    <th>Role</th>
+                    <th class="text-center">User name</th>
+                    <th class="text-center">Role</th>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                         <th class="text-center">Actions</th>
                     </sec:authorize>
@@ -187,19 +214,19 @@
                 <tbody>
                 <c:forEach var="user" items="${usersList.content}">
                     <tr>
-                        <td>
+                        <td class="text-center">
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
                                     ${user.lastName}
                             </a>
                         </td>
-                        <td>${user.role.toString()}</td>
+                        <td class="text-center">${user.role.toString()}</td>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
                             <td class="text-center">
                                 <c:choose>
                                     <c:when test="${!user.role.isProjectManager()}">
                                         <!--changing user role-->
                                         <a data-toggle="modal" data-target="#changingRole${user.id}${project.id}">
-                                            <i class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp&nbsp
+                                            <i class="fa fa-edit fa-lg icon-table-u"></i></a>
 
                                         <!-- Modal for confirmation of changing of user role -->
                                         <div class="modal fade" id="changingRole${user.id}${project.id}" tabindex="-1"

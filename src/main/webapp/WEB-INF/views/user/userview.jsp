@@ -84,7 +84,7 @@
 </div>
 
 <div class="row">
-    <div class="user-history col-sm-6">
+    <div class="user-history col-sm-7 col-sm-offset-1">
         <H3 class="text-center">User`s activity</H3>
         <ul>
             <c:forEach var="history" items="${allHistory.content}">
@@ -101,7 +101,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            create issue <strong>${history.issue.title}</strong>
+                            create issue <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
                             and assigned it to
                             <strong>
                                 <c:choose>
@@ -128,7 +128,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            changed status of <strong>${history.issue.title}</strong>
+                            changed status of <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
                             to <strong>${history.issueStatus}</strong>
                             <span class="createTime">at ${history.createTime}</span>
                         </li>
@@ -145,7 +145,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            reassigned <strong>${history.issue.title}</strong> to
+                            reassigned <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong> to
                             <strong>
                                 <c:choose>
                                     <c:when test="${history.assignedToUser == null}">
