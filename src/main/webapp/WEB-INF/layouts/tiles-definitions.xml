@@ -47,7 +47,7 @@
     </definition>
 
     <definition name="about" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="About"/>
+        <put-attribute name="title" value="BugTrckr software"/>
         <put-attribute name="content" value="/WEB-INF/views/info/about.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/about.css"/>

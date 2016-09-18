@@ -3,7 +3,7 @@
 <div class="breadcrumbs img-bg">
     <div class="row">
         <div class="col-sm-12">
-            <h1 class="text-center">The #1 software development tool</h1>
+            <h1 class="text-center">The #1 bug tracking software</h1>
             <p class="text-center">For planning, tracking and producing great software</p>
         </div>
     </div>
@@ -21,26 +21,20 @@
 
 <div class="service-block">
     <div class="row">
-        <div class="col-md-4 service-inner" style="height: 358px;">
-            <a href="/projects"> <i class="icon-md rounded-x icon-bg-u fa fa-fileImage-text-o">
+        <div class="col-md-6 service-inner" style="height: 358px;">
+            <a href="/projects"> <i class="icon-md rounded-x glyphicon glyphicon-globe">
             </i>
                 <span>Projects</span>
             </a>
             <p>Create projects and releases, plan sprints, and distribute tasks across your software team.</p>
         </div>
-        <div class="col-md-4 service-inner service-border" style="height: 358px;">
-            <a href="/issue"> <i class="icon-md rounded-x icon-bg-u fa fa-truck">
+        <div class="col-md-6 service-inner service-border" style="height: 358px;">
+            <a href="/issue"> <i class="icon-md rounded-x glyphicon glyphicon-wrench">
             </i>
                 <span>Issues</span>
             </a>
-            <p>Prioritize and discuss your team's work in full context with complete visibility.</p>
+            <p> Check for possible issues on your project and prioritize and discuss your team's work.</p>
         </div>
-        <div class="col-md-4 service-inner" style="height: 358px;">
-            <a href="/projects/project/1"><i class="icon-md rounded-x icon-bg-u fa fa-flag-o">
-            </i>
-                <span>Releases</span>
-            </a>
-            <p>Ship with confidence and sanity knowing the information you have is always current.</p>
-        </div>
+
     </div><!--/end row-->
 </div>

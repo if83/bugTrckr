@@ -95,6 +95,10 @@ public class IssueService {
         return issueRepository.findByAssignee(assignee);
     }
 
+    public List<Issue> findByAssignee(User assignee, Pageable pageable) {
+        return issueRepository.findByAssignee(assignee, pageable);
+    }
+
     public List<Issue> findByLabels(Label label) {
         return issueRepository.findByLabels(label);
     }

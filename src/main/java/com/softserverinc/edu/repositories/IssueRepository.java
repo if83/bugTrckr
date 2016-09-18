@@ -33,6 +33,8 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     List<Issue> findByAssignee(User assignee);
 
+    List<Issue> findByAssignee(User assignee, Pageable pageable);
+
     List<Issue> findByLabels(Label label);
 
     List<Issue> findByCreateTime(Date createTime);

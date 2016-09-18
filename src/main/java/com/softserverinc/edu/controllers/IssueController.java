@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -58,8 +59,10 @@ public class IssueController {
     private WorkLogService workLogService;
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
-    public String listOfIssues(Model model, Pageable pageable) {
+    public String listOfIssues(Model model, @PageableDefault(value = 20) Pageable pageable, Principal principal) {
         model.addAttribute("listOfIssues", issueService.findAll(pageable));
+        model.addAttribute("userIssues", issueService
+                .findByAssignee((userService.findByEmail(principal.getName()).get(0)), pageable));
         LOGGER.debug("Issue list controller");
         return "issue";
     }
