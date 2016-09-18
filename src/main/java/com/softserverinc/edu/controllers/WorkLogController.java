@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -62,34 +63,29 @@ public class WorkLogController {
                                  @ModelAttribute("worklog") @Valid WorkLog workLog,
                                  BindingResult result,
                                  Principal principal,
-                                 Pageable pageable) {
+                                 Pageable pageable,
+                                 RedirectAttributes redirectAttributes) {
         if (/*!workLogFormValidator.validateAmountOfTime(workLog) ||
                 !workLogFormValidator.validateWorkingOnIssueDates(workLog,
                         userService.findByEmail(principal.getName()).get(0), issueId) ||*/
                 result.hasErrors()) {
-            return "redirect:/issue/" + issueId + "/worklog";
+            redirectAttributes.addFlashAttribute("msg", "Unable to save. Please fix your data.");
+            return "redirect:/issue/" + issueId;
         }
         workLogService.save(workLog);
         LOGGER.info("Worklog saved, id= " + workLog.getId());
-        return "redirect:/issue/" + issueId + "/worklog";
+        redirectAttributes.addFlashAttribute("msg","Work log entry saved.");
+        return "redirect:/issue/" + issueId;
     }
-
-    /*@PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
-            "@workLogService.findOne(#workLogId).getUser()")
-    @RequestMapping(value = "issue/{issueId}/worklog/{workLogId}/edit", method = RequestMethod.GET)
-    public String editWorkLog(@PathVariable Long workLogId, @PathVariable Long issueId,
-                              ModelMap model, Principal principal, Pageable pageable)  {
-        model.addAttribute("issueId", issueId);
-        workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, pageable);
-        return "worklog";
-    }*/
 
     @PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) ==" +
             "@workLogService.findOne(#worklogId).getUser()")
     @RequestMapping(value = "issue/{issueId}/worklog/{worklogId}/remove", method = RequestMethod.GET)
-    public String removeWorkLog(@PathVariable("worklogId") long worklogId, Principal principal) {
+    public String removeWorkLog(@PathVariable("worklogId") long worklogId,
+                                Principal principal, RedirectAttributes redirectAttributes) {
         workLogService.delete(worklogId);
         LOGGER.debug("Worklog " + worklogId + " is removed!");
-        return "redirect:/issue/{issueId}/worklog";
+        redirectAttributes.addFlashAttribute("msg", "Work log entry has been deleted.");
+        return "redirect:/issue/{issueId}";
     }
 }

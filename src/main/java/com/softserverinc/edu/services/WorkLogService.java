@@ -113,7 +113,7 @@ public class WorkLogService {
 
     public void forNewWorkLogModel(ModelMap model, Long issueId, Principal principal, Pageable pageable) {
         model.addAttribute("stage", "new");
-        model.addAttribute("action", "worklog/save");
+        model.addAttribute("action", issueId + "/worklog/save");
         model.addAttribute("permissionToUseWorkLogForm", getPermissionToCreateWorkLog(principal, issueId));
         model.addAttribute("workLog", getNewWorkLog(issueId, principal));
         model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));

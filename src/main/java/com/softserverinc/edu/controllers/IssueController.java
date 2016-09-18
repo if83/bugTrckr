@@ -86,6 +86,8 @@ public class IssueController {
         return "issue_view";
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
+            "@workLogService.findOne(#workLogId).getUser()")
     @GetMapping(value = "issue/{issueId}/worklog/{workLogId}/edit")
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("workLogId") Long workLogId,

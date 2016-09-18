@@ -21,6 +21,19 @@
     </div>
 </div>
 
+<c:if test="${not empty msg}">
+    <div class="row" id="redirectMessage">
+        <div class="col-sm-4 col-sm-offset-8">
+            <div class="alert alert-${alert} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>${msg}</strong>
+            </div>
+        </div>
+    </div>
+</c:if>
 
 <div class="row col-sm-8 col-sm-offset-2">
     <div class="margin-top-30 col-sm-5">
@@ -126,11 +139,11 @@
     <div class="col-sm-7">
         <div id="tabs">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active">
+                <li role="presentation" class="active" id="tab-comments">
                     <a href="#tabs-comments" role="tab" data-toggle="tab">Comments</a>
                 </li>
-                <li role="presentation"><a href="#tabs-worklog" role="tab" data-toggle="tab">Work log</a></li>
-                <li role="presentation"><a href="#tabs-history" role="tab" data-toggle="tab">History</a></li>
+                <li role="presentation" id="tab-worklog"><a href="#tabs-worklog" role="tab" data-toggle="tab">Work log</a></li>
+                <li role="presentation" id="tab-history"><a href="#tabs-history" role="tab" data-toggle="tab">History</a></li>
             </ul>
         </div>
 
@@ -179,10 +192,12 @@
 
             <%--worklog features--%>
             <div role="tabpanel" class="tab-pane fade" id="tabs-worklog">
+                <div class="margin-top-10">
                 <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
                     <button class="workLogButton btn-u row">Add entry</button>
                 </sec:authorize>
-                <div class="margin-top-30" id="workLogTable">
+                </div>
+                <div class="margin-top-10" id="workLogTable">
                     <div>
                         <table class="table table-hover">
                             <thead>
@@ -229,7 +244,7 @@
                     </div>
 
                     <%--worklog pagination--%>
-                    <div>
+                    <div id="workLogPagination">
                         <c:if test="${workLogsOfCurrentIssueByAllUsers.getTotalPages()> 1}">
                             <div class="col-sm-offset-4 col-sm-4">
                                 <nav aria-label="Page navigation" id="pagerID">
@@ -318,7 +333,7 @@
 
             <%--history--%>
             <div role="tabpanel" class="tab-pane fade" id="tabs-history">
-                for hostory
+                for history
             </div>
         </div>
     </div>
