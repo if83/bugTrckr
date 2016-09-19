@@ -62,7 +62,9 @@
             <thead>
             <tr>
                 <th class="text-center">Project Title</th>
-                <th class="text-center">Free to view</th>
+                <sec:authorize access="!isAnonymous()">
+                    <th class="text-center">Free to view</th>
+                </sec:authorize>
                 <th class="text-center">Free to comment</th>
                 <th class="text-center">Free to add Issue</th>
                 <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
@@ -77,18 +79,34 @@
             <c:forEach var="project" items="${listOfProjects.content}">
                 <tr>
                     <td class="text-center">
-                        <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
-                            <c:out value="${project.title}"/></a>
+                        <sec:authorize access="!isAnonymous()">
+                            <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
+                                <c:out value="${project.title}"/></a>
+                        </sec:authorize>
+                        <sec:authorize access="isAnonymous()">
+                            <c:choose>
+                                <c:when test="${!project.guestView}">
+                                    <i class="fa fa-lock icon-table-u"></i> <c:out value="${project.title}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
+                                        <c:out value="${project.title}"/></a>
+                                </c:otherwise>
+                            </c:choose>
+                        </sec:authorize>
                     </td>
-                    <td class="text-center">
-                        <c:choose>
-                            <c:when test="${project.guestView}">
-                                <i class="glyphicon glyphicon-ok"/>
-                            </c:when>
-                            <c:otherwise>
-                                <i class="glyphicon glyphicon-remove"/>
-                            </c:otherwise>
-                        </c:choose>
+                    <sec:authorize access="!isAnonymous()">
+                        <td class="text-center">
+                            <c:choose>
+                                <c:when test="${project.guestView}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="glyphicon glyphicon-remove"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </sec:authorize>
                     <td class="text-center">
                         <c:choose>
                             <c:when test="${project.guestAddComment}">
@@ -98,7 +116,7 @@
                                 <i class="glyphicon glyphicon-remove"/>
                             </c:otherwise>
                         </c:choose>
-                    </td class="text-center">
+                    </td>
                     <td class="text-center">
                         <c:choose>
                             <c:when test="${project.guestCreateIssues}">
@@ -119,7 +137,7 @@
                             </c:when>
                             <c:otherwise>
                                 <td class="text-center">
-                                    <i class="fa fa-lock icon-table-u"></i>
+                                    <i class="fa fa-lock fa-lg icon-table-u"></i>
                                 </td>
                             </c:otherwise>
                         </c:choose>

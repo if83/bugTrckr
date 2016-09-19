@@ -59,57 +59,59 @@
                 </li>
 
                 <li>
-                    <sec:authorize access="!hasAnyRole('ADMIN','PROJECT_MANAGER', 'DEVELOPER', 'QA', 'USER',
-                'GUEST')">
+                    <sec:authorize access="isAnonymous()">
                         <!-- Button trigger login form -->
                         <a>
-
                             <button type="button" class="btn btn-u pull-right" data-toggle="modal"
                                     data-target="#loginFormModal">Log in
                             </button>
                         </a>
-                        <!-- Modal for login form -->
-                        <div class="modal fade" id="loginFormModal" tabindex="-1"
-                             role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">Log into BugTrckr</h4>
-                                    </div>
-                                    <form:form commandName="loginForm" modelAttribute="loginForm" action="/"
-                                               id="loginform" class="reg-page" method="POST">
-
-                                        <div id="msg" class="alert alert-danger margin-bottom-20" hidden></div>
-
-                                        <div class="input-group" id="email">
-                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                            <form:input path="username" name="username" type="username"
-                                                        placeholder="Email" class="form-control"/>
-                                            <form:errors path="username"/>
-                                        </div>
-
-                                        <div class="input-group" id="password">
-                                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                            <form:input path="password" name="password" type="password"
-                                                        placeholder="Password" class="form-control"/>
-                                            <form:errors path="password"/>
-                                        </div>
-
-                                        <div class="form-group margin-bottom-40">
-                                            <div class="controls pull-right">
-                                                <button type="submit" class="btn-u pull-right"><i
-                                                        class="glyphicon glyphicon-log-in"></i> Log in
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form:form>
+                    </sec:authorize>
+                    <!-- Modal for login form -->
+                    <div class="modal fade" id="loginFormModal" tabindex="-1"
+                         role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Log into BugTrckr</h4>
                                 </div>
+                                <form:form commandName="loginForm" modelAttribute="loginForm" action="/"
+                                           id="loginform" class="reg-page" method="POST">
+
+                                    <div id="msg" class="alert alert-danger margin-bottom-20" hidden></div>
+
+                                    <div class="alert-danger">
+                                        <h5 class="text-center alert alert-danger" id="error">
+                                        Invalid email or password
+                                        </h5>
+                                    </div>
+
+                                    <div class="input-group" id="email">
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                        <input path="username" name="username" type="username"
+                                               placeholder="Email" class="form-control"/>
+                                        <errors path="username"/>
+                                    </div>
+
+                                    <div class="input-group" id="password">
+                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                        <input path="password" name="password" type="password"
+                                               placeholder="Password" class="form-control"/>
+                                        <errors path="password"/>
+                                    </div>
+                                    <div class="form-group margin-bottom-40">
+                                        <div class="controls pull-right">
+                                            <button type="submit" class="btn-u pull-right" id="login"><i
+                                                    class="glyphicon glyphicon-log-in"></i> Log in
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form:form>
                             </div>
                         </div>
-                    </sec:authorize>
-
+                    </div>
                     <sec:authorize
-                            access="hasAnyRole('ADMIN','PROJECT_MANAGER', 'DEVELOPER', 'QA', 'USER', 'GUEST')">
+                            access="isAuthenticated()">
                         <a href="<spring:url value='/logout'/>">
                             <button type="button" class="btn btn-u pull-right">
                                 Logout

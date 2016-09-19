@@ -20,6 +20,7 @@
             <add-attribute value="/css/bootstrap-theme.min.css"/>
             <add-attribute value="/css/select2.min.css"/>
             <add-attribute value="/css/font-awesome.min.css"/>
+            <add-attribute value="/css/login.css"></add-attribute>
             <add-attribute value="/css/site.css"/>
             <add-attribute value="/css/bootstrap-select.min.css"/>
         </put-list-attribute>
@@ -31,6 +32,7 @@
             <add-attribute value="/js/jquery.validate.min.js"/>
             <add-attribute value="/js/menu.js"/>
             <add-attribute value="/js/bootstrap-select.min.js"/>
+            <add-attribute value="/js/login.js"/>
             <add-attribute value="/js/issue/issue_view.js"/>
         </put-list-attribute>
     </definition>
@@ -42,7 +44,6 @@
             <add-attribute value="/css/login.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/index-page.js"/>
         </put-list-attribute>
     </definition>
 

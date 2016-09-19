@@ -2,7 +2,7 @@ package com.softserverinc.edu.entities.enums;
 
 public enum UserRole {
     ROLE_ADMIN("Admin"), ROLE_PROJECT_MANAGER("Project Manager"), ROLE_DEVELOPER("Developer"), ROLE_QA("QA"),
-    ROLE_USER("User"), ROLE_GUEST("Guest");
+    ROLE_USER("User"), ROLE_ANONYMOUS("Guest");
 
     private String role;
 
@@ -31,7 +31,7 @@ public enum UserRole {
     }
 
     public boolean isGuest() {
-        return this == ROLE_GUEST;
+        return this == ROLE_ANONYMOUS;
     }
 
     @Override

@@ -48,7 +48,9 @@ public class ProjectController {
     @GetMapping(value = "/projects")
     public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable, Principal principal) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
-        model.addAttribute("loggedUser", userService.findByEmailIs(principal.getName()));
+        if (principal != null) {
+            model.addAttribute("loggedUser", userService.findByEmailIs(principal.getName()));
+        }
         return "projects";
     }
 
@@ -59,8 +61,7 @@ public class ProjectController {
         return "projects";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROJECT_MANAGER') or (hasAnyRole('DEVELOPER', 'QA', 'GUEST') and " +
-            "@projectService.findById(#projectId).guestView)")
+    @PreAuthorize("isAuthenticated() or (isAnonymous() and @projectService.findById(#projectId).guestView)")
     @GetMapping(value = "projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
                               @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
@@ -139,7 +140,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#id == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
+            "#id == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
     @GetMapping(value = "/projects/{id}/edit")
     public String editProject(@PathVariable @P("id") Long id, Model model, @Param("principal") Principal principal) {
         model.addAttribute("project", projectService.findById(id));
@@ -148,7 +149,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
+            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
     public String usersWithoutProject(@PathVariable @P("projectId") Long projectId,
                                       Model model, @Param("principal") Principal principal,
@@ -172,7 +173,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
+            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable Long userId, @PathVariable @P("projectId") Long projectId,
                                         @Param("principal") Principal principal,
@@ -186,7 +187,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
+            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
     @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
     public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable("userId") Long userId,
                                     @Param("principal") Principal principal, RedirectAttributes redirectAttributes) {

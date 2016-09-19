@@ -171,20 +171,20 @@
                 <div class="col-sm-11">
                     <%--Search form for users in project--%>
                     <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
-                        <select class="form-control form-inline search-by-name selectpicker" data-width="110px" type="text" name="searchedParam">
-                            <option value="First Name">First Name</option>
-                            <option value="Last Name">Last Name</option>
-                        </select>
-                        <select class="form-control form-inline search-by-role selectpicker" data-width="150px" type="text" name="role">
-                            <option value="">Any Role</option>
-                            <option value="${PM}">Project Manager</option>
-                            <option value="${DEV}">Developer</option>
-                            <option value="${QA}">QA</option>
-                        </select>
-                        <div class="input-group form-inline search-by-string">
-                            <input type="text" class="form-control" name="searchedString"
+                        <div class="input-group form-inline col-xs-11">
+                            <select class="form-control form-inline search-by-name selectpicker" type="text" name="searchedParam">
+                                <option value="First Name">First Name</option>
+                                <option value="Last Name">Last Name</option>
+                            </select>
+                            <select class="form-control form-inline search-by-role selectpicker" type="text" name="role">
+                                <option value="">Any Role</option>
+                                <option value="${PM}">Project Manager</option>
+                                <option value="${DEV}">Developer</option>
+                                <option value="${QA}">QA</option>
+                            </select>
+                            <input type="text" class="form-control searchedString" name="searchedString"
                                    placeholder="Search...">
-                            <span class="input-group-btn">
+                            <span class="input-group-btn pull-left">
                                 <button class="btn btn-default" type="submit">
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
@@ -215,9 +215,14 @@
                 <c:forEach var="user" items="${usersList.content}">
                     <tr>
                         <td class="text-center">
-                            <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
-                                    ${user.lastName}
-                            </a>
+                            <sec:authorize access="isAnonymous()">
+                                ${user.firstName} ${user.lastName}
+                            </sec:authorize>
+                            <sec:authorize access="!isAnonymous()">
+                                <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
+                                        ${user.lastName}
+                                </a>
+                            </sec:authorize>
                         </td>
                         <td class="text-center">${user.role.toString()}</td>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
