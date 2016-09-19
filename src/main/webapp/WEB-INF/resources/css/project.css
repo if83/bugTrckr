@@ -3,7 +3,7 @@
 }
 
 .releases-panel a {
-    width: 100%;
+    min-width: 50%;
 }
 
 .releases-panel, .users-panel {

@@ -47,7 +47,7 @@
     <div class="row">
 
         <%--Releases in project--%>
-        <div class="col-sm-4">
+        <div class="col-sm-5">
             <h3>Releases</h3>
             <div class="row releases-panel">
                 <div class="col-sm-7">
@@ -97,7 +97,7 @@
                                 ${rel.version}
                             </sec:authorize>
                         </td>
-                        <td class="text-center">${rel.releaseStatus}</td>
+                        <td class="text-center">${rel.releaseStatus.toString()}</td>
                         <sec:authorize access="@projectSecurityService.hasPermissionToEditProject(${project.id})">
                             <td class="text-center">
                                 <a href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
@@ -165,7 +165,7 @@
         </div>
 
         <%--Users in projects--%>
-        <div class="col-sm-7 col-sm-offset-1">
+        <div class="col-sm-7">
             <h3>Users</h3>
             <div class="row users-panel">
                 <div class="col-sm-11">

@@ -31,7 +31,7 @@
 }
 
 .issues-panel a {
-    width: 100%;
+    min-width: 50%;
 }
 
 .issues-panel .input-group {

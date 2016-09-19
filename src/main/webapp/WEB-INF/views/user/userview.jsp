@@ -84,7 +84,7 @@
 </div>
 
 <div class="row">
-    <div class="user-history col-sm-7 col-sm-offset-1">
+    <div class="user-history col-sm-10 col-sm-offset-1">
         <H3 class="text-center">User`s activity</H3>
         <ul>
             <c:forEach var="history" items="${allHistory.content}">
@@ -101,7 +101,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            create issue <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
+                            created issue <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
                             and assigned it to
                             <strong>
                                 <c:choose>
