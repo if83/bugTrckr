@@ -14,12 +14,6 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     List<History> findByIssue(Issue issue);
 
-    List<History> findByAssignedToUserId(Long assignedToUserId);
-
-    List<History> findByChangedByUserId(Long changedByUserId);
-
-    List<History> findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(Long assignedToUserId, Long ChangedByUserId);
-
     Page<History> findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(Long assignedToUserId, Long ChangedByUserId, Pageable pageable);
 
 }

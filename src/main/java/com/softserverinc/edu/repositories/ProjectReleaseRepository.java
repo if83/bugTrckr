@@ -17,12 +17,6 @@ public interface ProjectReleaseRepository extends JpaRepository<ProjectRelease, 
 
     List<ProjectRelease> findByProject(Project project);
 
-    ProjectRelease findByIssues(Issue issue);
-
-    List<ProjectRelease> findByVersion(String version);
-
-    List<ProjectRelease> findByReleaseStatus(ReleaseStatus releaseStatus);
-
     Page<ProjectRelease> findByProject(Project project, Pageable pageable);
 
     Page<ProjectRelease> findByProjectAndVersionContaining(Project project, String version, Pageable pageable);

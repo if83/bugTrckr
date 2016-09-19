@@ -19,14 +19,6 @@ public class LabelService {
         return labelRepository.findOne(id);
     }
 
-    public List<Label> findByTitle(String title) {
-        return labelRepository.findByTitle(title);
-    }
-
-    public List<Label> findByIssues(Issue issue) {
-        return labelRepository.findByIssues(issue);
-    }
-
     public List<Label> findAll() {
         return labelRepository.findAll();
     }

@@ -29,28 +29,15 @@ public class HistoryService {
         return historyRepository.findOne(id);
     }
 
-    public List<History> findByIssue(Issue issue) {
-        return historyRepository.findByIssue(issue);
-    }
-
-    public List<History> findByAssignedToUser(User assignedToUser) {
-        return historyRepository.findByAssignedToUserId(assignedToUser.getId());
-    }
-
-    public List<History> findByChangedByUser(User changedByUser) {
-        return historyRepository.findByChangedByUserId(changedByUser.getId());
-    }
-
+    @Transactional
     public List<History> findAll() {
         return historyRepository.findAll();
     }
 
-    public List<History> findAllHistoryForUser(User user) {
-        return historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(user.getId(), user.getId());
-    }
-
+    @Transactional
     public Page<History> findAllHistoryForUser(User user, Pageable pageable) {
-        return historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(user.getId(), user.getId(), pageable);
+        return historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(user.getId(),
+                user.getId(), pageable);
     }
 
     @Transactional
@@ -79,14 +66,19 @@ public class HistoryService {
         save(history);
     }
 
-    public Page<HistoryDto> convertHistoryToHistoryDto(Page<History> historyList, Pageable pageable) {
+    @Transactional
+    public Page<HistoryDto> convertToHistoryDto(Page<History> historyList, Pageable pageable) {
         List<HistoryDto> result = new ArrayList<>();
         for (History history : historyList) {
             HistoryDto historyDto = new HistoryDto();
             historyDto.setAction(history.getAction());
             historyDto.setIssue(history.getIssue());
-            historyDto.setChangedByUser(userService.findOne(history.getChangedByUserId()).isDeleted() ? null : userService.findOne(history.getChangedByUserId()));
-            historyDto.setAssignedToUser(userService.findOne(history.getAssignedToUserId()).isDeleted() ? null : userService.findOne(history.getAssignedToUserId()));
+            historyDto.setChangedByUser(userService.findOne(history.getChangedByUserId()).isDeleted()
+                                        ? null
+                                        : userService.findOne(history.getChangedByUserId()));
+            historyDto.setAssignedToUser(userService.findOne(history.getAssignedToUserId()).isDeleted()
+                                         ? null
+                                         : userService.findOne(history.getAssignedToUserId()));
             historyDto.setIssueStatus(history.getIssueStatus());
             historyDto.setCreateTime(history.getCreateTime());
             result.add(historyDto);

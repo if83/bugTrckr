@@ -21,21 +21,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRole(UserRole role);
 
-    List<User> findByRoleNotAndIsDeletedFalse(UserRole role);
-
-    List<User> findByProjectAndIsDeleted(Project project, boolean isDeleted);
-
     User findByProjectAndRoleIsAndIsDeleted(Project project, UserRole role, boolean isDeleted);
-
-    List<User> findByProject(Project project);
 
     List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled);
 
     Page<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled, Pageable pageable);
 
     Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
-
-    List<User> findByFirstNameOrLastName(String firstName, String lastName);
 
     List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);
 
@@ -71,4 +63,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
                                                                           Pageable pageable);
 
     Page<User> findByProjectAndIsDeletedAndEnabledIs(Project project, Pageable pageable);
+
 }

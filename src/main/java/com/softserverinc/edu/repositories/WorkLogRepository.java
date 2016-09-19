@@ -12,21 +12,11 @@ import java.util.List;
 
 public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
-    List<WorkLog> findByUser(User user);
-
-    Page<WorkLog> findByUser(User user, Pageable pageable);
-
     List<WorkLog> findByUserAndIssue(User user, Issue issue);
 
     List<WorkLog> findByIssue(Issue issue);
 
     Page<WorkLog> findByIssue(Issue issue, Pageable pageable);
-
-    List<WorkLog> findByStartDate(Date startDate);
-
-    List<WorkLog> findByEndDate(Date endDate);
-
-    List<WorkLog> findByAmountOfTime(Long amountOfTime);
 
     Page<WorkLog> findAll(Pageable pageable);
 

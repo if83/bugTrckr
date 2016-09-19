@@ -25,23 +25,7 @@ public class IssueService {
         return issueRepository.findOne(id);
     }
 
-    public List<Issue> findByTitle(String title) {
-        return issueRepository.findByTitle(title);
-    }
-
-    public List<Issue> findByType(IssueType type) {
-        return issueRepository.findByType(type);
-    }
-
-    public List<Issue> findByStatus(IssueStatus status) {
-        return issueRepository.findByStatus(status);
-    }
-
-    public List<Issue> findByPriority(IssuePriority priority) {
-        return issueRepository.findByPriority(priority);
-    }
-
-    public List<IssueStatus> getAvaliableIssueStatusesForStatus(IssueStatus status) {
+    public List<IssueStatus> getAvaliableStatusesForStatus(IssueStatus status) {
         List<IssueStatus> result = new ArrayList<>();
         switch (status) {
             case OPEN:
@@ -69,15 +53,13 @@ public class IssueService {
         }
     }
 
-    public List<Issue> findByProjectRelease(ProjectRelease projectRelease) {
-        return issueRepository.findByProjectRelease(projectRelease);
-    }
-
+    @Transactional
     public Page<Issue> findByProjectRelease(ProjectRelease projectRelease, Pageable pageable) {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
     }
 
-    public Page<Issue> findByProjectReleaseAndTitleContaining(ProjectRelease projectRelease, String searchedString, Pageable pageable) {
+    @Transactional
+    public Page<Issue> findByReleaseAndIssueTitle(ProjectRelease projectRelease, String searchedString, Pageable pageable) {
         return issueRepository.findByProjectReleaseAndTitleContaining(projectRelease, searchedString, pageable);
     }
 
@@ -91,36 +73,8 @@ public class IssueService {
         return !(oldIssue.getAssignee().equals(changedIssue.getAssignee()));
     }
 
-    public List<Issue> findByAssignee(User assignee) {
-        return issueRepository.findByAssignee(assignee);
-    }
-
     public List<Issue> findByAssignee(User assignee, Pageable pageable) {
         return issueRepository.findByAssignee(assignee, pageable);
-    }
-
-    public List<Issue> findByLabels(Label label) {
-        return issueRepository.findByLabels(label);
-    }
-
-    public List<Issue> findByCreateTime(Date createTime) {
-        return issueRepository.findByCreateTime(createTime);
-    }
-
-    public List<Issue> findByDueDate(Date dueDate) {
-        return issueRepository.findByDueDate(dueDate);
-    }
-
-    public List<Issue> findByLastUpdateDate(Date lastUpdateDate) {
-        return issueRepository.findByLastUpdateDate(lastUpdateDate);
-    }
-
-    public List<Issue> findByEstimateTime(Date estimateTime) {
-        return issueRepository.findByEstimateTime(estimateTime);
-    }
-
-    public Issue findByParentId(Long parentId) {
-        return issueRepository.findByParentId(parentId);
     }
 
     public List<Issue> findAll() {
@@ -151,7 +105,8 @@ public class IssueService {
     }
 
     @Transactional
-    public Page<Issue> findByProjectId(Long projectId, Pageable pageable) {
-        return issueRepository.findByProjectId(projectId, pageable);
+    public Page<Issue> findByProject(Project project, Pageable pageable) {
+        return issueRepository.findByProject(project, pageable);
     }
+
 }

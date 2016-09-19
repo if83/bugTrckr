@@ -21,16 +21,8 @@ public class IssueCommentService {
         return issueCommentRepository.findOne(id);
     }
 
-    public List<IssueComment> findByUser(User user) {
-        return issueCommentRepository.findByUser(user);
-    }
-
     public List<IssueComment> findByIssue(Issue issue) {
         return issueCommentRepository.findByIssue(issue);
-    }
-
-    public List<IssueComment> findByTimeStamp(Date timeStamp) {
-        return issueCommentRepository.findByTimeStamp(timeStamp);
     }
 
     public List<IssueComment> findAll() {

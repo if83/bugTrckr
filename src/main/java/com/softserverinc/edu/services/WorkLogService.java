@@ -32,14 +32,6 @@ public class WorkLogService {
         return workLogRepository.findOne(id);
     }
 
-    public List<WorkLog> findByUser(User user) {
-        return workLogRepository.findByUser(user);
-    }
-
-    public Page<WorkLog> findByUser(User user, Pageable pageable) {
-        return workLogRepository.findByUser(user, pageable);
-    }
-
     public List<WorkLog> findByUserAndIssue(User user, Issue issue) {
         return workLogRepository.findByUserAndIssue(user, issue);
     }
@@ -50,18 +42,6 @@ public class WorkLogService {
 
     public Page<WorkLog> findByIssue(Issue issue, Pageable pageable) {
         return workLogRepository.findByIssue(issue, pageable);
-    }
-
-    public List<WorkLog> findByStartDate(Date startDate) {
-        return workLogRepository.findByStartDate(startDate);
-    }
-
-    public List<WorkLog> findByEndDate(Date endDate) {
-        return workLogRepository.findByStartDate(endDate);
-    }
-
-    public List<WorkLog> findByAmountOfTime(Long amountOfTime) {
-        return workLogRepository.findByAmountOfTime(amountOfTime);
     }
 
     public List<WorkLog> findAll() {

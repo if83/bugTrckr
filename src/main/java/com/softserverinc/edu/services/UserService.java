@@ -25,9 +25,6 @@ public class UserService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private IssueService issueService;
-
     @Transactional
     public User findOne(Long id) {
         return userRepository.findOne(id);
@@ -53,10 +50,7 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public List<User> findAllAvaliableForRelease(ProjectRelease release) {
-        return userRepository.findByProject(release.getProject());
-    }
-
+    @Transactional
     public User getProjectManagerOfProject(Project project) {
         return userRepository.findByProjectAndRoleIsAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false);
     }
@@ -75,13 +69,8 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable) {
+    public Page<User> findByProject(Project project, int enabled, Pageable pageable) {
         return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
-    }
-
-    @Transactional
-    public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
-        return userRepository.findByFirstNameOrLastName(firstName, lastName);
     }
 
     @Transactional
@@ -123,10 +112,6 @@ public class UserService {
     @PreAuthorize("hasRole('ADMIN') OR hasRole('PROJECT_MANAGER')")
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
-    }
-
-    public Long count() {
-        return userRepository.count();
     }
 
     @Transactional
