@@ -1,5 +1,6 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.Project;
@@ -74,7 +75,7 @@ public class UserController {
             puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
         else {
             Project project = projectService.findById(loggedUser.getProject().getId());
-            puser = userService.findByProjectAndIsDeletedFalseAndEnabledIs(project, 1, pageable);
+            puser = userService.findByProject(project, 1, pageable);
         }
 
         model.addAttribute("userList", puser);
@@ -176,7 +177,7 @@ public class UserController {
 
     @GetMapping(value = "/user/{id}/view")
     public String viewUser(@PathVariable("id") long id, Model model,
-                           @PageableDefault(value = 20) Pageable pageable,
+                           @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
                            Principal principal) {
 
         LOGGER.debug("viewUser() id: {}", id);
@@ -188,7 +189,7 @@ public class UserController {
         }
 
         Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
-        Page<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory, pageable);
+        Page<HistoryDto> allHistoryDto = historyService.convertToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
         return "userview";
     }

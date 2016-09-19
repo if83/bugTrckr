@@ -1,5 +1,6 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.User;
@@ -59,7 +60,8 @@ public class IssueController {
     private WorkLogService workLogService;
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
-    public String listOfIssues(Model model, @PageableDefault(value = 20) Pageable pageable, Principal principal) {
+    public String listOfIssues(Model model, @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable,
+                               Principal principal) {
         model.addAttribute("listOfIssues", issueService.findAll(pageable));
         model.addAttribute("userIssues", issueService
                 .findByAssignee((userService.findByEmail(principal.getName()).get(0)), pageable));
@@ -76,11 +78,11 @@ public class IssueController {
     }
 
     @GetMapping(value = "issue/{issueId}")
-    public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal, Pageable pageable) {
+    public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal,
+                            Pageable pageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
-        model.addAttribute("historyList", historyService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         workLogService.forNewWorkLogModel(model, issueId, principal, pageable);
         return "issue_view";
@@ -135,8 +137,10 @@ public class IssueController {
         Issue issue = issueService.findById(id);
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
-        model.addAttribute("statuses", issueService.getAvaliableIssueStatusesForStatus(issue.getStatus()));
-        model.addAttribute("users", userService.findUsersInProject(projectService.findById(issue.getProjectRelease().getProject().getId()), false, 1));
+        model.addAttribute("statuses", issueService.getAvaliableStatusesForStatus(issue.getStatus()));
+        model.addAttribute("users",
+                userService.findUsersInProject(projectService.findById(issue.getProjectRelease().getProject().getId()),
+                        false, 1));
         populateDefaultModel(model, issue, principal);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
@@ -169,10 +173,12 @@ public class IssueController {
             redirectAttributes.addFlashAttribute("msg", "Issue is added successfully!");
         } else {
             if (issueService.isStatusChanged(issue)) {
-                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
+                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue,
+                        changedByUser, getCurrentTime());
             }
             if (issueService.isAssigneeChanged(issue)) {
-                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
+                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue,
+                        changedByUser, getCurrentTime());
             }
             redirectAttributes.addFlashAttribute("msg", "Issue is updated successfully!");
             issueService.save(issue);
@@ -182,28 +188,30 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/issue/changeIssue", method = RequestMethod.POST)
-    public void changeIssueByAjax(@RequestParam("issueId") Long issueId,
-                                  @RequestParam("action") String action,
-                                  @RequestParam("inputData") String inputData,
+    public void changeIssueByAjax(@RequestParam Long issueId,
+                                  @RequestParam String action,
+                                  @RequestParam String inputData,
                                   Principal principal) {
         Issue issue = issueService.findById(issueId);
         User changedByUser = userService.findByEmailIs(principal.getName());
         if (action.equals("changeAssignee")) {
             issue.setAssignee(userService.findOne(Long.valueOf(inputData)));
             issue = issueService.save(issue);
-            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue, changedByUser, getCurrentTime());
+            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue,
+                    changedByUser, getCurrentTime());
         } else {
             issue.setStatus(IssueStatus.valueOf(inputData));
             issue = issueService.save(issue);
-            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue, changedByUser, getCurrentTime());
+            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue,
+                    changedByUser, getCurrentTime());
         }
     }
 
     @RequestMapping(value = "/getAvaliableIssueStatuses", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<IssueStatus> getAvaliableIssueStatuses(@RequestParam("selectedStatus") String selectedStatus) {
-        return issueService.getAvaliableIssueStatusesForStatus(IssueStatus.valueOf(selectedStatus));
+    List<IssueStatus> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
+        return issueService.getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus));
     }
 
     private void populateDefaultModel(Model model, Issue issue, Principal principal) {

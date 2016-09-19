@@ -1,5 +1,6 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
@@ -45,8 +46,11 @@ public class ProjectController {
     @Autowired
     private IssueService issueService;
 
+
     @GetMapping("/projects")
-    public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable, Principal principal) {
+    public String listOfProjects(ModelMap model,
+                                 @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
+                                 Principal principal) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
         if (principal != null) {
             model.addAttribute("loggedUser", userService.findByEmailIs(principal.getName()));
@@ -54,9 +58,9 @@ public class ProjectController {
         return "projects";
     }
 
-    @PostMapping(value = "projects/search")
+    @PostMapping("projects/search")
     public String projectSearchByTitle(@RequestParam String title, Model model,
-                                       @PageableDefault(value = 12) Pageable pageable) {
+                                       @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         model.addAttribute("listOfProjects", projectService.findByTitleContaining(title, pageable));
         return "projects";
     }
@@ -64,41 +68,48 @@ public class ProjectController {
     @PreAuthorize("isAuthenticated() or (isAnonymous() and @projectService.findById(#projectId).guestView)")
     @GetMapping("projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
-                              @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
-                              @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject,
-                              @Qualifier("issue") @PageableDefault(value = 12) Pageable pageableIssue) {
+            @Qualifier("release") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableRelease,
+            @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableUser,
+            @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
-        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageableProject));
         model.addAttribute("project", project);
+        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
-        model.addAttribute("listOfIssues", issueService.findByProjectId(projectId, pageableIssue));
+        model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
         return "project";
     }
 
     @PostMapping("/projects/project/{projectId}/users_search")
-    public String searchUsersWithoutProjects(@RequestParam String searchedParam, @RequestParam UserRole role,
-                                             @RequestParam String searchedString, @PathVariable Long projectId,
-                                             Model model, @PageableDefault(value = 12) Pageable pageable){
+    public String searchUsersWithoutProjects(@PathVariable("projectId") Long projectId, Model model,
+            @RequestParam String searchedParam,
+            @RequestParam UserRole role,
+            @RequestParam String searchedString,
+            @Qualifier("release") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableRelease,
+            @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableUser,
+            @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
-        model.addAttribute("releaseList", releaseService.findByProject(project, pageable));
         model.addAttribute("project", project);
         model.addAttribute("usersList", userService.searchByUsersInProject(project, searchedParam, role, searchedString,
-                pageable));
+                pageableUser));
+        model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
+        model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
         return "project";
     }
 
     @PostMapping("/projects/project/{projectId}/releases/search")
-    public String searchByReleaseTitle(@RequestParam String searchedString, @PathVariable Long projectId, Model model,
-                                       @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
-                                       @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject) {
+    public String searchByReleaseTitle(@PathVariable Long projectId,
+            @RequestParam String searchedString,
+            @Qualifier("release") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableRelease,
+            @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableUser,
+            @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue,
+            Model model) {
         Project project = projectService.findById(projectId);
-        model.addAttribute("releaseList", releaseService.searchByVersionNameContaining(project, searchedString,
-                pageableRelease));
-        model.addAttribute("usersList", userService.findUsersInProjectPageable(projectService.findById(projectId),
-                false, 1, pageableProject));
         model.addAttribute("project", project);
+        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageableUser));
+        model.addAttribute("releaseList", releaseService.searchByTitle(projectService.findById(projectId), searchedString, pageableRelease));
+        model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
         return "project";
     }
 
@@ -144,11 +155,11 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
+            "#projectId == @userService.findByEmail(#principal.getName()).get(0).getProject().getId())")
     @GetMapping("/projects/project/{projectId}/usersWithoutProject")
-    public String usersWithoutProject(@PathVariable @P("projectId") Long projectId, Model model,
-                                      @Param("principal") Principal principal,
-                                      @PageableDefault(value = 12) Pageable pageable){
+    public String usersWithoutProject(@PathVariable @P("projectId") Long projectId,
+                                      Model model, @Param("principal") Principal principal,
+                                      @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS)Pageable pageable){
         model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
         usersRolesInProject(model);
@@ -156,9 +167,10 @@ public class ProjectController {
     }
 
     @PostMapping("/projects/project/{projectId}/usersWithoutProject/search")
-    public String searchUsersWithoutProjects(@RequestParam String searchedParam, @RequestParam String searchedString,
-                                             @PathVariable Long projectId, Model model,
-                                             @PageableDefault(value = 12) Pageable pageable){
+    public String searchUsersWithoutProjects(@RequestParam String searchedParam,
+            @RequestParam String searchedString,
+            @PathVariable Long projectId, Model model,
+            @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         usersRolesInProject(model);
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("userList", userService.searchByUsersWithoutProject(searchedParam, searchedString,
@@ -170,8 +182,8 @@ public class ProjectController {
             "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
     @GetMapping("/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable Long userId, @PathVariable @P("projectId") Long projectId,
-                                        @Param("principal") Principal principal,
-                                        RedirectAttributes redirectAttributes) {
+            @Param("principal") Principal principal,
+            RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         userService.deleteFromProject(userId);
         redirectAttributes.addFlashAttribute("alert", "success");
