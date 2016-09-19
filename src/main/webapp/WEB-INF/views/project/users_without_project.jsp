@@ -22,10 +22,11 @@
 </div>
 
 <div class="row margin-top-20">
-    <div class="col-sm-8 col-sm-offset-2">
-        <div class="input-group">
-            <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST" class="form-inline">
-                <select class="form-control form-inline" style="width: auto" type="text" name="searchedParam">
+    <div class="form-inline col-sm-8 col-sm-offset-2">
+        <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST">
+            <div class="input-group form-inline col-xs-8">
+                <select class="selectpicker " data-width="25%" type="text" name="searchedParam">
+                    <option value="">Option</option>
                     <option value="Email">E-mail</option>
                     <option value="First Name">First Name</option>
                     <option value="Last Name">Last Name</option>
@@ -34,8 +35,8 @@
                                                      placeholder="Search...">
                 <button class="btn btn-default" type="submit">
                     <span class="glyphicon glyphicon-search"></span></button></span>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -62,21 +63,21 @@
                             <c:choose>
                                 <c:when test="${project.getUsers().isEmpty()}">
                                     <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                    ${user.id}/changeRole'/>" class="btn btn-primary btn-u">ADD PM</a>
+                                    ${user.id}/changeRole'/>" class="btn btn-default">ADD PM</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a type="button" class="btn btn-primary btn-u" data-toggle="modal"
+                                    <a type="button" class="btn btn-default" data-toggle="modal"
                                        data-target="#modalForm"
                                        href="<spring:url value='/projects/project/
                                        ${project.id}/usersWithoutProject/${user.id}/selectRole'/>"
-                                       class="btn btn-primary btn-u">ADD
+                                       class="btn btn-default">ADD
                                     </a>
                                 </c:otherwise>
                             </c:choose>
                         </td>
                         <td class="text-center">
                             <a href="<spring:url value='/user/${user.id}/view'/>"
-                               class="btn btn-primary btn-u">INFO</a>
+                               class="btn btn-default">INFO</a>
                         </td>
                     </tr>
                     <%--Modal form for selecting user role--%>

@@ -279,8 +279,8 @@
                                                         <h4 class="modal-title pull-left">Removal user from project</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Confirm the removal of ${user.firstName} ${user.lastName}
-                                                            from ${project.title}</p>
+                                                        <p class="text-center">Confirm the removal of ${user.firstName}
+                                                        ${user.lastName} from ${project.title}</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">
@@ -333,8 +333,25 @@
 
         <%--Table of issues in project--%>
         <div class="margin-top-30 col-sm-12">
-            <h3>Issues</h3>
-            <table class="table table-hover table-bordered margin-top-30">
+            <h3 class="margin-bottom-20">Issues</h3>
+            <div class="row users-panel">
+                <div class="col-sm-4">
+                    <%--Search form for issues in project--%>
+                    <form action="/projects/project/${project.id}/search_issues" method="POST">
+                        <div class="input-group">
+                            <input name="searchedString" type="text" class="form-control form-text" placeholder="Search By Issue's Title"/>
+                            <span class="input-group-btn"><button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
+                        </div>
+                    </form>
+                </div>
+                <%--add user button--%>
+                <div class="col-sm-1">
+                    <a href="<spring:url value='/issue/add/' />" class="btn btn-default pull-left">
+                        <i class="fa fa-plus icon-bg"></i>Add Issue</a>
+                </div>
+            </div>
+            <table class="table table-hover table-bordered margin-top-20">
                 <thead>
                 <tr>
                     <th class="text-center">Issue name</th>

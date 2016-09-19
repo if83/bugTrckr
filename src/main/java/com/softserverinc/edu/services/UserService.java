@@ -144,20 +144,19 @@ public class UserService {
             if (searchParam.equals("First Name")) {
                 return userRepository.findByProjectAndFirstNameContainingAndIsDeletedAndEnabledIs(project,
                         searchedString, false, 1, pageable);
-            }if(searchParam.equals("Last Name")){
+            } else if(searchParam.equals("Last Name")){
                 return userRepository.findByProjectAndLastNameContainingAndIsDeletedAndEnabledIs(project,
                         searchedString, false, 1, pageable);
             }
-            else return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, pageable);
+            else return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, false, 1, pageable);
         }
-        if (searchParam.equals("First Name")) {
+        else if (searchParam.equals("First Name")) {
             return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
                     searchedString, role, false, 1, pageable);
-        }if(searchParam.equals("Last Name")){
+        } else if(searchParam.equals("Last Name")){
             return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
                     searchedString, role, false, 1, pageable);
-        }
-        else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
+        } else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
     }
 
     @Transactional

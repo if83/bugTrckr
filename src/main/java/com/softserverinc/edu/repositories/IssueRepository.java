@@ -29,4 +29,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     Page<Issue> findAll(Pageable pageable);
 
     Page<Issue> findByProject(Project project, Pageable pageable);
+
+    Page<Issue> findByProjectAndTitleContaining(Project project, String searchedString, Pageable pageable);
 }
