@@ -191,6 +191,7 @@ public class UserController {
         Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
         Page<HistoryDto> allHistoryDto = historyService.convertToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
+        model.addAttribute("user", user);
         return "userview";
     }
 

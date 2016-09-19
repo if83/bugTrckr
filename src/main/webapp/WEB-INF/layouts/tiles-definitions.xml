@@ -33,7 +33,6 @@
             <add-attribute value="/js/menu.js"/>
             <add-attribute value="/js/bootstrap-select.min.js"/>
             <add-attribute value="/js/login.js"/>
-            <add-attribute value="/js/issue/issue_view.js"/>
         </put-list-attribute>
     </definition>
 
@@ -102,6 +101,7 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/issue/issue_view.js"/>
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
