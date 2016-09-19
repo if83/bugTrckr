@@ -132,31 +132,31 @@ VALUES ('user5', 'user5', 'user5@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9
 
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest1', 'guest1', 'guest1@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest1', 'guest1', 'guest1@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest1');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest2', 'guest2', 'guest2@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest2', 'guest2', 'guest2@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest2');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest3', 'guest3', 'guest3@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest3', 'guest3', 'guest3@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest3');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest4', 'guest4', 'guest4@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest4', 'guest4', 'guest4@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest4');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest5', 'guest5', 'guest5@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest5', 'guest5', 'guest5@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest5');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest6', 'guest6', 'guest6@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest6', 'guest6', 'guest6@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest6');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('guest7', 'guest7', 'guest7@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_GUEST',
+  ('guest7', 'guest7', 'guest7@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest7');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
 VALUES

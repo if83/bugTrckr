@@ -5,9 +5,7 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
-import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
-import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,12 +57,14 @@ public class IssueController {
     @Autowired
     private WorkLogService workLogService;
 
-    @RequestMapping(value = "/issue", method = RequestMethod.GET)
+    @GetMapping(value = "/issue")
     public String listOfIssues(Model model, @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable,
                                Principal principal) {
         model.addAttribute("listOfIssues", issueService.findAll(pageable));
-        model.addAttribute("userIssues", issueService
-                .findByAssignee((userService.findByEmail(principal.getName()).get(0)), pageable));
+        if (principal != null) {
+            model.addAttribute("userIssues", issueService
+                    .findByAssignee((userService.findByEmail(principal.getName()).get(0)), pageable));
+        }
         LOGGER.debug("Issue list controller");
         return "issue";
     }
@@ -73,7 +73,13 @@ public class IssueController {
     public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model,
                                      Pageable pageable, Issue issue, Principal principal) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
-        populateDefaultModel(model, issue, principal);
+        issueService.populateDefaultModel(model);
+        if (principal != null) {
+            issueService.checkForProjectExistence(model, issue, principal);
+        } else {
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("projectReleases", projectReleaseService.findAll());
+        }
         return "issue";
     }
 
@@ -83,7 +89,9 @@ public class IssueController {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
-        model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        if (principal != null) {
+            model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        }
         workLogService.forNewWorkLogModel(model, issueId, principal, pageable);
         return "issue_view";
     }
@@ -111,7 +119,7 @@ public class IssueController {
             "== @issueService.findById(#id).getProject().getId() and " +
             "@userService.findByEmail(#principal.getName()).get(0).getId() " +
             "== @issueService.findById(#id).getAssignee().getId()")
-    @RequestMapping(value = "/issue/{id}/remove", method = RequestMethod.GET)
+    @GetMapping(value = "/issue/{id}/remove")
     public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes,
                               @Param("principal") Principal principal) {
         this.issueService.delete(id);
@@ -130,7 +138,7 @@ public class IssueController {
             "== @issueService.findById(#id).getProject().getId() and" +
             "@userService.findByEmail(#principal.getName()).get(0).getId()" +
             "== @issueService.findById(#id).getAssignee().getId()")
-    @RequestMapping(value = "/issue/{id}/edit", method = RequestMethod.GET)
+    @GetMapping(value = "/issue/{id}/edit")
     public String editIssue(@PathVariable @P("id") long id, Model model,
                             RedirectAttributes redirectAttrs, @Param("principal") Principal principal) {
         model.addAttribute("issue", this.issueService.findById(id));
@@ -138,18 +146,27 @@ public class IssueController {
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableStatusesForStatus(issue.getStatus()));
-        model.addAttribute("users",
-                userService.findUsersInProject(projectService.findById(issue.getProjectRelease().getProject().getId()),
-                        false, 1));
-        populateDefaultModel(model, issue, principal);
+        issueService.populateDefaultModel(model);
+        if (principal != null) {
+            issueService.checkForProjectExistence(model, issue, principal);
+        } else {
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("projectReleases", projectReleaseService.findAll());
+        }
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
     }
 
-    @RequestMapping(value = "/issue/add", method = RequestMethod.GET)
+    @GetMapping(value = "/issue/add")
     public String addIssue(Model model, Principal principal) {
         Issue issue = new Issue();
-        populateDefaultModel(model, issue, principal);
+        issueService.populateDefaultModel(model);
+        if (principal != null) {
+            issueService.checkForProjectExistence(model, issue, principal);
+        } else {
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("projectReleases", projectReleaseService.findAll());
+        }
         model.addAttribute("sampleDate", new Date());
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "new");
@@ -157,11 +174,17 @@ public class IssueController {
         return "issue_form";
     }
 
-    @RequestMapping(value = "/issue/add", method = RequestMethod.POST)
+    @PostMapping(value = "/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = userService.findByEmailIs(principal.getName());
-        populateDefaultModel(model, issue, principal);
+        issueService.populateDefaultModel(model);
+        if (principal != null) {
+            issueService.checkForProjectExistence(model, issue, principal);
+        } else {
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("projectReleases", projectReleaseService.findAll());
+        }
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");
             return "issue_form";
@@ -187,7 +210,7 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    @RequestMapping(value = "/issue/changeIssue", method = RequestMethod.POST)
+    @PostMapping(value = "/issue/changeIssue")
     public void changeIssueByAjax(@RequestParam Long issueId,
                                   @RequestParam String action,
                                   @RequestParam String inputData,
@@ -207,27 +230,13 @@ public class IssueController {
         }
     }
 
-    @RequestMapping(value = "/getAvaliableIssueStatuses", method = RequestMethod.POST)
+    @PostMapping(value = "/getAvaliableIssueStatuses")
     public
     @ResponseBody
     List<IssueStatus> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
         return issueService.getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus));
     }
 
-    private void populateDefaultModel(Model model, Issue issue, Principal principal) {
-        if (userService.findByEmail(principal.getName()).get(0).getProject() == null){
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("projectReleases", projectReleaseService.findAll());
-        } else {
-            issue.setProject(userService.findByEmail(principal.getName()).get(0).getProject());
-            model.addAttribute("users", userService.findUsersInProject(issue.getProject(), false, 1));
-            model.addAttribute("projectReleases", projectReleaseService.findByProject(issue.getProject()));
-        }
-        model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("types", IssueType.values());
-        model.addAttribute("priority", IssuePriority.values());
-        model.addAttribute("allLabels", labelService.findAll());
-    }
 
     private IssueComment getNewIssueComment(Principal principal, Long issueId) {
         IssueComment issueComment = new IssueComment();

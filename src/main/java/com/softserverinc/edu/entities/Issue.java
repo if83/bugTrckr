@@ -77,7 +77,8 @@ public class Issue {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date lastUpdateDate;
 
-    @Column
+    @NotNull(message = "Please enter estimated time")
+    @Column(nullable = false)
     private Long estimateTime;
 
     @Column

@@ -35,8 +35,10 @@
 </c:if>
 
 <div class="col-sm-2 col-sm-offset-1">
-    <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u pull-left">
-        <i class="fa fa-plus icon-bg-u"></i>Add Issue</a>
+    <sec:authorize access="isAuthenticated()">
+        <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u pull-left">
+            <i class="fa fa-plus icon-bg-u"></i>Add Issue</a>
+    </sec:authorize>
 </div>
 
 <div class="col-sm-4 col-sm-offset-1">
@@ -77,19 +79,23 @@
                     <th class="text-center">Release version</th>
                     <th class="text-center">Assigned User</th>
                     <th class="text-center">Estimate time, hrs</th>
+                    <sec:authorize access="isAuthenticated()">
                     <th class="text-center">Actions</th>
+                    </sec:authorize>
                 </tr>
 
                 </thead>
                 <c:forEach var="issue" items="${listOfIssues.content}">
                     <sec:authorize access="hasAnyRole('ADMIN', 'DEVELOPER', 'QA', 'PROJECT_MANAGER', 'USER')
-            or hasRole('GUEST') and ${issue.project.guestView}">
+            or hasRole('ANONYMOUS') and ${issue.project.guestView}">
                         <tr>
                             <td class="text-center">
-                                <a class="viewLink"
-                                   href="<spring:url value='issue/${issue.id}'/>">
-                                        ${issue.title}
-                                </a>
+
+                                    <a class="viewLink"
+                                       href="<spring:url value='issue/${issue.id}'/>">
+                                            ${issue.title}
+                                    </a>
+
                             </td>
                             <td class="text-center"><c:out value="${issue.type}"/></td>
                             <td class="text-center"><c:out value="${issue.priority}"/></td>
