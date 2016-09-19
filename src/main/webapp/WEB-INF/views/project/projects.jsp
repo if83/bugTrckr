@@ -32,27 +32,22 @@
     </div>
 </c:if>
 
-<%--Button for adding project--%>
-<sec:authorize access="hasRole('ADMIN')">
-    <div class="row margin-top-20">
-        <div class="col-sm-2 col-sm-offset-2">
-            <a href="<spring:url value='/projects/add/' />" class="btn btn-primary btn-u pull-left">
-                <i class="fa fa-plus icon-bg-u"></i>Add Project</a>
-        </div>
-    </div>
-</sec:authorize>
-
 <%--Searching projects by title --%>
-<div class="row margin-top-20">
-    <div class="col-sm-3 col-sm-offset-2">
-        <form action="/search" method="POST">
-            <div class="input-group">
-                <input name="title" type="text" class="form-control form-text" placeholder="Search By Project's Title"/>
+<div class="row margin-top-20 col-sm-12">
+    <form action="/projects/search" method="POST" class="col-sm-3 col-sm-offset-2">
+        <div class="input-group">
+            <input name="title" type="text" class="form-control form-text" placeholder="Search By Project's Title"/>
             <span class="input-group-btn"><button type="submit" class="btn btn-default">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
+    <%--Button for adding project--%>
+    <sec:authorize access="hasRole('ADMIN')">
+        <div class="col-sm-2 ">
+            <a href="<spring:url value='/projects/add/' />" class="btn btn-default">
+                </i>Add Project</a>
+        </div>
+    </sec:authorize>
 </div>
 
 <%--Table of projects--%>

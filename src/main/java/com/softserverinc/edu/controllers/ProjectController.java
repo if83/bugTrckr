@@ -45,7 +45,7 @@ public class ProjectController {
     @Autowired
     private IssueService issueService;
 
-    @GetMapping(value = "/projects")
+    @GetMapping("/projects")
     public String listOfProjects(ModelMap model, @PageableDefault(value = 12) Pageable pageable, Principal principal) {
         model.addAttribute("listOfProjects", projectService.findAll(pageable));
         if (principal != null) {
@@ -54,15 +54,15 @@ public class ProjectController {
         return "projects";
     }
 
-    @PostMapping(value = "/search")
-    public String projectSearchByTitle(@RequestParam(value = "title") String title, Model model,
+    @PostMapping(value = "projects/search")
+    public String projectSearchByTitle(@RequestParam String title, Model model,
                                        @PageableDefault(value = 12) Pageable pageable) {
         model.addAttribute("listOfProjects", projectService.findByTitleContaining(title, pageable));
         return "projects";
     }
 
     @PreAuthorize("isAuthenticated() or (isAnonymous() and @projectService.findById(#projectId).guestView)")
-    @GetMapping(value = "projects/project/{projectId}")
+    @GetMapping("projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
                               @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
                               @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject,
@@ -76,12 +76,10 @@ public class ProjectController {
         return "project";
     }
 
-    @PostMapping(value = "/projects/project/{projectId}/users_search")
-    public String searchUsersWithoutProjects(@RequestParam(value = "searchedParam") String searchedParam,
-                                             @RequestParam(value = "role") UserRole role,
-                                             @RequestParam(value = "searchedString") String searchedString,
-                                             @PathVariable("projectId") Long projectId, Model model,
-                                             @PageableDefault(value = 12) Pageable pageable){
+    @PostMapping("/projects/project/{projectId}/users_search")
+    public String searchUsersWithoutProjects(@RequestParam String searchedParam, @RequestParam UserRole role,
+                                             @RequestParam String searchedString, @PathVariable Long projectId,
+                                             Model model, @PageableDefault(value = 12) Pageable pageable){
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
         model.addAttribute("releaseList", releaseService.findByProject(project, pageable));
@@ -91,30 +89,29 @@ public class ProjectController {
         return "project";
     }
 
-    @RequestMapping(value = "/projects/project/{projectId}/releases/search", method = RequestMethod.POST)
-    public String searchByReleaseTitle(@RequestParam(value = "searchedString") String searchedString,
-                                       @PathVariable("projectId") Long projectId,
-                                       Model model,
+    @PostMapping("/projects/project/{projectId}/releases/search")
+    public String searchByReleaseTitle(@RequestParam String searchedString, @PathVariable Long projectId, Model model,
                                        @Qualifier("release") @PageableDefault(value = 12) Pageable pageableRelease,
                                        @Qualifier("project") @PageableDefault(value = 12) Pageable pageableProject) {
-        Page<ProjectRelease> pageableReleases = releaseService.searchByVersionNameContaining(projectService.findById(projectId), searchedString, pageableRelease);
-        model.addAttribute("releaseList", pageableReleases);
+        Project project = projectService.findById(projectId);
+        model.addAttribute("releaseList", releaseService.searchByVersionNameContaining(project, searchedString,
+                pageableRelease));
         model.addAttribute("usersList", userService.findUsersInProjectPageable(projectService.findById(projectId),
                 false, 1, pageableProject));
-        model.addAttribute("project", projectService.findById(projectId));
+        model.addAttribute("project", project);
         return "project";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(value = "/projects/add")
+    @GetMapping("/projects/add")
     public String addProject(Model model) {
         model.addAttribute("project", new Project());
         model.addAttribute("formaction", "new");
         return "project_form";
     }
 
-    @PostMapping(value = "/projects/add")
-    public String addProjectPost(@ModelAttribute("project") @Valid Project project, BindingResult result,
+    @PostMapping("/projects/add")
+    public String addProjectPost(@ModelAttribute @Valid Project project, BindingResult result,
                                  RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("alert", "success");
         if(result.hasErrors()) {
@@ -131,17 +128,15 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(value = "/projects/{id}/remove")
+    @GetMapping("/projects/{id}/remove")
     public String removeProject(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         projectService.delete(id);
-        redirectAttributes.addFlashAttribute("alert", "success");
-        redirectAttributes.addFlashAttribute("msg", "Project was deleted!");
-        return "redirect:/projects";
+        return "redirect: /projects";
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
             "#id == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
-    @GetMapping(value = "/projects/{id}/edit")
+    @GetMapping("/projects/{id}/edit")
     public String editProject(@PathVariable @P("id") Long id, Model model, @Param("principal") Principal principal) {
         model.addAttribute("project", projectService.findById(id));
         model.addAttribute("formaction", "edit");
@@ -150,20 +145,19 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
             "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
-    @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject")
-    public String usersWithoutProject(@PathVariable @P("projectId") Long projectId,
-                                      Model model, @Param("principal") Principal principal,
-                                      @PageableDefault(value = 12)Pageable pageable){
+    @GetMapping("/projects/project/{projectId}/usersWithoutProject")
+    public String usersWithoutProject(@PathVariable @P("projectId") Long projectId, Model model,
+                                      @Param("principal") Principal principal,
+                                      @PageableDefault(value = 12) Pageable pageable){
         model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
         usersRolesInProject(model);
         return "users_without_project";
     }
 
-    @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/search")
-    public String searchUsersWithoutProjects(@RequestParam(value = "searchedParam") String searchedParam,
-                                             @RequestParam(value = "searchedString") String searchedString,
-                                             @PathVariable("projectId") Long projectId, Model model,
+    @PostMapping("/projects/project/{projectId}/usersWithoutProject/search")
+    public String searchUsersWithoutProjects(@RequestParam String searchedParam, @RequestParam String searchedString,
+                                             @PathVariable Long projectId, Model model,
                                              @PageableDefault(value = 12) Pageable pageable){
         usersRolesInProject(model);
         model.addAttribute("project", projectService.findById(projectId));
@@ -174,7 +168,7 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
             "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
-    @GetMapping(value = "/projects/project/{projectId}/removeUser/{userId}")
+    @GetMapping("/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable Long userId, @PathVariable @P("projectId") Long projectId,
                                         @Param("principal") Principal principal,
                                         RedirectAttributes redirectAttributes) {
@@ -188,8 +182,8 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
             "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
-    @GetMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
-    public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable("userId") Long userId,
+    @GetMapping("/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
+    public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable Long userId,
                                     @Param("principal") Principal principal, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
@@ -206,10 +200,10 @@ public class ProjectController {
         return "redirect:/projects/project/" + projectId;
     }
 
-    @PostMapping(value = "/projects/project/{projectId}/usersWithoutProject/{userId}/selectRole")
+    @PostMapping("/projects/project/{projectId}/usersWithoutProject/{userId}/selectRole")
     public String selectUserRole(@ModelAttribute("role") UserRole role,
-                                     @PathVariable Long projectId, @PathVariable("userId") Long userId,
-                                     RedirectAttributes redirectAttributes) {
+                                 @PathVariable Long projectId, @PathVariable Long userId,
+                                 RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
         redirectAttributes.addFlashAttribute("alert", "success");

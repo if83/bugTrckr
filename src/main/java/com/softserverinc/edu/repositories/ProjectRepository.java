@@ -15,17 +15,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Page<Project> findByTitleContaining(String title, Pageable pageable);
 
-    List<Project> findByTitle(String title);
-
-    List<Project> findByUsers(User user);
-
-    Project findByProjectReleases(ProjectRelease projectRelease);
-
-    List<Project> findByGuestView(Boolean guestView);
-
-    List<Project> findByGuestCreateIssues(Boolean guestCreateIssues);
-
-    List<Project> findByGuestAddComment(Boolean guestAddComment);
-
     Page<Project> findAll(Pageable pageable);
 }
