@@ -10,6 +10,7 @@ import com.softserverinc.edu.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
@@ -85,14 +86,14 @@ public class IssueController {
 
     @GetMapping(value = "issue/{issueId}")
     public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal,
-                            Pageable pageable) {
+                            @Qualifier("worklog") Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
         if (principal != null) {
             model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         }
-        workLogService.forNewWorkLogModel(model, issueId, principal, pageable);
+        workLogService.forNewWorkLogModel(model, issueId, principal, workLogPageable);
         return "issue_view";
     }
 
@@ -102,12 +103,12 @@ public class IssueController {
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("workLogId") Long workLogId,
                                        ModelMap model, Principal principal,
-                                       Pageable pageable) {
+                                       @Qualifier("worklog") Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
-        workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, pageable);
+        workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, workLogPageable);
         return "issue_view";
     }
 

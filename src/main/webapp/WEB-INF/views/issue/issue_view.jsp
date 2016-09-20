@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 
 <div class="breadcrumbs">
@@ -190,11 +191,11 @@
                 </div>
             </div>
 
-            <%--worklog features--%>
+                <%--worklog features--%>
             <div role="tabpanel" class="tab-pane fade" id="tabs-worklog">
-                <div class="margin-top-10">
+                <div class="margin-top-10 text-center">
                 <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
-                    <button class="workLogButton btn-u row">Add entry</button>
+                    <button class="workLogToggler btn-u row text-center">Add entry</button>
                 </sec:authorize>
                 </div>
                 <div class="margin-top-10" id="workLogTable">
@@ -259,7 +260,7 @@
                                         </c:choose>
                                         <ul class="pagination">
                                             <li>
-                                                <a href="<spring:url value='${paginationLink}?page=0'/>"
+                                                <a href="<spring:url value='${paginationLink}?worklog_page=0'/>"
                                                    aria-label="Start">
                                                     <span aria-hidden="true">&laquo;</span>
                                                 </a>
@@ -267,11 +268,11 @@
                                             <c:forEach var="page" begin="0"
                                                        end="${workLogsOfCurrentIssueByAllUsers.getTotalPages() - 1}">
                                                 <li>
-                                                    <a href="<spring:url value='${paginationLink}?page=${page}'/>">${page + 1}</a>
+                                                    <a href="<spring:url value='${paginationLink}?worklog_page=${page}'/>">${page + 1}</a>
                                                 </li>
                                             </c:forEach>
                                             <li>
-                                                <a href="<spring:url value='${paginationLink}?page=${workLogsOfCurrentIssueByAllUsers.getTotalPages() - 1}'/>"
+                                                <a href="<spring:url value='${paginationLink}?worklog_page=${workLogsOfCurrentIssueByAllUsers.getTotalPages() - 1}'/>"
                                                    aria-label="End">
                                                     <span aria-hidden="true">&raquo;</span>
                                                 </a>
@@ -323,8 +324,9 @@
                             <form:hidden path="user"/>
                             <form:hidden path="issue"/>
                             <form:hidden path="id"/>
-                            <div class="col-sm-10 col-sm-offset-1">
-                                <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right"/>
+                            <div class="col-sm-10 col-sm-offset-1" id="workLogButtons">
+                                <span><button id="workLogCancelButton" class="hidden">Cancel</button>
+                                <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right" id="workLogSubmitButton"/></span>
                             </div>
                         </form:form>
                     </sec:authorize>

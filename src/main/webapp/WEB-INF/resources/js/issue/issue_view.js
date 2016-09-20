@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    
+
     var location = window.location.href;
-    
+
     //styles for work log paginating
-    if(location.indexOf("?page=") > 0) {
+    if(location.indexOf("?worklog_page=") > 0) {
         $("#tab-comments").removeClass("active");
         $("#tabs-comments").removeClass("active");
         $("#tab-worklog").addClass("active");
@@ -16,24 +16,31 @@ $(document).ready(function () {
         $("#tabs-comments").removeClass("active");
         $("#tab-worklog").addClass("active");
         $("#tabs-worklog").addClass("in active");
+        $("#workLogTable").hide();
+        $("#workLogForm").removeClass("hidden").addClass("active");
+        $(".workLogToggler").hide();
+        $("#workLogCancelButton").removeClass("hidden").addClass("margin-top-30 btn-u").click(function(){
+            history.back()});
+        $("#workLogSubmitButton").removeClass("pull-right");
+        $("#workLogButtons").removeClass("col-sm-10 col-sm-offset-1").addClass("col-sm-5 col-sm-offset-5");
     }
 
     // work log list/form toggler
-    $(".workLogButton").click(function() {
+    $(".workLogToggler").click(function() {
         if ($("#workLogTable").hasClass("margin-top-10"))
             $("#workLogForm").fadeIn(),
                 $("#workLogTable").fadeOut(),
                 $("#workLogTable").removeClass("margin-top-10").addClass("hidden"),
                 $("#workLogForm").removeClass("hidden").addClass("margin-top-10"),
-                $(".workLogButton").text("Back to list");
+                $(".workLogToggler").text("Back to list");
         else  $("#workLogTable").fadeIn(),
             $("#workLogTable").removeClass("hidden").addClass("margin-top-10"),
             $("#workLogForm").removeClass("margin-top-10").addClass("hidden"),
             $("#workLogForm").fadeOut(),
-            $(".workLogButton").text("Add entry");
+            $(".workLogToggler").text("Add entry");
     });
 
     //redirect message hide
     $("#redirectMessage").show(0).delay(2000).hide(1500);
-    
+
 });
