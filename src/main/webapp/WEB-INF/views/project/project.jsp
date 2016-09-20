@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-12">
             <h2 class="col-sm-offset-1 pull-left">${project.title}
-                <sec:authorize access="hasRole('ADMIN') or hasRole('PROJECT_MANAGER')">
+                <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
                     <small><a class="viewLink" href="<spring:url value='/projects/${project.id}/edit'/>">[edit]</a>
                     </small>
                 </sec:authorize>
@@ -334,7 +334,7 @@
                 </div>
                 <%--add issue button--%>
                 <div class="col-sm-1">
-                    <sec:authorize access="isAnonymous() and ${project.guestCreateIssues}">
+                    <sec:authorize access="isAuthenticated() or (isAnonymous() and ${project.guestCreateIssues})">
                         <a href="<spring:url value='/issue/add/' />" class="btn btn-default pull-left">
                             <i class="fa fa-plus icon-bg"></i>Add Issue</a>
                     </sec:authorize>

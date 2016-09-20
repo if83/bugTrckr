@@ -53,7 +53,7 @@
                     <a>
                         <form action="/contentSearch" method="POST" class="form-inline">
                             <input class="form-control" type="text" placeholder="Search">
-                            <button class="btn btn-u pull-right" type="submit">Search</button>
+                            <button class="btn btn-default pull-right" type="submit">Search</button>
                         </form>
                     </a>
                 </li>
@@ -62,8 +62,8 @@
                     <sec:authorize access="isAnonymous()">
                         <!-- Button trigger login form -->
                         <a>
-                            <button type="button" class="btn btn-u pull-right" data-toggle="modal"
-                                    data-target="#loginFormModal">Log in
+                            <button type="button" class="btn btn-default pull-right" data-toggle="modal"
+                                    data-target="#loginFormModal"> Log in
                             </button>
                         </a>
                     </sec:authorize>
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="form-group margin-bottom-40">
                                         <div class="controls pull-right">
-                                            <button type="submit" class="btn-u pull-right" id="login"><i
+                                            <button type="submit" class="btn btn-default pull-right" id="login"><i
                                                     class="glyphicon glyphicon-log-in"></i> Log in
                                             </button>
                                         </div>
@@ -110,10 +110,9 @@
                             </div>
                         </div>
                     </div>
-                    <sec:authorize
-                            access="isAuthenticated()">
+                    <sec:authorize access="isAuthenticated()">
                         <a href="<spring:url value='/logout'/>">
-                            <button type="button" class="btn btn-u pull-right">
+                            <button type="button" class="btn btn-default pull-right">
                                 Logout
                             </button>
                         </a>

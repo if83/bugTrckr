@@ -62,7 +62,7 @@
                 <tr>
                     <td class="text-center">
                         <sec:authorize access="!isAnonymous()">
-                            <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
+                            <a class="viewLink" href="<spring:url value='/projects/project/${project.id}'/>">
                                 <c:out value="${project.title}"/></a>
                         </sec:authorize>
                         <sec:authorize access="isAnonymous()">
@@ -71,7 +71,7 @@
                                     <i class="fa fa-lock icon-table-u"></i> <c:out value="${project.title}"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
+                                    <a class="viewLink" href="<spring:url value='/projects/project/${project.id}'/>">
                                         <c:out value="${project.title}"/></a>
                                 </c:otherwise>
                             </c:choose>
@@ -109,6 +109,7 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
+                    <%--Acces to editing of own PM's project--%>
                     <sec:authorize access="hasRole('PROJECT_MANAGER')">
                         <c:choose>
                             <c:when test="${project == loggedUser.getProject()}">
@@ -129,8 +130,6 @@
                             <a href="<spring:url value='/projects/${project.id}/edit' />">
                                 <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                         </td>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ADMIN')">
                         <td class="text-center">
                             <a data-toggle="modal" data-target="#removeModal${project.id}">
                                 <i class="fa fa-trash fa-lg icon-table-u"></i></a>

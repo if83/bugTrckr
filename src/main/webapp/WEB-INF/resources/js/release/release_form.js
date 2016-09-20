@@ -1,4 +1,9 @@
 $(function () {
+
+    CKEDITOR.replace('editor1', {
+        toolbar: 'Basic'
+    });
+    
     $("#release").validate({
         rules: {
             "version": {

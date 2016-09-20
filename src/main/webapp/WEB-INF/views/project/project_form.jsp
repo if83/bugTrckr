@@ -71,7 +71,7 @@
         </spring:bind>
 
         <div class="col-sm-10 col-sm-offset-1">
-            <button type="submit" class="margin-top-30 btn-u pull-right" data-toggle="modal"
+            <button type="submit" class="margin-top-30 btn btn-default pull-right" data-toggle="modal"
                     data-target="#projectCreatingModal">${buttonname}
             </button>
         </div>

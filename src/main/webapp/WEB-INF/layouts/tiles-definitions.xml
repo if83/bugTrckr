@@ -113,6 +113,7 @@
         <put-attribute name="content" value="/WEB-INF/views/project/projects.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
+            <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/project/project.js"/>

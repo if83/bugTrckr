@@ -61,7 +61,7 @@ public class ProjectController {
         return "projects";
     }
 
-    @PreAuthorize("isAuthenticated() or (isAnonymous() and @projectService.findById(#projectId).guestView)")
+    @PreAuthorize("@projectSecurityService.hasPermissionToViewProject(#projectId)")
     @GetMapping("projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
             @Qualifier("release") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableRelease,
@@ -152,9 +152,9 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-    @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
+   @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
     @GetMapping("/projects/{id}/edit")
-    public String editProject(@PathVariable @P("id") Long id, Model model) {
+    public String editProject(@PathVariable @P("projectId") Long id, Model model) {
         model.addAttribute("project", projectService.findById(id));
         model.addAttribute("formaction", "edit");
         return "project_form";
@@ -181,8 +181,7 @@ public class ProjectController {
         return "users_without_project";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
+    @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
     @GetMapping("/projects/project/{projectId}/removeUser/{userId}")
     public String removeUserFromProject(@PathVariable Long userId, @PathVariable @P("projectId") Long projectId,
                                         @Param("principal") Principal principal,
