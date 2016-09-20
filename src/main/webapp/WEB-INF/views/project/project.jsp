@@ -65,7 +65,7 @@
                 <tr>
                     <th class="text-center">Version</th>
                     <th class="text-center">Status</th>
-                    <sec:authorize access="@projectSecurityService.hasPermissionToEditProject(${project.id})">
+                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
                         <th class="text-center">Actions</th>
                     </sec:authorize>
                 </tr>
@@ -84,7 +84,7 @@
                             </sec:authorize>
                         </td>
                         <td class="text-center">${rel.releaseStatus.toString()}</td>
-                        <sec:authorize access="@projectSecurityService.hasPermissionToEditProject(${project.id})">
+                        <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
                             <td class="text-center">
                                 <a href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
                                         class="fa fa-edit fa-lg icon-table-u"></i></a>

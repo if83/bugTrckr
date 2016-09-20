@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <%--issues table--%>
-                <table class="table-issues table table-hover table-bordered">
+                <table class="table-issues table table-hover table-bordered text-center">
                     <thead>
                     <tr>
                         <th>Title</th>
@@ -85,28 +85,49 @@
                             <input name="issueId" type="hidden" value="${issue.id}"/>
                             <input name="issueTitle" type="hidden" value="${issue.title}"/>
                             <td>
-                                <a class="viewLink" href="<spring:url value='/issue/${issue.id}'/>">${issue.title}</a>
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    <a class="viewLink" href="<spring:url value='/issue/${issue.id}'/>">${issue.title}</a>
+                                </sec:authorize>
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    ${issue.title}
+                                </sec:authorize>
                             </td>
                             <td>
-                                <select class="statuses-dropdown selectpicker" data-width="100%">
-                                    <option selected="selected"
-                                            value="${issue.status}">${issue.status.toString()}</option>
-                                </select>
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    <select class="statuses-dropdown selectpicker" data-width="100%">
+                                        <option selected="selected"
+                                                value="${issue.status}">${issue.status.toString()}</option>
+                                    </select>
+                                </sec:authorize>
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    ${issue.status.toString()}
+                                </sec:authorize>
                             </td>
                             <td>
-                                <select class="users-dropdown selectpicker" data-live-search="true" data-width="100%">
-                                    <option selected="selected"
-                                            value="${issue.assignee.id}">${issue.assignee.firstName} ${issue.assignee.lastName}</option>
-                                    <c:forEach var="user" items="${users}">
-                                        <option value="${user.id}">${user.firstName} ${user.lastName}</option>
-                                    </c:forEach>
-                                </select>
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    <select class="users-dropdown selectpicker" data-live-search="true" data-width="100%">
+                                        <option selected="selected"
+                                                value="${issue.assignee.id}">${issue.assignee.firstName} ${issue.assignee.lastName}</option>
+                                        <c:forEach var="user" items="${users}">
+                                            <option value="${user.id}">${user.firstName} ${user.lastName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </sec:authorize>
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    ${issue.assignee.firstName} ${issue.assignee.lastName}
+                                </sec:authorize>
                             </td>
                             <td>
-                                <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
-                                        class="fa fa-edit fa-lg icon-table-u"></i></a>
-                                <a href="" data-toggle="modal" data-target="#removeIssueBtn-${issue.id}"><i
-                                        class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
+                                            class="fa fa-edit fa-lg icon-table-u"></i></a>
+                                    <a href="" data-toggle="modal" data-target="#removeIssueBtn-${issue.id}"><i
+                                            class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                </sec:authorize>
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    <i class="fa fa-edit fa-lg"></i>
+                                    <i class="fa fa-trash fa-lg"></i>
+                                </sec:authorize>
                                 <!-- Modal for confirmation remove issue from release-->
                                 <div class="modal fade" id="removeIssueBtn-${issue.id}" tabindex="-1"
                                      role="dialog" aria-labelledby="myModalLabel">

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 
 @Service
-public class ReleaseSecurityService {
+public class ReleaseSecurityService extends BasicSecurityService {
 
     @Autowired
     private ProjectReleaseService releaseService;
@@ -24,15 +24,15 @@ public class ReleaseSecurityService {
     }
 
     public boolean hasPermissionToAddRelease(Long currentProjectId) {
-        return projectSecurityService.hasPermissionToEditProject(currentProjectId);
+        return projectSecurityService.hasPermissionToProjectManagement(currentProjectId);
     }
 
     public boolean hasPermissionToEditRelease(Long currentReleasetId) {
-        return projectSecurityService.hasPermissionToEditProject(releaseService.findById(currentReleasetId).getProject().getId());
+        return projectSecurityService.hasPermissionToProjectManagement(releaseService.findById(currentReleasetId).getProject().getId());
     }
 
     public boolean hasPermissionToRemoveRelease(Long currentReleasetId) {
-        return projectSecurityService.hasPermissionToEditProject(releaseService.findById(currentReleasetId).getProject().getId());
+        return projectSecurityService.hasPermissionToProjectManagement(releaseService.findById(currentReleasetId).getProject().getId());
     }
 
 }
