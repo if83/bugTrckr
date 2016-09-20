@@ -17,6 +17,14 @@ public class ProjectSecurityService {
     @Autowired
     private ProjectService projectService;
 
+    public boolean hasPermissionToProjectManagement(Long currentProjectId) {
+        if (getActiveUserRole().isAdmin() ||
+                (getActiveUserRole().isProjectManager() && getActiveUser().getProject().getId()==currentProjectId)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean hasPermissionToViewProject(Long currentProjectId) {
         if (getActiveUserRole().isAdmin()
                 || getActiveUserRole().isProjectManager()

@@ -152,20 +152,17 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#id == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
+    @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
     @GetMapping("/projects/{id}/edit")
-    public String editProject(@PathVariable @P("id") Long id, Model model, @Param("principal") Principal principal) {
+    public String editProject(@PathVariable @P("id") Long id, Model model) {
         model.addAttribute("project", projectService.findById(id));
         model.addAttribute("formaction", "edit");
         return "project_form";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
+    @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
     @GetMapping("/projects/project/{projectId}/usersWithoutProject")
     public String usersWithoutProject(@PathVariable @P("projectId") Long projectId, Model model,
-                                      @Param("principal") Principal principal,
                                       @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS)Pageable pageable){
         model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, pageable));
         model.addAttribute("project", projectService.findById(projectId));
@@ -197,11 +194,10 @@ public class ProjectController {
         return "redirect:/projects/project/" + projectId;
     }
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('PROJECT_MANAGER') and " +
-            "#projectId == @userService.findByEmailIs(#principal.getName()).getProject().getId())")
+    @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
     @GetMapping("/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
     public String changeUserRoleGet(@PathVariable @P("projectId") Long projectId, @PathVariable Long userId,
-                                    @Param("principal") Principal principal, RedirectAttributes redirectAttributes) {
+                                    RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
         if(project.getUsers().isEmpty()) {
