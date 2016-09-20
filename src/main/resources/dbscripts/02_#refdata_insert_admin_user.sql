@@ -4,34 +4,93 @@ VALUES ('admin', 'admin', 'admin@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_1', '1', '0', '0', 'description to project 1');
--- it doesn't work with INSERT INTO projectRelease syntax
+
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
-VALUES ('1', 'Beta 0.6', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.
+VALUES ('1', 'v1.0.0', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ncidunt sit amet, consectetur adipisicing ipsa magnam architecto dolor illum i, numquam illum incidunt ipsa magnam, numquam perferendis  perferendis quae quos ut? Ducimus eaque  Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.
 ');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
-VALUES ('1', 'Beta 0.6.1', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci aperiam assumenda at aut corporis cumque cupiditate doloremque, earum error facilis inventore iste laboriosam magni, natus non officiis placeat quis rem sequi sit suscipit tenetur voluptate? Molestias perspiciatis reiciendis voluptatem!
+VALUES ('1', 'v1.2.0', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci aperiam assumenda at aut corporis cumque cupiditate doloremque, earum error facilis inventore iste laboriosam magni, natus non officiis placeat quis rem sequi sit suscipit tenetur voluptate? Molestias perspiciatis reiciendis voluptatem!
 ');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
-VALUES ('1', 'Beta 0.7.5', 'IN_PROGRESS',
+VALUES ('1', 'v2.0.0', 'IN_PROGRESS',
         'Adipisci autem cupiditate deleniti deserunt ducimus ex itaque mollitia non odio repellendus.');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
-VALUES ('1', '1.0', 'IN_PROGRESS',
+VALUES ('1', 'v2.1.0', 'IN_PROGRESS',
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.'
         );
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
-VALUES ('1', '2.4', 'OPEN',
+VALUES ('1', 'v3.0.0 Beta', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.0.0 Rel. cand.', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.0.0', 'CLOSED',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.1.2', 'IN_PROGRESS',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.2.0', 'CLOSED',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.3.0 Beta 1', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.3.0 Beta 2', 'CLOSED',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.4.0 Rel. cand.', 'CLOSED',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.4.1', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v3.4.2', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v4.0.0 Rel. cand.', 'OPEN',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
+        );
+INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
+VALUES ('1', 'v4.0.0', 'OPEN',
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo harum inventore molestiae obcaecati porro quia quisquam repudiandae, sed veniam voluptas voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto corporis deleniti dolores, eos error esse excepturi explicabo.'
         );
 
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
-VALUES ('manager', 'manager', 'manager@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+VALUES ('Sergey', 'Brin', 'manager@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
         'ROLE_PROJECT_MANAGER', 'pm', '1');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
-VALUES ('developer', 'developer', 'developer@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+VALUES ('Larry', 'Ellison', 'developer@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
         'ROLE_DEVELOPER', 'developer', '1');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
-VALUES ('quality_e', 'quality_e', 'quality_e@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuIJu4uF3lOaaY/48mo5hoeSjpe5w.JHG',
+VALUES ('Vint', 'Cerf', 'quality_e@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuIJu4uF3lOaaY/48mo5hoeSjpe5w.JHG',
         'ROLE_QA', 'qa', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+VALUES ('Richard', 'Stallman', 'developer23@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_DEVELOPER', 'dev', '1', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+VALUES ('Ken', 'Thompson', 'developer24@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_DEVELOPER', 'qa', '1', '1');
+   INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+VALUES ('Ada', 'Lovelace', 'developer249@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_DEVELOPER', 'qa', '1', '1');
+   INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+VALUES ('Tim', 'Bray', 'dev112@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_QA', 'qa', '1', '1');
+      INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+VALUES ('John', 'Carmack', 'developer224@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+   'ROLE_DEVELOPER', 'qa', '1', '1');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('project_2', '1', '1', '0', 'description to project 2');
@@ -158,14 +217,7 @@ INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
   ('guest7', 'guest7', 'guest7@ss.com', '$2a$12$xcB0vHLRtCas3kNsZszwpewlCE35Zlc37fB4ZUJVDG9qiXlPyHxL6', 'ROLE_USER',
    'guest7');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
-VALUES
-  ('developer23', 'developer23', 'developer23@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_DEVELOPER', 'pm', '1', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
-VALUES
-  ('developer24', 'developer24', 'developer24@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_DEVELOPER', 'pm', '1', '1');
+
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
 VALUES ('Remove configs', 'TASK', 'LOW', '1', '1', '2', '2016-02-02', '3', '1', 'some text', '0', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, dueDate, estimateTime, parentId, description, editAbility, status)
@@ -358,3 +410,17 @@ INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','5');
 INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','4');
 INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','1');
 
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '1', '3', '2', CURRENT_TIMESTAMP, '0', '0');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '3', '5', '2', CURRENT_TIMESTAMP, '2', '0');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '4', '6', '2', CURRENT_TIMESTAMP, '3', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '2', '2', '6', CURRENT_TIMESTAMP, '1', '0');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '6', '4', '2', CURRENT_TIMESTAMP, '0', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '8', '7', '2', CURRENT_TIMESTAMP, '0', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '4', '4', '2', CURRENT_TIMESTAMP, '1', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '2', '2', '2', CURRENT_TIMESTAMP, '0', '0');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '3', '6', '2', CURRENT_TIMESTAMP, '2', '0');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '4', '3', '2', CURRENT_TIMESTAMP, '3', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '6', '5', '7', CURRENT_TIMESTAMP, '1', '0');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '6', '7', '2', CURRENT_TIMESTAMP, '0', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '5', '3', '2', CURRENT_TIMESTAMP, '0', '1');
+INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '1', '4', '2', CURRENT_TIMESTAMP, '1', '1');
