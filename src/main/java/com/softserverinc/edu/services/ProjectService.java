@@ -33,6 +33,10 @@ public class ProjectService {
         return projectRepository.findByTitleContaining(title, pageable);
     }
 
+    public Project findByProjectReleases(ProjectRelease projectRelease) {
+        return projectRepository.findByProjectReleases(projectRelease);
+    }
+
     public List<Project> findAll() {
         return projectRepository.findAll();
     }

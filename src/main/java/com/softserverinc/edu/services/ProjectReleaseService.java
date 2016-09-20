@@ -3,7 +3,6 @@ package com.softserverinc.edu.services;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
-import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import com.softserverinc.edu.repositories.ProjectReleaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +36,10 @@ public class ProjectReleaseService {
     @Transactional
     public Page<ProjectRelease> searchByTitle(Project project, String searchedString, Pageable pageable) {
         return projectReleaseRepository.findByProjectAndVersionContaining(project, searchedString, pageable);
+    }
+
+    public ProjectRelease findByIssues(Issue issue) {
+        return projectReleaseRepository.findByIssues(issue);
     }
 
     @Transactional
