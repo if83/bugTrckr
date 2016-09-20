@@ -295,7 +295,7 @@
                     <div class="text-center">
                         <ul class="pagination">
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}?project_page=0'/>"
+                                <a href="<spring:url value='/projects/project/${project.id}?user_page=0'/>"
                                    aria-label="Start">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
@@ -303,12 +303,12 @@
                             <c:forEach var="page" begin="0" end="${usersList.getTotalPages() - 1}">
                                 <li>
                                     <a href="<spring:url
-                                    value='/projects/project/${project.id}?project_page=${page}'/>">${page + 1}</a>
+                                    value='/projects/project/${project.id}?user_page=${page}'/>">${page + 1}</a>
                                 </li>
                             </c:forEach>
                             <li>
                                 <a href="<spring:url
-                                value='/projects/project/${project.id}?project_page=${usersList.getTotalPages() - 1}'/>"
+                                value='/projects/project/${project.id}?user_page=${usersList.getTotalPages() - 1}'/>"
                                    aria-label="End"><span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

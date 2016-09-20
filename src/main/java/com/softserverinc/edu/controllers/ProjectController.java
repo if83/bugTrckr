@@ -65,7 +65,7 @@ public class ProjectController {
     @GetMapping("projects/project/{projectId}")
     public String projectPage(@PathVariable @P("projectId") Long projectId, Model model,
             @Qualifier("release") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableRelease,
-            @Qualifier("user") @PageableDefault(value = PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableUser,
+            @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableUser,
             @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
