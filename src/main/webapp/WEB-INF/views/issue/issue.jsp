@@ -86,8 +86,7 @@
 
                 </thead>
                 <c:forEach var="issue" items="${listOfIssues.content}">
-                    <sec:authorize access="hasAnyRole('ADMIN', 'DEVELOPER', 'QA', 'PROJECT_MANAGER', 'USER')
-            or hasRole('ANONYMOUS') and ${issue.project.guestView}">
+                    <sec:authorize access="@issueSecurityService.hasPermissionToViewIssue(${issue.id})">
                         <tr>
                             <td class="text-center">
 
@@ -126,12 +125,12 @@
                                                 class="fa fa-hourglass-half icon-table-u"></i></a>
                                         &nbsp
                                     </sec:authorize>
-                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
+                                    <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
                                         <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
                                                 class="fa fa-edit icon-table-u"></i></a>
                                         &nbsp
                                     </sec:authorize>
-                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
+                                    <sec:authorize access="@issueSecurityService.hasPermissionToRemoveIssue(${issue.id})">
                                         <a data-toggle="modal" data-target="#removeModal${issue.id}">
                                             <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                                     </sec:authorize>
@@ -248,24 +247,24 @@
                                                 class="fa fa-hourglass-half icon-table-u"></i></a>
                                         &nbsp
                                     </sec:authorize>
-                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
+                                    <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${userIssue.id})">
                                         <a href="<spring:url value='/issue/${userIssue.id}/edit' />"><i
                                                 class="fa fa-edit icon-table-u"></i></a>
                                         &nbsp
                                     </sec:authorize>
-                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
-                                        <a data-toggle="modal" data-target="#removeModal${userIssue.id}">
+                                    <sec:authorize access="@issueSecurityService.hasPermissionToDeleteIssue(${userIssue.id})">
+                                        <a data-toggle="modal" data-target="#removeModalNew${userIssue.id}">
                                             <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                                     </sec:authorize>
 
                                     <!-- Modal confirmation for removing issue-->
-                                    <div class="modal fade" id="removeModal${userIssue.id}" tabindex="-1" role="dialog">
+                                    <div class="modal fade" id="removeModalNew${userIssue.id}" tabindex="-1" role="dialog">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close"><span aria-hidden="true">&times;</span>
-                                                    </button>
+                                I                    </button>
                                                     <h4 class="modal-title pull-left">Removal</h4>
                                                 </div>
                                                 <div class="modal-body">

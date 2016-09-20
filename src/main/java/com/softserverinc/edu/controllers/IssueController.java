@@ -128,14 +128,7 @@ public class IssueController {
         return "issue_view";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('PROJECT_MANAGER') and " +
-            "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
-            "== @issueService.findById(#id).getProject().getId()" +
-            "or hasAnyRole('DEVELOPER', 'QA') and " +
-            " @userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
-            "== @issueService.findById(#id).getProject().getId() and " +
-            "@userService.findByEmail(#principal.getName()).get(0).getId() " +
-            "== @issueService.findById(#id).getAssignee().getId()")
+    @PreAuthorize("@issueSecurityService.hasPermissionToRemoveIssue(#id)")
     @GetMapping(value = "/issue/{id}/remove")
     public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes,
                               @Param("principal") Principal principal) {
@@ -146,15 +139,7 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('PROJECT_MANAGER') and " +
-            "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
-            "== @issueService.findById(#id).getProject().getId()" +
-            "or hasAnyRole('DEVELOPER', 'QA') and " +
-            "@issueService.findById(#id).editAbility and " +
-            "@userService.findByEmail(#principal.getName()).get(0).getProject().getId() " +
-            "== @issueService.findById(#id).getProject().getId() and" +
-            "@userService.findByEmail(#principal.getName()).get(0).getId()" +
-            "== @issueService.findById(#id).getAssignee().getId()")
+    @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
     @GetMapping(value = "/issue/{id}/edit")
     public String editIssue(@PathVariable @P("id") long id, Model model,
                             RedirectAttributes redirectAttrs, @Param("principal") Principal principal) {
