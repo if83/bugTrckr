@@ -124,7 +124,7 @@
                 </tbody>
             </table>
             <%--pagination of releses-table--%>
-            <c:if test="${releaseList.getTotalPages()> 1}">
+            <c:if test="${releaseList.getTotalPages() gt 1}">
                 <nav aria-label="Page navigation" id="pagerID">
                     <div class="text-center">
                         <ul class="pagination">

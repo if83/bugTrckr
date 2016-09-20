@@ -18,22 +18,18 @@ public class ProjectReleaseService {
     @Autowired
     private ProjectReleaseRepository projectReleaseRepository;
 
-    @Transactional
     public ProjectRelease findById(Long id) {
         return projectReleaseRepository.findOne(id);
     }
 
-    @Transactional
     public List<ProjectRelease> findByProject(Project project) {
         return projectReleaseRepository.findByProject(project);
     }
 
-    @Transactional
     public Page<ProjectRelease> findByProject(Project project, Pageable pageable) {
         return projectReleaseRepository.findByProject(project, pageable);
     }
 
-    @Transactional
     public Page<ProjectRelease> searchByTitle(Project project, String searchedString, Pageable pageable) {
         return projectReleaseRepository.findByProjectAndVersionContaining(project, searchedString, pageable);
     }
@@ -42,12 +38,10 @@ public class ProjectReleaseService {
         return projectReleaseRepository.findByIssues(issue);
     }
 
-    @Transactional
     public List<ProjectRelease> findAll() {
         return projectReleaseRepository.findAll();
     }
 
-    @Transactional
     public Page<ProjectRelease> findAll(Pageable  pageable) {
         return projectReleaseRepository.findAll(pageable);
     }

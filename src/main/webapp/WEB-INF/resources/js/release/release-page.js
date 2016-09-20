@@ -52,7 +52,7 @@ $(document).ready(function () {
             type: 'POST',
             success: function (statuses) {
                 $.each(statuses, function (index, value) {
-                    var html = "<option value='" + value + "'>" + value + "</option>";
+                    var html = "<option value='" + index + "'>" + value + "</option>";
                     $(self).append(html);
                     $(self).selectpicker('refresh');
                 });
@@ -62,9 +62,7 @@ $(document).ready(function () {
 
     // hide popup of changing issue after some time
     $('#modalChangeIssue').on('show.bs.modal', function (event) {
-        setTimeout(function(){
-            $('#modalChangeIssue').modal('hide')
-        }, 2000);
+        $('#modalChangeIssue').modal('hide').delay(1800);
     })
 
 });

@@ -65,18 +65,22 @@
                     </div>
                     <%--add issue button--%>
                     <div class="col-sm-5">
+                    <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
                         <a href="<spring:url value='/issue/add'/>"
                            class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add issue</a>
+                    </sec:authorize>
                     </div>
                 </div>
                 <%--issues table--%>
-                <table class="table-issues table table-hover table-bordered text-center">
+                    <table class="table-issues table table-hover table-bordered text-center">
                     <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Assigne to</th>
-                        <th>Actions</th>
+                        <th class="text-center">Title</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Assigne to</th>
+                        <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                            <th class="text-center">Actions</th>
+                        </sec:authorize>
                     </tr>
                     </thead>
                     <tbody>
@@ -117,51 +121,47 @@
                                     ${issue.assignee.firstName} ${issue.assignee.lastName}
                                 </sec:authorize>
                             </td>
-                            <td>
-                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                            <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                                <td>
                                     <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
                                             class="fa fa-edit fa-lg icon-table-u"></i></a>
                                     <a href="" data-toggle="modal" data-target="#removeIssueBtn-${issue.id}"><i
                                             class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                </sec:authorize>
-                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
-                                    <i class="fa fa-edit fa-lg"></i>
-                                    <i class="fa fa-trash fa-lg"></i>
-                                </sec:authorize>
-                                <!-- Modal for confirmation remove issue from release-->
-                                <div class="modal fade" id="removeIssueBtn-${issue.id}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title pull-left">Remove Issue from release</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Confirm remove of ${issue.title}
-                                                    from ${release.version}</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-default" data-dismiss="modal">
-                                                    Cancel
-                                                </button>
-                                                <a href="<spring:url
-                                                        value='/issue/${issue.id}/remove'/>"
-                                                   class="btn btn-u">Remove
-                                                </a>
+                                    <!-- Modal for confirmation remove issue from release-->
+                                    <div class="modal fade" id="removeIssueBtn-${issue.id}" tabindex="-1"
+                                         role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h4 class="modal-title pull-left">Remove Issue from release</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Confirm remove of ${issue.title}
+                                                        from ${release.version}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-default" data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <a href="<spring:url
+                                                            value='/issue/${issue.id}/remove'/>"
+                                                       class="btn btn-u">Remove
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
+                            </sec:authorize>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
                 <%--Pagination of issue-table--%>
-                <c:if test="${issueList.getTotalPages()> 1}">
+                <c:if test="${issueList.getTotalPages() gt 1}">
                     <nav aria-label="Page navigation" id="pagerID">
                         <div class="text-center">
                             <ul class="pagination">

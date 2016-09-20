@@ -66,7 +66,6 @@ public class HistoryService {
         save(history);
     }
 
-    @Transactional
     public Page<HistoryDto> convertToHistoryDto(Page<History> historyList, Pageable pageable) {
         List<HistoryDto> result = new ArrayList<>();
         for (History history : historyList) {

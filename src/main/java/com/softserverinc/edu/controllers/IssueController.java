@@ -27,7 +27,9 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IssueController {
@@ -233,12 +235,14 @@ public class IssueController {
     }
 
     @PostMapping(value = "/getAvaliableIssueStatuses")
-    public
-    @ResponseBody
-    List<IssueStatus> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
-        return issueService.getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus));
+    public @ResponseBody
+    Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
+        Map<IssueStatus, String> result = new HashMap<>();
+        for (IssueStatus status : issueService.getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus))) {
+            result.put(status, status.toString());
+        }
+        return result;
     }
-
 
     private IssueComment getNewIssueComment(Principal principal, Long issueId) {
         IssueComment issueComment = new IssueComment();
