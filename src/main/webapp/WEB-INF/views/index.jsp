@@ -12,47 +12,6 @@
 
 <%--LoginForm Form--%>
 <c:if test="${empty loginForm.username}">
-    <div class="row">
-        <div class="col-sm-5 col-md-3">
-            <form:form commandName="loginForm" modelAttribute="loginForm" action="/" id="loginform" class="reg-page"
-                       method="POST">
-                <div class="reg-header">
-                    <h4>Login to your account</h4>
-                </div>
-
-                <spring:hasBindErrors name="loginForm">
-                    <c:if test="${errors.hasFieldErrors('username')}">
-                        <c:set var="errorClass" value="has-error"/>
-                    </c:if>
-                    <c:if test="${errors.hasFieldErrors('password')}">
-                        <c:set var="errorClass" value="has-error"/>
-                    </c:if>
-                </spring:hasBindErrors>
-
-                <div class="input-group <c:out value='${errorClass}' />">
-                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <form:input path="username" name="username" type="username" placeholder="Email" class="form-control"
-                                required="" pattern=".{5,}"/>
-                    <span class="help-block margin-left-5">
-                        <form:errors path="username"/>
-                    </span>
-                </div>
-                <div class="input-group <c:out value='${errorClass}' />">
-                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <form:input path="password" name="password" type="password" placeholder="Password"
-                                class="form-control"
-                                required="" pattern=".{5,}"/>
-                    <span class="help-block margin-left-5">
-                        <form:errors path="password"/>
-                    </span>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 pull-right">
-                        <input class="btn-u pull-right" type="submit" value="Login"/>
-                    </div>
-                </div>
-            </form:form>
-        </div>
 
         <div class="col-sm-7 col-md-9">
             <h4>For testing purposes:</h4>

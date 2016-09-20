@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -24,12 +25,12 @@ public class Issue {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @NotNull
+    @NotEmpty(message = "Please enter the issue title")
     @Column(nullable = false, length = 32)
     @Field(index = Index.YES, analyze= Analyze.YES, store= Store.NO)
     private String title;
 
-    @NotNull
+    @NotNull(message = "Please select issue type")
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssueType type;
@@ -38,23 +39,24 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     private IssueStatus status = IssueStatus.OPEN;
 
-    @NotNull
+    @NotNull(message = "Please select issue priority")
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
-    @NotNull
+    @NotNull(message = "Please select release")
     @ManyToOne
     @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
     private ProjectRelease projectRelease;
 
-    @NotNull
+    @NotNull(message = "Please select project")
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
     private Project project;
 
+    @NotNull(message = "Please select assignee")
     @OneToOne
-    @JoinColumn(name = "assigneeId", referencedColumnName = "id")
+    @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
 
     @ManyToMany()
@@ -79,18 +81,19 @@ public class Issue {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date lastUpdateDate;
 
-    @Column
+    @NotNull(message = "Please enter estimated time")
+    @Column(nullable = false)
     private Long estimateTime;
 
     @Column
     private Long parentId;
 
-    @NotNull
+    @NotNull(message = "Please enter description")
     @Column(nullable = false, length = 10000)
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String description;
 
-    @NotNull
+    @NotNull(message = "Please choose if users can edit this issue")
     @Column(nullable = false)
     private Boolean editAbility;
 

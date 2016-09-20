@@ -84,10 +84,10 @@
 </div>
 
 <div class="row">
-    <div class="user-history col-sm-6">
-        <H3>User`s activity</H3>
+    <div class="user-history col-sm-10 col-sm-offset-1">
+        <H3 class="text-center">User`s activity</H3>
         <ul>
-            <c:forEach var="history" items="${allHistory}">
+            <c:forEach var="history" items="${allHistory.content}">
                 <c:choose>
                     <c:when test="${history.action == 'CREATE_ISSUE'}">
                         <li>
@@ -101,7 +101,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            create issue <strong>${history.issue.title}</strong>
+                            created issue <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
                             and assigned it to
                             <strong>
                                 <c:choose>
@@ -128,7 +128,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            changed status of <strong>${history.issue.title}</strong>
+                            changed status of <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
                             to <strong>${history.issueStatus}</strong>
                             <span class="createTime">at ${history.createTime}</span>
                         </li>
@@ -145,7 +145,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
-                            reassigned <strong>${history.issue.title}</strong> to
+                            reassigned <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong> to
                             <strong>
                                 <c:choose>
                                     <c:when test="${history.assignedToUser == null}">
@@ -162,46 +162,29 @@
                 </c:choose>
             </c:forEach>
         </ul>
-    </div>
-    <%--worklog table--%>
-    <div class="col-sm-6">
-        <h3 class="text-center">Worklog</h3>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th class="text-center">Project</th>
-                <th class="text-center">Issue</th>
-                <th class="text-center">Work date</th>
-                <th class="text-center">Logged</th>
-                <th><%--Edit--%></th>
-                <th><%--Remove--%></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="workLogIterator" items="${workLogList}">
-                <tr class="text-center">
-                    <td>
-                        <a href="../../projects/project/${workLogIterator.issue.projectRelease.project.id}">
-                            <c:out value="${workLogIterator.issue.projectRelease.project.title}"/></a>
-                    </td>
-                    <td>
-                        <a href="../../issue/${workLogIterator.issue.id}">
-                            <c:out value="${workLogIterator.issue.title}"/></a>
-                    </td>
-                    <td><c:out value="${workLogIterator.startTime}"/></td>
-                    <td><c:out value="${workLogIterator.amountOfTime}"/> hrs</td>
-                    <td>
-                        <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
-                                class="fa fa-edit icon-table-u"></i></a>
-                    </td>
-                    <td>
-                        <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"><i
-                                class="fa fa-remove icon-table-u"></i></a>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+        <c:if test="${allHistory.getTotalPages()> 1}">
+            <nav aria-label="Page navigation" id="pagerID">
+                <div class="text-center">
+                    <ul class="pagination">
+                        <li>
+                            <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                            <li>
+                                <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
+                            </li>
+                        </c:forEach>
+                        <li>
+                            <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
+                               aria-label="End"><span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </c:if>
     </div>
 </div>
 

@@ -54,7 +54,7 @@ CREATE TABLE `Issue` (
   `status`           VARCHAR(32) NOT NULL DEFAULT 'OPEN',
   `projectReleaseId` INT         NOT NULL,
   `projectId`        INT         NOT NULL,
-  `assigneeId`       INT,
+  `assigneeId`       INT         NOT NULL,
 
   #TODO: createTime must be initialized only one time, lastUpdateDate => when anything is changed, just update this time.
   #   `createTime`       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -101,7 +101,8 @@ CREATE TABLE `WorkLog` (
   `id`           INT     NOT NULL AUTO_INCREMENT,
   `issueId`      INT     NOT NULL,
   `userId`       INT     NOT NULL,
-  `startTime`    DATE    NOT NULL,
+  `startDate`    DATE    NOT NULL,
+  `endDate`      DATE    NOT NULL,
   `amountOfTime` INT     NOT NULL,
   PRIMARY KEY (`id`)
 )
@@ -118,11 +119,12 @@ PRIMARY KEY (`labelId`,`issueId`)
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `IssueComment` (
-  `id`        INT       NOT NULL AUTO_INCREMENT,
-  `text`      TEXT      NOT NULL,
-  `timeStamp` TIMESTAMP NOT NULL,
-  `issueId`   INT       NOT NULL,
-  `userId`    INT       NOT NULL,
+  `id`          INT       NOT NULL AUTO_INCREMENT,
+  `text`        TEXT      NOT NULL,
+  `timeStamp`   TIMESTAMP NOT NULL,
+  `issueId`     INT       NOT NULL,
+  `userId`      INT       NOT NULL,
+  `isEdited`    BOOLEAN   NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -146,11 +148,6 @@ ALTER TABLE `Issue`
 
 ALTER TABLE `Issue`
   ADD CONSTRAINT `Issue_fk1` FOREIGN KEY (`assigneeId`) REFERENCES `User` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-ALTER TABLE `Issue`
-  ADD CONSTRAINT `Issue_fk2` FOREIGN KEY (`parentId`) REFERENCES `Issue` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 

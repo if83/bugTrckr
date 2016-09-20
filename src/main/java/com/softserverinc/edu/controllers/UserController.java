@@ -1,5 +1,6 @@
 package com.softserverinc.edu.controllers;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.Project;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 
 /**
  * User controller
@@ -64,7 +65,6 @@ public class UserController {
         binder.setValidator(userFormValidator);
     }
 
-
     @GetMapping(value = "/users")
     public String userForm(Model model, Pageable pageable, Principal principal) {
         User loggedUser = userService.findByEmailIs(principal.getName());
@@ -75,7 +75,7 @@ public class UserController {
             puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
         else {
             Project project = projectService.findById(loggedUser.getProject().getId());
-            puser = userService.findByProjectAndIsDeletedFalseAndEnabledIs(project, 1, pageable);
+            puser = userService.findByProject(project, 1, pageable);
         }
 
         model.addAttribute("userList", puser);
@@ -102,7 +102,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-
     @GetMapping(value = "/user/{id}/edit")
     public String editUser(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("user", this.userService.findOne(id));
@@ -115,7 +114,6 @@ public class UserController {
         LOGGER.debug("User edit\\" + id);
         return "userform";
     }
-
 
     @GetMapping(value = "/user/add")
     public String addUser(Model model) {
@@ -177,9 +175,10 @@ public class UserController {
         return "redirect:/users";
     }
 
-
     @GetMapping(value = "/user/{id}/view")
-    public String viewUser(@PathVariable("id") long id, Model model) {
+    public String viewUser(@PathVariable("id") long id, Model model,
+                           @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
+                           Principal principal) {
 
         LOGGER.debug("viewUser() id: {}", id);
 
@@ -188,15 +187,13 @@ public class UserController {
             model.addAttribute("css", "danger");
             model.addAttribute("msg", "User not found");
         }
-        model.addAttribute("user", user);
-        model.addAttribute("workLogList", workLogService.findByUser(user));
-        model.addAttribute("smth", 654);
-        List<History> allHistory = historyService.findAllHistoryForUser(user);
-        List<HistoryDto> allHistoryDto = historyService.convertHistoryToHistoryDto(allHistory);
+
+        Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
+        Page<HistoryDto> allHistoryDto = historyService.convertToHistoryDto(allHistory, pageable);
         model.addAttribute("allHistory", allHistoryDto);
+        model.addAttribute("user", user);
         return "userview";
     }
-
 
     @GetMapping(value = "/user/details")
     public String viewUserByDetails(Principal principal) {
@@ -208,7 +205,6 @@ public class UserController {
         LOGGER.debug("viewUser() details");
         return "redirect:/user/" + id + "/view";
     }
-
 
     @PostMapping(value = "/users/searchByName")
     public String userSearchByName(@RequestParam(value = "firstName") String firstName,
@@ -225,7 +221,6 @@ public class UserController {
         return "users";
     }
 
-
     @PostMapping(value = "/users/searchByEmail")
     public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
         model.addAttribute("userList", this.userService.findByEmailContaining(userEmail));
@@ -234,7 +229,6 @@ public class UserController {
         return "users";
     }
 
-
     @PostMapping(value = "/users/searchByRole")
     public String userSearchByRole(@RequestParam(value = "role") UserRole role, Model model) {
         model.addAttribute("userList", this.userService.findByRole(role));
@@ -242,7 +236,6 @@ public class UserController {
         LOGGER.debug("User search list ByRole POST");
         return "users";
     }
-
 
     @PostMapping(value = "/user/addimage")
     public String fileUploadPost(@RequestParam("userId") long userId,
@@ -265,7 +258,6 @@ public class UserController {
         LOGGER.debug("formUser() id: ", userId);
         return redirectPath;
     }
-
 
     /**
      * Set default values

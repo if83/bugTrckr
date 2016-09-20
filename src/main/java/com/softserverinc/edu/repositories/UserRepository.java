@@ -21,17 +21,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRole(UserRole role);
 
-    List<User> findByRoleNotAndIsDeletedFalse(UserRole role);
-
-    List<User> findByProjectAndIsDeleted(Project project, boolean isDeleted);
-
-    List<User> findByProject(Project project);
+    User findByProjectAndRoleIsAndIsDeleted(Project project, UserRole role, boolean isDeleted);
 
     List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled);
 
-    Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
+    Page<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled, Pageable pageable);
 
-    List<User> findByFirstNameOrLastName(String firstName, String lastName);
+    Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
 
     List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);
 
@@ -48,11 +44,21 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByRoleAndIsDeletedAndEnabledIs(UserRole role, boolean isDeleted, int enabled, Pageable pageable);
 
-    Page<User> findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(String firstName,  UserRole role,
-                                                                        boolean isDeleted, int enabled,
-                                                                        Pageable pageable);
+    Page<User> findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(Project project, String firstName,
+                                                                                  UserRole role, boolean isDeleted,
+                                                                                  int enabled, Pageable pageable);
 
-    Page<User> findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(String lastName,  UserRole role,
-                                                                       boolean isDeleted, int enabled,
-                                                                       Pageable pageable);
+    Page<User> findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(Project project, String lastName,
+                                                                              UserRole role, boolean isDeleted,
+                                                                              int enabled, Pageable pageable);
+    Page<User> findByProjectAndRoleAndIsDeletedAndEnabledIs(Project project, UserRole role, boolean isDeleted,
+                                                            int enable, Pageable pageable);
+
+    Page<User> findByProjectAndFirstNameContainingAndIsDeletedAndEnabledIs(Project project, String firstName,
+                                                                           boolean isDeleted, int enabled,
+                                                                           Pageable pageable);
+
+    Page<User> findByProjectAndLastNameContainingAndIsDeletedAndEnabledIs(Project project, String lastName,
+                                                                          boolean isDeleted, int enabled,
+                                                                          Pageable pageable);
 }

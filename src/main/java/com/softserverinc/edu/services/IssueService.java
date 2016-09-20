@@ -1,6 +1,9 @@
 package com.softserverinc.edu.services;
 
-import com.softserverinc.edu.entities.*;
+import com.softserverinc.edu.entities.Issue;
+import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
+import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
@@ -10,9 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
+import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,30 +25,37 @@ public class IssueService {
     @Autowired
     private IssueRepository issueRepository;
 
+    @Autowired
+    private IssueService issueService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private HistoryService historyService;
+
+    @Autowired
+    private IssueCommentService issueCommentService;
+
+    @Autowired
+    private LabelService labelService;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private ProjectReleaseService projectReleaseService;
+
+    @Autowired
+    private WorkLogService workLogService;
+
     public Issue findById(Long id) {
         return issueRepository.findOne(id);
     }
 
-    public List<Issue> findByTitle(String title) {
-        return issueRepository.findByTitle(title);
-    }
-
-    public List<Issue> findByType(IssueType type) {
-        return issueRepository.findByType(type);
-    }
-
-    public List<Issue> findByStatus(IssueStatus status) {
-        return issueRepository.findByStatus(status);
-    }
-
-    public List<Issue> findByPriority(IssuePriority priority) {
-        return issueRepository.findByPriority(priority);
-    }
-
-    public List<IssueStatus> getAvaliableIssueStatuses(Issue issue) {
+    public List<IssueStatus> getAvaliableStatusesForStatus(IssueStatus status) {
         List<IssueStatus> result = new ArrayList<>();
-        IssueStatus issueStatus = issue.getStatus();
-        switch (issueStatus) {
+        switch (status) {
             case OPEN:
                 result.add(IssueStatus.IN_PROGRESS);
                 result.add(IssueStatus.INVALID);
@@ -70,12 +81,19 @@ public class IssueService {
         }
     }
 
-    public List<Issue> findByProjectRelease(ProjectRelease projectRelease) {
-        return issueRepository.findByProjectRelease(projectRelease);
-    }
-
+    @Transactional
     public Page<Issue> findByProjectRelease(ProjectRelease projectRelease, Pageable pageable) {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
+    }
+
+    @Transactional
+    public Page<Issue> findByReleaseAndIssueTitle(ProjectRelease projectRelease, String searchedString, Pageable pageable) {
+        return issueRepository.findByProjectReleaseAndTitleContaining(projectRelease, searchedString, pageable);
+    }
+
+    @Transactional
+    public Page<Issue> findIssuesByProject(Project project, String searchedString, Pageable pageable) {
+        return issueRepository.findByProjectAndTitleContaining(project, searchedString, pageable);
     }
 
     public boolean isStatusChanged(Issue changedIssue) {
@@ -88,32 +106,8 @@ public class IssueService {
         return !(oldIssue.getAssignee().equals(changedIssue.getAssignee()));
     }
 
-    public List<Issue> findByAssignee(User assignee) {
-        return issueRepository.findByAssignee(assignee);
-    }
-
-    public List<Issue> findByLabels(Label label) {
-        return issueRepository.findByLabels(label);
-    }
-
-    public List<Issue> findByCreateTime(Date createTime) {
-        return issueRepository.findByCreateTime(createTime);
-    }
-
-    public List<Issue> findByDueDate(Date dueDate) {
-        return issueRepository.findByDueDate(dueDate);
-    }
-
-    public List<Issue> findByLastUpdateDate(Date lastUpdateDate) {
-        return issueRepository.findByLastUpdateDate(lastUpdateDate);
-    }
-
-    public List<Issue> findByEstimateTime(Date estimateTime) {
-        return issueRepository.findByEstimateTime(estimateTime);
-    }
-
-    public Issue findByParentId(Long parentId) {
-        return issueRepository.findByParentId(parentId);
+    public List<Issue> findByAssignee(User assignee, Pageable pageable) {
+        return issueRepository.findByAssignee(assignee, pageable);
     }
 
     public List<Issue> findAll() {
@@ -142,4 +136,29 @@ public class IssueService {
     public Page<Issue> findAll(Pageable pageable) {
         return issueRepository.findAll(pageable);
     }
+
+    @Transactional
+    public Page<Issue> findByProject(Project project, Pageable pageable) {
+        return issueRepository.findByProject(project, pageable);
+    }
+
+    public void populateDefaultModel(Model model) {
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("types", IssueType.values());
+        model.addAttribute("priority", IssuePriority.values());
+        model.addAttribute("allLabels", labelService.findAll());
+    }
+
+    public void checkForProjectExistence(Model model, Issue issue, Principal principal) {
+        if (userService.findByEmail(principal.getName()).get(0).getProject() != null) {
+            issue.setProject(userService.findByEmail(principal.getName()).get(0).getProject());
+            model.addAttribute("projectReleases", projectReleaseService.findByProject(issue.getProject()));
+            model.addAttribute("users",
+                    userService.findUsersInProject(projectService.findById(issue.getProject().getId()), false, 1));
+        } else {
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("projectReleases", projectReleaseService.findAll());
+        }
+    }
+
 }

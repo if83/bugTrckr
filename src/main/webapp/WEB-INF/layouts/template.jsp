@@ -31,7 +31,6 @@
 <div class="page">
     <tiles:insertAttribute name="header"/>
     <div class="content">
-        <tiles:insertAttribute name="menu"/>
         <div class="container-fluid">
             <tiles:insertAttribute name="content"/>
         </div>

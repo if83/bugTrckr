@@ -9,9 +9,4 @@ import java.util.List;
 
 @Repository
 public interface LabelRepository extends JpaRepository<Label, Long> {
-
-    List<Label> findByTitle(String title);
-
-    List<Label> findByIssues(Issue issue);
-
 }

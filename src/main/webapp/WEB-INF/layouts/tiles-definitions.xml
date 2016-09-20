@@ -9,29 +9,30 @@
 
     <!--Absent attributes:
       - content
-      - tilte
+      - title
       -->
 
     <definition name="abstractDefaultTemplate" template="/WEB-INF/layouts/template.jsp">
         <put-attribute name="header" value="/WEB-INF/layouts/header.jsp"/>
-        <put-attribute name="menu" value="/WEB-INF/layouts/menu.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp"/>
         <put-list-attribute name="stylesheets">
             <add-attribute value="/css/bootstrap.min.css"/>
             <add-attribute value="/css/bootstrap-theme.min.css"/>
             <add-attribute value="/css/select2.min.css"/>
             <add-attribute value="/css/font-awesome.min.css"/>
+            <add-attribute value="/css/login.css"></add-attribute>
             <add-attribute value="/css/site.css"/>
             <add-attribute value="/css/bootstrap-select.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts">
             <add-attribute value="/js/jquery-2.2.4.min.js"/>
             <add-attribute value="/js/bootstrap.min.js"/>
+            <add-attribute value="/js/bootstrap-select.min.js"/>
             <add-attribute value="/js/select2.full.min.js"/>
             <add-attribute value="/js/jquery.validate.min.js"/>
             <add-attribute value="/js/menu.js"/>
-            <add-attribute value="/js/issue/selectpicker.js"/>
             <add-attribute value="/js/bootstrap-select.min.js"/>
+            <add-attribute value="/js/login.js"/>
         </put-list-attribute>
     </definition>
 
@@ -42,12 +43,11 @@
             <add-attribute value="/css/login.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/index-page.js"/>
         </put-list-attribute>
     </definition>
 
     <definition name="about" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="About"/>
+        <put-attribute name="title" value="BugTrckr software"/>
         <put-attribute name="content" value="/WEB-INF/views/info/about.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/about.css"/>
@@ -84,16 +84,13 @@
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
             <add-attribute value="/css/issue/jquery-ui.css"/>
-            <add-attribute value="/css/issue/select2.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
-            <add-attribute value="/js/issue/datepicker.js"/>
-            <add-attribute value="/js/issue/jquery-1.12.4.js"/>
             <add-attribute value="/js/issue/jquery-ui.js"/>
-            <add-attribute value="/js/issue/select2.min.js"/>
             <add-attribute value="/js/issue/issue-page.js"/>
+            <add-attribute value="/js/issue/datepicker.js"/>
         </put-list-attribute>
     </definition>
 
@@ -104,6 +101,7 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/issue/issue_view.js"/>
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
@@ -117,8 +115,7 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user/user_form.js"/>
+            <add-attribute value="/js/project/project.js"/>
         </put-list-attribute>
     </definition>
 
@@ -129,8 +126,7 @@
             <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user/user_form.js"/>
+            <add-attribute value="/js/project/project.js"/>
         </put-list-attribute>
     </definition>
 
@@ -150,11 +146,9 @@
         <put-attribute name="title" value="usersWithoutProject"/>
         <put-attribute name="content" value="/WEB-INF/views/project/users_without_project.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
-            <add-attribute value="/css/user.css"/>
+            <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/user/user_form.js"/>
         </put-list-attribute>
     </definition>
 
@@ -172,13 +166,13 @@
 
     <definition name="releaseform" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Release add/edit"/>
-        <put-attribute name="content" value="/WEB-INF/views/release/releaseForm.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/release/release_form.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/release.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
-            <add-attribute value="/js/project/project_form.js"/>
+            <add-attribute value="/js/release/release_form.js"/>
         </put-list-attribute>
     </definition>
 

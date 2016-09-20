@@ -12,10 +12,6 @@ import java.util.List;
 @Repository
 public interface IssueCommentRepository extends JpaRepository<IssueComment, Long> {
 
-    List<IssueComment> findByUser(User user);
-
     List<IssueComment> findByIssue(Issue issue);
-
-    List<IssueComment> findByTimeStamp(Date timeStamp);
 
 }

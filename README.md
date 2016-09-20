@@ -1,3 +1,8 @@
+
+# BugTrckr
+[![Build Status](https://travis-ci.org/IF-066-Java/bugTrckr.svg?branch=dev)](https://travis-ci.org/IF-066-Java/bugTrckr)
+***
+
 # Running project locally:
 
 1. clone the project;

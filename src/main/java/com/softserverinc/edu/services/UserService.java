@@ -7,7 +7,9 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +24,6 @@ public class UserService {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private IssueService issueService;
 
     @Transactional
     public User findOne(Long id) {
@@ -51,12 +50,13 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public List<User> findAllAvaliableForRelease(ProjectRelease release) {
-        return userRepository.findByProjectAndIsDeleted(release.getProject(), false);
+    @Transactional
+    public User getProjectManagerOfProject(Project project) {
+        return userRepository.findByProjectAndRoleIsAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false);
     }
 
     @Transactional
-    public List<User> findByProjectAndIsDeletedAndEnabledIs(Project project, boolean isDeleted, int enabled) {
+    public List<User> findUsersInProject(Project project, boolean isDeleted, int enabled) {
         List<User> users = userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled);
         users.sort((user1, user2) -> Integer.valueOf(user1.getRole().ordinal()).compareTo
                 (Integer.valueOf(user2.getRole().ordinal())));
@@ -64,13 +64,13 @@ public class UserService {
     }
 
     @Transactional
-    public Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable) {
-        return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
+    public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable){
+        return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled, pageable);
     }
 
     @Transactional
-    public List<User> findByFirstNameOrLastName(String firstName, String lastName) {
-        return userRepository.findByFirstNameOrLastName(firstName, lastName);
+    public Page<User> findByProject(Project project, int enabled, Pageable pageable) {
+        return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
     }
 
     @Transactional
@@ -114,32 +114,49 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public Long count() {
-        return userRepository.count();
-    }
-
     @Transactional
     public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
         return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
 
     @Transactional
-    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled,
-                                                Pageable pageable){
+    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled, Pageable pageable){
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 
     @Transactional
     public Page<User> searchByUsersWithoutProject(String searchParam, String searchedString, Pageable pageable){
         if (searchParam.equals("First Name")) {
-            return userRepository.findByFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
-                    UserRole.ROLE_USER, false, 1, pageable);
+            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(null,
+                    searchedString, UserRole.ROLE_USER, false, 1, pageable);
         }if(searchParam.equals("Last Name")){
-            return userRepository.findByLastNameContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
+            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(null, searchedString,
                     UserRole.ROLE_USER, false, 1, pageable);
         }
         else return userRepository.findByEmailAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
                     false, 1, pageable);
+    }
+
+    @Transactional
+    public Page<User> searchByUsersInProject(Project project, String searchParam, UserRole role, String searchedString,
+                                             Pageable pageable){
+        if(role == null){
+            if (searchParam.equals("First Name")) {
+                return userRepository.findByProjectAndFirstNameContainingAndIsDeletedAndEnabledIs(project,
+                        searchedString, false, 1, pageable);
+            } else if(searchParam.equals("Last Name")){
+                return userRepository.findByProjectAndLastNameContainingAndIsDeletedAndEnabledIs(project,
+                        searchedString, false, 1, pageable);
+            }
+            else return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, false, 1, pageable);
+        }
+        else if (searchParam.equals("First Name")) {
+            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
+                    searchedString, role, false, 1, pageable);
+        } else if(searchParam.equals("Last Name")){
+            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
+                    searchedString, role, false, 1, pageable);
+        } else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
     }
 
     @Transactional

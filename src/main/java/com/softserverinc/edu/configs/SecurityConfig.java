@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
 
     /**
      * By extending WebSecurityConfigurerAdapter we can use
@@ -33,8 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-
-
         auth.jdbcAuthentication().
                 dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
@@ -42,25 +40,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "select email,password, enabled from User where email=?")
                 .authoritiesByUsernameQuery(
                         "select email, role from User where email=?");
-
-
     }
-
 
     /**
      * Restricting URL usage. Here put custom logic.
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        //disable token in views for simplisity, in other wat we need to supply all security token for all jsps
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/users").hasAnyRole("ADMIN", "PROJECT_MANAGER")
-                //TODO:Lyutak configure more detailed access
-                .antMatchers("/**").hasAnyRole("ADMIN", "PROJECT_MANAGER", "DEVELOPER", "USER", "GUEST")
+                .antMatchers("/projects/**").permitAll()
+                .antMatchers("/issue/**").permitAll()
+                .antMatchers("/project/**").permitAll()
+                .antMatchers("/about").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -76,7 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/accessDenied");
     }
 
-
     /**
      * Configure to ignore url resources
      *
@@ -90,8 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**")
                 .antMatchers("/js/**")
                 .antMatchers("/fonts/**")
-                .antMatchers("/images/**")
-                .antMatchers("/about");
+                .antMatchers("/images/**");
     }
 
     @Bean

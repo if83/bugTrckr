@@ -31,7 +31,7 @@
 </div>
 
 <div class="margin-top-30">
-    <form:form action="/projects/add" modelAttribute="project" method="POST">
+    <form:form action="/projects/add" modelAttribute="project" method="POST" id="projectForm">
         <div class="col-sm-5 col-sm-offset-1">
             <spring:bind path="title">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -44,13 +44,18 @@
 
             <label class="margin-top-30">
                 <form:checkbox id="guest" path="guestView" value="true"/>&nbsp&nbspEnable project review by guests
+                <p class="small">(this option allows unauthorized users to visit project page)</p>
             </label>
 
             <div id="enableView">
                 <label class="margin-top-30"><form:checkbox id="issue" path="guestCreateIssues" value="true"/>
-                    &nbsp&nbspEnable creation of issue by guests</label>
+                    &nbsp&nbspEnable creation of issue by guests
+                    <p class="small">(this option allows unauthorized users to create issues in the project)</p>
+                </label>
                 <label class="margin-top-30"><form:checkbox id="comment" path="guestAddComment" value="true"/>
-                    &nbsp&nbspEnable commenting of issues in project</label>
+                    &nbsp&nbspEnable commenting of issues in project
+                    <p class="small">(this option allows unauthorized users to comment issues in the project)</p>
+                </label>
             </div>
         </div>
 
@@ -62,32 +67,14 @@
                 <form:errors path="description" class="control-label"/>
                 <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
             </div>
+            <div class="error" id="#descriptioEror"></div>
         </spring:bind>
 
         <div class="col-sm-10 col-sm-offset-1">
-            <button type="button" class="margin-top-30 btn-u pull-right" data-toggle="modal"
+            <button type="submit" class="margin-top-30 btn-u pull-right" data-toggle="modal"
                     data-target="#projectCreatingModal">${buttonname}
             </button>
         </div>
 
-        <!-- Modal confirmation for creating/editing of project -->
-        <div class="modal fade" id="projectCreatingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" >${buttonname}ing of Project</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        Please confirm ${buttonname.toLowerCase()}ing of project
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" value="Confirm" class="btn btn-u"/>
-                    </div>
-                </div>
-            </div>
-        </div>
     </form:form>
 </div>

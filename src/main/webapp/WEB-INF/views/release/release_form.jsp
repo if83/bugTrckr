@@ -30,7 +30,7 @@
     </div>
 </div>
 
-
+<%--release form--%>
 <form:form action="/project/${project.id}/release/add" modelAttribute="release" method="POST">
     <div class="row">
         <div class="col-sm-12 col-md-5 col-md-offset-1">
@@ -45,9 +45,8 @@
             <spring:bind path="releaseStatus">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <label for="statusInput">Status</label>
-                    <form:select path="releaseStatus" type="text" class="form-control" id="statusInput"
+                    <form:select path="releaseStatus" type="text" class="selectpicker form-control" id="statusInput"
                                  placeholder="Status">
-                        <form:option value="" label="Select a status"/>
                         <form:options items="${releaseStatuses}"/>
                     </form:select>
                     <form:errors path="releaseStatus" class="control-label"/>
@@ -62,9 +61,28 @@
         </div>
         <form:hidden path="id"/>
         <div class="col-sm-10 col-sm-offset-1">
-            <input type="submit" value="${buttonName}" class="margin-top-30 btn-u pull-right"/>
+            <button type="button" class="margin-top-30 btn-u pull-right" data-toggle="modal"
+                    data-target="#releaseConfirmModal">${buttonName}
+            </button>
+        </div>
+        <!-- Modal confirmation for creating/editing of project -->
+        <div class="modal fade" id="releaseConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" >${buttonName} release</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        Please confirm ${buttonName} of release
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" value="Confirm" class="btn btn-u"/>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form:form>
-
-

@@ -29,32 +29,12 @@ public class ProjectService {
         return projectRepository.findOne(id);
     }
 
-    public List<Project> findByTitle(String title) {
-        return projectRepository.findByTitle(title);
-    }
-
     public Page<Project> findByTitleContaining(String title, Pageable pageable) {
         return projectRepository.findByTitleContaining(title, pageable);
     }
 
-    public List<Project> findByUsers(User user) {
-        return projectRepository.findByUsers(user);
-    }
-
     public Project findByProjectReleases(ProjectRelease projectRelease) {
         return projectRepository.findByProjectReleases(projectRelease);
-    }
-
-    public List<Project> findByGuestView(Boolean guestView) {
-        return projectRepository.findByGuestView(guestView);
-    }
-
-    public List<Project> findByGuestCreateIssues(Boolean guestCreateIssues) {
-        return projectRepository.findByGuestCreateIssues(guestCreateIssues);
-    }
-
-    public List<Project> findByGuestAddComment(Boolean guestAddComment) {
-        return projectRepository.findByGuestAddComment(guestAddComment);
     }
 
     public List<Project> findAll() {
@@ -79,4 +59,5 @@ public class ProjectService {
         }
         projectRepository.delete(id);
     }
+
 }

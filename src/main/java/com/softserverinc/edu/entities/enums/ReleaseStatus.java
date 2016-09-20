@@ -1,5 +1,16 @@
 package com.softserverinc.edu.entities.enums;
 
 public enum ReleaseStatus {
-    OPEN, IN_PROGRESS, CLOSED
+    OPEN("Open"), IN_PROGRESS("In progress"), CLOSED("Closed");
+
+    private String status;
+
+    ReleaseStatus(String role) {
+        this.status = role;
+    }
+
+    @Override
+    public String toString() {
+        return status;
+    }
 }
