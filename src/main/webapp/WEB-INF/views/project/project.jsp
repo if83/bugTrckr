@@ -22,20 +22,6 @@
     </div>
 </div>
 
-<c:if test="${not empty msg}">
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-8">
-            <div class="alert alert-${alert} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"
-                        aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>${msg}</strong>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <div class="container">
     <div class="row project-info text-left">
         <div class="col-sm-12">
@@ -173,12 +159,13 @@
                     <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
                         <div class="input-group form-inline col-xs-11">
                             <select class="form-control form-inline search-by-name selectpicker" type="text" name="searchedParam">
+                                <option value="">Option</option>
                                 <option value="First Name">First Name</option>
                                 <option value="Last Name">Last Name</option>
                             </select>
                             <select class="form-control form-inline search-by-role selectpicker" type="text" name="role">
                                 <option value="">Any Role</option>
-                                <option value="${PM}">Project Manager</option>
+                                <option<p hidden id="message">${msg}</p>value="${PM}">Project Manager</option>
                                 <option value="${DEV}">Developer</option>
                                 <option value="${QA}">QA</option>
                             </select>
@@ -242,9 +229,9 @@
                                                         <button class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
-                                                        <h4 class="modal-title pull-left">
+                                                        <h5 class="modal-title pull-left">
                                                             Change of role
-                                                        </h4>
+                                                        </h5>
                                                     </div>
                                                     <div class="modal-body"><p>Confirm the change
                                                         of ${user.firstName} ${user.lastName} role</p>
@@ -276,7 +263,7 @@
                                                         <button class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
-                                                        <h4 class="modal-title pull-left">Removal user from project</h4>
+                                                        <h5 class="modal-title pull-left">Removal user from project</h5>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p class="text-center">Confirm the removal of ${user.firstName}
@@ -345,10 +332,12 @@
                         </div>
                     </form>
                 </div>
-                <%--add user button--%>
+                <%--add issue button--%>
                 <div class="col-sm-1">
-                    <a href="<spring:url value='/issue/add/' />" class="btn btn-default pull-left">
-                        <i class="fa fa-plus icon-bg"></i>Add Issue</a>
+                    <sec:authorize access="isAnonymous() and ${project.guestCreateIssues}">
+                        <a href="<spring:url value='/issue/add/' />" class="btn btn-default pull-left">
+                            <i class="fa fa-plus icon-bg"></i>Add Issue</a>
+                    </sec:authorize>
                 </div>
             </div>
             <table class="table table-hover table-bordered margin-top-20">
@@ -362,31 +351,33 @@
                 </tr>
                 </thead>
                 <c:forEach var="issue" items="${listOfIssues.content}">
-                    <sec:authorize access="hasAnyRole('ADMIN', 'DEVELOPER', 'QA', 'PROJECT_MANAGER', 'USER')
-                            or hasRole('GUEST') and ${issue.project.guestView}">
-                        <tr>
-                            <td class="text-center">
-                                <a class="viewLink"
-                                   href="<spring:url value='/issue/${issue.id}'/>">
-                                        ${issue.title}
-                                </a>
-                            </td>
-                            <td class="text-center"><c:out value="${issue.type}"/></td>
-                            <td class="text-center"><c:out value="${issue.status}"/></td>
-                            <td class="text-center">
-                                <a class="viewLink"
-                                   href="<spring:url value='/project/${issue.projectRelease.project.id}/release/
+                    <tr>
+                        <td class="text-center">
+                            <a class="viewLink"
+                               href="<spring:url value='/issue/${issue.id}'/>">
+                                    ${issue.title}
+                            </a>
+                        </td>
+                        <td class="text-center"><c:out value="${issue.type}"/></td>
+                        <td class="text-center"><c:out value="${issue.status}"/></td>
+                        <td class="text-center">
+                            <a class="viewLink"
+                               href="<spring:url value='/project/${issue.projectRelease.project.id}/release/
                                ${issue.projectRelease.id}'/>">
-                                        ${issue.projectRelease.version}
-                                </a>
-                            </td>
-                            <td class="text-center">
+                                    ${issue.projectRelease.version}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <sec:authorize access="isAnonymous()">
+                                ${issue.assignee.firstName} ${issue.assignee.lastName}
+                            </sec:authorize>
+                            <sec:authorize access="isAuthenticated()">
                                 <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
                                         ${issue.assignee.firstName} ${issue.assignee.lastName}
                                 </a>
-                            </td>
-                        </tr>
-                    </sec:authorize>
+                            </sec:authorize>
+                        </td>
+                    </tr>
                 </c:forEach>
                 </tbody>
             </table>
@@ -419,4 +410,16 @@
         </div>
     </div>
 </div>
+</div>
+
+<!-- Popup for notifying of changing project-->
+<p hidden id="message">${msg}</p>
+<div class="modal fade" id="modalChanges" tabindex="-1" data-backdrop="false"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+            </div>
+        </div>
+    </div>
 </div>

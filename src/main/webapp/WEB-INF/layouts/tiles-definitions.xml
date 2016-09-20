@@ -115,6 +115,7 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/project/project.js"/>
         </put-list-attribute>
     </definition>
 
@@ -125,6 +126,7 @@
             <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/project/project.js"/>
         </put-list-attribute>
     </definition>
 
@@ -144,7 +146,7 @@
         <put-attribute name="title" value="usersWithoutProject"/>
         <put-attribute name="content" value="/WEB-INF/views/project/users_without_project.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
-            <add-attribute value="/css/user.css"/>
+            <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
         </put-list-attribute>

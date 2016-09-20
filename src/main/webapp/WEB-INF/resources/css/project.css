@@ -27,3 +27,7 @@
 .search-by-role{
     max-width: 25%;
 }
+
+.modal .modal-dialog {
+    width: 30%;
+}

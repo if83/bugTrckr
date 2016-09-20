@@ -19,19 +19,6 @@
     </div>
 </div>
 
-<c:if test="${not empty msg}">
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-8">
-            <div class="alert alert-${css} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>${msg}</strong>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <%--Searching projects by title --%>
 <div class="row margin-top-20 col-sm-12">
     <form action="/projects/search" method="POST" class="col-sm-3 col-sm-offset-2">
@@ -157,9 +144,9 @@
                                     <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close"><span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h4 class="modal-title pull-left">Removal</h4>
+                                    <h5 class="modal-title pull-left">Removal</h5>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body text-center">
                                     Confirm removal of ${project.title}
                                 </div>
                                 <div class="modal-footer">
@@ -200,4 +187,16 @@
             </nav>
         </div>
     </c:if>
+</div>
+
+<!-- Popup for notifying of changing project-->
+<p hidden id="message">${msg}</p>
+<div class="modal fade" id="modalChanges" tabindex="-1" data-backdrop="false"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+            </div>
+        </div>
+    </div>
 </div>
