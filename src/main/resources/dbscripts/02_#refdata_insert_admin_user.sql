@@ -3,7 +3,9 @@ VALUES ('admin', 'admin', 'admin@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/
         'first');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_1', '1', '0', '0', 'description to project 1');
+VALUES ('BugTrckr', '1', '0', '0', ' Esse forensibus sententiae ut vel, pri te meis lucilius conceptam. Sumo evertitur ea per, populo aliquip dolores ei vis. Blandit expetendis no duo, augue nostro labitur te usu. Nam ne iriure aperiam.
+ In veritus signiferumque quo, mea no alii fuisset, has in ipsum invidunt. Ei vero animal sea, et vix quaestio iudicabit signiferumque. Est ut alienum inimicus, enim dicat ea mea. His tantas semper argumentum ei, dictas admodum intellegam pri ad, alienum constituto repudiandae vix ex. Qui eros deseruisse ei, ad natum ludus scriptorem per, in vel lobortis salutandi prodesset.
+ Accusamus patrioque nam in. Habemus adipisci eu est, has everti mollis voluptatibus at. Assum volutpat usu ei. Duo ex consulatu instructior, id dicta fierent mediocrem sed, mutat interpretaris te pri. Oratio sapientem adolescens ius id, an molestiae abhorreant eum, his suas dicit definitionem ut. Ut zril.');
 
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('1', 'v1.0.0', 'CLOSED', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ncidunt sit amet, consectetur adipisicing ipsa magnam architecto dolor illum i, numquam illum incidunt ipsa magnam, numquam perferendis  perferendis quae quos ut? Ducimus eaque  Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.
@@ -93,7 +95,7 @@ VALUES ('John', 'Carmack', 'developer224@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0ee
    'ROLE_DEVELOPER', 'qa', '1', '1');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_2', '1', '1', '0', 'description to project 2');
+VALUES ('Newhow', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('2', '2', 'OPEN', 'RELEASE 2');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
@@ -107,7 +109,7 @@ VALUES ('quality_e2', 'quality_e2', 'quality_e1@ss.com', '$2a$12$bTRBMwG6lnCVzvV
         'ROLE_QA', 'qa', '2');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_3', '1', '1', '1', 'description to project 3');
+VALUES ('U-dincon', '1', '1', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('3', '3', 'OPEN', 'RELEASE 3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
@@ -123,7 +125,7 @@ VALUES ('quality_e3', 'quality_e3', 'quality_e2@ss.com', '$2a$12$bTRBMwG6lnCVzvV
         'ROLE_QA', 'qa', '3');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_4', '0', '0', '0', 'description to project 2');
+VALUES ('Zuming ', '0', '0', '0', 'description to project 2');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('4', '4', 'OPEN', 'RELEASE 4');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
@@ -139,39 +141,39 @@ VALUES ('quality_e4', 'quality_e4', 'quality_e3@ss.com', '$2a$12$bTRBMwG6lnCVzvV
         'ROLE_QA', 'qa', '4');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_5', '1', '1', '0', 'description to project 5');
+VALUES ('Bamcare', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_6', '1', '0', '1', 'description to project 6');
+VALUES ('Rocky Railroad', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_7', '1', '0', '1', 'description to project 7');
+VALUES ('Faxgreen', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_8', '1', '0', '1', 'description to project 8');
+VALUES ('Zimcone', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_9', '0', '0', '0', 'description to project 9');
+VALUES ('Joyware', '0', '0', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_10', '1', '1', '1', 'description to project 10');
+VALUES ('Codetex', '1', '1', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_11', '1', '1', '1', 'description to project 11');
+VALUES ('Blue Smoke', '1', '1', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_12', '1', '1', '0', 'description to project 12');
+VALUES ('Strongfase', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_13', '1', '1', '1', 'description to project 13');
+VALUES ('Freelam', '1', '1', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_14', '0', '0', '0', 'description to project 14');
+VALUES ('Lucky Fox', '0', '0', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_15', '0', '0', '0', 'description to project 15');
+VALUES ('Zathcan', '0', '0', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_16', '1', '0', '1', 'description to project 16');
+VALUES ('Whiteline', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_17', '1', '0', '0', 'description to project 17');
+VALUES ('Gamma', '1', '0', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_18', '1', '1', '0', 'description to project 18');
+VALUES ('Plexfi', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_19', '0', '0', '0', 'description to project 19');
+VALUES ('Spantanhow', '0', '0', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_20', '1', '0', '1', 'description to project 20');
+VALUES ('Eager Cloud', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('project_21', '1', '1', '1', 'description to project 21');
+VALUES ('ganzphase', '1', '1', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('user1', 'user1', 'user1@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',

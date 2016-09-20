@@ -133,7 +133,7 @@ public class UserService {
             return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(null, searchedString,
                     UserRole.ROLE_USER, false, 1, pageable);
         }
-        else return userRepository.findByEmailAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
+        else return userRepository.findByEmailContainingAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
                     false, 1, pageable);
     }
 

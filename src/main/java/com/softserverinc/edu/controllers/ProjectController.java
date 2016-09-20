@@ -45,12 +45,12 @@ public class ProjectController {
     private IssueService issueService;
 
     @GetMapping("/projects")
-    public String listOfProjects(ModelMap model, Principal principal,
-                                 @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
-        model.addAttribute("listOfProjects", projectService.findAll(pageable));
+    public String listOfProjects(@PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
+                                 ModelMap model, Principal principal) {
         if (principal != null) {
             model.addAttribute("loggedUser", userService.findByEmailIs(principal.getName()));
         }
+        model.addAttribute("listOfProjects", projectService.findAll(pageable));
         return "projects";
     }
 

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
 <div class="breadcrumbs">
@@ -59,15 +59,15 @@
                 <div class="col-sm-9">${user.project.title}</div>
             </div>
         </c:if>
-
-        <div class="margin-top-30 row">
-            <div class="col-sm-4">
-                <spring:url value="/user/${user.id}/edit" var="useredit"/>
-                <a class="btn btn-primary btn-u" href="${useredit}" role="button">Edit profile</a>
+        <sec:authorize access="hasRole('ADMIN')">
+            <div class="margin-top-30 row">
+                <div class="col-sm-4">
+                    <spring:url value="/user/${user.id}/edit" var="useredit"/>
+                    <a class="btn btn-primary btn-u" href="${useredit}" role="button">Edit profile</a>
+                </div>
+                <div class="col-sm-8"></div>
             </div>
-            <div class="col-sm-8"></div>
-        </div>
-
+        </sec:authorize>
     </div>
 
     <div class="col-sm-11 col-sm-offset-1 col-md-3">
