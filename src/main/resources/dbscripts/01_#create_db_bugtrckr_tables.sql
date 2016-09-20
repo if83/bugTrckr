@@ -119,11 +119,12 @@ PRIMARY KEY (`labelId`,`issueId`)
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `IssueComment` (
-  `id`        INT       NOT NULL AUTO_INCREMENT,
-  `text`      TEXT      NOT NULL,
-  `timeStamp` TIMESTAMP NOT NULL,
-  `issueId`   INT       NOT NULL,
-  `userId`    INT       NOT NULL,
+  `id`          INT       NOT NULL AUTO_INCREMENT,
+  `text`        TEXT      NOT NULL,
+  `timeStamp`   TIMESTAMP NOT NULL,
+  `issueId`     INT       NOT NULL,
+  `userId`      INT       NOT NULL,
+  `isEdited`    BOOLEAN   NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

@@ -157,9 +157,12 @@
                         <div class="margin-top-30">
                             <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
                                     ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
-                            &nbsp;commented at <c:out value="${issueCommentsListIterator.timeStamp}"/>
+                            &nbsp;commented at <c:out value="${issueCommentsListIterator.timeStamp}"/>&nbsp;
+                            <c:if test="${issueCommentsListIterator.isEdited == true}">
+                                <span class="text-danger">[edited]</span>
+                            </c:if>
                             <div class="pull-right">
-                                <a href="<spring:url value='#'/>">
+                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
                                     <i class="fa fa-edit icon-table-u"></i></a>
                                 &nbsp;
                                 <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove'/>">
@@ -171,7 +174,7 @@
                 </div>
                 <%--comment form--%>
                 <div class="margin-top-30">
-                    <form:form action="${newIssueComment.issue.id}/comment/save" modelAttribute="newIssueComment"
+                    <form:form action="${commentsAction}" modelAttribute="newIssueComment"
                                method="POST">
                         <spring:bind path="text">
                             <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
@@ -184,6 +187,7 @@
                         <form:hidden path="user"/>
                         <form:hidden path="issue"/>
                         <form:hidden path="id"/>
+                        <form:hidden path="isEdited"/>
                         <div class="col-sm-10 col-sm-offset-1">
                             <input type="submit" value="Comment" class="margin-top-30 btn-u pull-right"/>
                         </div>
@@ -286,9 +290,9 @@
                 </div>
 
                 <%--worklog form--%>
-                <div id="workLogForm" class="hidden">
+                <div id="workLogForm" class="hidden col-sm-offset-1">
                     <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
-                        <form:form action="${action}" modelAttribute="workLog" method="POST">
+                        <form:form action="${workLogAction}" modelAttribute="workLog" method="POST">
                             <div class="col-sm-8">
                                 <spring:bind path="startDate">
                                     <div class="margin-top-10">
@@ -325,8 +329,10 @@
                             <form:hidden path="issue"/>
                             <form:hidden path="id"/>
                             <div class="col-sm-10 col-sm-offset-1" id="workLogButtons">
-                                <span><button id="workLogCancelButton" class="hidden">Cancel</button>
-                                <input type="submit" value="Submit" class="margin-top-30 btn-u pull-right" id="workLogSubmitButton"/></span>
+                                <span>
+                                    <input type="submit" value="Submit" class="margin-top-30 btn-u col-sm-offset-5" id="workLogSubmitButton"/>
+                                    <button id="workLogCancelButton" class="hidden">Cancel</button>
+                                </span>
                             </div>
                         </form:form>
                     </sec:authorize>

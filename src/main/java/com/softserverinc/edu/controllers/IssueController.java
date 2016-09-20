@@ -90,6 +90,7 @@ public class IssueController {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("commentsAction", issueId + "/comment/save");
         if (principal != null) {
             model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         }
@@ -109,6 +110,21 @@ public class IssueController {
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, workLogPageable);
+        return "issue_view";
+    }
+
+    /*@PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
+            "@workLogService.findOne(#workLogId).getUser()")*/
+    @GetMapping(value = "issue/{issueId}/comment/{issueCommentId}/edit")
+    public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
+                                       @PathVariable("issueCommentId") Long issueCommentId,
+                                       ModelMap model, Pageable workLogPageable, Principal principal) {
+        IssueComment issueComment = issueCommentService.findOne(issueCommentId);
+        issueComment.setIsEdited(true);
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("newIssueComment", issueComment);
+        model.addAttribute("commentsAction", "../save");
+        workLogService.forNewWorkLogModel(model, issueId, principal, workLogPageable);
         return "issue_view";
     }
 
@@ -244,6 +260,7 @@ public class IssueController {
         issueComment.setId(0L);
         issueComment.setUser(userService.findOne(userService.findByEmailIs(principal.getName()).getId()));
         issueComment.setIssue(issueService.findById(issueId));
+        issueComment.setIsEdited(false);
         return issueComment;
     }
 

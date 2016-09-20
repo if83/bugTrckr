@@ -3,7 +3,6 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -40,6 +39,10 @@ public class IssueComment {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
+
+    @NotNull
+    @Column
+    private Boolean isEdited;
 
     public IssueComment() {
 
@@ -83,6 +86,14 @@ public class IssueComment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean getIsEdited() {
+        return isEdited;
+    }
+
+    public void setIsEdited(Boolean isEdited) {
+        this.isEdited = isEdited;
     }
 
     @Override

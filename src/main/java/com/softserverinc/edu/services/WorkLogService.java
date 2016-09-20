@@ -93,7 +93,7 @@ public class WorkLogService {
 
     public void forNewWorkLogModel(ModelMap model, Long issueId, Principal principal, Pageable pageable) {
         model.addAttribute("stage", "new");
-        model.addAttribute("action", issueId + "/worklog/save");
+        model.addAttribute("workLogAction", issueId + "/worklog/save");
         model.addAttribute("permissionToUseWorkLogForm", getPermissionToCreateWorkLog(principal, issueId));
         model.addAttribute("workLog", getNewWorkLog(issueId, principal));
         model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));
@@ -103,7 +103,7 @@ public class WorkLogService {
 
     public void forEditWorkLogModel(ModelMap model, Long workLogId, Long issueId, Principal principal, Pageable pageable) {
         WorkLog currentWorkLog = findOne(workLogId);
-        model.addAttribute("action", "../../worklog/save");
+        model.addAttribute("workLogAction", "../../worklog/save");
         model.addAttribute("stage", "expelliarmus");
         model.addAttribute("permissionToUseWorkLogForm", getPermissionToEditWorkLog(principal, issueId));
         model.addAttribute("id", currentWorkLog.getId());
