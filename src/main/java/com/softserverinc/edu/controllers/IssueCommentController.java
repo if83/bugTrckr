@@ -2,9 +2,11 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.services.IssueCommentService;
+import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,10 @@ public class IssueCommentController {
     @Autowired
     private IssueCommentService issueCommentService;
 
+    @Autowired
+    private IssueCommentSecurityService issueCommentSecurityService;
+
+    @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment()")
     @RequestMapping(value = "issue/{issueId}/comment/save", method = RequestMethod.POST)
     public String addIssueComment(@PathVariable Long issueId,
                                   @ModelAttribute("newIssueComment") @Valid IssueComment newIssueComment,
@@ -35,11 +41,12 @@ public class IssueCommentController {
         return "redirect:/issue/" + issueId;
     }
 
-    @RequestMapping(value = "issue/{issueId}/comment/{commentId}/remove", method = RequestMethod.GET)
-    public String removeIssueComment(@PathVariable("commentId") long commentId,
+    @PreAuthorize("@issueCommentSecurityService.hasPermissionToRemoveIssueComment(#issueCommentId)")
+    @RequestMapping(value = "issue/{issueId}/comment/{issueCommentId}/remove", method = RequestMethod.GET)
+    public String removeIssueComment(@PathVariable("issueCommentId") long issueCommentId,
                                      @PathVariable("issueId") long issueId) {
-        issueCommentService.delete(commentId);
-        LOGGER.debug("Comment " + commentId + " is removed!");
+        issueCommentService.delete(issueCommentId);
+        LOGGER.debug("Comment " + issueCommentId + " is removed!");
         return "redirect:/issue/" + issueId;
     }
 }

@@ -7,6 +7,7 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.services.*;
+import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
 import com.softserverinc.edu.services.securityServices.WorkLogSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,9 @@ public class IssueController {
 	
     @Autowired
     private WorkLogSecurityService workLogSecurityService;
+
+    @Autowired
+    private IssueCommentSecurityService issueCommentSecurityService;
 
     @GetMapping(value = "/issue")
     public String listOfIssues(Model model, @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable,
@@ -115,7 +119,7 @@ public class IssueController {
         return "issue_view";
     }
 
-	//TODO: prokhorenkovkv preauthorize
+    @PreAuthorize("@issueCommentSecurityService.hasPermissionToEditIssueComment(#issueCommentId)")
     @GetMapping(value = "issue/{issueId}/comment/{issueCommentId}/edit")
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("issueCommentId") Long issueCommentId,
