@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     var location = window.location.href;
-
+    
     //styles for work log paginating
     if(location.indexOf("?worklog_page=") > 0) {
         $("#tab-comments").removeClass("active");
@@ -64,6 +64,6 @@ $(document).ready(function () {
     });
 
     //redirect message hide
-    $("#redirectMessage").show(0).delay(2000).hide(1500);
+    $("#redirectMessage").show(0).delay(3000).hide(2000);
 
 });

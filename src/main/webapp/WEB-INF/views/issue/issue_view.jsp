@@ -1,4 +1,3 @@
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -152,26 +151,50 @@
             <%--comments--%>
             <div role="tabpanel" class="tab-pane fade in active" id="tabs-comments">
                 <%--comments list--%>
-                <div>
+                <div class="margin-top-30">
                     <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
-                        <div class="margin-top-30">
-                            <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
-                                    ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
-                            &nbsp;commented at <c:out value="${issueCommentsListIterator.timeStamp}"/>&nbsp;
-                            <c:if test="${issueCommentsListIterator.isEdited == true}">
-                                <span class="text-danger">[edited]</span>
-                            </c:if>
-                            <div class="pull-right">
-                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
-                                    <i class="fa fa-edit icon-table-u"></i></a>
-                                &nbsp;
-                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove'/>">
-                                    <i class="fa fa-remove icon-table-u"></i></a>
+                        <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
+                                ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
+                        &nbsp;commented at <span class="trimMs"><c:out value="${issueCommentsListIterator.timeStamp}"/></span>&nbsp;
+                        <c:if test="${issueCommentsListIterator.isEdited == true}">
+                            <span class="text-danger">[edited]</span>
+                        </c:if>
+                        <div class="pull-right">
+                            <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
+                                <i class="fa fa-edit icon-table-u"></i></a>
+                            &nbsp;
+                            <a href="" data-toggle="modal"
+                               data-target="#removeCommentButton-${issueCommentsListIterator.id}"><i
+                                    class="fa fa-remove icon-table-u"></i></a>
+                            <div class="modal fade" id="removeCommentButton-${issueCommentsListIterator.id}"
+                                 tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title pull-left">Remove comment</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="text-center">Please confirm removal</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />"
+                                               class="btn btn-u">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                                ${issueCommentsListIterator.text}
                         </div>
+                        ${issueCommentsListIterator.text}
                     </c:forEach>
                 </div>
+
                 <%--comment form--%>
                 <div class="margin-top-30">
                     <form:form action="${commentsAction}" modelAttribute="newIssueComment"
@@ -198,6 +221,7 @@
                 <%--worklog features--%>
             <div role="tabpanel" class="tab-pane fade" id="tabs-worklog">
                 <div class="margin-top-10 text-center">
+                    <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
                 <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
                     <button class="workLogToggler btn-u row text-center">Add entry</button>
                 </sec:authorize>
@@ -230,8 +254,34 @@
                                                         class="fa fa-edit icon-table-u"></i></a>
                                             </td>
                                             <td>
-                                                <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"><i
+                                                <a href="" data-toggle="modal"
+                                                   data-target="#removeWorkLogButton-${workLogIterator.id}"><i
                                                         class="fa fa-remove icon-table-u"></i></a>
+                                                <div class="modal fade" id="removeWorkLogButton-${workLogIterator.id}"
+                                                     tabindex="-1"
+                                                     role="dialog" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                <h4 class="modal-title pull-left">Remove work log</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p class="text-center">Please confirm removal</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-default" data-dismiss="modal">
+                                                                    Cancel
+                                                                </button>
+                                                                <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"
+                                                                   class="btn btn-u">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </c:when>
                                         <c:otherwise>
