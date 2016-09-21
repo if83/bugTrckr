@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Configuration for database, Hibernate, transactions
@@ -94,6 +95,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
         // Scan package for existing entities
         entityManagerFactory.setPackagesToScan("com.softserverinc.edu.entities");
+        entityManagerFactory.setJpaProperties(hibernateSearchProperties());
         return entityManagerFactory;
     }
 
@@ -107,4 +109,16 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return new UserService();
     }
 
+    private Properties hibernateSearchProperties() {
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.search.default.directory_provider",
+                environment.getProperty("hibernate.search.default.directory_provider"));
+        hibernateProperties.setProperty("hibernate.search.default.indexBase",
+                environment.getProperty("hibernate.search.default.indexBase"));
+//        hibernateProperties.setProperty("hibernate.search.Rules.directory_provider",
+//                environment.getProperty("hibernate.search.Rules.directory_provider"));
+//        hibernateProperties.setProperty("hibernate.search.Actions.directory_provider",
+//                environment.getProperty("hibernate.search.Actions.directory_provider"));
+        return hibernateProperties;
+    }
 }
