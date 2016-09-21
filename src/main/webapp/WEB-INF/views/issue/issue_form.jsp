@@ -77,10 +77,10 @@
                     <spring:bind path="assignee">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="assignee">Assignee</label>
-                            <form:select path="assignee" id="assignee" items="${users}" itemLabel="firstName"
-                                         itemValue="id" cssClass="selectpicker form-control" data-live-search="true">
+                            <form:select id="assignee" path="assignee" items="${users}"
+                                         itemLabel="fullName" itemValue="id" data-live-search="true"
+                                         cssClass="form-control selectpicker"/>
                                 <form:errors path="assignee" class="control-label"/>
-                            </form:select>
                         </div>
                     </spring:bind>
 
@@ -147,7 +147,6 @@
                             </div>
                         </spring:bind>
                     </c:if>
-
                 </div>
 
                 <div class="col-sm-6">
@@ -169,12 +168,11 @@
                         <form:textarea path="description" cols="100" id="editor1" rows="10"></form:textarea>
                     </div>
                 </div>
-
                 <form:hidden path="lastUpdateDate"/>
                 <form:hidden path="createTime"/>
                 <form:hidden path="id"/>
                 <div class="col-sm-12">
-                    <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
+                    <input type="submit" value="${buttonname}" class="margin-top-30 btn btn-default pull-right"/>
                 </div>
             </form:form>
         </div>

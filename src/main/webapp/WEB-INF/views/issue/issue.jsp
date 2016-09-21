@@ -36,8 +36,8 @@
 
 <div class="col-sm-2 col-sm-offset-1">
     <sec:authorize access="isAuthenticated()">
-        <a href="<spring:url value='/issue/add/' />" class="btn btn-primary btn-u pull-left">
-            <i class="fa fa-plus icon-bg-u"></i>Add Issue</a>
+        <a href="<spring:url value='/issue/add/' />" class="btn btn-default pull-left">
+           Add Issue</a>
     </sec:authorize>
 </div>
 
@@ -91,7 +91,9 @@
                             <td class="text-center">
 
                                     <a class="viewLink"
-                                       href="<spring:url value='issue/${issue.id}'/>">
+                                <sec:authorize access="isAuthenticated()">
+                                       href="<spring:url value='issue/${issue.id}'/>"
+                                </sec:authorize> >
                                             ${issue.title}
                                     </a>
 
@@ -123,12 +125,10 @@
                                     <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
                                         <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
                                                 class="fa fa-hourglass-half icon-table-u"></i></a>
-                                        &nbsp
                                     </sec:authorize>
                                     <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
-                                        <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
-                                                class="fa fa-edit icon-table-u"></i></a>
-                                        &nbsp
+                                                <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
+                                                        class="fa fa-edit icon-table-u"></i></a>
                                     </sec:authorize>
                                     <sec:authorize access="@issueSecurityService.hasPermissionToRemoveIssue(${issue.id})">
                                         <a data-toggle="modal" data-target="#removeModal${issue.id}">
@@ -247,12 +247,13 @@
                                                 class="fa fa-hourglass-half icon-table-u"></i></a>
                                         &nbsp
                                     </sec:authorize>
-                                    <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${userIssue.id})">
+                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')
+                                    or hasAnyRole('DEVELOPER', 'QA') and ${userIssue.editAbility}">
                                         <a href="<spring:url value='/issue/${userIssue.id}/edit' />"><i
                                                 class="fa fa-edit icon-table-u"></i></a>
                                         &nbsp
                                     </sec:authorize>
-                                    <sec:authorize access="@issueSecurityService.hasPermissionToDeleteIssue(${userIssue.id})">
+                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
                                         <a data-toggle="modal" data-target="#removeModalNew${userIssue.id}">
                                             <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                                     </sec:authorize>

@@ -78,6 +78,10 @@ public class User {
     public User() {
     }
 
+    public String getFullName() {
+        return firstName + " " +lastName;
+    }
+
     public Long getId() {
         return id;
     }
