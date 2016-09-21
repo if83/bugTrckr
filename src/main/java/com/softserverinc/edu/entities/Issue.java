@@ -6,6 +6,8 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +17,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Indexed
 public class Issue {
 
     @Id
@@ -24,6 +27,7 @@ public class Issue {
 
     @NotEmpty(message = "Please enter the issue title")
     @Column(nullable = false, length = 32)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String title;
 
     @NotNull(message = "Please select issue type")
@@ -86,6 +90,7 @@ public class Issue {
 
     @NotNull(message = "Please enter description")
     @Column(nullable = false, length = 10000)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
 
     @NotNull(message = "Please choose if users can edit this issue")

@@ -3,6 +3,8 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Indexed
 public class Project {
 
     @Id
@@ -21,6 +24,7 @@ public class Project {
     @NotEmpty(message = "Please enter project title")
     @Size(max = 100, message = "Project title must be no longer than 100 characters")
     @Column(nullable = false, length = 100)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String title;
 
     @OneToMany(mappedBy = "project")
@@ -41,6 +45,7 @@ public class Project {
     @NotEmpty(message = "Please enter project description")
     @Size(max = 10000, message = "Project title must be no longer than 10000 characters")
     @Column(length = 10000, nullable = false)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
 
     public Project() {
