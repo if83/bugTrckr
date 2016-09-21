@@ -131,7 +131,7 @@
                                 <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                         </td>
                         <td class="text-center">
-                            <a data-toggle="modal" data-target="#removeModal${project.id}">
+                            <a data-toggle="modal" href data-target="#removeModal${project.id}">
                                 <i class="fa fa-trash fa-lg icon-table-u"></i></a>
                         </td>
                     </sec:authorize>

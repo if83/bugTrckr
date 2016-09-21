@@ -26,7 +26,7 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "project", orphanRemoval = true)
     private Set<ProjectRelease> projectReleases = new HashSet<>();
 
     @Column(nullable = false)

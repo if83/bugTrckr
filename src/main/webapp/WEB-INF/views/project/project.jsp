@@ -202,14 +202,12 @@
                 <c:forEach var="user" items="${usersList.content}">
                     <tr>
                         <td class="text-center">
-                            <sec:authorize access="isAnonymous()">
-                                ${user.firstName} ${user.lastName}
-                            </sec:authorize>
-                            <sec:authorize access="!isAnonymous()">
-                                <a class="viewLink" href="<spring:url value='/user/${user.id}/view' />">${user.firstName}
-                                        ${user.lastName}
-                                </a>
-                            </sec:authorize>
+                            <a class="viewLink"
+                                 <sec:authorize access="isAuthenticated()">
+                                        href="<spring:url value='/user/${user.id}/view' />"
+                                 </sec:authorize>>
+                                    ${user.firstName} ${user.lastName}
+                            </a>
                         </td>
                         <td class="text-center">${user.role.toString()}</td>
                         <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
@@ -217,7 +215,7 @@
                                 <c:choose>
                                     <c:when test="${!user.role.isProjectManager()}">
                                         <!--changing user role-->
-                                        <a data-toggle="modal" data-target="#changingRole${user.id}${project.id}">
+                                        <a data-toggle="modal" href data-target="#changingRole${user.id}${project.id}">
                                             <i class="fa fa-edit fa-lg icon-table-u"></i></a>
 
                                         <!-- Modal for confirmation of changing of user role -->
@@ -251,7 +249,7 @@
                                         </div>
 
                                         <!--Removing user from project -->
-                                        <a data-toggle="modal" data-target="#removingOfUser${user.id}${project.id}">
+                                        <a data-toggle="modal" href data-target="#removingOfUser${user.id}${project.id}">
                                             <i class="fa fa-trash fa-lg icon-table-u"></i></a>
 
                                         <!-- Modal for confirmation of removing user from project-->
@@ -354,8 +352,10 @@
                     <tr>
                         <td class="text-center">
                             <a class="viewLink"
-                               href="<spring:url value='/issue/${issue.id}'/>">
-                                    ${issue.title}
+                                <sec:authorize access="isAuthenticated()">
+                                    href="<spring:url value='/issue/${issue.id}'/>"
+                                </sec:authorize> >
+                                ${issue.title}
                             </a>
                         </td>
                         <td class="text-center"><c:out value="${issue.type}"/></td>
