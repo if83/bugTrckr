@@ -234,7 +234,7 @@
                                                         </h5>
                                                     </div>
                                                     <div class="modal-body"><p>Confirm the change
-                                                        of ${user.firstName} ${user.lastName} role</p>
+                                                        of <strong> ${user.firstName} ${user.lastName}</strong> role</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">
@@ -266,8 +266,8 @@
                                                         <h5 class="modal-title pull-left">Removal user from project</h5>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p class="text-center">Confirm the removal of ${user.firstName}
-                                                        ${user.lastName} from ${project.title}</p>
+                                                        <p class="text-center">Confirm the removal of <strong>${user.firstName}
+                                                        ${user.lastName}</strong> from <strong>${project.title}</strong></p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">

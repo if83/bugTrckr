@@ -62,8 +62,36 @@
                         <td class="text-center">
                             <c:choose>
                                 <c:when test="${project.getUsers().isEmpty()}">
-                                    <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/
-                                    ${user.id}/changeRole'/>" class="btn btn-default">ADD PM</a>
+                                <!--Add PM to project -->
+                                <a data-toggle="modal" data-target="#AddingPM${user.id}${project.id}"
+                                   class="btn btn-default">ADD PM</a>
+
+                                <!-- Modal for adding of PM to project-->
+                                <div class="modal fade" id="AddingPM${user.id}${project.id}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h5 class="modal-title pull-left">Adding Project Manager </h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-center">Confirm adding <strong>${user.firstName}
+                                                    ${user.lastName}</strong> as Project Manager to
+                                                    <strong>${project.title}</strong></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/${user.id}/changeRole'/>"
+                                                   class="btn btn-u">Confirm
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </c:when>
                                 <c:otherwise>
                                     <a type="button" class="btn btn-default" data-toggle="modal"
