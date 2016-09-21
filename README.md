@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/IF-066-Java/bugTrckr.svg?branch=dev)](https://travis-ci.org/IF-066-Java/bugTrckr)
 ***
 
-# Running project locally:
+## Running project locally:
 
 1. clone the project;
 2. open project in IDE;
@@ -11,6 +11,7 @@
 4. in the file *AgileSoftware/src/main/resources/sql_maven_plugin.properties* change all properties to false;
 5. run maven goal `mvn clean package` for execute database-scripts and create war-package;
 6. run the project in the local server (for example *Tomcat*)
+    In the Database will be user with admin rights, e-mail: admin@ss.com, and password: admin
 7. (optional) for inserting images
     7. run MySQL terminal
          **mysql -u root -p**
@@ -29,7 +30,6 @@
       '\\var\\lib\\mysql-files\\martin-schoeller-bill.jpg'
 
 
-In the Database will be user with admin rights, e-mail: admin@ss.com, and password: admin
 
 ## Troubleshooting
 
@@ -62,9 +62,9 @@ This guide highlights the most important and most common conventions for writing
 
 ### Formatting
 * Four spaces should be used as the unit of indentation (no tabs)
-* Don't write lines longer than 80 characters.
-* Avoid write methods longer than 20 lines.
-* Don't write classes that are longer than 100 lines (not including comments).
+* Don't write lines longer than 120 characters.
+* Avoid write methods longer than 30 lines.
+* Don't write classes that are longer than 150 lines (not including comments).
 * Use empty line between method definitions.
 * Use ampty line between the local variables in a method and its first statement
 * Don't use extra empty lines at the end and beginning of class/method definitions.
@@ -81,6 +81,7 @@ This guide highlights the most important and most common conventions for writing
 ### Organization
 
 The order of things inside classes should be:
+
 1. Static variables
 2. Instance variables
 3. Constructors
