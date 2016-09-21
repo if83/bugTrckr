@@ -35,7 +35,7 @@ public class WorkLogFormValidator {
             int days = (int) (1 + (dateFormatSQL.parse(endTime).getTime() -
                     dateFormatSQL.parse(startTime).getTime()) / 1000 / 60 / 60 / 24);
             double dailyAmountOfTime = workLog.getAmountOfTime() / days;
-            return dailyAmountOfTime > 8; //may specify user or project workday duration instead
+            return dailyAmountOfTime < 8; //may specify user or project workday duration instead
         } catch (ParseException e) {
             LOGGER.error(e.toString(), e);
         }

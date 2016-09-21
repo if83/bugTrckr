@@ -7,6 +7,7 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.services.*;
+import com.softserverinc.edu.services.securityServices.WorkLogSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -52,13 +52,13 @@ public class IssueController {
     private LabelService labelService;
 
     @Autowired
-    private ProjectService projectService;
-
-    @Autowired
     private ProjectReleaseService projectReleaseService;
 
     @Autowired
     private WorkLogService workLogService;
+	
+    @Autowired
+    private WorkLogSecurityService workLogSecurityService;
 
     @GetMapping(value = "/issue")
     public String listOfIssues(Model model, @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable,
@@ -100,8 +100,8 @@ public class IssueController {
         return "issue_view";
     }
 
-    @PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
-            "@workLogService.findOne(#workLogId).getUser()")
+    
+	@PreAuthorize("@workLogSecurityService.hasPermissionToEditWorkLog(#workLogId)")
     @GetMapping(value = "issue/{issueId}/worklog/{workLogId}/edit")
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("workLogId") Long workLogId,
@@ -115,8 +115,7 @@ public class IssueController {
         return "issue_view";
     }
 
-    /*@PreAuthorize("hasRole('ADMIN') or @userService.findByEmail(#principal.getName()).get(0) == " +
-            "@workLogService.findOne(#workLogId).getUser()")*/
+	//TODO: prokhorenkovkv preauthorize
     @GetMapping(value = "issue/{issueId}/comment/{issueCommentId}/edit")
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("issueCommentId") Long issueCommentId,

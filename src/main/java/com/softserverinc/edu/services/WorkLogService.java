@@ -4,6 +4,7 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.WorkLog;
 import com.softserverinc.edu.repositories.WorkLogRepository;
+import com.softserverinc.edu.services.securityServices.WorkLogSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,9 @@ public class WorkLogService {
 
     @Autowired
     private IssueService issueService;
+
+    @Autowired
+    private WorkLogSecurityService workLogSecurityService;
 
     public WorkLog findOne(Long id) {
         return workLogRepository.findOne(id);
@@ -67,64 +71,44 @@ public class WorkLogService {
         return workLogRepository.saveAndFlush(workLog);
     }
 
-    public String getPermissionToCreateWorkLog(Principal principal, Long issueId){
-        if ((userService.findByEmail(principal.getName()).get(0)).equals(getCurrentIssue(issueId).getAssignee())){
-            return (userService.findByEmail(principal.getName()).get(0)).getRole().toString().toUpperCase().replace(' ', '_');
-        }
-        return null;
-    }
-
-    public String getPermissionToEditWorkLog(Principal principal, Long issueId){
-        if (didCurrentUserWorkOnCurrentIssue(principal, issueId)){
-            return (userService.findByEmail(principal.getName()).get(0)).getRole().toString().toUpperCase().replace(' ', '_');
-        }
-        return null;
-    }
-
-    public Boolean didCurrentUserWorkOnCurrentIssue(Principal principal, Long issueId){
-        List<WorkLog> workLog = findByIssue(issueService.findById(issueId));
-        for (WorkLog workLogIterator: workLog) {
-            if(workLogIterator.getUser().equals(userService.findByEmail(principal.getName()).get(0))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void forNewWorkLogModel(ModelMap model, Long issueId, Principal principal, Pageable pageable) {
-        model.addAttribute("stage", "new");
-        model.addAttribute("workLogAction", issueId + "/worklog/save");
-        model.addAttribute("permissionToUseWorkLogForm", getPermissionToCreateWorkLog(principal, issueId));
-        model.addAttribute("workLog", getNewWorkLog(issueId, principal));
-        model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));
-        model.addAttribute("endDate", getCurrentDate());
-        populateWorkLogModel(model, issueId, principal, pageable);
+        if(workLogSecurityService.isAuthenticated()) {
+            model.addAttribute("stage", "new");
+            model.addAttribute("workLogAction", issueId + "/worklog/save");
+            model.addAttribute("permissionToUseWorkLogForm", workLogSecurityService.getPermissionToCreateWorkLog(issueId));
+            model.addAttribute("workLog", getNewWorkLog(issueId/*, principal*/));
+            model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));
+            model.addAttribute("endDate", getCurrentDate());
+            populateWorkLogModel(model, issueId/*, principal*/, pageable);
+        }
     }
 
     public void forEditWorkLogModel(ModelMap model, Long workLogId, Long issueId, Principal principal, Pageable pageable) {
-        WorkLog currentWorkLog = findOne(workLogId);
-        model.addAttribute("workLogAction", "../../worklog/save");
-        model.addAttribute("stage", "expelliarmus");
-        model.addAttribute("permissionToUseWorkLogForm", getPermissionToEditWorkLog(principal, issueId));
-        model.addAttribute("id", currentWorkLog.getId());
-        model.addAttribute("workLog", currentWorkLog);
-        model.addAttribute("startDate", currentWorkLog.getStartDate());
-        model.addAttribute("endDate", currentWorkLog.getEndDate());
-        populateWorkLogModel(model, currentWorkLog.getIssue().getId(), principal, pageable);
+            WorkLog currentWorkLog = findOne(workLogId);
+            if(workLogSecurityService.isAuthenticated()) {
+            model.addAttribute("workLogAction", "../../worklog/save");
+            model.addAttribute("stage", "expelliarmus");
+            model.addAttribute("permissionToUseWorkLogForm", workLogSecurityService.getPermissionToEditWorkLog(issueId));
+            model.addAttribute("id", currentWorkLog.getId());
+            model.addAttribute("workLog", currentWorkLog);
+            model.addAttribute("startDate", currentWorkLog.getStartDate());
+            model.addAttribute("endDate", currentWorkLog.getEndDate());
+            populateWorkLogModel(model, currentWorkLog.getIssue().getId()/*, principal*/, pageable);
+        }
     }
 
-    public void populateWorkLogModel(ModelMap model, Long issueId, Principal principal, Pageable pageable) {
-        model.addAttribute("currentUser", userService.findByEmail(principal.getName()).get(0));
+    public void populateWorkLogModel(ModelMap model, Long issueId/*, Principal principal*/, Pageable pageable) {
+        model.addAttribute("currentUser", workLogSecurityService.getActiveUser());//userService.findByEmailIs(principal.getName()));
         model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("parsedDueDate", parseDateToSQLFormat(issueService.findById(issueId).getDueDate()));
         model.addAttribute("totalSpentTimeByAllUsers", getTotalSpentTimeForIssueByAllUsers(issueId));
         model.addAttribute("workLogsOfCurrentIssueByAllUsers", findByIssue(getCurrentIssue(issueId), pageable));
     }
 
-    public WorkLog getNewWorkLog(Long issueId, Principal principal) {
+    public WorkLog getNewWorkLog(Long issueId/*, Principal principal*/) {
         WorkLog workLog = new WorkLog();
         workLog.setIssue(issueService.findById(issueId));
-        workLog.setUser(userService.findByEmail(principal.getName()).get(0));
+        workLog.setUser(workLogSecurityService.getActiveUser());//userService.findByEmailIs(principal.getName()));
         return workLog;
     }
 
