@@ -189,7 +189,7 @@ public class ProjectController {
         User user = userService.findOne(userId);
         userService.deleteFromProject(userId);
         redirectAttributes.addFlashAttribute("msg", String.format("%s %s was removed from project",
-                user.getLastName(), user.getFirstName()));
+                user.getFirstName(), user.getLastName()));
         return "redirect:/projects/project/" + projectId;
     }
 
@@ -201,13 +201,13 @@ public class ProjectController {
         Project project = projectService.findById(projectId);
         if(project.getUsers().isEmpty()) {
             redirectAttributes.addFlashAttribute("msg", String.format("%s %s was added as Project Manager",
-                    user.getLastName(), user.getFirstName()));
+                    user.getFirstName(), user.getLastName()));
             userService.changeUserRole(user, project, UserRole.ROLE_PROJECT_MANAGER);
             return "redirect:/projects/project/" + projectId;
         }
         userService.changeUserRole(user, project, null);
         redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to %s",
-                user.getLastName(), user.getFirstName(), user.getRole()));
+                user.getFirstName(), user.getLastName(), user.getRole()));
         return "redirect:/projects/project/" + projectId;
     }
 
@@ -218,7 +218,7 @@ public class ProjectController {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
         redirectAttributes.addFlashAttribute("msg", String.format("%s %s %s was added to %s ", role,
-                    user.getLastName(), user.getFirstName(), project.getTitle()));
+                user.getFirstName(), user.getLastName(), project.getTitle()));
         userService.changeUserRole(user, project, role);
         return "redirect:/projects/project/" + projectId;
     }

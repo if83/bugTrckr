@@ -67,7 +67,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <a type="button" class="btn btn-default" data-toggle="modal"
-                                       data-target="#modalForm"
+                                       data-target="#modalForm${project.id}${user.id}"
                                        href="<spring:url value='/projects/project/
                                        ${project.id}/usersWithoutProject/${user.id}/selectRole'/>"
                                        class="btn btn-default">ADD
@@ -83,7 +83,7 @@
                     <%--Modal form for selecting user role--%>
                     <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole"
                           method="post">
-                        <div class="modal fade" id="modalForm" tabindex="-1" role="dialog"
+                        <div class="modal fade" id="modalForm${project.id}${user.id}" tabindex="-1" role="dialog"
                              aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

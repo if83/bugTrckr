@@ -99,10 +99,10 @@ VALUES ('Newhow', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipis
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('2', '2', 'OPEN', 'RELEASE 2');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
-VALUES ('Kristina', 'Vasquez', 'manager1@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+VALUES ('Kristina', 'Vasquez', 'manager1@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/77of3CrsWkL4rJGTo3NwW86',
         'ROLE_PROJECT_MANAGER', 'pm', '2');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId) VALUES
-  ('Yvonne', 'Stevenson', 'developer1@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+  ('Yvonne', 'Stevenson', 'developer1@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/77of3CrsWkL4rJGTo3NwW86',
    'ROLE_DEVELOPER', 'developer', '2');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('Justin', '	Mills', 'quality_e1@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuIJu4uF3lOaaY/48mo5hoeSjpe5w.JHG',
@@ -114,10 +114,10 @@ INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('3', '3', 'OPEN', 'RELEASE 3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES
-  ('Dallas', 'Morgan', 'manager2@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+  ('Dallas', 'Morgan', 'manager2@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/77of3CrsWkL4rJGTo3NwW86',
    'ROLE_PROJECT_MANAGER', 'pm', '3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId) VALUES
-  ('Emily', 'Reyes', 'developer2@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+  ('Emily', 'Reyes', 'developer2@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/77of3CrsWkL4rJGTo3NwW86',
    'ROLE_DEVELOPER', 'developer',
    '3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
@@ -279,7 +279,7 @@ VALUES
    'user12');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('user13', 'user13', 'user13@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+  ('Carroll',	'Gomez', 'user13@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user13');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
@@ -323,19 +323,19 @@ VALUES
    'user23');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('user24', 'user24', 'user24@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+  ('Preston',	'Ray', 'user24@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user24');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('Ellis',	'Burke', 'user25@ss.com', '$2a$12$7f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+  ('Malcolm',	'Waters', 'user25@ss.com', '$2a$12$7f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user25');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('user26', 'user26', 'user26@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+  ('Chris',	'Morris', 'user26@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user26');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('user27', 'user27', 'user27@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+  ('Guy',	'Wong', 'user27@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user27');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
@@ -343,7 +343,7 @@ VALUES
    'user28');
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES
-  ('user29', 'user29', 'user29@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
+  ('Stephen',	'Rhodes', 'user29@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user29');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)

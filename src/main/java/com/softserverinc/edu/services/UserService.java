@@ -25,37 +25,30 @@ public class UserService {
     @Autowired
     private UserService userService;
 
-    @Transactional
     public User findOne(Long id) {
         return userRepository.findOne(id);
     }
 
-    @Transactional
     public List<User> findByEmailContaining(String email) {
         return userRepository.findByEmailContaining(email);
     }
 
-    @Transactional
     public List<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Transactional
     public User findByEmailIs(String email) {
         return userRepository.findByEmailIs(email);
     }
 
-    @Transactional
     public List<User> findByRole(UserRole role) {
         return userRepository.findByRole(role);
     }
 
-    @Transactional
     public User getProjectManagerOfProject(Project project) {
         return userRepository.findByProjectAndRoleIsAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false);
     }
 
-    @Transactional
     public List<User> findUsersInProject(Project project, boolean isDeleted, int enabled) {
         List<User> users = userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled);
         users.sort((user1, user2) -> Integer.valueOf(user1.getRole().ordinal()).compareTo
@@ -63,32 +56,26 @@ public class UserService {
         return users;
     }
 
-    @Transactional
     public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable){
         return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled, pageable);
     }
 
-    @Transactional
     public Page<User> findByProject(Project project, int enabled, Pageable pageable) {
         return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
     }
 
-    @Transactional
     public List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName) {
         return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
     }
 
-    @Transactional
     public List<User> findByFirstNameContaining(String firstName) {
         return userRepository.findByFirstNameContaining(firstName);
     }
 
-    @Transactional
     public List<User> findByLastNameContaining(String lastName) {
         return userRepository.findByLastNameContaining(lastName);
     }
 
-    @Transactional
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -114,17 +101,14 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    @Transactional
     public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
         return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
 
-    @Transactional
     public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled, Pageable pageable){
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 
-    @Transactional
     public Page<User> searchByUsersWithoutProject(String searchParam, String searchedString, Pageable pageable){
         if (searchParam.equals("First Name")) {
             return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(null,
@@ -137,7 +121,6 @@ public class UserService {
                     false, 1, pageable);
     }
 
-    @Transactional
     public Page<User> searchByUsersInProject(Project project, String searchParam, UserRole role, String searchedString,
                                              Pageable pageable){
         if(role == null){
