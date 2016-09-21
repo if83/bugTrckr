@@ -41,7 +41,7 @@ $(document).ready(function () {
             type: 'POST',
             success: function (statuses) {
                 $.each(statuses, function (index, value) {
-                    var html = "<option value='" + value + "'>" + value + "</option>";
+                    var html = "<option value='" + index + "'>" + value + "</option>";
                     $(self).append(html);
                     $(self).selectpicker('refresh');
                 });

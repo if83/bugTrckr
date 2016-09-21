@@ -141,7 +141,7 @@
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <label for="status">Status</label>
                                 <form:select path="status" type="text" cssClass="selectpicker form-control" id="status">
-                                    <form:option selected="selected" value="${issue.status}" label="${issue.status}"/>
+                                    <form:option selected="selected" value="${issue.status}" label="${issue.status.toString()}"/>
                                 </form:select>
                                 <form:errors path="status" cssClass="control-label"/>
                             </div>
