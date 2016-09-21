@@ -23,7 +23,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand">BugTrckr</a>
+            <a class="navbar-brand" href="<spring:url value='/about'/>">BugTrckr</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-nav-collapse">
@@ -52,7 +52,7 @@
                 <li>
                     <a>
                         <form action="/contentSearch" method="POST" class="form-inline">
-                            <input class="form-control" type="text" placeholder="Search">
+                            <input class="form-control" name="title" type="text" placeholder="Search"/>
                             <button class="btn btn-default pull-right" type="submit">Search</button>
                         </form>
                     </a>

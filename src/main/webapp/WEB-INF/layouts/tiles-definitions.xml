@@ -229,4 +229,10 @@
         <put-attribute name="content" value="/WEB-INF/views/access/accessdenied.jsp"/>
     </definition>
 
+
+    <definition name="content_search" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="Search board"/>
+        <put-attribute name="content" value="/WEB-INF/views/content_search.jsp"/>
+    </definition>
+
 </tiles-definitions>
