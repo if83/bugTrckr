@@ -57,26 +57,27 @@ public class IssueController {
 
     @Autowired
     private WorkLogService workLogService;
-	
+
     @Autowired
     private WorkLogSecurityService workLogSecurityService;
 
     @Autowired
     private IssueCommentSecurityService issueCommentSecurityService;
 
-    @GetMapping(value = "/issue")
-    public String listOfIssues(Model model, @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable,
-                               Principal principal) {
-        model.addAttribute("listOfIssues", issueService.findAll(pageable));
+    @GetMapping("/issue")
+    public String listOfIssues(Model model,Principal principal,
+                    @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
+                    @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
+        model.addAttribute("listOfIssues", issueService.findAll(pageableIssue));
         if (principal != null) {
             model.addAttribute("userIssues", issueService
-                    .findByAssignee((userService.findByEmail(principal.getName()).get(0)), pageable));
+                    .findByAssignee((userService.findByEmailIs(principal.getName())), pageableUser));
         }
         LOGGER.debug("Issue list controller");
         return "issue";
     }
 
-    @PostMapping(value = "/issue/search")
+    @PostMapping("/issue/search")
     public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model,
                                      Pageable pageable, Issue issue, Principal principal) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
@@ -90,7 +91,7 @@ public class IssueController {
         return "issue";
     }
 
-    @GetMapping(value = "issue/{issueId}")
+    @GetMapping("issue/{issueId}")
     public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal,
                             @Qualifier("worklog") Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
@@ -104,9 +105,8 @@ public class IssueController {
         return "issue_view";
     }
 
-    
-	@PreAuthorize("@workLogSecurityService.hasPermissionToEditWorkLog(#workLogId)")
-    @GetMapping(value = "issue/{issueId}/worklog/{workLogId}/edit")
+    @PreAuthorize("@workLogSecurityService.hasPermissionToEditWorkLog(#workLogId)")
+    @GetMapping("issue/{issueId}/worklog/{workLogId}/edit")
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("workLogId") Long workLogId,
                                        ModelMap model, Principal principal,
@@ -120,7 +120,7 @@ public class IssueController {
     }
 
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToEditIssueComment(#issueCommentId)")
-    @GetMapping(value = "issue/{issueId}/comment/{issueCommentId}/edit")
+    @GetMapping("issue/{issueId}/comment/{issueCommentId}/edit")
     public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
                                        @PathVariable("issueCommentId") Long issueCommentId,
                                        ModelMap model, Pageable workLogPageable, Principal principal) {
@@ -134,7 +134,7 @@ public class IssueController {
     }
 
     @PreAuthorize("@issueSecurityService.hasPermissionToRemoveIssue(#id)")
-    @GetMapping(value = "/issue/{id}/remove")
+    @GetMapping("/issue/{id}/remove")
     public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes,
                               @Param("principal") Principal principal) {
         this.issueService.delete(id);
@@ -145,7 +145,7 @@ public class IssueController {
     }
 
     @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
-    @GetMapping(value = "/issue/{id}/edit")
+    @GetMapping("/issue/{id}/edit")
     public String editIssue(@PathVariable @P("id") long id, Model model,
                             RedirectAttributes redirectAttrs, @Param("principal") Principal principal) {
         model.addAttribute("issue", this.issueService.findById(id));
@@ -164,7 +164,7 @@ public class IssueController {
         return "issue_form";
     }
 
-    @GetMapping(value = "/issue/add")
+    @GetMapping("/issue/add")
     public String addIssue(Model model, Principal principal) {
         Issue issue = new Issue();
         issueService.populateDefaultModel(model);
@@ -181,7 +181,7 @@ public class IssueController {
         return "issue_form";
     }
 
-    @PostMapping(value = "/issue/add")
+    @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = userService.findByEmailIs(principal.getName());
@@ -217,7 +217,7 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    @PostMapping(value = "/issue/changeIssue")
+    @PostMapping("/issue/changeIssue")
     public void changeIssueByAjax(@RequestParam Long issueId,
                                   @RequestParam String action,
                                   @RequestParam String inputData,
@@ -237,8 +237,9 @@ public class IssueController {
         }
     }
 
-    @PostMapping(value = "/getAvaliableIssueStatuses")
-    public @ResponseBody
+    @PostMapping("/getAvaliableIssueStatuses")
+    public
+    @ResponseBody
     Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
         Map<IssueStatus, String> result = new HashMap<>();
         for (IssueStatus status : issueService.getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus))) {

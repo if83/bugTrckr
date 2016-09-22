@@ -106,7 +106,7 @@ public class IssueService {
         return !(oldIssue.getAssignee().equals(changedIssue.getAssignee()));
     }
 
-    public List<Issue> findByAssignee(User assignee, Pageable pageable) {
+    public Page<Issue> findByAssignee(User assignee, Pageable pageable) {
         return issueRepository.findByAssignee(assignee, pageable);
     }
 

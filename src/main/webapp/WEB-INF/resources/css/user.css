@@ -27,3 +27,9 @@ input#imgfileInput.form-control {
 .user-history ul li {
     margin-top: 8px;
 }
+
+#pageID .pagination li a,
+#pageID .pagination li a:hover,
+#pageID .pagination li a:focus {
+    color: #784A3B;
+}
