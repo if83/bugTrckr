@@ -346,33 +346,32 @@ VALUES
   ('Stephen',	'Rhodes', 'user29@ss.com', '$2a$12$3f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
    'user29');
 
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES ('developer8', 'developer8', 'developer8@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-        'ROLE_DEVELOPER', 'developer8', '1', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES ('developer9', 'developer9', 'developer9@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-        'ROLE_DEVELOPER', 'developer9', '1', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES
-  ('developer10', 'developer10', 'developer10@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-   'ROLE_DEVELOPER', 'developer10', '2', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES ('Kay',	'Mcdonald', 'developer8@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+        'ROLE_USER', 'developer8', '1');
 
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES ('Lula',	'Barnes', 'developer9@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+        'ROLE_USER', 'developer9', '1');
 
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES ('manager7', 'manager7', 'manager7@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-        'ROLE_PROJECT_MANAGER', 'pm', '1', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES ('manager8', 'manager8', 'manager8@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-        'ROLE_PROJECT_MANAGER', 'pm', '2', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES('Darnell',	'Webster', 'developer10@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+       'ROLE_USER', 'developer10', '1');
 
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES
-  ('developer8', 'developer8', 'developer124@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-   'ROLE_DEVELOPER', 'developer8', '1', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, isDeleted)
-VALUES
-  ('developer8', 'developer8', 'developer127@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
-   'ROLE_DEVELOPER', 'developer8', '1', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES ('Randall',	'Rose', 'manager7@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
+        'ROLE_USER', 'pm', '1');
+
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES ('Justin',	'George', 'manager8@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom','ROLE_USER', 'pm', '1');
+
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES('Jody',	'Hudson', 'developer124@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+   'ROLE_USER', 'developer8', '1');
+
+INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
+VALUES('Melody',	'Webb', 'developer127@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
+   'ROLE_USER', 'developer8', '1');
 
 UPDATE User
 SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename = 'large.jpg'

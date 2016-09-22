@@ -33,6 +33,9 @@ public class Project {
     @OneToMany(mappedBy = "project", orphanRemoval = true)
     private Set<ProjectRelease> projectReleases = new HashSet<>();
 
+    @OneToMany(mappedBy = "project")
+    private Set<Issue> issues;
+
     @Column(nullable = false)
     private Boolean guestView;
 
@@ -67,12 +70,20 @@ public class Project {
         this.title = title;
     }
 
-    public Set<ProjectRelease> getProjectRelease() {
+    public Set<ProjectRelease> getProjectReleases() {
         return projectReleases;
     }
 
-    public void setProjectRelease(Set<ProjectRelease> projectReleases) {
+    public void setProjectReleases(Set<ProjectRelease> projectReleases) {
         this.projectReleases = projectReleases;
+    }
+
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
     }
 
     public Boolean getGuestView() {
