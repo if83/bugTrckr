@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,9 +64,9 @@ public class IssueController {
     private IssueCommentSecurityService issueCommentSecurityService;
 
     @GetMapping("/issue")
-    public String listOfIssues(Model model,Principal principal,
-                    @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
-                    @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
+    public String listOfIssues(Model model, Principal principal,
+                               @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
+                               @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
         model.addAttribute("listOfIssues", issueService.findAll(pageableIssue));
         if (principal != null) {
             model.addAttribute("userIssues", issueService
@@ -78,16 +77,9 @@ public class IssueController {
     }
 
     @PostMapping("/issue/search")
-    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model,
-                                     Pageable pageable, Issue issue, Principal principal) {
+    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
         issueService.populateDefaultModel(model);
-        if (principal != null) {
-            issueService.checkForProjectExistence(model, issue, principal);
-        } else {
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("projectReleases", projectReleaseService.findAll());
-        }
         return "issue";
     }
 
@@ -135,8 +127,7 @@ public class IssueController {
 
     @PreAuthorize("@issueSecurityService.hasPermissionToRemoveIssue(#id)")
     @GetMapping("/issue/{id}/remove")
-    public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes,
-                              @Param("principal") Principal principal) {
+    public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes) {
         this.issueService.delete(id);
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Issue removed successfully!");
@@ -146,34 +137,21 @@ public class IssueController {
 
     @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
     @GetMapping("/issue/{id}/edit")
-    public String editIssue(@PathVariable @P("id") long id, Model model,
-                            RedirectAttributes redirectAttrs, @Param("principal") Principal principal) {
+    public String editIssue(@PathVariable @P("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("issue", this.issueService.findById(id));
         Issue issue = issueService.findById(id);
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableStatusesForStatus(issue.getStatus()));
         issueService.populateDefaultModel(model);
-        if (principal != null) {
-            issueService.checkForProjectExistence(model, issue, principal);
-        } else {
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("projectReleases", projectReleaseService.findAll());
-        }
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
     }
 
     @GetMapping("/issue/add")
-    public String addIssue(Model model, Principal principal) {
+    public String addIssue(Model model) {
         Issue issue = new Issue();
         issueService.populateDefaultModel(model);
-        if (principal != null) {
-            issueService.checkForProjectExistence(model, issue, principal);
-        } else {
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("projectReleases", projectReleaseService.findAll());
-        }
         model.addAttribute("sampleDate", new Date());
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "new");
@@ -186,12 +164,6 @@ public class IssueController {
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = userService.findByEmailIs(principal.getName());
         issueService.populateDefaultModel(model);
-        if (principal != null) {
-            issueService.checkForProjectExistence(model, issue, principal);
-        } else {
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("projectReleases", projectReleaseService.findAll());
-        }
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");
             return "issue_form";

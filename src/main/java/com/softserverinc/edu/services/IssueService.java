@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,18 +146,9 @@ public class IssueService {
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("allLabels", labelService.findAll());
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("projectReleases", projectReleaseService.findAll());
     }
 
-    public void checkForProjectExistence(Model model, Issue issue, Principal principal) {
-        if (userService.findByEmail(principal.getName()).get(0).getProject() != null) {
-            issue.setProject(userService.findByEmail(principal.getName()).get(0).getProject());
-            model.addAttribute("projectReleases", projectReleaseService.findByProject(issue.getProject()));
-            model.addAttribute("users",
-                    userService.findUsersInProject(projectService.findById(issue.getProject().getId()), false, 1));
-        } else {
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("projectReleases", projectReleaseService.findAll());
-        }
-    }
 
 }

@@ -21,33 +21,24 @@ public class IssueSecurityService extends BasicSecurityService {
     }
 
     public boolean hasPermissionToViewIssue(Long currentIssueId) {
-        if (isAuthenticated() || (!isAuthenticated() && getProjectByIssue(currentIssueId).getGuestView()) ) {
-            return true;
-        }
-        return false;
+        return (isAuthenticated() || (!isAuthenticated() && getProjectByIssue(currentIssueId).getGuestView()));
     }
 
     public boolean hasPermissionToRemoveIssue(Long currentIssueId) {
-        if ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
+        return ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
                 && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId)))
                 || ((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA())
                 && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId) )
-                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())) ) {
-            return true;
-        }
-        return false;
+                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())) );
     }
 
     public boolean hasPermissionToEditIssue(Long currentIssueId) {
-        if ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
+        return ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
                 && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId)))
                 || ((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA())
                 && (getIssueById(currentIssueId).getEditAbility())
                 && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId) )
-                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())) ) {
-            return true;
-        }
-        return false;
+                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())) );
     }
 
 }

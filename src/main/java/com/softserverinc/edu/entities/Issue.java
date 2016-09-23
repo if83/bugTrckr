@@ -44,17 +44,17 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
-    @NotNull(message = "Please select release")
+    @NotNull(message = "Please select the release")
     @ManyToOne
     @JoinColumn(name = "projectReleaseId", referencedColumnName = "id", nullable = false)
     private ProjectRelease projectRelease;
 
-    @NotNull(message = "Please select project")
+    @NotNull(message = "Please select the project")
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "id", nullable = false)
     private Project project;
 
-    @NotNull(message = "Please select assignee")
+    @NotNull(message = "Please select an assignee")
     @OneToOne
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
@@ -88,7 +88,7 @@ public class Issue {
     @Column
     private Long parentId;
 
-    @NotNull(message = "Please enter description")
+    @NotEmpty(message = "Please enter description")
     @Column(nullable = false, length = 10000)
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
