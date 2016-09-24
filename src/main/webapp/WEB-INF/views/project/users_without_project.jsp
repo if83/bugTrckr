@@ -7,7 +7,14 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-3 col-sm-offset-1">
-            <h1 class="pull-left">Users Without Projects</h1>
+            <c:choose>
+                <c:when test="${action eq 'addPM'}">
+                    <h1 class="pull-left">Available Users</h1>
+                </c:when>
+                <c:otherwise>
+                    <h1 class="pull-left">Users Without Projects</h1>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
@@ -23,7 +30,14 @@
 
 <div class="row margin-top-20">
     <div class="form-inline col-sm-8 col-sm-offset-2">
-        <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST">
+        <c:choose>
+            <c:when test="${action eq 'addPM'}">
+                <form action="/projects/project/${project.id}/addProjectManager/usersWithoutProject/search" method="POST">
+            </c:when>
+            <c:otherwise>
+                <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST">
+            </c:otherwise>
+        </c:choose>
             <div class="input-group form-inline col-xs-8">
                 <select class="selectpicker " data-width="25%" type="text" name="searchedParam">
                     <option value="">Option</option>
@@ -61,7 +75,7 @@
                         <td><c:out value="${user.email}"/></td>
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${project.getUsers().isEmpty()}">
+                                <c:when test="${action eq 'addPM'}">
                                 <!--Add PM to project -->
                                 <a data-toggle="modal" data-target="#AddingPM${user.id}${project.id}"
                                    class="btn btn-default">ADD PM</a>
@@ -79,14 +93,14 @@
                                             </div>
                                             <div class="modal-body">
                                                 <p class="text-center">Confirm adding <strong>${user.firstName}
-                                                    ${user.lastName}</strong> as Project Manager to
+                                                    ${user.lastName}</strong> as Project Manager of
                                                     <strong>${project.title}</strong></p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-default" data-dismiss="modal">
                                                     Cancel
                                                 </button>
-                                                <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/${user.id}/changeRole'/>"
+                                                <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject/${user.id}'/>"
                                                    class="btn btn-u">Confirm
                                                 </a>
                                             </div>
@@ -147,22 +161,46 @@
                     <div class="text-center">
                         <ul class="pagination">
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}
-                                /usersWithoutProject?page=0'/>" aria-label="Start">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
+                                <c:choose>
+                                    <c:when test="${action eq 'addPM'}">
+                                        <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject?page=0'/>" aria-label="Start">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject?page=0'/>" aria-label="Start">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </li>
                             <c:forEach var="page" begin="0" end="${userList.getTotalPages() - 1}">
-                                <li>
-                                    <a href="<spring:url value='/projects/project/${project.id}
-                                    /usersWithoutProject?page=${page}'/>">${page + 1}</a>
-                                </li>
+                                <c:choose>
+                                    <c:when test="${action eq 'addPM'}">
+                                        <li>
+                                            <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject?page=${page}'/>">${page + 1}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li>
+                                            <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject?page=${page}'/>">${page + 1}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
                             <li>
-                                <a href="<spring:url value='/projects/project/${project.id}
-                                /usersWithoutProject?page=${userList.getTotalPages() - 1}'/>"
-                                   aria-label="End"><span aria-hidden="true">&raquo;</span>
-                                </a>
+                                <c:choose>
+                                    <c:when test="${action eq 'addPM'}">
+                                        <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject?page=${userList.getTotalPages() - 1}'/>"
+                                           aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject?page=${userList.getTotalPages() - 1}'/>"
+                                           aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </li>
                         </ul>
                     </div>

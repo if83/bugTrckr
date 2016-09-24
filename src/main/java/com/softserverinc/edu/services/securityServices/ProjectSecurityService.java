@@ -18,8 +18,8 @@ public class ProjectSecurityService extends BasicSecurityService {
     }
 
     public boolean hasPermissionToProjectManagement(Long currentProjectId) {
-        return getActiveUserRole().isAdmin() || getActiveUserRole().isProjectManager() &&
-                getActiveUser().getProject().getId() == currentProjectId;
+        return getActiveUserRole().isAdmin() || (getActiveUserRole().isProjectManager() &&
+                getActiveUser().getProject().getId() == currentProjectId);
 
     }
 

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -46,12 +47,19 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project save(Project project) {
+    public Project save(Project project, RedirectAttributes redirectAttributes) {
+        if (project.getId() == null) {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
+
+        } else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
+        }
         return projectRepository.saveAndFlush(project);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("msg", "Project was deleted");
         for(User user: projectService.findById(id).getUsers()){
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);

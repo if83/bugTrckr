@@ -25,9 +25,39 @@
 <div class="container">
     <div class="row project-info text-left">
         <div class="col-sm-12">
-            <h3>Project description:</h3>
+            <h3>Project description</h3>
             ${project.description}
         </div>
+    </div>
+
+    <div class="text-left margin-bottom-20">
+        <div class="row col-sm-12">
+            <h3 class="pull-left">Project Manager
+                <a class="viewLink"
+                        <sec:authorize access="isAuthenticated()">
+                            href="<spring:url value='/user/${projectManager.id}/view' />"
+                        </sec:authorize>>
+                    <c:out value="${projectManager.getFullName()}"/>
+                </a>
+                <sec:authorize access="hasRole('ADMIN')">
+                    <c:choose>
+                        <c:when test="${projectManager == null}">
+                            <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject'/>"
+                               class="btn btn-default"><i class="fa fa-plus"></i> Add PM</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject'/>"
+                               class="btn btn-default"><i class="fa fa-plus"></i> Change PM</a>
+                        </c:otherwise>
+                    </c:choose>
+
+                </sec:authorize>
+            </h3>
+
+        </div>
+        <h4>
+            Email: ${projectManager.email}
+        </h4>
     </div>
 
     <div class="row">
@@ -165,7 +195,6 @@
                             </select>
                             <select class="form-control form-inline search-by-role selectpicker" type="text" name="role">
                                 <option value="">Any Role</option>
-                                <option value="${PM}">Project Manager</option>
                                 <option value="${DEV}">Developer</option>
                                 <option value="${QA}">QA</option>
                             </select>
@@ -203,9 +232,9 @@
                     <tr>
                         <td class="text-center">
                             <a class="viewLink"
-                                 <sec:authorize access="isAuthenticated()">
+                                    <sec:authorize access="isAuthenticated()">
                                         href="<spring:url value='/user/${user.id}/view' />"
-                                 </sec:authorize>>
+                                    </sec:authorize>>
                                     ${user.firstName} ${user.lastName}
                             </a>
                         </td>
@@ -216,7 +245,7 @@
                                     <c:when test="${!user.role.isProjectManager()}">
                                         <!--changing user role-->
                                         <a data-toggle="modal" href data-target="#changingRole${user.id}${project.id}">
-                                            <i class="fa fa-edit fa-lg icon-table-u"></i></a>
+                                            <i class="glyphicon glyphicon-retweet fa-lg icon-table-u"></i></a>
 
                                         <!-- Modal for confirmation of changing of user role -->
                                         <div class="modal fade" id="changingRole${user.id}${project.id}" tabindex="-1"
@@ -265,7 +294,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p class="text-center">Confirm the removal of <strong>${user.firstName}
-                                                        ${user.lastName}</strong> from <strong>${project.title}</strong></p>
+                                                                ${user.lastName}</strong> from <strong>${project.title}</strong></p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">

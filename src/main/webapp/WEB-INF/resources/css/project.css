@@ -1,5 +1,5 @@
 .project-info {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .releases-panel a {
@@ -12,6 +12,11 @@
 }
 
 .fa-edit {
+    margin-left: 4px;
+    margin-right: 7px;
+}
+
+.glyphicon-retweet {
     margin-left: 4px;
     margin-right: 7px;
 }

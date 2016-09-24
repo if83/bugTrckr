@@ -1,18 +1,16 @@
 package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -24,6 +22,9 @@ public class UserService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProjectService projectService;
 
     public User findOne(Long id) {
         return userRepository.findOne(id);
@@ -57,7 +58,8 @@ public class UserService {
     }
 
     public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable){
-        return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled, pageable);
+        return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project, UserRole.ROLE_PROJECT_MANAGER,
+                isDeleted, enabled, pageable);
     }
 
     public Page<User> findByProject(Project project, int enabled, Pageable pageable) {
@@ -123,7 +125,7 @@ public class UserService {
 
     public Page<User> searchByUsersInProject(Project project, String searchParam, UserRole role, String searchedString,
                                              Pageable pageable){
-        if(role == null){
+        if(role == null && searchedString == null){
             if (searchParam.equals("First Name")) {
                 return userRepository.findByProjectAndFirstNameContainingAndIsDeletedAndEnabledIs(project,
                         searchedString, false, 1, pageable);
@@ -131,7 +133,7 @@ public class UserService {
                 return userRepository.findByProjectAndLastNameContainingAndIsDeletedAndEnabledIs(project,
                         searchedString, false, 1, pageable);
             }
-            else return userRepository.findByProjectAndIsDeletedAndEnabledIs(project, false, 1, pageable);
+            else return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project, null ,false, 1, pageable);
         }
         else if (searchParam.equals("First Name")) {
             return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
@@ -143,23 +145,53 @@ public class UserService {
     }
 
     @Transactional
-    public User deleteFromProject(Long id) {
+    public User deleteFromProject(Long id, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(id);
+        redirectAttributes.addFlashAttribute("msg", String.format("%s %s was removed from project",
+                user.getFirstName(), user.getLastName()));
         user.setRole(UserRole.ROLE_USER);
         user.setProject(null);
         return userService.save(user);
     }
 
     @Transactional
-    public User changeUserRole(User user, Project project, UserRole role){
+    public User chooseProjectManagerToProject(Long userId, Long projectId, RedirectAttributes redirectAttributes){
+        User user = userService.findOne(userId);
+        Project project = projectService.findById(projectId);
+        redirectAttributes.addFlashAttribute("msg", String.format("%s %s is Project Manager",
+                user.getFirstName(), user.getLastName()));
+        if(project.getUsers().isEmpty()) {
+            user.setProject(project);
+            user.setRole(UserRole.ROLE_PROJECT_MANAGER);
+            return userService.save(user);
+        }
+        User exProjectManager = userService.getProjectManagerOfProject(project);
+        if(exProjectManager != null){
+            exProjectManager.setProject(null);
+            exProjectManager.setRole(UserRole.ROLE_USER);
+            userService.save(exProjectManager);
+        }
+        user.setProject(project);
+        user.setRole(UserRole.ROLE_PROJECT_MANAGER);
+        return userService.save(user);
+    }
+
+    @Transactional
+    public User changeUserRole(User user, Project project, UserRole role, RedirectAttributes redirectAttributes){
         if(user.getProject() == project){
             if (user.getRole().isDeveloper()) {
+                redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to QA",
+                        user.getFirstName(), user.getLastName()));
                 user.setRole(UserRole.ROLE_QA);
             } else {
+                redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to Developer",
+                        user.getFirstName(), user.getLastName()));
                 user.setRole(UserRole.ROLE_DEVELOPER);
             }
             return userService.save(user);
         }
+        redirectAttributes.addFlashAttribute("msg", String.format("%s %s %s was added to %s ", role,
+                user.getFirstName(), user.getLastName(), project.getTitle()));
         user.setRole(role);
         user.setProject(project);
         return userService.save(user);
