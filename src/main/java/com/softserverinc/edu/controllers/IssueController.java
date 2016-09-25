@@ -65,8 +65,8 @@ public class IssueController {
 
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
-                               @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
-                               @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
+                      @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
+                      @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
         model.addAttribute("listOfIssues", issueService.findAll(pageableIssue));
         if (principal != null) {
             model.addAttribute("userIssues", issueService
@@ -163,6 +163,7 @@ public class IssueController {
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = userService.findByEmailIs(principal.getName());
+        issue.setCreatedBy(userService.findByEmailIs(principal.getName()));
         issueService.populateDefaultModel(model);
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 
 <div class="breadcrumbs">
@@ -79,24 +79,39 @@
                 </p>
                 </div>
             </div>
+
+            <div class="row">
+                <label class="col-sm-4">Created By</label>
+                <div class="col-sm-8"><p>
+                    <a class="viewLink"
+                       href="<spring:url
+                       value='/user/${issue.createdBy.id}/view'/>">
+                        ${issue.createdBy.fullName}</a>
+                </p>
+                </div>
+            </div>
+
             <div class="row">
                 <label class="col-sm-4">Assignee</label>
                 <div class="col-sm-8"><p>
                     <a class="viewLink"
                        href="<spring:url
                        value='/user/${issue.assignee.id}/view'/>">
-                        ${issue.assignee.firstName} ${issue.assignee.lastName}</a>
+                        ${issue.assignee.fullName}</a>
                 </p>
                 </div>
             </div>
+
             <div class="row">
                 <label class="col-sm-4">Create Time</label>
                 <div class="col-sm-8"><p>${issue.createTime}</p></div>
             </div>
+
             <div class="row">
                 <label class="col-sm-4">Time to finish the issue</label>
                 <div class="col-sm-8">${issue.dueDate}</div>
             </div>
+
             <div class="row">
                 <label class="col-sm-4">Last updated time</label>
                 <div class="col-sm-8">${issue.lastUpdateDate}</div>
@@ -142,8 +157,10 @@
                 <li role="presentation" class="active" id="tab-comments">
                     <a href="#tabs-comments" role="tab" data-toggle="tab">Comments</a>
                 </li>
-                <li role="presentation" id="tab-worklog"><a href="#tabs-worklog" role="tab" data-toggle="tab">Work log</a></li>
-                <li role="presentation" id="tab-history"><a href="#tabs-history" role="tab" data-toggle="tab">History</a></li>
+                <li role="presentation" id="tab-worklog"><a href="#tabs-worklog" role="tab" data-toggle="tab">Work
+                    log</a></li>
+                <li role="presentation" id="tab-history"><a href="#tabs-history" role="tab"
+                                                            data-toggle="tab">History</a></li>
             </ul>
         </div>
 
@@ -155,7 +172,8 @@
                     <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
                         <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
                                 ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
-                        &nbsp;commented at <span class="trimMs"><c:out value="${issueCommentsListIterator.timeStamp}"/></span>&nbsp;
+                        &nbsp;commented at <span class="trimMs"><c:out
+                            value="${issueCommentsListIterator.timeStamp}"/></span>&nbsp;
                         <c:if test="${issueCommentsListIterator.isEdited == true}">
                             <span class="text-danger">[edited]</span>
                         </c:if>
@@ -218,13 +236,13 @@
                 </div>
             </div>
 
-                <%--worklog features--%>
+            <%--worklog features--%>
             <div role="tabpanel" class="tab-pane fade" id="tabs-worklog">
                 <div class="margin-top-10 text-center">
                     <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
-                <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
-                    <button class="workLogToggler btn-u row text-center">Add entry</button>
-                </sec:authorize>
+                    <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
+                        <button class="workLogToggler btn-u row text-center">Add entry</button>
+                    </sec:authorize>
                 </div>
                 <div class="margin-top-10" id="workLogTable">
                     <div>
@@ -380,7 +398,8 @@
                             <form:hidden path="id"/>
                             <div class="col-sm-10 col-sm-offset-1" id="workLogButtons">
                                 <span>
-                                    <input type="submit" value="Submit" class="margin-top-30 btn-u col-sm-offset-5" id="workLogSubmitButton"/>
+                                    <input type="submit" value="Submit" class="margin-top-30 btn-u col-sm-offset-5"
+                                           id="workLogSubmitButton"/>
                                     <button id="workLogCancelButton" class="hidden">Cancel</button>
                                 </span>
                             </div>

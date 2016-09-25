@@ -35,10 +35,13 @@ public class IssueSecurityService extends BasicSecurityService {
     public boolean hasPermissionToEditIssue(Long currentIssueId) {
         return ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
                 && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId)))
+                || (((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA()
+                || getActiveUserRole().isProjectManager() )
+                && (getIssueById(currentIssueId).getCreatedBy().equals(getActiveUser())))
                 || ((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA())
-                && (getIssueById(currentIssueId).getEditAbility())
+                && (getIssueById(currentIssueId).getEditAbility()
                 && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId) )
-                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())) );
+                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())))) );
     }
 
 }

@@ -59,6 +59,10 @@ public class Issue {
     @JoinColumn(name = "assigneeId", referencedColumnName = "id", nullable = false)
     private User assignee;
 
+    @OneToOne
+    @JoinColumn(name = "createdById", referencedColumnName = "id")
+    private User createdBy;
+
     @ManyToMany()
     @JoinTable(name = "Label_Issue",
             joinColumns = @JoinColumn(name = "issueId", referencedColumnName = "id"),
@@ -156,6 +160,13 @@ public class Issue {
         this.assignee = assignee;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 
     public Project getProject() {
         return project;
