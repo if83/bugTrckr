@@ -50,10 +50,8 @@
                                class="btn btn-default"><i class="fa fa-plus"></i> Change PM</a>
                         </c:otherwise>
                     </c:choose>
-
                 </sec:authorize>
             </h3>
-
         </div>
         <h4>
             Email: ${projectManager.email}
@@ -116,37 +114,13 @@
                         <td class="text-center">${rel.releaseStatus.toString()}</td>
                         <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
                             <td class="text-center">
-                                <a href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
+                                <a class="btn" href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
                                         class="fa fa-edit fa-lg icon-table-u"></i></a>
-                                <a href="" data-toggle="modal" data-target="#removeReleaseBtn-${rel.id}"><i
-                                        class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                <!-- Modal for confirmation remove release from project-->
-                                <div class="modal fade" id="removeReleaseBtn-${rel.id}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title pull-left">Remove release from project</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Confirm remove of ${rel.version}
-                                                    from ${project.title}</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-default" data-dismiss="modal">
-                                                    Cancel
-                                                </button>
-                                                <a href="<spring:url
-                                                        value='/project/${project.id}/release/${rel.id}/remove'/>"
-                                                   class="btn btn-u">Remove
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <a href="<spring:url value='/project/${project.id}/release/${rel.id}/remove'/>"
+                                   class="btn removeReleaseBtn"><i class="fa fa-trash fa-lg icon-table-u"></i>
+                                    <p class="removeReleaseNotification hidden">Confirm remove of ${rel.version}
+                                        from ${project.title}</p>
+                                </a>
                             </td>
                         </sec:authorize>
                     </tr>
@@ -188,7 +162,8 @@
                     <%--Search form for users in project--%>
                     <form class="form-inline" action="/projects/project/${project.id}/users_search" method="POST">
                         <div class="input-group form-inline col-xs-11">
-                            <select class="form-control form-inline search-by-name selectpicker" type="text" name="searchedParam">
+                            <select class="form-control form-inline search-by-name selectpicker" type="text"
+                                    name="searchedParam">
                                 <option value="">Option</option>
                                 <option value="First Name">First Name</option>
                                 <option value="Last Name">Last Name</option>
@@ -241,75 +216,21 @@
                         <td class="text-center">${user.role.toString()}</td>
                         <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
                             <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${!user.role.isProjectManager()}">
-                                        <!--changing user role-->
-                                        <a data-toggle="modal" href data-target="#changingRole${user.id}${project.id}">
-                                            <i class="glyphicon glyphicon-retweet fa-lg icon-table-u"></i></a>
+                                <!--Chang of user's role-->
+                                <a class="changeRoleBtn btn" href="<spring:url value='/projects/project/
+                                    ${project.id}/usersWithoutProject/${user.id}/changeRole'/>">
+                                    <i class="glyphicon glyphicon-retweet fa-lg icon-table-u"></i>
+                                    <p class="changeRoleBtn hidden"> Confirm the change of <strong>
+                                            ${user.fullName}'s</strong> role</p>
+                                </a>
 
-                                        <!-- Modal for confirmation of changing of user role -->
-                                        <div class="modal fade" id="changingRole${user.id}${project.id}" tabindex="-1"
-                                             role="dialog" aria-labelledby="myModalLabel">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h5 class="modal-title pull-left">
-                                                            Change of role
-                                                        </h5>
-                                                    </div>
-                                                    <div class="modal-body"><p>Confirm the change
-                                                        of <strong> ${user.firstName} ${user.lastName}</strong> role</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-default" data-dismiss="modal">
-                                                            Cancel
-                                                        </button>
-                                                        <a href="<spring:url
-                                                        value='/projects/project/${project.id}/usersWithoutProject/
-                                                        ${user.id}/changeRole'/>"
-                                                           class="btn btn-u">Confirm
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!--Removing user from project -->
-                                        <a data-toggle="modal" href data-target="#removingOfUser${user.id}${project.id}">
-                                            <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-
-                                        <!-- Modal for confirmation of removing user from project-->
-                                        <div class="modal fade" id="removingOfUser${user.id}${project.id}" tabindex="-1"
-                                             role="dialog" aria-labelledby="myModalLabel">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h5 class="modal-title pull-left">Removal user from project</h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p class="text-center">Confirm the removal of <strong>${user.firstName}
-                                                                ${user.lastName}</strong> from <strong>${project.title}</strong></p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-default" data-dismiss="modal">
-                                                            Cancel
-                                                        </button>
-                                                        <a href="<spring:url
-                                                        value='/projects/project/${project.id}/removeUser/${user.id}'/>"
-                                                           class="btn btn-u">Remove
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:when>
-                                </c:choose>
+                                <!--Remove user from project -->
+                                <a class="removeUserBtn" href="<spring:url value='/projects/project/
+                                ${project.id}/removeUser/${user.id}'/>">
+                                    <i class="fa fa-trash fa-lg icon-table-u btn"></i>
+                                    <p class="removeUserNotification hidden">Confirm the removal of <strong>
+                                    ${user.firstName}${user.lastName}</strong> from <strong>${project.title}</strong></p>
+                                </a>
                             </td>
                         </sec:authorize>
                     </tr>
@@ -353,7 +274,8 @@
                     <%--Search form for issues in project--%>
                     <form action="/projects/project/${project.id}/search_issues" method="POST">
                         <div class="input-group">
-                            <input name="searchedString" type="text" class="form-control form-text" placeholder="Search By Issue's Title"/>
+                            <input name="searchedString" type="text" class="form-control form-text"
+                                   placeholder="Search By Issue's Title"/>
                             <span class="input-group-btn"><button type="submit" class="btn btn-default">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
                         </div>
@@ -448,6 +370,66 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-body text-center">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for confirmation of changing of user role -->
+<div class="modal fade" id="changRoleModal" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title pull-left">Change of role</h4>
+            </div>
+            <div class="modal-body text-center"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="" class="btn btn-u confirmChangeRole">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for confirmation of removing user from project-->
+<div class="modal fade" id="removingOfUser" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title pull-left">Removal user from project</h4>
+            </div>
+            <div class="modal-body text-center"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="" class="btn btn-u confirmRemove">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for confirmation remove release from project-->
+<div class="modal fade" id="removingOfRelease" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title pull-left">Remove release from project</h4>
+            </div>
+            <div class="modal-body text-center"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default"  data-dismiss="modal">Cancel</button>
+                <a href="" class="btn btn-u confirmRemoveRelease">Remove</a>
             </div>
         </div>
     </div>
