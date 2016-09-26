@@ -14,7 +14,10 @@ $(document).ready(function () {
                 maxlength: 100
             },
             "description": {
-                required: true,
+                required: function()
+                {
+                    CKEDITOR.instances.editor1.updateElement();
+                },
                 maxlength: 10000
             },
         },
@@ -49,4 +52,3 @@ $(document).ready(function () {
        }
     });
 });
-

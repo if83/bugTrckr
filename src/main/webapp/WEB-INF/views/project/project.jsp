@@ -216,12 +216,12 @@
                         <td class="text-center">${user.role.toString()}</td>
                         <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
                             <td class="text-center">
-                                <!--Chang of user's role-->
+                                <!--Change of user's role-->
                                 <a class="changeRoleBtn btn" href="<spring:url value='/projects/project/
                                     ${project.id}/usersWithoutProject/${user.id}/changeRole'/>">
                                     <i class="glyphicon glyphicon-retweet fa-lg icon-table-u"></i>
                                     <p class="changeRoleBtn hidden"> Confirm the change of <strong>
-                                            ${user.fullName}'s</strong> role</p>
+                                            ${user.fullName}</strong> role</p>
                                 </a>
 
                                 <!--Remove user from project -->

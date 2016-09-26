@@ -8,7 +8,7 @@ $(document).ready(function () {
         setTimeout(function(){$('#modalChanges').modal('hide')}, 3000);
     };
 
-    //Modal for change of user's role
+    //Modal for change user's role
     $('.changeRoleBtn').click(function (e) {
         e.preventDefault();
         $('#changRoleModal .confirmChangeRole').attr("href", $(this).attr("href"));
@@ -16,7 +16,7 @@ $(document).ready(function () {
         $('#changRoleModal').modal();
     });
 
-    //Modal for removing of user from project
+    //Modal for remove user from the project
     $('.removeUserBtn').click(function (e) {
         e.preventDefault();
         $('#removingOfUser').find('.modal-body').html($(this).find('.removeUserNotification').html());
@@ -24,11 +24,19 @@ $(document).ready(function () {
         $('#removingOfUser').modal();
     });
 
-    //Modal for removing of release from project
+    //Modal for remove release
     $('.removeReleaseBtn').click(function (e) {
         e.preventDefault();
         $('#removingOfRelease').find('.modal-body').html($(this).find('.removeReleaseNotification').html());
         $('#removingOfRelease .confirmRemoveRelease').attr("href", $(this).attr("href"));
         $('#removingOfRelease').modal();
+    });
+
+    //Modal for remove project
+    $('.removeProjectBtn').click(function (e) {
+        e.preventDefault();
+        $('#removeProjectModal').find('.modal-body').html($(this).find('.removeProjectNotification').html());
+        $('#removeProjectModal .confirmProjectRemoval').attr("href", $(this).attr("href"));
+        $('#removeProjectModal').modal();
     });
 });

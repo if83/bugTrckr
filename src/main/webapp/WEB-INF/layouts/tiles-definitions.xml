@@ -150,6 +150,7 @@
             <add-attribute value="/css/project.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/project/users_without_project.js"/>
         </put-list-attribute>
     </definition>
 

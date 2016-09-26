@@ -7,22 +7,14 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-3 col-sm-offset-1">
-            <c:choose>
-                <c:when test="${action eq 'addPM'}">
-                    <h1 class="pull-left">Available Users</h1>
-                </c:when>
-                <c:otherwise>
-                    <h1 class="pull-left">Users Without Projects</h1>
-                </c:otherwise>
-            </c:choose>
+            <h1 class="pull-left">Available Users</h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li><a href="<spring:url value='/projects/project/${project.id}'/>">${project.title}</a></li>
-                <li><a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>">
-                    Available Users</a></li>
+                <li><a>Available Users</a></li>
             </ol>
         </div>
     </div>
@@ -39,7 +31,7 @@
             </c:otherwise>
         </c:choose>
             <div class="input-group form-inline col-xs-8">
-                <select class="selectpicker " data-width="25%" type="text" name="searchedParam">
+                <select class="selectpicker " type="text" name="searchedParam">
                     <option value="">Option</option>
                     <option value="Email">E-mail</option>
                     <option value="First Name">First Name</option>
@@ -77,42 +69,15 @@
                             <c:choose>
                                 <c:when test="${action eq 'addPM'}">
                                 <!--Add PM to project -->
-                                <a data-toggle="modal" data-target="#AddingPM${user.id}${project.id}"
-                                   class="btn btn-default">ADD PM</a>
-
-                                <!-- Modal for adding of PM to project-->
-                                <div class="modal fade" id="AddingPM${user.id}${project.id}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h5 class="modal-title pull-left">Adding Project Manager </h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="text-center">Confirm adding <strong>${user.firstName}
-                                                    ${user.lastName}</strong> as Project Manager of
-                                                    <strong>${project.title}</strong></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-default" data-dismiss="modal">
-                                                    Cancel
-                                                </button>
-                                                <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject/${user.id}'/>"
-                                                   class="btn btn-u">Confirm
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <a href="<spring:url value='/projects/project/${project.id}/addProjectManager/usersWithoutProject/${user.id}'/>"
+                                   class="btn btn-default addPMBtn">ADD PM
+                                    <p class="text-center hidden addPMNotification">Confirm adding <strong>
+                                    ${user.fullName}</strong> as Project Manager of <strong>${project.title}</strong></p>
+                                </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a type="button" class="btn btn-default" data-toggle="modal"
-                                       data-target="#modalForm${project.id}${user.id}"
-                                       href="<spring:url value='/projects/project/
-                                       ${project.id}/usersWithoutProject/${user.id}/selectRole'/>"
-                                       class="btn btn-default">ADD
+                                    <a type="button" class="btn btn-default userRoleBtn"
+                                       href="<spring:url value='/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole'/>">ADD
                                     </a>
                                 </c:otherwise>
                             </c:choose>
@@ -122,39 +87,11 @@
                                class="btn btn-default">INFO</a>
                         </td>
                     </tr>
-                    <%--Modal form for selecting user role--%>
-                    <form action="/projects/project/${project.id}/usersWithoutProject/${user.id}/selectRole"
-                          method="post">
-                        <div class="modal fade" id="modalForm${project.id}${user.id}" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        <h4 class="modal-title text-center" id="myModalLabel">Select Role for User</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <select class="form-control" name="role" type="text">
-                                            <option class="text-center" value="${DEV}">Developer</option>
-                                            <option class="text-center" value="${QA}">Quality Assurance</option>
-                                        </select>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                        <input type="submit" class="btn btn-u" value="Submit"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
-
+        <%--Paggination of user list--%>
         <c:if test="${userList.getTotalPages()> 1}">
             <div class="row col-sm-offset-4 col-sm-4">
                 <nav aria-label="Page navigation" id="pagerID">
@@ -207,5 +144,51 @@
                 </nav>
             </div>
         </c:if>
+    </div>
+</div>
+
+<%--Modal form for selecting user role--%>
+<form action="" method="post" id="userRoleForm">
+    <div class="modal fade" id="userRoleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center" id="myModalLabel">Select Role for User</h4>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control" name="role" type="text">
+                        <option class="text-center" value="${DEV}">Developer</option>
+                        <option class="text-center" value="${QA}">Quality Assurance</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-u" value="Submit"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Modal for adding of PM to project-->
+<div class="modal fade" id="addingPM" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title pull-left">Adding Project Manager </h4>
+            </div>
+            <div class="modal-body text-center"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="" class="btn btn-u addPMBtnConfirm">Confirm</a>
+            </div>
+        </div>
     </div>
 </div>
