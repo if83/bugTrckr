@@ -83,11 +83,13 @@ public class IssueController {
 
     @GetMapping("issue/{issueId}")
     public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal,
-                            @Qualifier("worklog") Pageable workLogPageable) {
+                            @Qualifier("worklog") Pageable workLogPageable,
+                            @Qualifier("history") Pageable historyPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("commentsAction", issueId + "/comment/save");
+        model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
         if (principal != null) {
             model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         }
@@ -204,8 +206,5 @@ public class IssueController {
         issueComment.setIsEdited(false);
         return issueComment;
     }
-
-    private String getCurrentTime() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    }
+    
 }

@@ -97,7 +97,8 @@
         <put-attribute name="title" value="Issue page"/>
         <put-attribute name="content" value="/WEB-INF/views/issue/issue_view.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
-            <add-attribute value="/css/user.css"/>
+            <!--<add-attribute value="/css/user.css"/>-->
+            <add-attribute value="/css/issue/issue.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/issue/issue_view.js"/>

@@ -45,6 +45,11 @@ public class HistoryService {
     }
 
     @Transactional
+    public Page<HistoryDto> findAllHistoryForIssue(Issue issue, Pageable pageable) {
+        return convertToHistoryDto(historyRepository.findByIssueOrderByCreateTimeDesc(issue, pageable), pageable);
+    }
+
+    @Transactional
     public History save(History history) {
         return historyRepository.saveAndFlush(history);
     }

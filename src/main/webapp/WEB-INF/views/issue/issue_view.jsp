@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 
@@ -35,7 +36,8 @@
     </div>
 </c:if>
 
-<div class="row col-sm-8 col-sm-offset-2">
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
     <div class="margin-top-30 col-sm-5">
         <div>
             <div class="row">
@@ -408,9 +410,111 @@
                 </div>
             </div>
 
-            <%--history--%>
-            <div role="tabpanel" class="tab-pane fade" id="tabs-history">
-                for history
+            <%--issue history--%>
+            <div role="tabpanel" class="tab-pane fade issue-history" id="tabs-history">
+                <ul>
+                    <c:forEach var="history" items="${allHistory.content}">
+                        <c:choose>
+                            <c:when test="${history.action == 'CREATE_ISSUE'}">
+                                <li>
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.changedByUser.id == null}">
+                                                <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName} [Removed user]</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong>
+                                    created issue
+                                    and assigned it to
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.assignedToUser.id == null}">
+                                                <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName} [Removed user]</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong></br>
+                                    <span class="createTime">at ${history.createTime}</span>
+                                </li>
+                            </c:when>
+                            <c:when test="${history.action == 'CHANGE_ISSUE_ASSIGNEE'}">
+                                <li>
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.changedByUser.id == null}">
+                                                <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName} [Removed user]</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong>
+                                    reassigned issue
+                                    to
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.assignedToUser.id == null}">
+                                                <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName} [Removed user]</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong></br>
+                                    <span class="createTime">at ${history.createTime}</span>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.changedByUser.id == null}">
+                                                <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName} [Removed user]</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong>
+                                    <c:set var="inputField" value="${fn:split(history.action, '_')[2]}"/>
+                                    <c:set var="fieldLowCase" value="${fn:toLowerCase(inputField)}"/>
+                                    <c:set var="fieldValue" value="${history[fieldLowCase]}"/>
+                                    changed ${fieldLowCase} of issue
+                                    to <strong>${fieldValue}</strong></br>
+                                    <span class="createTime">at ${history.createTime}</span>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </ul>
+                <c:if test="${allHistory.getTotalPages() gt 1}">
+                    <nav aria-label="Page navigation" id="pagerID">
+                        <div class="text-center">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="<spring:url value='/issue/${issue.id}?page=0'/>" aria-label="Start">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                                    <li>
+                                        <a href="<spring:url value='/issue/${issue.id}?page=${page}'/>">${page + 1}</a>
+                                    </li>
+                                </c:forEach>
+                                <li>
+                                    <a href="<spring:url value='/issue/${issue.id}?page=${allHistory.getTotalPages() - 1}'/>"
+                                       aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </c:if>
             </div>
         </div>
     </div>

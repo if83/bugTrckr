@@ -1,0 +1,12 @@
+.issue-history .removed-user {
+    color: red;
+}
+
+.issue-history ul li {
+    margin-top: 8px;
+}
+
+.issue-history .createTime {
+    font-size: 11px;
+    color: darkgray;
+}

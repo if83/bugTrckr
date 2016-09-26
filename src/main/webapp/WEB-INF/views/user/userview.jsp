@@ -113,7 +113,7 @@
                                         <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
                                     </c:otherwise>
                                 </c:choose>
-                            </strong>
+                            </strong></br>
                             <span class="createTime">at ${history.createTime}</span>
                         </li>
                     </c:when>
@@ -139,7 +139,7 @@
                                         <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
                                     </c:otherwise>
                                 </c:choose>
-                            </strong>
+                            </strong></br>
                             <span class="createTime">at ${history.createTime}</span>
                         </li>
                     </c:when>
@@ -160,7 +160,7 @@
                             <c:set var="fieldLowCase" value="${fn:toLowerCase(inputField)}" />
                             <c:set var="fieldValue" value="${history[fieldLowCase]}" />
                             changed ${fieldLowCase} of <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
-                            to <strong>${fieldValue}</strong>
+                            to <strong>${fieldValue}</strong></br>
                             <span class="createTime">at ${history.createTime}</span>
                         </li>
                     </c:otherwise>
