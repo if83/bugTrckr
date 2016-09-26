@@ -427,17 +427,12 @@ INSERT INTO Label_Issue (issueId, labelId) VALUES ('1','5');
 INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','4');
 INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','1');
 
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '1', '3', '2', CURRENT_TIMESTAMP, '0', '0');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '3', '5', '2', CURRENT_TIMESTAMP, '2', '0');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '4', '6', '2', CURRENT_TIMESTAMP, '3', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '2', '2', '6', CURRENT_TIMESTAMP, '1', '0');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '6', '4', '2', CURRENT_TIMESTAMP, '0', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '8', '7', '2', CURRENT_TIMESTAMP, '0', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '4', '4', '2', CURRENT_TIMESTAMP, '1', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '2', '2', '2', CURRENT_TIMESTAMP, '0', '0');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '3', '6', '2', CURRENT_TIMESTAMP, '2', '0');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '4', '3', '2', CURRENT_TIMESTAMP, '3', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '6', '5', '7', CURRENT_TIMESTAMP, '1', '0');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '6', '7', '2', CURRENT_TIMESTAMP, '0', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '5', '3', '2', CURRENT_TIMESTAMP, '0', '1');
-INSERT INTO `History` (`id`, `issueId`, `assignedToUserId`, `changedByUserId`, `createTime`, `issueStatus`, `action`) VALUES (NULL, '1', '4', '2', CURRENT_TIMESTAMP, '1', '1');
+INSERT INTO `History` (`id`, `issueId`, `changedByUserId`, `assignedToUserId`, `action`, `title`, `type`,
+    `priority`, `status`, `description`, `issuecomment`)
+VALUES (NULL, '1', '2', '6', '0', null, null, null, null, null, null);
+INSERT INTO `History` (`id`, `issueId`, `changedByUserId`, `assignedToUserId`, `action`, `title`, `type`,
+    `priority`, `status`, `description`, `issuecomment`)
+VALUES (NULL, '1', '3', '4', '1', null, null, null, 2, null, null);
+INSERT INTO `History` (`id`, `issueId`, `changedByUserId`, `assignedToUserId`, `action`, `title`, `type`,
+    `priority`, `status`, `description`, `issuecomment`)
+VALUES (NULL, '1', '2', '7', '5', null, null, 3, null, null, null);

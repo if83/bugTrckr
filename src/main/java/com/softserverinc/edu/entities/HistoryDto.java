@@ -1,9 +1,14 @@
 package com.softserverinc.edu.entities;
 
 import com.softserverinc.edu.entities.enums.HistoryAction;
+import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.IssueType;
 
-public class HistoryDto {
+import java.util.Date;
+
+public class
+HistoryDto {
 
     private Issue issue;
 
@@ -13,12 +18,19 @@ public class HistoryDto {
 
     private String createTime;
 
-    private IssueStatus issueStatus;
+    private IssueStatus status;
 
     private HistoryAction action;
 
-    public HistoryDto() {
-    }
+    private String title;
+
+    private IssueType type;
+
+    private IssuePriority priority;
+
+    private String description;
+
+    private String issueComment;
 
     public Issue getIssue() {
         return issue;
@@ -26,14 +38,6 @@ public class HistoryDto {
 
     public void setIssue(Issue issue) {
         this.issue = issue;
-    }
-
-    public User getChangedByUser() {
-        return changedByUser;
-    }
-
-    public void setChangedByUser(User changedByUser) {
-        this.changedByUser = changedByUser;
     }
 
     public User getAssignedToUser() {
@@ -44,6 +48,14 @@ public class HistoryDto {
         this.assignedToUser = assignedToUser;
     }
 
+    public User getChangedByUser() {
+        return changedByUser;
+    }
+
+    public void setChangedByUser(User changedByUser) {
+        this.changedByUser = changedByUser;
+    }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -52,12 +64,12 @@ public class HistoryDto {
         this.createTime = createTime;
     }
 
-    public IssueStatus getIssueStatus() {
-        return issueStatus;
+    public IssueStatus getStatus() {
+        return status;
     }
 
-    public void setIssueStatus(IssueStatus issueStatus) {
-        this.issueStatus = issueStatus;
+    public void setStatus(IssueStatus status) {
+        this.status = status;
     }
 
     public HistoryAction getAction() {
@@ -68,4 +80,43 @@ public class HistoryDto {
         this.action = action;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public IssueType getType() {
+        return type;
+    }
+
+    public void setType(IssueType type) {
+        this.type = type;
+    }
+
+    public IssuePriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(IssuePriority priority) {
+        this.priority = priority;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIssueComment() {
+        return issueComment;
+    }
+
+    public void setIssueComment(String issueComment) {
+        this.issueComment = issueComment;
+    }
 }

@@ -1,7 +1,9 @@
 package com.softserverinc.edu.entities;
 
 import com.softserverinc.edu.entities.enums.HistoryAction;
+import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.IssueType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,21 +23,43 @@ public class History {
     private Issue issue;
 
     @Column
-    private Long assignedToUserId;
-
-    @Column
     private Long changedByUserId;
 
     @Column
     private String createTime;
 
     @Column
-    private IssueStatus issueStatus;
-
-    @Column
     private HistoryAction action;
 
+    @Column
+    private String title;
+
+    @Column
+    private IssueType type;
+
+    @Column
+    private IssuePriority priority;
+
+    @Column
+    private IssueStatus status;
+
+    @Column
+    private Long assignedToUserId;
+
+    @Column
+    private String description;
+
+    @Column
+    private String issueComment;
+
     public History() {
+    }
+
+    public History(Issue issue, Long changeByUserId, Long assignedToUserId, HistoryAction action) {
+        this.issue = issue;
+        this.changedByUserId = changeByUserId;
+        this.assignedToUserId = assignedToUserId;
+        this.action = action;
     }
 
     public Long getId() {
@@ -54,14 +78,6 @@ public class History {
         this.issue = issue;
     }
 
-    public Long getAssignedToUserId() {
-        return assignedToUserId;
-    }
-
-    public void setAssignedToUserId(Long assignedToUserId) {
-        this.assignedToUserId = assignedToUserId;
-    }
-
     public Long getChangedByUserId() {
         return changedByUserId;
     }
@@ -78,20 +94,68 @@ public class History {
         this.createTime = createTime;
     }
 
-    public IssueStatus getIssueStatus() {
-        return issueStatus;
-    }
-
-    public void setIssueStatus(IssueStatus issueStatus) {
-        this.issueStatus = issueStatus;
-    }
-
     public HistoryAction getAction() {
         return action;
     }
 
     public void setAction(HistoryAction action) {
         this.action = action;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public IssueType getType() {
+        return type;
+    }
+
+    public void setType(IssueType type) {
+        this.type = type;
+    }
+
+    public IssuePriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(IssuePriority priority) {
+        this.priority = priority;
+    }
+
+    public IssueStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(IssueStatus status) {
+        this.status = status;
+    }
+
+    public Long getAssignedToUserId() {
+        return assignedToUserId;
+    }
+
+    public void setAssignedToUserId(Long assignedToUserId) {
+        this.assignedToUserId = assignedToUserId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIssueComment() {
+        return issueComment;
+    }
+
+    public void setIssueComment(String issueComment) {
+        this.issueComment = issueComment;
     }
 
     @Override

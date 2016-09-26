@@ -1,5 +1,10 @@
 $(document).ready(function () {
 
+    CKEDITOR.replace('editor1',
+    {
+        enterMode : CKEDITOR.ENTER_BR
+    });
+
     // change (or add) labels to issue on issue-form
     $("#labelsSelect2").select2({
         tags: true,

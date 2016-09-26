@@ -144,6 +144,16 @@ public class UserService {
         } else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
     }
 
+    public User getAvaliableUser(User user) {
+        if (user.isDeleted()) {
+            User mockUser = new User();
+            mockUser.setFirstName(user.getFirstName());
+            mockUser.setLastName(user.getLastName());
+            return mockUser;
+        }
+        return user;
+    }
+
     @Transactional
     public User deleteFromProject(Long id, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(id);

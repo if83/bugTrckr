@@ -187,10 +187,8 @@ public class UserController {
             model.addAttribute("css", "danger");
             model.addAttribute("msg", "User not found");
         }
-
-        Page<History> allHistory = historyService.findAllHistoryForUser(user, pageable);
-        Page<HistoryDto> allHistoryDto = historyService.convertToHistoryDto(allHistory, pageable);
-        model.addAttribute("allHistory", allHistoryDto);
+        Page<HistoryDto> allHistory = historyService.findAllHistoryForUser(user, pageable);
+        model.addAttribute("allHistory", allHistory);
         model.addAttribute("user", user);
         return "userview";
     }

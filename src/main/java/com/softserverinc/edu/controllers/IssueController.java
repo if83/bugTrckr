@@ -1,10 +1,7 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.constants.PageConstant;
-import com.softserverinc.edu.entities.Issue;
-import com.softserverinc.edu.entities.IssueComment;
-import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.HistoryAction;
+import com.softserverinc.edu.entities.*;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.services.*;
 import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
@@ -13,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.method.P;
@@ -170,22 +168,8 @@ public class IssueController {
             return "issue_form";
         }
         redirectAttributes.addFlashAttribute("alert", "success");
-        if (issue.isNewIssue()) {
-            issue = issueService.save(issue);
-            historyService.writeToTheHistory(HistoryAction.CREATE_ISSUE, issue, changedByUser, getCurrentTime());
-            redirectAttributes.addFlashAttribute("msg", "Issue is added successfully!");
-        } else {
-            if (issueService.isStatusChanged(issue)) {
-                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue,
-                        changedByUser, getCurrentTime());
-            }
-            if (issueService.isAssigneeChanged(issue)) {
-                historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue,
-                        changedByUser, getCurrentTime());
-            }
-            redirectAttributes.addFlashAttribute("msg", "Issue is updated successfully!");
-            issueService.save(issue);
-        }
+        historyService.writeToHistory(issue, changedByUser);
+        issueService.save(issue);
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
     }
@@ -197,17 +181,8 @@ public class IssueController {
                                   Principal principal) {
         Issue issue = issueService.findById(issueId);
         User changedByUser = userService.findByEmailIs(principal.getName());
-        if (action.equals("changeAssignee")) {
-            issue.setAssignee(userService.findOne(Long.valueOf(inputData)));
-            issue = issueService.save(issue);
-            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_ASSIGNEE, issue,
-                    changedByUser, getCurrentTime());
-        } else {
-            issue.setStatus(IssueStatus.valueOf(inputData));
-            issue = issueService.save(issue);
-            historyService.writeToTheHistory(HistoryAction.CHANGE_ISSUE_STATUS, issue,
-                    changedByUser, getCurrentTime());
-        }
+        historyService.writeToHistory(issue, changedByUser, inputData, action);
+        issueService.save(issue);
     }
 
     @PostMapping("/getAvaliableIssueStatuses")

@@ -31,9 +31,6 @@ CREATE TABLE `Project` (
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-# Words such as ProjectRelease and status are reserved in MySQL
-# https://dev.mysql.com/doc/refman/5.7/en/keywords.html
-
 CREATE TABLE `ProjectRelease` (
   `id`            INT         NOT NULL AUTO_INCREMENT,
   `projectId`     INT         NOT NULL,
@@ -86,11 +83,16 @@ CREATE TABLE `Label` (
 CREATE TABLE `History` (
   `id`               INT         NOT NULL AUTO_INCREMENT,
   `issueId`          INT         NOT NULL,
-  `assignedToUserId` INT         NOT NULL,
   `changedByUserId`  INT         NOT NULL,
-  `createTime`       TIMESTAMP   NOT NULL,
-  `issueStatus`      VARCHAR(32) NOT NULL,
+  `createTime`       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `action`           VARCHAR(15) NOT NULL,
+  `assignedToUserId` INT NOT NULL,
+  `title`            VARCHAR(32),
+  `type`             VARCHAR(32),
+  `priority`         VARCHAR(32),
+  `status`           VARCHAR(32),
+  `description`      TEXT,
+  `issuecomment` TEXT,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -158,8 +160,8 @@ ALTER TABLE `Issue`
 
 ALTER TABLE `History`
   ADD CONSTRAINT `History_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+ON DELETE CASCADE;
+
 
 ALTER TABLE `WorkLog`
   ADD CONSTRAINT `WorkLog_fk0` FOREIGN KEY (`issueId`) REFERENCES `Issue` (`id`)

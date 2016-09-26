@@ -6,7 +6,7 @@ $(document).ready(function () {
         var issueTitle = $(this).parents("tr").find("input[name='issueTitle']").val();
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
         queryObj.inputData = $(e.currentTarget).val();
-        queryObj.action = "changeAssignee";
+        queryObj.action = "CHANGE_ISSUE_ASSIGNEE";
         // show popup about change of status
         $('#modalChangeIssue').find('.modal-body')
             .html("Assignee of <strong>" + issueTitle + "</strong> changed to <strong>"
@@ -26,7 +26,7 @@ $(document).ready(function () {
         var issueTitle = $(this).parents("tr").find("input[name='issueTitle']").val();
         queryObj.issueId = $(this).parents("tr").find("input[name='issueId']").val();
         queryObj.inputData = selectedStatus;
-        queryObj.action = "changeStatus";
+        queryObj.action = "CHANGE_ISSUE_STATUS";
         // show popup about change of status
         $('#modalChangeIssue').find('.modal-body')
             .html("Status of <strong>" + issueTitle + "</strong> changed to <strong>"
