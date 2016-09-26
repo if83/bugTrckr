@@ -1,7 +1,9 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.constants.PageConstant;
-import com.softserverinc.edu.entities.*;
+import com.softserverinc.edu.entities.Issue;
+import com.softserverinc.edu.entities.IssueComment;
+import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.services.*;
 import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.method.P;
@@ -24,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,8 +63,8 @@ public class IssueController {
 
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
-                      @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
-                      @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
+                               @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
+                               @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
         model.addAttribute("listOfIssues", issueService.findAll(pageableIssue));
         if (principal != null) {
             model.addAttribute("userIssues", issueService
@@ -130,7 +130,7 @@ public class IssueController {
     public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes) {
         this.issueService.delete(id);
         redirectAttributes.addFlashAttribute("alert", "success");
-        redirectAttributes.addFlashAttribute("msg", "Issue removed successfully!");
+        redirectAttributes.addFlashAttribute("msg", "Issue is  removed successfully!");
         LOGGER.debug("Issue removed successfully!", "Issue id = " + id);
         return "redirect:/issue";
     }
@@ -162,8 +162,11 @@ public class IssueController {
     @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
-        User changedByUser = userService.findByEmailIs(principal.getName());
-        issue.setCreatedBy(userService.findByEmailIs(principal.getName()));
+        User changedByUser = null;
+        if (principal != null){
+            changedByUser = userService.findByEmailIs(principal.getName());
+        }
+        issue.setCreatedBy(changedByUser);
         issueService.populateDefaultModel(model);
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");

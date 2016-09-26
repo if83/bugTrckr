@@ -20,20 +20,6 @@
     </div>
 </div>
 
-<c:if test="${not empty msg}">
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-8">
-            <div class="alert alert-${css} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"
-                        aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>${msg}</strong>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <!-- Button for addins issues -->
 <div class="col-sm-2 col-sm-offset-1">
     <sec:authorize access="isAuthenticated()">
@@ -73,7 +59,7 @@
     <%--Content of All Issues tab--%>
     <div role="tabpanel" class="tab-pane fade in active" id="allIssuesTab">
         <div class="margin-top-30">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped" id="dataTable">
                 <thead>
                 <tr>
                     <th class="text-center">Issue name</th>
@@ -331,3 +317,17 @@
         </div>
     </sec:authorize>
 </div>
+</div>
+
+<!-- Pop-up notification about changes in issue-->
+<p hidden id="messageIssue">${msg}</p>
+<div class="modal fade" id="modalChangesIssue" tabindex="-1" data-backdrop="false"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+            </div>
+        </div>
+    </div>
+</div>
+

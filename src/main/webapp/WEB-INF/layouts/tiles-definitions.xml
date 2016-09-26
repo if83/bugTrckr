@@ -76,6 +76,10 @@
     <definition name="issue" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Issues page"/>
         <put-attribute name="content" value="/WEB-INF/views/issue/issue.jsp"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/issue/jquery-1.12.4.js"/>
+            <add-attribute value="/js/issue/issue-page.js"/>
+        </put-list-attribute>
     </definition>
 
     <definition name="issue_form" extends="abstractDefaultTemplate">

@@ -80,7 +80,7 @@
                             <form:select id="assignee" path="assignee" items="${users}"
                                          itemLabel="fullName" itemValue="id" data-live-search="true"
                                          cssClass="form-control selectpicker"/>
-                                <form:errors path="assignee" class="control-label"/>
+                            <form:errors path="assignee" class="control-label"/>
                         </div>
                     </spring:bind>
 
@@ -141,7 +141,8 @@
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <label for="status">Status</label>
                                 <form:select path="status" type="text" cssClass="selectpicker form-control" id="status">
-                                    <form:option selected="selected" value="${issue.status}" label="${issue.status.toString()}"/>
+                                    <form:option selected="selected" value="${issue.status}"
+                                                 label="${issue.status.toString()}"/>
                                 </form:select>
                                 <form:errors path="status" cssClass="control-label"/>
                             </div>
@@ -154,7 +155,7 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label>Ability to edit an issue:</label>
                             <form:checkbox id="issue" path="editAbility" value="false"/>
-                                &nbsp&nbsp</label>
+                            &nbsp&nbsp</label>
                             <form:errors path="editAbility" class="control-label"/>
                         </div>
                     </spring:bind>
