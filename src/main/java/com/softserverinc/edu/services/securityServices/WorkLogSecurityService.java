@@ -59,11 +59,9 @@ public class WorkLogSecurityService extends BasicSecurityService {
         ProjectRelease projectRelease = projectReleaseService.findByIssues(issue);
         Project project = projectService.findByProjectReleases(projectRelease);
         for (User user: project.getUsers()) {
-            if(user.getRole().equals("PROJECT_MANAGER")){
-                return user;
-            }
+            return user.getRole().isProjectManager()? user: null;
         }
-        return null;
+                return null;
     }
 
     public String getPermissionToCreateWorkLog(Long issueId){

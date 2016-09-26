@@ -71,15 +71,15 @@ public class WorkLogService {
         return workLogRepository.saveAndFlush(workLog);
     }
 
-    public void forNewWorkLogModel(ModelMap model, Long issueId, Principal principal, Pageable pageable) {
+    public void forNewWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
         if(workLogSecurityService.isAuthenticated()) {
             model.addAttribute("stage", "new");
             model.addAttribute("workLogAction", issueId + "/worklog/save");
             model.addAttribute("permissionToUseWorkLogForm", workLogSecurityService.getPermissionToCreateWorkLog(issueId));
-            model.addAttribute("workLog", getNewWorkLog(issueId/*, principal*/));
+            model.addAttribute("workLog", getNewWorkLog(issueId));
             model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));
             model.addAttribute("endDate", getCurrentDate());
-            populateWorkLogModel(model, issueId/*, principal*/, pageable);
+            populateWorkLogModel(model, issueId, pageable);
         }
     }
 
@@ -93,22 +93,22 @@ public class WorkLogService {
             model.addAttribute("workLog", currentWorkLog);
             model.addAttribute("startDate", currentWorkLog.getStartDate());
             model.addAttribute("endDate", currentWorkLog.getEndDate());
-            populateWorkLogModel(model, currentWorkLog.getIssue().getId()/*, principal*/, pageable);
+            populateWorkLogModel(model, currentWorkLog.getIssue().getId(), pageable);
         }
     }
 
-    public void populateWorkLogModel(ModelMap model, Long issueId/*, Principal principal*/, Pageable pageable) {
-        model.addAttribute("currentUser", workLogSecurityService.getActiveUser());//userService.findByEmailIs(principal.getName()));
+    public void populateWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
+        model.addAttribute("currentUser", workLogSecurityService.getActiveUser());
         model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("parsedDueDate", parseDateToSQLFormat(issueService.findById(issueId).getDueDate()));
         model.addAttribute("totalSpentTimeByAllUsers", getTotalSpentTimeForIssueByAllUsers(issueId));
         model.addAttribute("workLogsOfCurrentIssueByAllUsers", findByIssue(getCurrentIssue(issueId), pageable));
     }
 
-    public WorkLog getNewWorkLog(Long issueId/*, Principal principal*/) {
+    public WorkLog getNewWorkLog(Long issueId) {
         WorkLog workLog = new WorkLog();
         workLog.setIssue(issueService.findById(issueId));
-        workLog.setUser(workLogSecurityService.getActiveUser());//userService.findByEmailIs(principal.getName()));
+        workLog.setUser(workLogSecurityService.getActiveUser());
         return workLog;
     }
 

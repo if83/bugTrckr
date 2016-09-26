@@ -93,7 +93,7 @@ public class IssueController {
         if (principal != null) {
             model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         }
-        workLogService.forNewWorkLogModel(model, issueId, principal, workLogPageable);
+        workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
 
@@ -121,7 +121,7 @@ public class IssueController {
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
         model.addAttribute("newIssueComment", issueComment);
         model.addAttribute("commentsAction", "../save");
-        workLogService.forNewWorkLogModel(model, issueId, principal, workLogPageable);
+        workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
 

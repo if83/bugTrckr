@@ -169,6 +169,7 @@
             <div role="tabpanel" class="tab-pane fade in active" id="tabs-comments">
                 <%--comments list--%>
                 <div class="margin-top-30">
+                    <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
                     <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
                         <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
                                 ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
@@ -239,7 +240,6 @@
             <%--worklog features--%>
             <div role="tabpanel" class="tab-pane fade" id="tabs-worklog">
                 <div class="margin-top-10 text-center">
-                    <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
                     <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
                         <button class="workLogToggler btn-u row text-center">Add entry</button>
                     </sec:authorize>

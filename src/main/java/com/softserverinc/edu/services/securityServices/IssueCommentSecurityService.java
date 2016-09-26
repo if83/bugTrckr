@@ -23,30 +23,31 @@ public class IssueCommentSecurityService extends BasicSecurityService {
     @Autowired
     private ProjectService projectService;
 
-    public Boolean hasPermissionToCreateIssueComment() {
-        return true; //TODO: PavlivAndriy add abilityToComment field to issue entity
+    public Boolean hasPermissionToCreateIssueComment(Long issueId) {
+        return projectService.findByProjectReleases(
+                projectReleaseService.findByIssues(
+                        issueService.findById(issueId))).
+                getGuestAddComment();
     }
 
     public Boolean hasPermissionToRemoveIssueComment(Long issueCommentId) {
-        if(getActiveUserRole().isAdmin() ||
+        return getActiveUserRole().isAdmin() ||
                 (getActiveUser().equals(issueCommentService.findOne(issueCommentId).getUser()) &&
-                !getActiveUser().getRole().equals("USER") && isAuthenticated())||
-                getActiveUser().equals(getProjectManager(issueCommentId))) {
-            return true;
-        }
-        return false;
+                        !getActiveUser().getRole().isUser() && isAuthenticated()) ||
+                getActiveUser().equals(getProjectManager(issueCommentId));
     }
 
     public Boolean hasPermissionToEditIssueComment(Long issueCommentId) {
         return hasPermissionToRemoveIssueComment(issueCommentId);
     }
 
-    private User getProjectManager(Long issueCommentId){
+    private User getProjectManager(Long issueCommentId) {
+
         Issue issue = issueService.findById(issueCommentService.findOne(issueCommentId).getIssue().getId());
         ProjectRelease projectRelease = projectReleaseService.findByIssues(issue);
         Project project = projectService.findByProjectReleases(projectRelease);
-        for (User user: project.getUsers()) {
-            if(user.getRole().equals("PROJECT_MANAGER")){
+        for (User user : project.getUsers()) {
+            if (user.getRole().isProjectManager()) {
                 return user;
             }
         }
