@@ -7,7 +7,9 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
+import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.IssueRepository;
+import com.softserverinc.edu.services.securityServices.IssueSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,9 @@ public class IssueService {
 
     @Autowired
     private WorkLogService workLogService;
+
+    @Autowired
+    private IssueSecurityService issueSecurityService;
 
     public Issue findById(Long id) {
         return issueRepository.findOne(id);
@@ -146,9 +152,18 @@ public class IssueService {
         model.addAttribute("types", IssueType.values());
         model.addAttribute("priority", IssuePriority.values());
         model.addAttribute("allLabels", labelService.findAll());
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", authenticationCheck());
         model.addAttribute("projectReleases", projectReleaseService.findAll());
     }
 
+    public Page<Issue> findByUser(Principal principal, Pageable pageable) {
+        return issueRepository.findByAssignee((userService.findByEmailIs(principal.getName())), pageable);
+    }
 
+    private List<User> authenticationCheck() {
+        if (!issueSecurityService.isAuthenticated()) {
+            return userService.findByRole(UserRole.ROLE_PROJECT_MANAGER);
+        }
+        return userService.findAll();
+    }
 }

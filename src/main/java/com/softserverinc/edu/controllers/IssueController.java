@@ -64,12 +64,13 @@ public class IssueController {
 
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
-                               @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
-                               @Qualifier("user") @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
+                               @Qualifier("issue")
+                               @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableIssue,
+                               @Qualifier("user")
+                               @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageableUser) {
         model.addAttribute("listOfIssues", issueService.findAll(pageableIssue));
         if (principal != null) {
-            model.addAttribute("userIssues", issueService
-                    .findByAssignee((userService.findByEmailIs(principal.getName())), pageableUser));
+            model.addAttribute("userIssues", issueService.findByUser(principal, pageableUser));
         }
         LOGGER.debug("Issue list controller");
         return "issue";
@@ -88,11 +89,11 @@ public class IssueController {
                             @Qualifier("history") Pageable historyPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
-        //model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        //model.addAttribute("issueCommentsList", issueCommentService.findByIssueIs(issueId));
         //model.addAttribute("commentsAction", issueId + "/comment/save");
         model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
         //if (principal != null) {
-            //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         //}
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
@@ -106,7 +107,7 @@ public class IssueController {
                                        @Qualifier("worklog") Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
-        model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssueIs(issueId));
         //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
         workLogService.forEditWorkLogModel(model, workLogId, issueId, workLogPageable);
         return "issue_view";
@@ -120,7 +121,7 @@ public class IssueController {
                                        @Qualifier("worklog") Pageable workLogPageable) {
         IssueComment issueComment = issueCommentService.findOne(issueCommentId);
         issueComment.setIsEdited(true);
-        model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssueIs(issueId));
         model.addAttribute("newIssueComment", issueComment);
         model.addAttribute("commentsAction", "../save");
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
@@ -164,7 +165,7 @@ public class IssueController {
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
         User changedByUser = null;
-        if (principal != null){
+        if (principal != null) {
             changedByUser = userService.findByEmailIs(principal.getName());
         }
         issue.setCreatedBy(changedByUser);
@@ -174,8 +175,8 @@ public class IssueController {
             return "issue_form";
         }
         redirectAttributes.addFlashAttribute("alert", "success");
-        if (principal != null){
-        historyService.writeToHistory(issue, changedByUser);
+        if (principal != null) {
+            historyService.writeToHistory(issue, changedByUser);
         }
         issueService.save(issue);
         LOGGER.debug("Issue updated or saved " + issue.getId());
@@ -212,8 +213,8 @@ public class IssueController {
         issueComment.setIsEdited(false);
         return issueComment;
     }*/
-    
-	private String getCurrentTime() {
+
+    private String getCurrentTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 }

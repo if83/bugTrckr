@@ -22,10 +22,10 @@
 
 <!-- Button for addins issues -->
 <div class="col-sm-2 col-sm-offset-1">
-        <a href="<spring:url value='/issue/add/' />"
-           class="btn btn-default pull-left"><i class="fa fa-plus"></i>
-            Add Issue
-        </a>
+    <a href="<spring:url value='/issue/add/' />"
+       class="btn btn-default pull-left"><i class="fa fa-plus"></i>
+        Add Issue
+    </a>
 </div>
 
 <!-- Search by title -->
@@ -97,7 +97,7 @@
                             </td>
                             <td class="text-center">
                                 <a class="viewLink"
-                                   href="<spring:url value='/project/${issue.projectRelease.project.id}/release/${issue.projectRelease.id}'/>">
+                                   href="<spring:url value='/project/${issue.project.id}/release/${issue.projectRelease.id}'/>">
                                         ${issue.projectRelease.version}
                                 </a>
                             </td>
@@ -111,18 +111,20 @@
                             <td class="text-center">
                                 <div class="actionButtons">
                                     <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
-                                        <a href="<spring:url value='/issue/${issue.id}/worklog' />"><i
-                                                class="fa fa-hourglass-half icon-table-u"></i></a>
-                                    </sec:authorize>
+                                    <a href="<spring:url value='/issue/${issue.id}/worklog' />">
+                                        </sec:authorize>
+                                        <i class="fa fa-hourglass-half icon-table-u"></i></a>
+                                    &nbsp
                                     <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
-                                        <a href="<spring:url value='/issue/${issue.id}/edit' />"><i
-                                                class="fa fa-edit icon-table-u"></i></a>
-                                    </sec:authorize>
+                                    <a href="<spring:url value='/issue/${issue.id}/edit' />">
+                                        </sec:authorize>
+                                        <i class="fa fa-edit icon-table-u"></i></a>
+                                    &nbsp
                                     <sec:authorize
                                             access="@issueSecurityService.hasPermissionToRemoveIssue(${issue.id})">
-                                        <a data-toggle="modal" data-target="#removeModal${issue.id}">
-                                            <i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                    </sec:authorize>
+                                    <a data-toggle="modal" data-target="#removeModal${issue.id}">
+                                        </sec:authorize>
+                                        <i class="fa fa-trash fa-lg icon-table-u"></i></a>
 
                                     <!-- Modal confirmation for removing issue-->
                                     <div class="modal fade" id="removeModal${issue.id}" tabindex="-1" role="dialog">
@@ -243,10 +245,10 @@
                                         </sec:authorize>
                                         <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')
                                     or hasAnyRole('DEVELOPER', 'QA') and ${userIssue.editAbility}">
-                                            <a href="<spring:url value='/issue/${userIssue.id}/edit' />"><i
-                                                    class="fa fa-edit icon-table-u"></i></a>
-                                            &nbsp
-                                        </sec:authorize>
+                                        <a href="<spring:url value='/issue/${userIssue.id}/edit' />">
+                                            </sec:authorize>
+                                            <i class="fa fa-edit icon-table-u"></i></a>
+                                        &nbsp
                                         <sec:authorize
                                                 access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
                                             <a data-toggle="modal" data-target="#removeModalNew${userIssue.id}">

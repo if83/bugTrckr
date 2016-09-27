@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:choose>
     <c:when test="${formAction eq 'new'}">
@@ -119,9 +120,18 @@
                     <spring:bind path="project">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="projectInput">Project</label>
-                            <form:select path="project" type="text" cssClass="selectpicker form-control"
-                                         id="projectInput" data-live-search="true"
-                                         items="${projects}" itemLabel="title" itemValue="id"/>
+                            <c:choose>
+                                <c:when test="${formAction eq 'new'}">
+                                    <form:select path="project" type="text" cssClass="selectpicker form-control"
+                                                 id="projectInput" data-live-search="true"
+                                                 items="${projects}" itemLabel="title" itemValue="id"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <form:select path="project" type="text" cssClass="selectpicker form-control"
+                                                 id="projectInput" data-live-search="true" disabled="true"
+                                                 items="${projects}" itemLabel="title" itemValue="id"/>
+                                </c:otherwise>
+                            </c:choose>
                             <form:errors path="project" cssClass="control-label"/>
                         </div>
                     </spring:bind>

@@ -2,17 +2,18 @@ package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.IssueComment;
-import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.repositories.IssueCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class IssueCommentService {
+
+    @Autowired
+    private IssueService issueService;
 
     @Autowired
     private IssueCommentRepository issueCommentRepository;
@@ -42,6 +43,10 @@ public class IssueCommentService {
     @Transactional
     public IssueComment update(IssueComment issueComment) {
         return issueCommentRepository.saveAndFlush(issueComment);
+    }
+
+    public List<IssueComment> findByIssueIs(Long issueId) {
+        return issueCommentRepository.findByIssue(issueService.findById(issueId));
     }
 
 }
