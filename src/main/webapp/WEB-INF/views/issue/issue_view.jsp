@@ -10,7 +10,7 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left"> Issue details </h1>
+            <h1 class="pull-left"> ${issue.title} </h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
@@ -85,10 +85,18 @@
             <div class="row">
                 <label class="col-sm-4">Created By</label>
                 <div class="col-sm-8"><p>
+                    <c:choose>
+                    <c:when test="${issue.createdBy != null}">
                     <a class="viewLink"
-                       href="<spring:url
-                       value='/user/${issue.createdBy.id}/view'/>">
-                        ${issue.createdBy.fullName}</a>
+                       href="<spring:url value='/user/${issue.createdBy.id}/view'/>">
+                              ${issue.createdBy.fullName}
+                    </a>
+                        </c:when>
+                            <c:otherwise>
+                                Anonymous User
+                            </c:otherwise>
+
+                    </c:choose>
                 </p>
                 </div>
             </div>

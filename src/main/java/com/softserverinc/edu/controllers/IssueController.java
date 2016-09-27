@@ -174,7 +174,9 @@ public class IssueController {
             return "issue_form";
         }
         redirectAttributes.addFlashAttribute("alert", "success");
+        if (principal != null){
         historyService.writeToHistory(issue, changedByUser);
+        }
         issueService.save(issue);
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";

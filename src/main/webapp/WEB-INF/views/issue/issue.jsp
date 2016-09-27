@@ -22,10 +22,10 @@
 
 <!-- Button for addins issues -->
 <div class="col-sm-2 col-sm-offset-1">
-    <sec:authorize access="isAuthenticated()">
-        <a href="<spring:url value='/issue/add/' />" class="btn btn-default pull-left">
-            Add Issue</a>
-    </sec:authorize>
+        <a href="<spring:url value='/issue/add/' />"
+           class="btn btn-default pull-left"><i class="fa fa-plus"></i>
+            Add Issue
+        </a>
 </div>
 
 <!-- Search by title -->
@@ -81,10 +81,7 @@
                         <tr>
                             <td class="text-center">
 
-                                <a class="viewLink"
-                                        <sec:authorize access="isAuthenticated()">
-                                            href="<spring:url value='issue/${issue.id}'/>"
-                                        </sec:authorize> >
+                                <a class="viewLink" href="<spring:url value='issue/${issue.id}'/>">
                                         ${issue.title}
                                 </a>
 
