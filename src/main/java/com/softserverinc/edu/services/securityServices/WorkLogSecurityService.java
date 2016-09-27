@@ -1,6 +1,7 @@
 package com.softserverinc.edu.services.securityServices;
 
 import com.softserverinc.edu.entities.*;
+import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.ProjectReleaseService;
 import com.softserverinc.edu.services.ProjectService;
@@ -26,31 +27,24 @@ public class WorkLogSecurityService extends BasicSecurityService {
     private ProjectService projectService;
 
     public Boolean hasPermissionToRemoveWorkLog(Long workLogId) {
-        if(getActiveUserRole().isAdmin() ||
-                getActiveUser().equals(workLogService.findOne(workLogId).getUser())||
-                getActiveUser().equals(getProjectManager(workLogId))) {
-            return true;
-        }
-        return false;
+        return getActiveUserRole().isAdmin() ||
+                workLogService.findOne(workLogId).getUser().equals(getActiveUser())||
+                getProjectManager(workLogId).equals(getActiveUser());
+
     }
 
     public Boolean hasPermissionToSaveWorkLog(Long issueId, WorkLog workLog) {
-        if(getActiveUserRole().isAdmin() ||
-                getActiveUser().equals(issueService.findById(issueId).getAssignee()) ||
-                getActiveUser().equals(workLog.getUser())||
-                getActiveUser().equals(getProjectManager(workLog.getId()))) {
-            return true;
+        return getActiveUserRole().isAdmin() ||
+                issueService.findById(issueId).getAssignee().equals(getActiveUser()) ||
+                workLog.getUser().equals(getActiveUser())||
+                getProjectManager(workLog.getId()).equals(getActiveUser());
         }
-        return false;
-    }
 
     public Boolean hasPermissionToEditWorkLog(Long workLogId) {
-        if(getActiveUserRole().isAdmin() ||
-                getActiveUser().equals(workLogService.findOne(workLogId).getUser()) ||
-                getActiveUser().equals(getProjectManager(workLogId))) {
-            return true;
-        }
-        return false;
+        return getActiveUserRole().isAdmin() ||
+                workLogService.findOne(workLogId).getUser().equals(getActiveUser()) ||
+                getProjectManager(workLogId).equals(getActiveUser());
+
     }
 
     private User getProjectManager(Long workLogId){
@@ -65,21 +59,18 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     public String getPermissionToCreateWorkLog(Long issueId){
-        if(!isAuthenticated()) {
-            return null;
-        }
-        if (getActiveUser().equals(workLogService.getCurrentIssue(issueId).getAssignee())){
-            return (getActiveUser().getRole().toString().toUpperCase().replace(' ', '_'));
+        if (workLogService.getCurrentIssue(issueId).getAssignee().equals(getActiveUser())){
+            return roleToSectionAuthorizeUseableString(getActiveUserRole());
         }
         return null;
     }
 
     public String getPermissionToEditWorkLog(Long issueId){
-        if(!isAuthenticated()) {
-            return null;
-        }
         if (didCurrentUserWorkOnCurrentIssue(getActiveUser(), issueId)){
-            return (getActiveUser().getRole().toString().toUpperCase().replace(' ', '_'));
+            return roleToSectionAuthorizeUseableString(getActiveUserRole());
+        }
+        if (getActiveUserRole().isAdmin()) {
+            return roleToSectionAuthorizeUseableString(getActiveUserRole());
         }
         return null;
     }
@@ -93,4 +84,7 @@ public class WorkLogSecurityService extends BasicSecurityService {
         }
         return false;
     }
+     public String roleToSectionAuthorizeUseableString (UserRole userRole) {
+         return userRole.toString().toUpperCase().replace(' ', '_');
+     }
 }

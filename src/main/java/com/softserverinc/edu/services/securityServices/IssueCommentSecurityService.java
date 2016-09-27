@@ -24,17 +24,18 @@ public class IssueCommentSecurityService extends BasicSecurityService {
     private ProjectService projectService;
 
     public Boolean hasPermissionToCreateIssueComment(Long issueId) {
-        return projectService.findByProjectReleases(
-                projectReleaseService.findByIssues(
-                        issueService.findById(issueId))).
-                getGuestAddComment();
+        return isAuthenticated() ||
+                projectService.findByProjectReleases(
+                        projectReleaseService.findByIssues(
+                                issueService.findById(issueId))).getGuestAddComment();
     }
 
     public Boolean hasPermissionToRemoveIssueComment(Long issueCommentId) {
-        return getActiveUserRole().isAdmin() ||
+        return isAuthenticated() &&
+                (getActiveUserRole().isAdmin() ||
                 (getActiveUser().equals(issueCommentService.findOne(issueCommentId).getUser()) &&
-                        !getActiveUser().getRole().isUser() && isAuthenticated()) ||
-                getActiveUser().equals(getProjectManager(issueCommentId));
+                        !getActiveUser().getRole().isUser()) ||
+                getActiveUser().equals(getProjectManager(issueCommentId)));
     }
 
     public Boolean hasPermissionToEditIssueComment(Long issueCommentId) {

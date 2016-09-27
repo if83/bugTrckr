@@ -171,7 +171,7 @@
             <div role="tabpanel" class="tab-pane fade in active" id="tabs-comments">
                 <%--comments list--%>
                 <div class="margin-top-30">
-                    <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
+                    <%--<c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
                     <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
                         <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
                                 ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
@@ -213,11 +213,11 @@
                             </div>
                         </div>
                         ${issueCommentsListIterator.text}
-                    </c:forEach>
+                    </c:forEach>--%>
                 </div>
 
                 <%--comment form--%>
-                <div class="margin-top-30">
+                <%--<div class="margin-top-30">
                     <form:form action="${commentsAction}" modelAttribute="newIssueComment"
                                method="POST">
                         <spring:bind path="text">
@@ -236,7 +236,7 @@
                             <input type="submit" value="Comment" class="margin-top-30 btn-u pull-right"/>
                         </div>
                     </form:form>
-                </div>
+                </div>--%>
             </div>
 
             <%--worklog features--%>
@@ -268,7 +268,7 @@
                                     <td>${workLogIterator.startDate} - ${workLogIterator.endDate}</td>
                                     <td>${workLogIterator.amountOfTime} hrs</td>
                                     <c:choose>
-                                        <c:when test="${currentUser == workLogIterator.user}">
+                                        <c:when test="${(workLogIterator.user == currentUser) or (currentUser.role == 'ROLE_ADMIN') }">
                                             <td>
                                                 <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
                                                         class="fa fa-edit icon-table-u"></i></a>

@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,40 +83,41 @@ public class IssueController {
     }
 
     @GetMapping("issue/{issueId}")
-    public String issueById(@PathVariable("issueId") Long issueId, ModelMap model, Principal principal,
+    public String issueById(@PathVariable Long issueId, ModelMap model,
                             @Qualifier("worklog") Pageable workLogPageable,
                             @Qualifier("history") Pageable historyPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
-        model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
-        model.addAttribute("commentsAction", issueId + "/comment/save");
+        //model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
+        //model.addAttribute("commentsAction", issueId + "/comment/save");
         model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
-        if (principal != null) {
-            model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
-        }
+        //if (principal != null) {
+            //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        //}
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
 
     @PreAuthorize("@workLogSecurityService.hasPermissionToEditWorkLog(#workLogId)")
     @GetMapping("issue/{issueId}/worklog/{workLogId}/edit")
-    public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
-                                       @PathVariable("workLogId") Long workLogId,
-                                       ModelMap model, Principal principal,
+    public String issueByIdEditWorklog(@PathVariable Long issueId,
+                                       @PathVariable Long workLogId,
+                                       ModelMap model,
                                        @Qualifier("worklog") Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
-        model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
-        workLogService.forEditWorkLogModel(model, workLogId, issueId, principal, workLogPageable);
+        //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        workLogService.forEditWorkLogModel(model, workLogId, issueId, workLogPageable);
         return "issue_view";
     }
 
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToEditIssueComment(#issueCommentId)")
     @GetMapping("issue/{issueId}/comment/{issueCommentId}/edit")
-    public String issueByIdEditWorklog(@PathVariable("issueId") Long issueId,
-                                       @PathVariable("issueCommentId") Long issueCommentId,
-                                       ModelMap model, Pageable workLogPageable, Principal principal) {
+    public String issueByIdEditComment(@PathVariable Long issueId,
+                                       @PathVariable Long issueCommentId,
+                                       ModelMap model,
+                                       @Qualifier("worklog") Pageable workLogPageable) {
         IssueComment issueComment = issueCommentService.findOne(issueCommentId);
         issueComment.setIsEdited(true);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssue(issueService.findById(issueId)));
@@ -138,7 +140,6 @@ public class IssueController {
     @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
     @GetMapping("/issue/{id}/edit")
     public String editIssue(@PathVariable @P("id") long id, Model model, RedirectAttributes redirectAttrs) {
-        model.addAttribute("issue", this.issueService.findById(id));
         Issue issue = issueService.findById(id);
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
@@ -201,13 +202,16 @@ public class IssueController {
         return result;
     }
 
-    private IssueComment getNewIssueComment(Principal principal, Long issueId) {
+    /*private IssueComment getNewIssueComment(Principal principal, Long issueId) {
         IssueComment issueComment = new IssueComment();
         issueComment.setId(0L);
         issueComment.setUser(userService.findOne(userService.findByEmailIs(principal.getName()).getId()));
         issueComment.setIssue(issueService.findById(issueId));
         issueComment.setIsEdited(false);
         return issueComment;
-    }
+    }*/
     
+	private String getCurrentTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    }
 }
