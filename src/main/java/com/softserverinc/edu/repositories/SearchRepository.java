@@ -14,45 +14,57 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class SearchRepository {
+
     @Autowired
-    EntityManagerFactory entityManagerFactory;
-    Logger logger = LoggerFactory.getLogger(SearchRepository.class);
-    //    Using JPA to index data
+    private EntityManagerFactory entityManagerFactory;
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(SearchRepository.class);
+
+    //Using JPA to index data
     @Transactional
-    public void indexIssues() throws Exception {
+    public void indexEntity() {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
             fullTextEntityManager.createIndexer().startAndWait();
         } catch (Exception e) {
-            throw e;
+            LOGGER.error("indexEntity", e);
         }
     }
-    //    Using JPA to create and execute a search
+
+    //Using JPA to create and execute a search
     @Transactional
-    public List<Object> searchInIssue(String searchText) throws Exception {
-        try {
+    public List<Object> search(String searchText) {
+        List resultList = new ArrayList<>();
+        try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             FullTextEntityManager fullTextEntityManager =
                     Search.getFullTextEntityManager(entityManager);
+
             QueryBuilder qb = fullTextEntityManager.getSearchFactory()
                     .buildQueryBuilder()
                     .forEntity(Issue.class)
                     .get();
+
             org.apache.lucene.search.Query query = qb
                     .keyword().onFields("title", "description")
                     .matching(searchText)
                     .createQuery();
-            Query hibQuery =
+
+            Query jpaQuery =
                     fullTextEntityManager.createFullTextQuery(query, Issue.class, Project.class);
-            List<Object> objects = hibQuery.getResultList();
-            return objects;
-        } catch (Exception e) {
-            throw e;
+
+            resultList = jpaQuery.getResultList();
+            return resultList;
+        } catch (Exception e){
+            LOGGER.info("search", e);
         }
+        return resultList;
+
     }
 }

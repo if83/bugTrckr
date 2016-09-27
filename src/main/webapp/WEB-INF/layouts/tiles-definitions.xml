@@ -235,9 +235,9 @@
     </definition>
 
 
-    <definition name="content_search" extends="abstractDefaultTemplate">
+    <definition name="search_result" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Search board"/>
-        <put-attribute name="content" value="/WEB-INF/views/content_search.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/search_result.jsp"/>
     </definition>
 
 </tiles-definitions>

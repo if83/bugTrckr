@@ -4,3 +4,4 @@ target/
 *.iml
 src/main/resources/application.properties
 src/main/resources/sql_maven_plugin.properties
+lucene/

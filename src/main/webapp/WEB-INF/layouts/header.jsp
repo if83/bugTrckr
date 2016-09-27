@@ -51,8 +51,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a>
-                        <form action="/contentSearch" method="POST" class="form-inline">
-                            <input class="form-control" name="title" type="text" placeholder="Search"/>
+                        <form action="/search_text" method="POST" class="form-inline">
+                            <input class="form-control" name="searchText" type="text" placeholder="Search"/>
                             <button class="btn btn-default pull-right" type="submit">Search</button>
                         </form>
                     </a>

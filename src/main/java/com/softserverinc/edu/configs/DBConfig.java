@@ -115,10 +115,6 @@ public class DBConfig extends WebMvcConfigurerAdapter {
                 environment.getProperty("hibernate.search.default.directory_provider"));
         hibernateProperties.setProperty("hibernate.search.default.indexBase",
                 environment.getProperty("hibernate.search.default.indexBase"));
-//        hibernateProperties.setProperty("hibernate.search.Rules.directory_provider",
-//                environment.getProperty("hibernate.search.Rules.directory_provider"));
-//        hibernateProperties.setProperty("hibernate.search.Actions.directory_provider",
-//                environment.getProperty("hibernate.search.Actions.directory_provider"));
         return hibernateProperties;
     }
 }

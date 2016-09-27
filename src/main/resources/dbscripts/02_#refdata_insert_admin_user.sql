@@ -141,9 +141,9 @@ VALUES ('Eva', 'Beck', 'quality_e3@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuIJu4uF
         'ROLE_QA', 'qa', '4');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('Bamcare', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
+VALUES ('Bamcare', '1', '1', '0', 'Bamcare description');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('Rocky Railroad', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
+VALUES ('Rocky Railroad', '1', '0', '1', 'Rocky Railroad description');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('Faxgreen', '1', '0', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
