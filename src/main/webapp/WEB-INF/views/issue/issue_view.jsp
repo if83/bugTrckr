@@ -161,6 +161,7 @@
 
     <%--TODO: prokhorenkovkv add frontend validation--%>
     <%--right panel--%>
+        role = ${currentUser.role}
     <div class="col-sm-7">
         <%--navigation tabs--%>
         <div id="tabs">
@@ -200,9 +201,9 @@
                         </c:if>
                         <div class="pull-right">
                             <c:choose>
-                                <c:when test="${currentUser == issueCommentsListIterator.user or
-                                                (currentUser.role == 'ROLE_ADMIN') or
-                                                permissionToUseWorkLogForm == 'PROJECT_MANAGER' }">
+                                <c:when test="${(currentUser == issueCommentsListIterator.user and currentUser.role != null) or
+                                                currentUser.role == 'ROLE_ADMIN' or
+                                                permissionToUseWorkLogForm == 'PROJECT_MANAGER'}">
                                     <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
                                         <i class="fa fa-edit icon-table-u"></i></a>
                                     &nbsp;
@@ -250,17 +251,23 @@
                     <sec:authorize access="@issueCommentSecurityService.hasPermissionToCreateIssueComment('${issue.id}')">
                         <form:form action="${commentsAction}" modelAttribute="newIssueComment"
                                    method="POST">
-                            <spring:bind path="anonymousName">
-                                <c:if test="${currentUser == null}">
+                            <c:choose>
+                                <c:when test="${currentUser == null}">
+                                    <spring:bind path="anonymousName">
                                     <div class="margin-top-10">
                                         <label for="anonymousName">Introduce yourself to comment</label>
                                         <form:input path="anonymousName" type="text" class="form-control"
                                                     id="anonymousName"
-                                                    placeholder="Type your name here (8-32 characters)"/>
+                                                    placeholder="Type your name here (8-32 characters)"
+                                                    value="${newIssueComment.anonymousName}"/>
                                         <form:errors path="anonymousName" class="control-label"/>
                                     </div>
-                                </c:if>
-                            </spring:bind>
+                                    </spring:bind>
+                                </c:when>
+                                <c:otherwise>
+                                <form:hidden path="anonymousName"/>
+                                </c:otherwise>
+                            </c:choose>
                             <spring:bind path="text">
                                 <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
                                     <form:textarea path="text" cols="100" id="text" rows="5"
