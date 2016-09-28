@@ -105,8 +105,7 @@ public class IssueController {
                                        ModelMap model,
                                        @Qualifier("worklog")
                                        @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable workLogPageable) {
-        Issue issue = issueService.findById(issueId);
-        model.addAttribute("issue", issue);
+        model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
         model.addAttribute("newIssueComment", getNewIssueComment(issueId));
         workLogService.forEditWorkLogModel(model, workLogId, issueId, workLogPageable);
@@ -121,6 +120,7 @@ public class IssueController {
                                        @Qualifier("worklog") Pageable workLogPageable) {
         IssueComment issueComment = issueCommentService.findOne(issueCommentId);
         issueComment.setIsEdited(true);
+        model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
         model.addAttribute("newIssueComment", issueComment);
         model.addAttribute("commentsAction", "../save");

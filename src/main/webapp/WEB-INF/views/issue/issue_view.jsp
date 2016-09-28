@@ -245,7 +245,7 @@
 
                 <%--comment form--%>
                 <div class="margin-top-30">
-                    <sec:authorize access="@issueCommentSecurityService.hasPermissionToCreateIssueComment(${issue.id})">
+                    <sec:authorize access="@issueCommentSecurityService.hasPermissionToCreateIssueComment('${issue.id}')">
                         <form:form action="${commentsAction}" modelAttribute="newIssueComment"
                                    method="POST">
                             <spring:bind path="anonymousName">
