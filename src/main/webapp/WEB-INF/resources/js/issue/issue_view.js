@@ -1,6 +1,15 @@
 $(document).ready(function () {
 
     var location = window.location.href;
+
+    //notification messages
+    $('#modalChanges .modal-content').css('background-color','#DBFFD5');
+    var msg = $("#message").text();
+    if(msg.length > 0){
+        $('#modalChanges').find('.modal-body').html(msg);
+        $('#modalChanges').modal('show');
+        setTimeout(function(){$('#modalChanges').modal('hide')}, 3000);
+    };
     
     //styles for work log paginating
     if(location.indexOf("?worklog_page=") > 0) {
@@ -10,7 +19,7 @@ $(document).ready(function () {
         $("#tabs-worklog").addClass("in active");
     }
 
-    //block tabs when editing
+    //block tabs when editing comment
     if(location.indexOf("comment") > 0 && location.indexOf("edit") > 0) {
         $(".workLogToggler").hide();
         $("#tab-worklog").click(function(){
@@ -25,7 +34,7 @@ $(document).ready(function () {
 
     //styles for work log editing
     if(location.indexOf("worklog") > 0 && location.indexOf("edit") > 0) {
-        //block tabs when editing
+        //lock tabs when editing worklog
         $("#tab-comments").click(function(){
             //say smth
             return false;
@@ -34,6 +43,7 @@ $(document).ready(function () {
             //say smth
             return false;
         });
+
         //styles
         $("#tab-comments").removeClass("active");
         $("#tabs-comments").removeClass("active");
@@ -62,8 +72,5 @@ $(document).ready(function () {
             $("#workLogForm").fadeOut(),
             $(".workLogToggler").text("Add entry");
     });
-
-    //redirect message hide
-    $("#redirectMessage").show(0).delay(3000).hide(2000);
 
 });
