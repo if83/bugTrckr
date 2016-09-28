@@ -289,7 +289,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <%--TODO: prokhorenkovkv fix UI permissions for PM--%>
                                 <c:forEach var="workLogIterator" items="${workLogsOfCurrentIssueByAllUsers.content}">
                                     <tr class="text-center">
                                         <td>
@@ -299,7 +298,9 @@
                                         <td>${workLogIterator.startDate} - ${workLogIterator.endDate}</td>
                                         <td>${workLogIterator.amountOfTime} hrs</td>
                                         <c:choose>
-                                            <c:when test="${(workLogIterator.user == currentUser) or (currentUser.role == 'ROLE_ADMIN') }">
+                                            <c:when test="${(workLogIterator.user == currentUser) or
+                                                (currentUser.role == 'ROLE_ADMIN') or
+                                                permissionToUseWorkLogForm == 'PROJECT_MANAGER'}">
                                                 <td>
                                                     <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/edit' />"><i
                                                             class="fa fa-edit icon-table-u"></i></a>

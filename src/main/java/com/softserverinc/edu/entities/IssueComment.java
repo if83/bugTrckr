@@ -43,6 +43,7 @@ public class IssueComment {
     private Boolean isEdited;
 
     @Column
+    @Size(min = 8, max = 32)
     private String anonymousName;
 
     public IssueComment() {

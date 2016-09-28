@@ -85,16 +85,15 @@ public class IssueController {
 
     @GetMapping("issue/{issueId}")
     public String issueById(@PathVariable Long issueId, ModelMap model,
-                            @Qualifier("worklog") Pageable workLogPageable,
+                            @Qualifier("worklog")
+                            @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable workLogPageable,
                             @Qualifier("history") Pageable historyPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
         model.addAttribute("commentsAction", issueId + "/comment/save");
         model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
-        
         model.addAttribute("newIssueComment", getNewIssueComment(issueId));
-        
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
@@ -104,7 +103,8 @@ public class IssueController {
     public String issueByIdEditWorklog(@PathVariable Long issueId,
                                        @PathVariable Long workLogId,
                                        ModelMap model,
-                                       @Qualifier("worklog") Pageable workLogPageable) {
+                                       @Qualifier("worklog")
+                                       @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));

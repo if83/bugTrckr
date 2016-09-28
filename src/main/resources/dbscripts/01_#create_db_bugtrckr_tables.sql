@@ -127,7 +127,7 @@ CREATE TABLE `IssueComment` (
   `issueId`       INT       NOT NULL,
   `userId`        INT,
   `isEdited`      BOOLEAN   NOT NULL DEFAULT '0',
-  `anonymousName` VARCHAR,
+  `anonymousName` VARCHAR(32),
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

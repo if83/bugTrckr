@@ -1,5 +1,6 @@
 package com.softserverinc.edu.forms;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.WorkLog;
 import com.softserverinc.edu.services.IssueService;
@@ -33,9 +34,9 @@ public class WorkLogFormValidator {
             String startTime = workLogService.parseDateToSQLFormat(workLog.getStartDate());
             String endTime = workLogService.parseDateToSQLFormat(workLog.getEndDate());
             int days = (int) (1 + (dateFormatSQL.parse(endTime).getTime() -
-                    dateFormatSQL.parse(startTime).getTime()) / 1000 / 60 / 60 / 24);
+                    dateFormatSQL.parse(startTime).getTime()) / PageConstant.MS_IN_ONE_DAY);
             double dailyAmountOfTime = workLog.getAmountOfTime() / days;
-            return dailyAmountOfTime < 8; //may specify user or project workday duration instead
+            return dailyAmountOfTime < PageConstant.WORKDAY_DURATION_IN_HRS; //may specify user or project workday duration instead
         } catch (ParseException e) {
             LOGGER.error(e.toString(), e);
         }
