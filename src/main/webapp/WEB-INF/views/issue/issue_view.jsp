@@ -106,13 +106,13 @@
                 <div class="row">
                     <label class="col-sm-4">Assignee</label>
                     <div class="col-sm-8">
-		    <p>
-                        <sec:authorize access="isAuthenticated()">
-                        <a class="viewLink"
-                           href="<spring:url value='/user/${issue.assignee.id}/view'/>">
-                            </sec:authorize>
-                            ${issue.assignee.fullName}</a>
-                    </p>
+                        <p>
+                            <sec:authorize access="isAuthenticated()">
+                            <a class="viewLink"
+                               href="<spring:url value='/user/${issue.assignee.id}/view'/>">
+                                </sec:authorize>
+                                ${issue.assignee.fullName}</a>
+                        </p>
                     </div>
                 </div>
 
@@ -185,11 +185,11 @@
                     <div class="margin-top-30">
                         <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
                         <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
-			    <c:choose>
+                            <c:choose>
                                 <c:when test="${issueCommentsListIterator.user != null}">
-                            	<a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
-                                	${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}
-				</a>
+                                    <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
+                                            ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}
+                                    </a>
                                 </c:when>
                                 <c:otherwise>
                                     ${issueCommentsListIterator.anonymousName}
@@ -201,36 +201,45 @@
                                 <span class="text-danger">[edited]</span>
                             </c:if>
                             <div class="pull-right">
-                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
-                                    <i class="fa fa-edit icon-table-u"></i></a>
-                                &nbsp;
-                                <a href="" data-toggle="modal"
-                                   data-target="#removeCommentButton-${issueCommentsListIterator.id}"><i
-                                        class="fa fa-remove icon-table-u"></i></a>
-                                <div class="modal fade" id="removeCommentButton-${issueCommentsListIterator.id}"
-                                     tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title pull-left">Remove comment</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="text-center">Please confirm removal</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-default" data-dismiss="modal">
-                                                    Cancel
-                                                </button>
-                                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />"
-                                                   class="btn btn-u">Delete</a>
+                                <c:choose>
+                                    <c:when test="${currentUser == issueCommentsListIterator.user or
+                                                (currentUser.role == 'ROLE_ADMIN') or
+                                                permissionToUseWorkLogForm == 'PROJECT_MANAGER' }">
+                                        <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
+                                            <i class="fa fa-edit icon-table-u"></i></a>
+                                        &nbsp;
+                                        <a href="" data-toggle="modal"
+                                           data-target="#removeCommentButton-${issueCommentsListIterator.id}"><i
+                                                class="fa fa-remove icon-table-u"></i></a>
+                                        <div class="modal fade" id="removeCommentButton-${issueCommentsListIterator.id}"
+                                             tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title pull-left">Remove comment</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p class="text-center">Please confirm removal</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-default" data-dismiss="modal">
+                                                            Cancel
+                                                        </button>
+                                                        <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />"
+                                                           class="btn btn-u">Delete</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fa fa-lock icon-table-u"></i>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             ${issueCommentsListIterator.text}
                         </c:forEach>
@@ -238,34 +247,36 @@
 
                     <%--comment form--%>
                     <div class="margin-top-30">
-                        <form:form action="${commentsAction}" modelAttribute="newIssueComment"
-                                   method="POST">
-			    <spring:bind path="anonymousName">
-                                <c:if test="${currentUser == null}">
-                                    <div class="margin-top-10">
-                                        <form:input path="anonymousName" type="text" class="form-control"
-                                                    id="anonymousName"
-                                                    placeholder="Introduce yourself to comment"/>
-                                        <form:errors path="anonymousName" class="control-label"/>
+                        <sec:authorize access="@issueCommentSecurityService.hasPermissionToCreateIssueComment(${issue.id})">
+                            <form:form action="${commentsAction}" modelAttribute="newIssueComment"
+                                       method="POST">
+                                <spring:bind path="anonymousName">
+                                    <c:if test="${currentUser == null}">
+                                        <div class="margin-top-10">
+                                            <form:input path="anonymousName" type="text" class="form-control"
+                                                        id="anonymousName"
+                                                        placeholder="Introduce yourself to comment"/>
+                                            <form:errors path="anonymousName" class="control-label"/>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
+                                <spring:bind path="text">
+                                    <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
+                                        <form:textarea path="text" cols="100" id="text" rows="5"
+                                                       value="${newIssueComment.text}"
+                                                       class="ckeditor"></form:textarea>
+                                        <form:errors path="text" class="control-label"/>
                                     </div>
-                                </c:if>
-                            </spring:bind>
-                            <spring:bind path="text">
-                                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
-                                    <form:textarea path="text" cols="100" id="text" rows="5"
-                                                   value="${newIssueComment.text}"
-                                                   class="ckeditor"></form:textarea>
-                                    <form:errors path="text" class="control-label"/>
+                                </spring:bind>
+                                <form:hidden path="user"/>
+                                <form:hidden path="issue"/>
+                                <form:hidden path="id"/>
+                                <form:hidden path="isEdited"/>
+                                <div class="col-sm-10 col-sm-offset-1">
+                                    <input type="submit" value="Comment" class="margin-top-30 btn-u pull-right"/>
                                 </div>
-                            </spring:bind>
-                            <form:hidden path="user"/>
-                            <form:hidden path="issue"/>
-                            <form:hidden path="id"/>
-                            <form:hidden path="isEdited"/>
-                            <div class="col-sm-10 col-sm-offset-1">
-                                <input type="submit" value="Comment" class="margin-top-30 btn-u pull-right"/>
-                            </div>
-                        </form:form>
+                            </form:form>
+                        </sec:authorize>
                     </div>
                 </div>
 

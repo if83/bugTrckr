@@ -65,13 +65,13 @@ public class WorkLogService {
     public void forNewWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
         if (issueId != 0) { //crutch
             if (workLogSecurityService.isAuthenticated()) {
-                model.addAttribute("stage", "new");
                 model.addAttribute("workLogAction", issueId + "/worklog/save");
                 model.addAttribute("workLog", getNewWorkLog(issueId));
                 model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));
                 model.addAttribute("endDate", getCurrentDate());
                 model.addAttribute("permissionToUseWorkLogForm", workLogSecurityService.getPermissionToCreateWorkLog(issueId));
             }
+            model.addAttribute("stage", "new");
             populateWorkLogModel(model, issueId, pageable);
         }
     }
