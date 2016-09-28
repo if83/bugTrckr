@@ -73,4 +73,6 @@ $(document).ready(function () {
             $(".workLogToggler").text("Add entry");
     });
 
+    $(".prevent-inline-displaying").css({ 'word-wrap': "break-word" });
+
 });

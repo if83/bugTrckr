@@ -239,7 +239,9 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        ${issueCommentsListIterator.text}
+                        <div class="prevent-inline-displaying">
+                            ${issueCommentsListIterator.text}
+                        </div>
                     </c:forEach>
                 </div>
 

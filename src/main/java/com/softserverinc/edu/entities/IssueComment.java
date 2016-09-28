@@ -20,7 +20,7 @@ public class IssueComment {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 1000)
+    @Size(min = 1)
     @Column(nullable = false)
     private String text;
 
