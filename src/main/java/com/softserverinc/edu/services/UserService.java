@@ -129,8 +129,8 @@ public class UserService {
                 return userRepository.findByProjectAndLastNameContainingAndRoleNotAndIsDeletedAndEnabledIs(
                         project, searchedString, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
             } else if (searchParam.equals("Email")) {
-                return userRepository.findByEmailContainingAndRoleNotAndIsDeletedAndEnabledIs(searchedString,
-                        UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
+                return userRepository.findByEmailContainingAndProjectAndRoleNotAndIsDeletedAndEnabledIs(
+                        searchedString, project, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
             } else return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project,
                     UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
         }

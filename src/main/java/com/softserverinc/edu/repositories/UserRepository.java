@@ -60,6 +60,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByProjectAndLastNameContainingAndRoleNotAndIsDeletedAndEnabledIs(Project project, String
             searchedString, UserRole notRole, boolean isDeleted, int enabled, Pageable pageable);
 
-    Page<User> findByEmailContainingAndRoleNotAndIsDeletedAndEnabledIs(String searchedString, UserRole notRole, boolean
-            isDeleted, int enable, Pageable pageable);
+    Page<User> findByEmailContainingAndProjectAndRoleNotAndIsDeletedAndEnabledIs(String searchedString, Project
+            project, UserRole roleProjectManager, boolean b, int i, Pageable pageable);
 }

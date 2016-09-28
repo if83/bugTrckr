@@ -175,7 +175,7 @@ public class ProjectController {
         return "users_without_project";
     }
 
-    @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/projects/project/{projectId}/addProjectManager/usersWithoutProject")
     public String usersForRoleProjectManager(@PathVariable @P("projectId") Long projectId, Model model,
            @Qualifier("users") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS)Pageable allUsers,

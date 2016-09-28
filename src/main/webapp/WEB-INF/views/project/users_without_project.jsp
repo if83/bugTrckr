@@ -41,15 +41,18 @@
                     <form action="/projects/project/${project.id}/usersWithoutProject/search" method="POST">
                 </c:otherwise>
             </c:choose>
-                        <div class="input-group form-inline col-xs-8">
+                        <div class="input-group form-inline col-sm-5">
                             <select class="selectpicker" id="search" type="text" name="searchedParam">
                                 <option value="">Option</option>
                                 <option value="Email">E-mail</option>
                                 <option value="First Name">First Name</option>
                                 <option value="Last Name">Last Name</option>
-                            </select><span class="input-group-btn"><input type="text" class="form-control"
+                            </select>
+                            <span class="input-group-btn">
+                                <input type="text" class="form-control"
                                 name="searchedString" placeholder="Search..."><button class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search"></span></button></span>
+                                <span class="glyphicon glyphicon-search"></span></button>
+                            </span>
                         </div>
                     </form>
         </div>
