@@ -112,11 +112,6 @@
                             <td class="text-center"><c:out value="${issue.estimateTime}"/></td>
                             <td class="text-center">
                                 <div class="actionButtons">
-                                    <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
-                                    <a href="<spring:url value='/issue/${issue.id}/worklog' />">
-                                        </sec:authorize>
-                                        <i class="fa fa-hourglass-half icon-table-u"></i></a>
-                                    &nbsp
                                     <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
                                     <a href="<spring:url value='/issue/${issue.id}/edit' />">
                                         </sec:authorize>

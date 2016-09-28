@@ -45,7 +45,7 @@ public class IssueCommentService {
         return issueCommentRepository.saveAndFlush(issueComment);
     }
 
-    public List<IssueComment> findByIssueIs(Long issueId) {
+    public List<IssueComment> findByIssueId(Long issueId) {
         return issueCommentRepository.findByIssue(issueService.findById(issueId));
     }
 

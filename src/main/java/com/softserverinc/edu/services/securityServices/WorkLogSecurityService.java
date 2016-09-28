@@ -76,7 +76,7 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     public Boolean didCurrentUserWorkOnCurrentIssue(User currentUser, Long issueId){
-        List<WorkLog> workLog = workLogService.findByIssue(issueService.findById(issueId));
+        List<WorkLog> workLog = workLogService.findByIssueId(issueId);
         for (WorkLog workLogIterator: workLog) {
             if(workLogIterator.getUser().equals(currentUser)) {
                 return true;

@@ -83,7 +83,7 @@ CREATE TABLE `Label` (
 CREATE TABLE `History` (
   `id`               INT         NOT NULL AUTO_INCREMENT,
   `issueId`          INT         NOT NULL,
-  `changedByUserId`  INT         ,
+  `changedByUserId`  INT         NOT NULL,
   `createTime`       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `action`           VARCHAR(15) NOT NULL,
   `assignedToUserId` INT NOT NULL,
@@ -121,12 +121,13 @@ PRIMARY KEY (`labelId`,`issueId`)
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `IssueComment` (
-  `id`          INT       NOT NULL AUTO_INCREMENT,
-  `text`        TEXT      NOT NULL,
-  `timeStamp`   TIMESTAMP NOT NULL,
-  `issueId`     INT       NOT NULL,
-  `userId`      INT       NOT NULL,
-  `isEdited`    BOOLEAN   NOT NULL DEFAULT '0',
+  `id`            INT       NOT NULL AUTO_INCREMENT,
+  `text`          TEXT      NOT NULL,
+  `timeStamp`     TIMESTAMP NOT NULL,
+  `issueId`       INT       NOT NULL,
+  `userId`        INT,
+  `isEdited`      BOOLEAN   NOT NULL DEFAULT '0',
+  `anonymousName` VARCHAR,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

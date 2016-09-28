@@ -105,7 +105,8 @@
 
                 <div class="row">
                     <label class="col-sm-4">Assignee</label>
-                    <div class="col-sm-8"><p>
+                    <div class="col-sm-8">
+		    <p>
                         <sec:authorize access="isAuthenticated()">
                         <a class="viewLink"
                            href="<spring:url value='/user/${issue.assignee.id}/view'/>">
@@ -182,10 +183,18 @@
                 <div role="tabpanel" class="tab-pane fade in active" id="tabs-comments">
                     <%--comments list--%>
                     <div class="margin-top-30">
-                        <%--<c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
+                        <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
                         <c:forEach var="issueCommentsListIterator" items="${issueCommentsList}">
-                            <a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
-                                    ${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}</a>
+			    <c:choose>
+                                <c:when test="${issueCommentsListIterator.user != null}">
+                            	<a href="<spring:url value='/user/${issueCommentsListIterator.user.id}/view'/>">
+                                	${issueCommentsListIterator.user.firstName} ${issueCommentsListIterator.user.lastName}
+				</a>
+                                </c:when>
+                                <c:otherwise>
+                                    ${issueCommentsListIterator.anonymousName}
+                                </c:otherwise>
+                            </c:choose>
                             &nbsp;commented at <span class="trimMs"><c:out
                                 value="${issueCommentsListIterator.timeStamp}"/></span>&nbsp;
                             <c:if test="${issueCommentsListIterator.isEdited == true}">
@@ -224,13 +233,23 @@
                                 </div>
                             </div>
                             ${issueCommentsListIterator.text}
-                        </c:forEach>--%>
+                        </c:forEach>
                     </div>
 
                     <%--comment form--%>
-                    <%--<div class="margin-top-30">
+                    <div class="margin-top-30">
                         <form:form action="${commentsAction}" modelAttribute="newIssueComment"
                                    method="POST">
+			    <spring:bind path="anonymousName">
+                                <c:if test="${currentUser == null}">
+                                    <div class="margin-top-10">
+                                        <form:input path="anonymousName" type="text" class="form-control"
+                                                    id="anonymousName"
+                                                    placeholder="Introduce yourself to comment"/>
+                                        <form:errors path="anonymousName" class="control-label"/>
+                                    </div>
+                                </c:if>
+                            </spring:bind>
                             <spring:bind path="text">
                                 <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
                                     <form:textarea path="text" cols="100" id="text" rows="5"
@@ -247,7 +266,7 @@
                                 <input type="submit" value="Comment" class="margin-top-30 btn-u pull-right"/>
                             </div>
                         </form:form>
-                    </div>--%>
+                    </div>
                 </div>
 
                 <%--worklog features--%>
@@ -270,6 +289,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <%--TODO: prokhorenkovkv fix UI permissions for PM--%>
                                 <c:forEach var="workLogIterator" items="${workLogsOfCurrentIssueByAllUsers.content}">
                                     <tr class="text-center">
                                         <td>

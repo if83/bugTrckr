@@ -14,7 +14,6 @@ import java.util.Date;
 @Entity
 public class IssueComment {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -35,14 +34,16 @@ public class IssueComment {
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
     @NotNull
     @Column
     private Boolean isEdited;
+
+    @Column
+    private String anonymousName;
 
     public IssueComment() {
 
@@ -94,6 +95,14 @@ public class IssueComment {
 
     public void setIsEdited(Boolean isEdited) {
         this.isEdited = isEdited;
+    }
+
+    public String getAnonymousName() {
+        return anonymousName;
+    }
+
+    public void setAnonymousName(String anonymousName) {
+        this.anonymousName = anonymousName;
     }
 
     @Override

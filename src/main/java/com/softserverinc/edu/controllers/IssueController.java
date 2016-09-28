@@ -89,12 +89,12 @@ public class IssueController {
                             @Qualifier("history") Pageable historyPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
-        //model.addAttribute("issueCommentsList", issueCommentService.findByIssueIs(issueId));
-        //model.addAttribute("commentsAction", issueId + "/comment/save");
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
+        model.addAttribute("commentsAction", issueId + "/comment/save");
         model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
-        //if (principal != null) {
-        //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
-        //}
+        
+        model.addAttribute("newIssueComment", getNewIssueComment(issueId));
+        
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
@@ -107,8 +107,8 @@ public class IssueController {
                                        @Qualifier("worklog") Pageable workLogPageable) {
         Issue issue = issueService.findById(issueId);
         model.addAttribute("issue", issue);
-        model.addAttribute("issueCommentsList", issueCommentService.findByIssueIs(issueId));
-        //model.addAttribute("newIssueComment", getNewIssueComment(principal, issueId));
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
+        model.addAttribute("newIssueComment", getNewIssueComment(issueId));
         workLogService.forEditWorkLogModel(model, workLogId, issueId, workLogPageable);
         return "issue_view";
     }
@@ -121,7 +121,7 @@ public class IssueController {
                                        @Qualifier("worklog") Pageable workLogPageable) {
         IssueComment issueComment = issueCommentService.findOne(issueCommentId);
         issueComment.setIsEdited(true);
-        model.addAttribute("issueCommentsList", issueCommentService.findByIssueIs(issueId));
+        model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
         model.addAttribute("newIssueComment", issueComment);
         model.addAttribute("commentsAction", "../save");
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
@@ -200,14 +200,17 @@ public class IssueController {
         return result;
     }
 
-    /*private IssueComment getNewIssueComment(Principal principal, Long issueId) {
+    private IssueComment getNewIssueComment(Long issueId) {
         IssueComment issueComment = new IssueComment();
-        issueComment.setId(0L);
-        issueComment.setUser(userService.findOne(userService.findByEmailIs(principal.getName()).getId()));
+        
         issueComment.setIssue(issueService.findById(issueId));
         issueComment.setIsEdited(false);
+		if (issueCommentSecurityService.isAuthenticated()){
+            issueComment.setUser(userService.findOne(issueCommentSecurityService.getActiveUser().getId()));
+        }
         return issueComment;
-    }*/
+	}
+    
 
     private String getCurrentTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

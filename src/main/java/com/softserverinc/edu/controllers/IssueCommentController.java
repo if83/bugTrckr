@@ -28,7 +28,7 @@ public class IssueCommentController {
     @Autowired
     private IssueCommentSecurityService issueCommentSecurityService;
 
-    @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment()")
+    @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment(#issueId)")
     @RequestMapping(value = "issue/{issueId}/comment/save", method = RequestMethod.POST)
     public String addIssueComment(@PathVariable Long issueId,
                                   @ModelAttribute("newIssueComment") @Valid IssueComment newIssueComment,

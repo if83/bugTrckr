@@ -43,6 +43,9 @@ public class WorkLogService {
     public Page<WorkLog> findByIssue(Issue issue, Pageable pageable) {
         return workLogRepository.findByIssue(issue, pageable);
     }
+    public List<WorkLog> findByIssueId(Long issueId) {
+        return workLogRepository.findByIssue(issueService.findById(issueId));
+    }
 
     @Transactional
     public WorkLog save(WorkLog workLog) {
