@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class UserService {
     private ProjectService projectService;
 
     public User findOne(Long id) {
-        return userRepository.findOne(id);
+        return (id == null ? null : userRepository.findOne(id));
     }
 
     public List<User> findByEmailContaining(String email) {
@@ -40,6 +41,13 @@ public class UserService {
 
     public User findByEmailIs(String email) {
         return userRepository.findByEmailIs(email);
+    }
+
+    public User findByPrincipal(Principal principal) {
+        if (principal == null) {
+            return null;
+        }
+        return userRepository.findByEmailIs(principal.getName());
     }
 
     public List<User> findByRole(UserRole role) {
@@ -139,8 +147,14 @@ public class UserService {
     }
 
     public User getAvaliableUser(User user) {
+        User mockUser;
+        if (user == null) {
+            mockUser = new User();
+            mockUser.setFirstName("Anonymous user");
+            return mockUser;
+        }
         if (user.isDeleted()) {
-            User mockUser = new User();
+            mockUser = new User();
             mockUser.setFirstName(user.getFirstName());
             mockUser.setLastName(user.getLastName());
             return mockUser;

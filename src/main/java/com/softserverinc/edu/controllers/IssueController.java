@@ -164,10 +164,7 @@ public class IssueController {
     @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes, Principal principal) {
-        User changedByUser = null;
-        if (principal != null) {
-            changedByUser = userService.findByEmailIs(principal.getName());
-        }
+        User changedByUser = userService.findByPrincipal(principal);
         issue.setCreatedBy(changedByUser);
         issueService.populateDefaultModel(model);
         if (result.hasErrors()) {
@@ -175,9 +172,7 @@ public class IssueController {
             return "issue_form";
         }
         issueService.addAttributes(issue, redirectAttributes);
-        if (principal != null) {
-            historyService.writeToHistory(issue, changedByUser);
-        }
+        historyService.writeToHistory(issue, changedByUser);
         issueService.save(issue);
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";

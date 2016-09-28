@@ -83,7 +83,7 @@ CREATE TABLE `Label` (
 CREATE TABLE `History` (
   `id`               INT         NOT NULL AUTO_INCREMENT,
   `issueId`          INT         NOT NULL,
-  `changedByUserId`  INT         NOT NULL,
+  `changedByUserId`  INT         ,
   `createTime`       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `action`           VARCHAR(15) NOT NULL,
   `assignedToUserId` INT NOT NULL,

@@ -66,7 +66,7 @@ public class HistoryService {
 
     public void writeToHistory(Issue issue, User changeBy) {
         History history;
-        Long changeByUserId = changeBy.getId();
+        Long changeByUserId = (changeBy == null) ? null : changeBy.getId();
         if (issue.isNewIssue()) {
             history = new History(issueService.save(issue), changeByUserId, issue.getAssignee().getId(), HistoryAction.CREATE_ISSUE);
             history.setAssignedToUserId(issue.getAssignee().getId());
