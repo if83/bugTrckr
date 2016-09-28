@@ -5,7 +5,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <c:choose>
-    <c:when test="${formaction eq 'new'}">
+    <c:when test="${action eq 'new'}">
         <c:set var="breadcrumsname" scope="session" value="Add project"/>
         <c:set var="buttonname" scope="session" value="Create"/>
     </c:when>

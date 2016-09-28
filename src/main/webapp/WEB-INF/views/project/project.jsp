@@ -221,7 +221,7 @@
                                     ${project.id}/usersWithoutProject/${user.id}/changeRole'/>">
                                     <i class="glyphicon glyphicon-retweet fa-lg icon-table-u"></i>
                                     <p class="changeRoleBtn hidden"> Confirm the change of <strong>
-                                            ${user.fullName}</strong> role</p>
+                                            ${user.fullName}</strong> position</p>
                                 </a>
 
                                 <!--Remove user from project -->

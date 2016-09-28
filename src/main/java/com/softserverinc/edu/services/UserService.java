@@ -57,7 +57,7 @@ public class UserService {
         return users;
     }
 
-    public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable){
+    public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable) {
         return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project, UserRole.ROLE_PROJECT_MANAGER,
                 isDeleted, enabled, pageable);
     }
@@ -107,40 +107,34 @@ public class UserService {
         return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
 
-    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled, Pageable pageable){
+    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled, Pageable pageable) {
         return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
     }
 
-    public Page<User> searchByUsersWithoutProject(String searchParam, String searchedString, Pageable pageable){
-        if (searchParam.equals("First Name")) {
-            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(null,
-                    searchedString, UserRole.ROLE_USER, false, 1, pageable);
-        }if(searchParam.equals("Last Name")){
-            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(null, searchedString,
-                    UserRole.ROLE_USER, false, 1, pageable);
-        }
-        else return userRepository.findByEmailContainingAndRoleAndIsDeletedAndEnabledIs(searchedString, UserRole.ROLE_USER,
-                    false, 1, pageable);
-    }
-
-    public Page<User> searchByUsersInProject(Project project, String searchParam, UserRole role, String searchedString,
-                                             Pageable pageable){
-        if(role == null && searchedString == null){
+    public Page<User> userSearch(Project project, String searchParam, UserRole role, String searchedString,
+                                 Pageable pageable) {
+        if (role == null) {
             if (searchParam.equals("First Name")) {
-                return userRepository.findByProjectAndFirstNameContainingAndIsDeletedAndEnabledIs(project,
-                        searchedString, false, 1, pageable);
-            } else if(searchParam.equals("Last Name")){
-                return userRepository.findByProjectAndLastNameContainingAndIsDeletedAndEnabledIs(project,
-                        searchedString, false, 1, pageable);
-            }
-            else return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project, null ,false, 1, pageable);
+                return userRepository.findByProjectAndFirstNameContainingAndRoleNotAndIsDeletedAndEnabledIs(
+                        project, searchedString, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
+            } else if (searchParam.equals("Last Name")) {
+                return userRepository.findByProjectAndLastNameContainingAndRoleNotAndIsDeletedAndEnabledIs(
+                        project, searchedString, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
+            } else if (searchParam.equals("Email")) {
+                return userRepository.findByEmailContainingAndRoleNotAndIsDeletedAndEnabledIs(searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
+            } else return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project,
+                    UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
         }
-        else if (searchParam.equals("First Name")) {
-            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
-                    searchedString, role, false, 1, pageable);
-        } else if(searchParam.equals("Last Name")){
-            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(project,
-                    searchedString, role, false, 1, pageable);
+        if (searchParam.equals("First Name")) {
+            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(
+                    project, searchedString, role, false, 1, pageable);
+        } else if (searchParam.equals("Last Name")) {
+            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(
+                    project, searchedString, role, false, 1, pageable);
+        } else if (searchParam.equals("Email")) {
+            return userRepository.findByEmailContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
+                    role, false, 1, pageable);
         } else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
     }
 
@@ -155,28 +149,21 @@ public class UserService {
     }
 
     @Transactional
-    public User deleteFromProject(Long id, RedirectAttributes redirectAttributes) {
+    public User deleteUserFromProject(Long id, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(id);
-        redirectAttributes.addFlashAttribute("msg", String.format("%s %s was removed from project",
-                user.getFirstName(), user.getLastName()));
+        redirectAttributes.addFlashAttribute("msg", String.format("%s was removed from project", user.getFullName()));
         user.setRole(UserRole.ROLE_USER);
         user.setProject(null);
         return userService.save(user);
     }
 
     @Transactional
-    public User chooseProjectManagerToProject(Long userId, Long projectId, RedirectAttributes redirectAttributes){
+    public User projectManagerAppointment(Long userId, Long projectId, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
-        redirectAttributes.addFlashAttribute("msg", String.format("%s %s is Project Manager",
-                user.getFirstName(), user.getLastName()));
-        if(project.getUsers().isEmpty()) {
-            user.setProject(project);
-            user.setRole(UserRole.ROLE_PROJECT_MANAGER);
-            return userService.save(user);
-        }
         User exProjectManager = userService.getProjectManagerOfProject(project);
-        if(exProjectManager != null){
+        redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager", user.getFullName()));
+        if (!project.getUsers().isEmpty() && exProjectManager != null) {
             exProjectManager.setProject(null);
             exProjectManager.setRole(UserRole.ROLE_USER);
             userService.save(exProjectManager);
@@ -187,21 +174,21 @@ public class UserService {
     }
 
     @Transactional
-    public User changeUserRole(User user, Project project, UserRole role, RedirectAttributes redirectAttributes){
-        if(user.getProject() == project){
+    public User changeUserRole(User user, Project project, UserRole role, RedirectAttributes redirectAttributes) {
+        if (user.getProject() == project) {
             if (user.getRole().isDeveloper()) {
-                redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to QA",
-                        user.getFirstName(), user.getLastName()));
+                redirectAttributes.addFlashAttribute("msg", String.format("position of %s role was changed to QA",
+                        user.getFullName()));
                 user.setRole(UserRole.ROLE_QA);
             } else {
-                redirectAttributes.addFlashAttribute("msg", String.format("%s %s's role was changed to Developer",
-                        user.getFirstName(), user.getLastName()));
+                redirectAttributes.addFlashAttribute("msg", String.format("position of %s was changed to Developer",
+                        user.getFullName()));
                 user.setRole(UserRole.ROLE_DEVELOPER);
             }
             return userService.save(user);
         }
-        redirectAttributes.addFlashAttribute("msg", String.format("%s %s %s was added to %s ", role,
-                user.getFirstName(), user.getLastName(), project.getTitle()));
+        redirectAttributes.addFlashAttribute("msg", String.format("%s %s was added to %s ", role, user.getFullName(),
+                project.getTitle()));
         user.setRole(role);
         user.setProject(project);
         return userService.save(user);
