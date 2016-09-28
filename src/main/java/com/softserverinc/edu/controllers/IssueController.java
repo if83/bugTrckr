@@ -174,7 +174,7 @@ public class IssueController {
             model.addAttribute("formAction", "new");
             return "issue_form";
         }
-        redirectAttributes.addFlashAttribute("alert", "success");
+        issueService.addAttributes(issue, redirectAttributes);
         if (principal != null) {
             historyService.writeToHistory(issue, changedByUser);
         }

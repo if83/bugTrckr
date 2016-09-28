@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -165,5 +166,13 @@ public class IssueService {
             return userService.findByRole(UserRole.ROLE_PROJECT_MANAGER);
         }
         return userService.findAll();
+    }
+
+    public void addAttributes(Issue issue, RedirectAttributes redirectAttributes){
+        if (issue.isNewIssue()) {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
+        } else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", issue.getTitle()));
+        }
     }
 }

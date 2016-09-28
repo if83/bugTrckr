@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<!-- Button for addins issues -->
+<!-- Button for adding issues -->
 <div class="col-sm-2 col-sm-offset-1">
     <a href="<spring:url value='/issue/add/' />"
        class="btn btn-default pull-left"><i class="fa fa-plus"></i>
@@ -59,7 +59,7 @@
     <%--Content of All Issues tab--%>
     <div role="tabpanel" class="tab-pane fade in active" id="allIssuesTab">
         <div class="margin-top-30">
-            <table class="table table-hover table-striped" id="dataTable">
+            <table class="table table-hover table-striped">
                 <thead>
                 <tr>
                     <th class="text-center">Issue name</th>
@@ -103,7 +103,9 @@
                             </td>
 
                             <td class="text-center">
+                                <sec:authorize access="isAuthenticated()">
                                 <a class="viewLink" href="<spring:url value='/user/${issue.assignee.id}/view'/>">
+                                    </sec:authorize>
                                         ${issue.assignee.firstName} ${issue.assignee.lastName}
                                 </a>
                             </td>
@@ -329,4 +331,7 @@
         </div>
     </div>
 </div>
+
+
+
 

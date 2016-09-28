@@ -4,10 +4,10 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <!--Abstract definition: it is a definition in which the template attributes are not completely filled.
+    <!--Abstract definition: it is a definition in which the template addAttributes are not completely filled.
     It creates base page and a number of extending definitions, reusing already created layout.-->
 
-    <!--Absent attributes:
+    <!--Absent addAttributes:
       - content
       - title
       -->
@@ -77,8 +77,7 @@
         <put-attribute name="title" value="Issues page"/>
         <put-attribute name="content" value="/WEB-INF/views/issue/issue.jsp"/>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/js/issue/jquery-1.12.4.js"/>
-            <add-attribute value="/js/issue/issue-page.js"/>
+            <add-attribute value="/js/issue/issue.js"/>
         </put-list-attribute>
     </definition>
 
