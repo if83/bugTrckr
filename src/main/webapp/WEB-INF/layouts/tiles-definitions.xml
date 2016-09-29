@@ -22,6 +22,7 @@
             <add-attribute value="/css/font-awesome.min.css"/>
             <add-attribute value="/css/login.css"></add-attribute>
             <add-attribute value="/css/site.css"/>
+            <add-attribute value="/css/navbar-center.css"/>
             <add-attribute value="/css/bootstrap-select.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts">
@@ -235,7 +236,7 @@
 
     <definition name="search_result" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Search board"/>
-        <put-attribute name="content" value="/WEB-INF/views/search_result.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/search/search_result.jsp"/>
     </definition>
 
 </tiles-definitions>

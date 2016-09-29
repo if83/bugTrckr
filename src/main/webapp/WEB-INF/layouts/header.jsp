@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
 
         <ul class="nav navbar-nav navbar-left">
             <li>
@@ -23,12 +23,12 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="<spring:url value='/about'/>">BugTrckr</a>
+            <a class="navbar-brand margin-top-10" href="<spring:url value='/about'/>">BugTrckr</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-nav-collapse">
 
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav margin-top-10">
 
                 <li class="mainMenuProjectItem"><a href="<spring:url value='/projects'/>">Projects</a></li>
                 <li class="mainMenuIssueItem"><a href="<spring:url value='/issue'/>">Issues</a></li>
@@ -58,6 +58,16 @@
                     </a>
                 </li>
 
+                <li class="margin-top-10">
+                    <sec:authorize access="isAuthenticated()">
+                        <a href="<spring:url value='/admin'/>">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Hello,
+                            <sec:authentication property="principal.username"/>
+                        </a>
+                    </sec:authorize>
+                </li>
+
                 <li>
                     <sec:authorize access="isAnonymous()">
                         <!-- Button trigger login form -->
@@ -67,6 +77,17 @@
                             </button>
                         </a>
                     </sec:authorize>
+
+                    <sec:authorize access="isAuthenticated()">
+
+                        <a href="<spring:url value='/logout'/>">
+                            <button type="button" class="btn btn-default pull-right">
+                                Logout
+                            </button>
+                        </a>
+
+                    </sec:authorize>
+
                     <!-- Modal for login form -->
                     <div class="modal fade" id="loginFormModal" tabindex="-1"
                          role="dialog">
@@ -82,7 +103,7 @@
 
                                     <div class="alert-danger">
                                         <h5 class="text-center alert alert-danger" id="error">
-                                        Invalid email or password
+                                            Invalid email or password
                                         </h5>
                                     </div>
 
@@ -110,13 +131,6 @@
                             </div>
                         </div>
                     </div>
-                    <sec:authorize access="isAuthenticated()">
-                        <a href="<spring:url value='/logout'/>">
-                            <button type="button" class="btn btn-default pull-right">
-                                Logout
-                            </button>
-                        </a>
-                    </sec:authorize>
                 </li>
 
             </ul>
