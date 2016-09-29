@@ -3,11 +3,8 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.IssueComment;
-import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.services.*;
-import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
-import com.softserverinc.edu.services.securityServices.WorkLogSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +24,17 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class IssueController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
+
+    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Autowired
     private IssueService issueService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private HistoryService historyService;
@@ -48,19 +43,7 @@ public class IssueController {
     private IssueCommentService issueCommentService;
 
     @Autowired
-    private LabelService labelService;
-
-    @Autowired
-    private ProjectReleaseService projectReleaseService;
-
-    @Autowired
     private WorkLogService workLogService;
-
-    @Autowired
-    private WorkLogSecurityService workLogSecurityService;
-
-    @Autowired
-    private IssueCommentSecurityService issueCommentSecurityService;
 
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
@@ -72,7 +55,6 @@ public class IssueController {
         if (principal != null) {
             model.addAttribute("userIssues", issueService.findByUser(principal, pageableUser));
         }
-        LOGGER.debug("Issue list controller");
         return "issue";
     }
 
@@ -93,7 +75,7 @@ public class IssueController {
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
         model.addAttribute("commentsAction", issueId + "/comment/save");
         model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
-        model.addAttribute("newIssueComment", getNewIssueComment(issueId));
+        model.addAttribute("newIssueComment", issueCommentService.getNewIssueComment(issueId));
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
@@ -101,13 +83,12 @@ public class IssueController {
     @PreAuthorize("@workLogSecurityService.hasPermissionToEditWorkLog(#workLogId)")
     @GetMapping("issue/{issueId}/worklog/{workLogId}/edit")
     public String issueByIdEditWorklog(@PathVariable Long issueId,
-                                       @PathVariable Long workLogId,
-                                       ModelMap model,
+                                       @PathVariable Long workLogId, ModelMap model,
                                        @Qualifier("worklog")
                                        @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable workLogPageable) {
         model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
-        model.addAttribute("newIssueComment", getNewIssueComment(issueId));
+        model.addAttribute("newIssueComment", issueCommentService.getNewIssueComment(issueId));
         workLogService.forEditWorkLogModel(model, workLogId, issueId, workLogPageable);
         return "issue_view";
     }
@@ -118,11 +99,9 @@ public class IssueController {
                                        @PathVariable Long issueCommentId,
                                        ModelMap model,
                                        @Qualifier("worklog") Pageable workLogPageable) {
-        IssueComment issueComment = issueCommentService.findOne(issueCommentId);
-        issueComment.setIsEdited(true);
         model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
-        model.addAttribute("newIssueComment", issueComment);
+        model.addAttribute("newIssueComment", issueCommentService.getEditedCommentById(issueCommentId));
         model.addAttribute("commentsAction", "../save");
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
@@ -140,7 +119,7 @@ public class IssueController {
 
     @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
     @GetMapping("/issue/{id}/edit")
-    public String editIssue(@PathVariable @P("id") long id, Model model, RedirectAttributes redirectAttrs) {
+    public String editIssue(@PathVariable @P("id") long id, Model model) {
         Issue issue = issueService.findById(id);
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
@@ -152,67 +131,41 @@ public class IssueController {
 
     @GetMapping("/issue/add")
     public String addIssue(Model model) {
-        Issue issue = new Issue();
         issueService.populateDefaultModel(model);
         model.addAttribute("sampleDate", new Date());
-        model.addAttribute("issue", issue);
+        model.addAttribute("issue", new Issue());
         model.addAttribute("formAction", "new");
-        LOGGER.debug("Issue add form");
         return "issue_form";
     }
 
     @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
-                               RedirectAttributes redirectAttributes, Principal principal) {
-        User changedByUser = userService.findByPrincipal(principal);
-        issue.setCreatedBy(changedByUser);
+                               RedirectAttributes redirectAttributes) {
         issueService.populateDefaultModel(model);
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");
             return "issue_form";
         }
+        issueService.saveIssueChanges(issue);
         issueService.addAttributes(issue, redirectAttributes);
-        historyService.writeToHistory(issue, changedByUser);
-        issueService.save(issue);
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
     }
 
     @PostMapping("/issue/changeIssue")
-    public void changeIssueByAjax(@RequestParam Long issueId,
-                                  @RequestParam String action,
-                                  @RequestParam String inputData,
-                                  Principal principal) {
-        Issue issue = issueService.findById(issueId);
-        User changedByUser = userService.findByEmailIs(principal.getName());
-        historyService.writeToHistory(issue, changedByUser, inputData, action);
-        issueService.save(issue);
+    public void changeIssueFromAjax(@RequestParam Long issueId, @RequestParam String action,
+                                    @RequestParam String inputData) {
+        issueService.saveIssueChangesFromAjax(issueId, inputData, action);
     }
 
     @PostMapping("/getAvaliableIssueStatuses")
-    public
-    @ResponseBody
+    @ResponseBody public
     Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
-        Map<IssueStatus, String> result = new HashMap<>();
-        for (IssueStatus status : issueService.getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus))) {
-            result.put(status, status.toString());
-        }
-        return result;
+        return issueService.getMapOfIssueStatuses(selectedStatus);
     }
-
-    private IssueComment getNewIssueComment(Long issueId) {
-        IssueComment issueComment = new IssueComment();
-        
-        issueComment.setIssue(issueService.findById(issueId));
-        issueComment.setIsEdited(false);
-		if (issueCommentSecurityService.isAuthenticated()){
-            issueComment.setUser(userService.findOne(issueCommentSecurityService.getActiveUser().getId()));
-        }
-        return issueComment;
-	}
-    
 
     private String getCurrentTime() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        return new SimpleDateFormat(DATE_TIME_PATTERN).format(new Date());
     }
+
 }

@@ -26,6 +26,11 @@ public class ProjectReleaseService {
         return projectReleaseRepository.findByProject(project);
     }
 
+    public ProjectRelease setProjectAndSaveRelease(Project project, ProjectRelease release) {
+        release.setProject(project);
+        return save(release);
+    }
+
     public Page<ProjectRelease> findByProject(Project project, Pageable pageable) {
         return projectReleaseRepository.findByProject(project, pageable);
     }

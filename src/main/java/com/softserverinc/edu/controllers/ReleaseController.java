@@ -38,28 +38,24 @@ public class ReleaseController {
 
     @PreAuthorize("@releaseSecurityService.hasPermissionToViewRelease(#releaseId)")
     @GetMapping("/project/{projectId}/release/{releaseId}")
-    public String viewRelease(@PathVariable @P("releaseId") Long releaseId,
-                              @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
-                              Model model) {
+    public String viewRelease(@PathVariable @P("releaseId") Long releaseId, Model model,
+                              @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         model.addAttribute("release", release);
-        model.addAttribute("issueList", issueService.findByProjectRelease(release, pageable));
-        model.addAttribute("users",
-                userService.findUsersInProject(projectService.findById(release.getProject().getId()), false, 1));
+        model.addAttribute("issueList", issueService.findIssuesByRelease(release, pageable));
+        model.addAttribute("users",userService.findUsersByRelease(release));
         return "release";
     }
 
     @PostMapping("/project/{projectId}/release/{releaseId}/issuesSearch")
     public String searchByIssueName(@PathVariable Long releaseId,
-                                    @RequestParam String searchedString,
-                                    @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
-                                    Model model) {
+                                    @RequestParam String searchedString, Model model,
+                                    @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         model.addAttribute("release", release);
         model.addAttribute("issueList",
                 issueService.findByReleaseAndIssueTitle(release, searchedString, pageable));
-        model.addAttribute("users",
-                userService.findUsersInProject(projectService.findById(release.getProject().getId()), false, 1));
+        model.addAttribute("users", userService.findUsersByRelease(release));
         return "release";
     }
 
@@ -90,9 +86,8 @@ public class ReleaseController {
     @PostMapping("/project/{projectId}/release/add")
     public String addReleasePost(@PathVariable @P("projectId") Long projectId,
                                  @ModelAttribute("release") @Valid ProjectRelease release,
-                                 BindingResult result,
-                                 RedirectAttributes redirectAttributes,
-                                 Model model) {
+                                 BindingResult result, Model model,
+                                 RedirectAttributes redirectAttributes) {
         Project project = projectService.findById(projectId);
         if (result.hasErrors()) {
             model.addAttribute("project", project);
@@ -103,8 +98,7 @@ public class ReleaseController {
         }
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("msg", "Success!");
-        release.setProject(project);
-        releaseService.save(release);
+        releaseService.setProjectAndSaveRelease(project, release);
         return "redirect:/projects/project/{projectId}";
     }
 

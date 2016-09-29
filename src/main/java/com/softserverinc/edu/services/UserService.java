@@ -2,6 +2,7 @@ package com.softserverinc.edu.services;
 
 import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
@@ -59,6 +60,10 @@ public class UserService {
             return null;
         }
         return userRepository.findByEmailIs(principal.getName());
+    }
+
+    public List<User> findUsersByRelease(ProjectRelease release) {
+        return findUsersInProject(projectService.findById(release.getProject().getId()), false, 1);
     }
 
     public List<User> findByRole(UserRole role) {

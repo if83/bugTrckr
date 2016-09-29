@@ -9,6 +9,7 @@ import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.IssueRepository;
+import com.softserverinc.edu.services.securityServices.BasicSecurityService;
 import com.softserverinc.edu.services.securityServices.IssueSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class IssueService {
@@ -29,16 +32,10 @@ public class IssueService {
     private IssueRepository issueRepository;
 
     @Autowired
-    private IssueService issueService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private HistoryService historyService;
-
-    @Autowired
-    private IssueCommentService issueCommentService;
 
     @Autowired
     private LabelService labelService;
@@ -50,7 +47,7 @@ public class IssueService {
     private ProjectReleaseService projectReleaseService;
 
     @Autowired
-    private WorkLogService workLogService;
+    private BasicSecurityService basicSecurityService;
 
     @Autowired
     private IssueSecurityService issueSecurityService;
@@ -87,8 +84,30 @@ public class IssueService {
         }
     }
 
+    public Map<IssueStatus, String> getMapOfIssueStatuses(String selectedStatus) {
+        Map<IssueStatus, String> result = new HashMap<>();
+        for (IssueStatus status : getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus))) {
+            result.put(status, status.toString());
+        }
+        return result;
+    }
+
+    public void saveIssueChanges(Issue issue) {
+        User changedByUser = basicSecurityService.getActiveUser();
+        issue.setCreatedBy(changedByUser);
+        historyService.writeToHistory(issue, changedByUser);
+        save(issue);
+    }
+
+    public void saveIssueChangesFromAjax(Long issueId, String inputData, String action) {
+        Issue issue = findById(issueId);
+        User changedByUser = basicSecurityService.getActiveUser();
+        historyService.writeToHistory(issue, changedByUser, inputData, action);
+        save(issue);
+    }
+
     @Transactional
-    public Page<Issue> findByProjectRelease(ProjectRelease projectRelease, Pageable pageable) {
+    public Page<Issue> findIssuesByRelease(ProjectRelease projectRelease, Pageable pageable) {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
     }
 

@@ -19,6 +19,12 @@ public class LabelService {
         return labelRepository.findOne(id);
     }
 
+    public Label saveNewLabel(String labelName) {
+        Label label = new Label();
+        label.setTitle(labelName);
+        return save(label);
+    }
+
     public List<Label> findAll() {
         return labelRepository.findAll();
     }
