@@ -123,7 +123,7 @@ PRIMARY KEY (`labelId`,`issueId`)
 CREATE TABLE `IssueComment` (
   `id`            INT       NOT NULL AUTO_INCREMENT,
   `text`          TEXT      NOT NULL,
-  `timeStamp`     TIMESTAMP NOT NULL,
+  `timeStamp`     DATETIME,
   `issueId`       INT       NOT NULL,
   `userId`        INT,
   `isEdited`      BOOLEAN   NOT NULL DEFAULT '0',

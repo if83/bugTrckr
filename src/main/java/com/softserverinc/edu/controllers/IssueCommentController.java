@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Date;
 
 @Controller
 public class IssueCommentController {
@@ -48,10 +49,12 @@ public class IssueCommentController {
                                   BindingResult result,
                                   ModelMap model,
                                   Principal principal) {
-        if (result.hasErrors())
+        if (result.hasErrors()) {
             return "redirect:/issue/" + issueId;
+        }
         historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
                 newIssueComment);
+        newIssueComment.setTimeStamp(new Date());
         issueCommentService.save(newIssueComment);
         LOGGER.info("Comment saved, id= " + newIssueComment.getId());
         return "redirect:/issue/" + issueId;
