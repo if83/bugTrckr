@@ -1,5 +1,6 @@
 package com.softserverinc.edu.services;
 
+import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
@@ -42,6 +43,15 @@ public class UserService {
 
     public User findByEmailIs(String email) {
         return userRepository.findByEmailIs(email);
+    }
+
+    public User getAuthorOfIssueComment(IssueComment comment) {
+        if (comment.getUser() == null) {
+            User mockUser = new User();
+            mockUser.setFirstName(comment.getAnonymousName());
+            return mockUser;
+        }
+        return comment.getUser();
     }
 
     public User findByPrincipal(Principal principal) {

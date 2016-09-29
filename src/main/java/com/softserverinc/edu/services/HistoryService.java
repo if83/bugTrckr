@@ -151,4 +151,18 @@ public class HistoryService {
         return historiesPage;
     }
 
+    public void writeToHistory(Issue issue, User changeBy, IssueComment comment) {
+        Long changeByUserId = changeBy.getId();
+        History history;
+        if (issueCommentService.isCommentNew(comment)) {
+            history = new History(issue, changeByUserId, issue.getAssignee().getId(), HistoryAction.ADD_ISSUE_COMMENT);
+            history.setIssueComment(comment.getText());
+            save(history);
+        } else {
+            history = new History(issue, changeByUserId, issue.getAssignee().getId(), HistoryAction.EDIT_ISSUE_COMMENT);
+            history.setIssueComment(comment.getText());
+            save(history);
+        }
+    }
+
 }

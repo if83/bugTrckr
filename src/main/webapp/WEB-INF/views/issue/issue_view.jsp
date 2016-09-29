@@ -472,17 +472,16 @@
                     </sec:authorize>
                 </div>
             </div>
-
             <%--issue history--%>
             <div role="tabpanel" class="tab-pane fade issue-history" id="tabs-history">
                 <ul>
                     <c:forEach var="history" items="${allHistory.content}">
                         <c:choose>
-                            <c:when test="${history.action == 'CREATE_ISSUE'}">
+                            <c:when test="${(history.action eq 'CREATE_ISSUE') or (history.action eq 'CHANGE_ISSUE_ASSIGNEE')}">
                                 <li>
                                     <strong>
                                         <c:choose>
-                                            <c:when test="${history.changedByUser.id == null}">
+                                            <c:when test="${history.changedByUser.id eq null}">
                                                 <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
                                             </c:when>
                                             <c:otherwise>
@@ -490,8 +489,14 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </strong>
-                                    created issue
-                                    and assigned it to
+                                    <c:choose>
+                                        <c:when test="${history.action eq 'CREATE_ISSUE'}">
+                                            created issue and assigned it to
+                                        </c:when>
+                                        <c:when test="${history.action eq 'CHANGE_ISSUE_ASSIGNEE'}">
+                                            reassigned issue to
+                                        </c:when>
+                                    </c:choose>
                                     <strong>
                                         <c:choose>
                                             <c:when test="${history.assignedToUser.id == null}">
@@ -505,11 +510,11 @@
                                     <span class="createTime">at ${history.createTime}</span>
                                 </li>
                             </c:when>
-                            <c:when test="${history.action == 'CHANGE_ISSUE_ASSIGNEE'}">
+                            <c:when test="${history.action eq 'ADD_ISSUE_COMMENT' or history.action eq 'EDIT_ISSUE_COMMENT'}">
                                 <li>
                                     <strong>
                                         <c:choose>
-                                            <c:when test="${history.changedByUser.id == null}">
+                                            <c:when test="${history.changedByUser.id eq null}">
                                                 <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
                                             </c:when>
                                             <c:otherwise>
@@ -517,40 +522,41 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </strong>
-                                    reassigned issue
-                                    to
-                                    <strong>
-                                        <c:choose>
-                                            <c:when test="${history.assignedToUser.id == null}">
-                                                <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </strong></br>
+                                    <c:choose>
+                                        <c:when test="${history.action eq 'ADD_ISSUE_COMMENT'}">
+                                            add comment to issue
+                                        </c:when>
+                                        <c:when test="${history.action eq 'EDIT_ISSUE_COMMENT'}">
+                                            edited comment
+                                        </c:when>
+                                    </c:choose>
+                                    <div class="history-issue-comment">
+                                            ${history.issueComment}
+                                    </div>
                                     <span class="createTime">at ${history.createTime}</span>
                                 </li>
                             </c:when>
                             <c:otherwise>
-                                <li>
-                                    <strong>
-                                        <c:choose>
-                                            <c:when test="${history.changedByUser.id == null}">
-                                                <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </strong>
-                                    <c:set var="inputField" value="${fn:split(history.action, '_')[2]}"/>
-                                    <c:set var="fieldLowCase" value="${fn:toLowerCase(inputField)}"/>
-                                    <c:set var="fieldValue" value="${history[fieldLowCase]}"/>
-                                    changed ${fieldLowCase} of issue
-                                    to <strong>${fieldValue}</strong></br>
-                                    <span class="createTime">at ${history.createTime}</span>
-                                </li>
+                                <c:if test="${(history.action ne 'ADD_ISSUE_COMMENT') and (history.action ne 'EDIT_ISSUE_COMMENT')}">
+                                    <li>
+                                        <strong>
+                                            <c:choose>
+                                                <c:when test="${history.changedByUser.id == null}">
+                                                    <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </strong>
+                                        <c:set var="inputField" value="${fn:split(history.action, '_')[2]}"/>
+                                        <c:set var="fieldLowCase" value="${fn:toLowerCase(inputField)}"/>
+                                        <c:set var="fieldValue" value="${history[fieldLowCase]}"/>
+                                        changed ${fieldLowCase} of issue
+                                        to <strong>${fieldValue}</strong></br>
+                                        <span class="createTime">at ${history.createTime}</span>
+                                    </li>
+                                </c:if>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>

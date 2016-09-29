@@ -49,4 +49,8 @@ public class IssueCommentService {
         return issueCommentRepository.findByIssue(issueService.findById(issueId));
     }
 
+    public boolean isCommentNew(IssueComment comment) {
+        return (comment.getId() == null || comment.getId() == 0L);
+    }
+
 }

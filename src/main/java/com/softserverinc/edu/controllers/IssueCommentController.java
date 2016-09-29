@@ -1,7 +1,10 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.IssueComment;
+import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.IssueCommentService;
+import com.softserverinc.edu.services.IssueService;
+import com.softserverinc.edu.services.UserService;
 import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class IssueCommentController {
@@ -26,16 +30,28 @@ public class IssueCommentController {
     private IssueCommentService issueCommentService;
 
     @Autowired
+    private IssueService issueService;
+
+    @Autowired
     private IssueCommentSecurityService issueCommentSecurityService;
+
+    @Autowired
+    private HistoryService historyService;
+
+    @Autowired
+    private UserService userService;
 
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment(#issueId)")
     @RequestMapping(value = "issue/{issueId}/comment/save", method = RequestMethod.POST)
     public String addIssueComment(@PathVariable Long issueId,
                                   @ModelAttribute("newIssueComment") @Valid IssueComment newIssueComment,
                                   BindingResult result,
-                                  ModelMap model) {
+                                  ModelMap model,
+                                  Principal principal) {
         if (result.hasErrors())
             return "redirect:/issue/" + issueId;
+        historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
+                newIssueComment);
         issueCommentService.save(newIssueComment);
         LOGGER.info("Comment saved, id= " + newIssueComment.getId());
         return "redirect:/issue/" + issueId;

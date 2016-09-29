@@ -79,118 +79,181 @@
     </div>
 </div>
 
-
-<div class="margin-bottom-60">
-    <div class="row"><p>&nbsp;</p></div>
-</div>
-
 <div class="row">
     <div class="user-history col-sm-10 col-sm-offset-1">
-        <H3 class="text-center">User`s activity</H3>
-        <ul>
-            <c:forEach var="history" items="${allHistory.content}">
-                <c:choose>
-                  <c:when test="${history.action == 'CREATE_ISSUE'}">
-                        <li>
-                            <strong>
+
+        <div class="margin-top-30 row">
+            <div class="col-sm-12">
+                <!-- tabs -->
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active">
+                        <a href="#issueActivity" role="tab" data-toggle="tab">Activity</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#commentActivity" role="tab" data-toggle="tab">Comments</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <%--tab issue activity--%>
+            <div role="tabpanel" class="tab-pane fade in active" id="issueActivity">
+                <ul>
+                    <%--parsing user's history--%>
+                    <c:forEach var="history" items="${allHistory.content}">
+                        <c:choose>
+                            <c:when test="${(history.action == 'CREATE_ISSUE') or (history.action == 'CHANGE_ISSUE_ASSIGNEE')}">
+                                <li>
+                                <strong>
+                                    <c:choose>
+                                        <c:when test="${history.changedByUser.id == null}">
+                                            <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </strong>
                                 <c:choose>
-                                    <c:when test="${history.changedByUser.id == null}">
-                                        <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
+                                    <c:when test="${history.action == 'CREATE_ISSUE'}">
+                                        created issue <strong><a class="viewLink"
+                                                                 href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
+                                        and assigned it to
                                     </c:when>
-                                    <c:otherwise>
-                                        <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </strong>
-                            created issue <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
-                            and assigned it to
-                            <strong>
-                                <c:choose>
-                                    <c:when test="${history.assignedToUser.id == null}">
-                                        <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</span>
+                                    <c:when test="${history.action == 'CHANGE_ISSUE_ASSIGNEE'}">
+                                        reassigned <strong><a class="viewLink"
+                                                              href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
+                                        to
                                     </c:when>
-                                    <c:otherwise>
-                                        <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
-                                    </c:otherwise>
                                 </c:choose>
-                            </strong></br>
-                            <span class="createTime">at ${history.createTime}</span>
-                        </li>
-                    </c:when>
-                    <c:when test="${history.action == 'CHANGE_ISSUE_ASSIGNEE'}">
-                        <li>
-                            <strong>
-                                <c:choose>
-                                    <c:when test="${history.changedByUser.id == null}">
-                                        <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </strong>
-                            reassigned <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong> to
-                            <strong>
-                                <c:choose>
-                                    <c:when test="${history.assignedToUser.id == null}">
-                                        <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </strong></br>
-                            <span class="createTime">at ${history.createTime}</span>
-                        </li>
-                    </c:when>
-                    <%----%>
-                    <c:otherwise>
-                        <li>
-                            <strong>
-                                <c:choose>
-                                    <c:when test="${history.changedByUser.id == null}">
-                                        <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </strong>
-                            <c:set var="inputField" value="${fn:split(history.action, '_')[2]}" />
-                            <c:set var="fieldLowCase" value="${fn:toLowerCase(inputField)}" />
-                            <c:set var="fieldValue" value="${history[fieldLowCase]}" />
-                            changed ${fieldLowCase} of <strong><a class="viewLink" href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
-                            to <strong>${fieldValue}</strong></br>
-                            <span class="createTime">at ${history.createTime}</span>
-                        </li>
-                    </c:otherwise>
-                    <%----%>
-                </c:choose>
-            </c:forEach>
-        </ul>
-        <c:if test="${allHistory.getTotalPages()> 1}">
-            <nav aria-label="Page navigation" id="pagerID">
-                <div class="text-center">
-                    <ul class="pagination">
-                        <li>
-                            <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
-                            <li>
-                                <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
-                            </li>
-                        </c:forEach>
-                        <li>
-                            <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
-                               aria-label="End"><span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </c:if>
+                                <strong>
+                                    <c:choose>
+                                        <c:when test="${history.assignedToUser.id == null}">
+                                            <span class="removed-user">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="<spring:url value='/user/${history.assignedToUser.id}/view' />">${history.assignedToUser.firstName} ${history.assignedToUser.lastName}</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </strong></br>
+                                <span class="createTime">at ${history.createTime}</span>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${(history.action ne 'ADD_ISSUE_COMMENT') and (history.action ne 'EDIT_ISSUE_COMMENT')}">
+                                    <li>
+                                        <strong>
+                                            <c:choose>
+                                                <c:when test="${history.changedByUser.id == null}">
+                                                    <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </strong>
+                                        <c:set var="inputField" value="${fn:split(history.action, '_')[2]}"/>
+                                        <c:set var="fieldLowCase" value="${fn:toLowerCase(inputField)}"/>
+                                        <c:set var="fieldValue" value="${history[fieldLowCase]}"/>
+                                        changed ${fieldLowCase} of <strong><a class="viewLink"
+                                                                              href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
+                                        to <strong>${fieldValue}</strong></br>
+                                        <span class="createTime">at ${history.createTime}</span>
+                                    </li>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </ul>
+                <%--pagination of issue activity--%>
+                <c:if test="${allHistory.getTotalPages()> 1}">
+                    <nav aria-label="Page navigation" id="pagerID">
+                        <div class="text-center">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                                    <li>
+                                        <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
+                                    </li>
+                                </c:forEach>
+                                <li>
+                                    <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
+                                       aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </c:if>
+            </div>
+            <%--comment tab--%>
+            <div role="tabpanel" class="tab-pane fade" id="commentActivity">
+                <ul>
+                    <%--parsing user's history--%>
+                    <c:forEach var="history" items="${allHistory.content}">
+                        <c:choose>
+                            <c:when test="${history.action eq 'ADD_ISSUE_COMMENT' or history.action eq 'EDIT_ISSUE_COMMENT'}">
+                                <li>
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.changedByUser.id eq null}">
+                                                <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong>
+                                    <c:choose>
+                                        <c:when test="${history.action eq 'ADD_ISSUE_COMMENT'}">
+                                            add comment to issue <strong><a class="viewLink"
+                                                                     href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
+                                        </c:when>
+                                        <c:when test="${history.action eq 'EDIT_ISSUE_COMMENT'}">
+                                            edited comment in issue <strong><a class="viewLink"
+                                                                  href="<spring:url value='/issue/${history.issue.id}'/>">${history.issue.title}</a></strong>
+                                        </c:when>
+                                    </c:choose>
+                                    <div class="user-comment">
+                                            ${history.issueComment}
+                                    </div>
+                                    <span class="createTime">at ${history.createTime}</span>
+                                </li>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
+                </ul>
+                <%--pagination of comments of user--%>
+                <c:if test="${allHistory.getTotalPages()> 1}">
+                    <nav aria-label="Page navigation" id="pagerID">
+                        <div class="text-center">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
+                                    <li>
+                                        <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
+                                    </li>
+                                </c:forEach>
+                                <li>
+                                    <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
+                                       aria-label="End"><span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </c:if>
+            </div>
+        </div>
     </div>
 </div>
 

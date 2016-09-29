@@ -15,17 +15,25 @@ input#imgfileInput.form-control {
     color: #784A3B;
 }
 
+.user-history ul li {
+    margin-top: 12px;
+}
+
 .user-history .createTime {
     font-size: 11px;
     color: darkgray;
 }
 
-.user-history .removed-user {
-    color: red;
+.user-history .user-comment {
+    width: 30%;
+    color: grey;
+    padding: 6px 6px;
+    border: 1px #c3c3c3 solid;
+    border-radius:4px;
 }
 
-.user-history ul li {
-    margin-top: 8px;
+.user-history .removed-user {
+    color: red;
 }
 
 #pageID .pagination li a,

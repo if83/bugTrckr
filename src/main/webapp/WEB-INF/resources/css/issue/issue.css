@@ -3,10 +3,18 @@
 }
 
 .issue-history ul li {
-    margin-top: 8px;
+    margin-top: 12px;
 }
 
 .issue-history .createTime {
     font-size: 11px;
     color: darkgray;
+}
+
+.issue-history .history-issue-comment {
+    width: 70%;
+    color: grey;
+    padding: 6px 6px;
+    border: 1px #c3c3c3 solid;
+    border-radius:4px;
 }
