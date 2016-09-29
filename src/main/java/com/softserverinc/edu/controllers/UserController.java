@@ -1,13 +1,13 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.constants.PageConstant;
-import com.softserverinc.edu.entities.History;
 import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
 import com.softserverinc.edu.forms.UserFormValidator;
+import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
@@ -18,16 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -55,17 +54,10 @@ public class UserController {
     @Autowired
     private WorkLogService workLogService;
 
-    /**
-     * Set a form validator
-     *
-     * @param binder
-     */
-    @InitBinder("userCommand")
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(userFormValidator);
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping(value = "/users")
+    @GetMapping("/users")
     public String userForm(Model model, Pageable pageable, Principal principal) {
         User loggedUser = userService.findByEmailIs(principal.getName());
         Page<User> puser;
@@ -88,119 +80,57 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping(value = "/user/{id}/remove")
-    public String removeUser(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
-
+    @GetMapping("/user/{id}/remove")
+    public String removeUser(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(id);
         user.setIsDeleted(true);
-        this.userService.save(user);
-
+        userRepository.save(user);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "User is deleted!");
-
-        LOGGER.debug("User remove");
         return "redirect:/users";
     }
 
-    @GetMapping(value = "/user/{id}/edit")
+    @GetMapping("/user/{id}/edit")
     public String editUser(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("user", this.userService.findOne(id));
         model.addAttribute("formaction", "edit");
-
-        // in case of entering direct ulr in browser
-        if (!model.containsAttribute("fileUploadForm"))
-            model.addAttribute("fileUploadForm", new FileUploadForm());
-
-        LOGGER.debug("User edit\\" + id);
         return "userform";
     }
 
-    @GetMapping(value = "/user/add")
+    @GetMapping("/user/add")
     public String addUser(Model model) {
-
-        User user = new User();
-        user.setId(0L);
-        model.addAttribute("user", user);
+        model.addAttribute("user", new User());
         model.addAttribute("formaction", "new");
         populateDefaultModel(model);
-        // in case of entering direct ulr in browser
-        if (!model.containsAttribute("fileUploadForm"))
-            model.addAttribute("fileUploadForm", new FileUploadForm());
-        LOGGER.debug("User add form");
         return "userform";
     }
 
-    @PostMapping(value = "/user/add")
-    public String addUserPost(@ModelAttribute("user") @Validated User user, BindingResult result, Model model,
+    @PostMapping("/user/add")
+    public String addUserPost(@ModelAttribute @Valid User user, BindingResult result,
                               RedirectAttributes redirectAttributes) {
-
+        userFormValidator.validate(user, result);
         if (result.hasErrors()) {
-            populateDefaultModel(model);
             return "userform";
-        } else {
-
-            // Add message to flash scope
-            redirectAttributes.addFlashAttribute("css", "success");
-            if (user.isNewuser()) {
-                redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
-            }
         }
-
-        if (model.containsAttribute("fileUploadForm")) {
-            FileUploadForm fileUploadForm = (FileUploadForm) model.asMap().get("fileUploadForm");
-            //save photo new or update existing
-            if (fileUploadForm.getFileImage() != null) {
-                user.setImageData(fileUploadForm.getFileImage());
-                user.setImageFilename(fileUploadForm.getFileName());
-            } else {
-                //must explisitly reassign photo, otherwise it will be deleted
-                User userph = userService.findOne(user.getId());
-                if (userph.getImageData() != null) {
-                    user.setImageData(userph.getImageData());
-                    user.setImageFilename(userph.getImageFilename());
-                }
-            }
-            model.addAttribute("fileUploadForm", new FileUploadForm());
-        }
-        ;
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(1);
-        userService.save(user);
-
-        LOGGER.debug("User updated or saved " + user.getId());
+        userService.save(user, redirectAttributes);
         return "redirect:/users";
     }
 
-    @GetMapping(value = "/user/{id}/view")
+    @GetMapping("/user/{id}/view")
     public String viewUser(@PathVariable("id") long id, Model model,
-                           @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
-                           Principal principal) {
-
-        LOGGER.debug("viewUser() id: {}", id);
-
+                           @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         User user = userService.findOne(id);
-        if (user == null) {
-            model.addAttribute("css", "danger");
-            model.addAttribute("msg", "User not found");
-        }
         Page<HistoryDto> allHistory = historyService.findAllHistoryForUser(user, pageable);
         model.addAttribute("allHistory", allHistory);
         model.addAttribute("user", user);
         return "userview";
     }
 
-    @GetMapping(value = "/user/details")
+    @GetMapping("/user/details")
     public String viewUserByDetails(Principal principal) {
         String loggedInUserName = principal.getName();
-
         User user = userService.findByEmailIs(loggedInUserName);
         long id = user.getId();
-
-        LOGGER.debug("viewUser() details");
         return "redirect:/user/" + id + "/view";
     }
 
@@ -257,13 +187,7 @@ public class UserController {
         return redirectPath;
     }
 
-    /**
-     * Set default values
-     *
-     * @param model
-     */
     private void populateDefaultModel(Model model) {
         model.addAttribute("roles", UserRole.values());
     }
-
 }

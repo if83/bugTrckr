@@ -1,7 +1,7 @@
 CREATE TABLE `User` (
   `id`            INT         NOT NULL AUTO_INCREMENT,
-  `firstName`     VARCHAR(32) NOT NULL,
-  `lastName`      VARCHAR(32) NOT NULL,
+  `firstName`     VARCHAR(20) NOT NULL,
+  `lastName`      VARCHAR(20) NOT NULL,
   `email`         VARCHAR(64) NOT NULL UNIQUE,
   `password`      VARCHAR(60),
   `role`          VARCHAR(20) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `User` (
 
 CREATE TABLE `Project` (
   `id`                INT          NOT NULL AUTO_INCREMENT,
-  `title`             VARCHAR(100) NOT NULL,
+  `title`             VARCHAR(20) NOT NULL,
   `guestView`         BOOLEAN      NOT NULL,
   `guestCreateIssues` BOOLEAN      NOT NULL,
   `guestAddComment`   BOOLEAN      NOT NULL,

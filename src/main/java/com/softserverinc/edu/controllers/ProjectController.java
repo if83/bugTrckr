@@ -77,8 +77,8 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/projects/{projectId}/remove")
-    public String removeProject(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        projectService.delete(id, redirectAttributes);
+    public String removeProject(@PathVariable Long projectId, RedirectAttributes redirectAttributes) {
+        projectService.delete(projectId, redirectAttributes);
         return "redirect:/projects";
     }
 

@@ -5,6 +5,7 @@ import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.ProjectRepository;
+import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,8 @@ public class ProjectService {
     private ProjectService projectService;
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
+
 
     public Project findById(Long id) {
         return projectRepository.findOne(id);
@@ -54,18 +56,18 @@ public class ProjectService {
         } else {
             redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
         }
-        return projectRepository.saveAndFlush(project);
+        return projectRepository.save(project);
     }
 
     @Transactional
-    public void delete(Long id, RedirectAttributes redirectAttributes) {
+    public void delete(Long projectId, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("msg", "Project was deleted");
-        for(User user: projectService.findById(id).getUsers()){
+        for(User user: projectService.findById(projectId).getUsers()){
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);
-            userService.save(user);
+            userRepository.save(user);
         }
-        projectRepository.delete(id);
+        projectRepository.delete(projectId);
     }
 
 }

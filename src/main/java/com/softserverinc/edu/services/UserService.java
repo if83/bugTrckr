@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -91,8 +92,17 @@ public class UserService {
     }
 
     @Transactional
-    public User save(User user) {
-        return userRepository.saveAndFlush(user);
+    public User save(User user, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("css", "success");
+        if (user.isNewuser()) {
+            redirectAttributes.addFlashAttribute("msg", "User added successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(1);
+        return userRepository.save(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -168,7 +178,7 @@ public class UserService {
         redirectAttributes.addFlashAttribute("msg", String.format("%s was removed from project", user.getFullName()));
         user.setRole(UserRole.ROLE_USER);
         user.setProject(null);
-        return userService.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -180,11 +190,11 @@ public class UserService {
         if (!project.getUsers().isEmpty() && exProjectManager != null) {
             exProjectManager.setProject(null);
             exProjectManager.setRole(UserRole.ROLE_USER);
-            userService.save(exProjectManager);
+            userRepository.save(exProjectManager);
         }
         user.setProject(project);
         user.setRole(UserRole.ROLE_PROJECT_MANAGER);
-        return userService.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -199,12 +209,12 @@ public class UserService {
                         user.getFullName()));
                 user.setRole(UserRole.ROLE_DEVELOPER);
             }
-            return userService.save(user);
+            return userRepository.save(user);
         }
         redirectAttributes.addFlashAttribute("msg", String.format("%s %s was added to %s ", role, user.getFullName(),
                 project.getTitle()));
         user.setRole(role);
         user.setProject(project);
-        return userService.save(user);
+        return userRepository.save(user);
     }
 }

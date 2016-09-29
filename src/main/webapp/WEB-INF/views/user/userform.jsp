@@ -16,7 +16,6 @@
     </c:otherwise>
 </c:choose>
 
-
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
@@ -34,13 +33,10 @@
 
 
 <div class="margin-top-30 row">
-
-    <div class="col-sm-12 col-md-8 col-md-offset-1">
+    <div class="col-sm-8  col-md-offset-2">
         <div class="row">
-
             <form:form commandName="userCommand" action="/user/add" modelAttribute="user" method="POST">
                 <div class="col-sm-6">
-
                     <spring:bind path="firstName">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="firstNameInput">First name</label>
@@ -67,12 +63,9 @@
                             <form:errors path="password" cssClass="control-label"/>
                         </div>
                     </spring:bind>
-
                 </div>
 
-
                 <div class="col-sm-6">
-
                     <spring:bind path="lastName">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="lastNameInput">Last name</label>
@@ -120,40 +113,4 @@
             </form:form>
         </div>
     </div>
-
-
-    <div class="col-sm-12 col-md-3">
-        <c:if test="${!user.newuser and empty fileUploadForm.fileName}">
-            <div class="margin-top-30 row">
-                <figure>
-                    <img src="data:image/jpg;base64,<c:out value='${user.encodedImage}'/>" class="img-thumbnail"
-                         alt="Photo of user with last name ${user.lastName}"/>
-                </figure>
-            </div>
-        </c:if>
-
-
-        <c:if test="${!empty fileUploadForm.fileName}">
-            <div class="margin-top-30 row">
-                <figure>
-                    <img src="data:image/jpg;base64,<c:out value='${fileUploadForm.encodedImage}'/>"
-                         class="img-thumbnail"
-                         alt="File name is ${fileUploadForm.fileName}"/>
-                </figure>
-            </div>
-        </c:if>
-
-
-        <div class="margin-top-30 row">
-            <form action="/user/addimage" enctype="multipart/form-data" method="POST" id="fileImageUploadForm">
-                <input name="userId" type="hidden" value="${user.id}"/>
-                <label for="imgfileInput">Please select a fileImage to upload</label>
-                <input name="fileImage" type="file" class="form-control" id="imgfileInput"
-                       placeholder="Confirm password"
-                       onchange='form.submit();'/>
-            </form>
-
-        </div>
-    </div>
-
 </div>

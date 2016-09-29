@@ -5,8 +5,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
@@ -16,6 +20,7 @@ public class User {
      */
     @Transient
     private boolean newuser;
+
     /**
      * form:input - confirmPassword
      */
@@ -33,19 +38,29 @@ public class User {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 25)
+    @NotEmpty(message = "Enter first name")
+    @Size(max = 20, message = "First name must be no longer than 20 characters")
+    @Column(nullable = false, length = 20)
     private String firstName;
 
-    @Column(nullable = false, length = 32)
+    @NotEmpty(message = "Enter last name")
+    @Size(max = 20, message = "Last name must be no longer than 20 characters")
+    @Column(nullable = false, length = 20)
     private String lastName;
 
+    @NotEmpty(message = "Enter user's email")
+    @Size(max = 64, message = "Email must be no longer than 20 characters")
+    @Email
     @Column(unique = true, nullable = false, length = 64)
     private String email;
 
+    @NotEmpty(message = "Enter user's password")
+    @Size(max = 60, message = "Password must be no longer than 60 characters")
     @Column(length = 60)
     private String password;
 
-    @Column(nullable = false, length = 15)
+    @NotNull(message = "Select user's role")
+    @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -56,6 +71,7 @@ public class User {
     @Column(length = 64)
     private String imageFilename;
 
+    @Size(max = 10000, message = "Description must be no longer than 10000 characters")
     @Column(length = 10000)
     private String description;
 
