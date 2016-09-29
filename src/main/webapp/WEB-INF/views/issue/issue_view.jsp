@@ -169,7 +169,6 @@
 
     <%--TODO: prokhorenkovkv add frontend validation--%>
     <%--right panel--%>
-    role = ${currentUser.role}
     <div class="col-sm-7">
         <%--navigation tabs--%>
         <div id="tabs">

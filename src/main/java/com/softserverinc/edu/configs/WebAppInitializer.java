@@ -6,6 +6,7 @@ import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -46,6 +47,12 @@ public class WebAppInitializer implements WebApplicationInitializer {
         // allow for lazy loading in web views despite the original transactions already being completed
         container.addFilter("OpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class)
                 .addMappingForUrlPatterns(null, false, "*");
+
+        //filter encoding all request parameters to unicode
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        container.addFilter("encode", characterEncodingFilter)
+                .addMappingForUrlPatterns(null, false, "/*");
 
         // load the servlet only once
         registration.setLoadOnStartup(1);
