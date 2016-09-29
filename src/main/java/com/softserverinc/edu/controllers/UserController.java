@@ -52,26 +52,23 @@ public class UserController {
     private UserFormValidator userFormValidator;
 
     @Autowired
-    private WorkLogService workLogService;
-
-    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/users")
     public String userForm(Model model, Pageable pageable, Principal principal) {
         User loggedUser = userService.findByEmailIs(principal.getName());
-        Page<User> puser;
+        Page<User> user;
 
         //If role is not Admin send list of users without admins
         if (loggedUser.getRole() == UserRole.ROLE_ADMIN)
-            puser = this.userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
+            user = userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
         else {
             Project project = projectService.findById(loggedUser.getProject().getId());
-            puser = userService.findByProject(project, 1, pageable);
+            user = userService.findByProject(project, 1, pageable);
         }
 
-        model.addAttribute("userList", puser);
-        model.addAttribute("totalPagesCount", puser.getTotalPages());
+        model.addAttribute("userList", user);
+        model.addAttribute("totalPagesCount", user.getTotalPages());
         populateDefaultModel(model);
         model.addAttribute("fileUploadForm", new FileUploadForm());
         model.addAttribute("isControllerPagable", true);
@@ -82,9 +79,7 @@ public class UserController {
 
     @GetMapping("/user/{id}/remove")
     public String removeUser(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
-        User user = userService.findOne(id);
-        user.setIsDeleted(true);
-        userRepository.save(user);
+        userService.setIsDeletedTrue(id);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "User is deleted!");
         return "redirect:/users";
@@ -92,7 +87,7 @@ public class UserController {
 
     @GetMapping("/user/{id}/edit")
     public String editUser(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
-        model.addAttribute("user", this.userService.findOne(id));
+        model.addAttribute("user", userService.findOne(id));
         model.addAttribute("formaction", "edit");
         return "userform";
     }
@@ -112,7 +107,7 @@ public class UserController {
         if (result.hasErrors()) {
             return "userform";
         }
-        userService.save(user, redirectAttributes);
+        userService.saveUser(user, redirectAttributes);
         return "redirect:/users";
     }
 
@@ -139,11 +134,11 @@ public class UserController {
                                    @RequestParam(value = "lastName") String lastName,
                                    Model model) {
         if (!firstName.isEmpty() && !lastName.isEmpty())
-            model.addAttribute("userList", this.userService.findByFirstNameContainingAndLastNameContaining(firstName, lastName));
+            model.addAttribute("userList", userService.findByFirstNameContainingAndLastNameContaining(firstName, lastName));
         else if (!firstName.isEmpty())
-            model.addAttribute("userList", this.userService.findByFirstNameContaining(firstName));
+            model.addAttribute("userList", userService.findByFirstNameContaining(firstName));
         else
-            model.addAttribute("userList", this.userService.findByLastNameContaining(lastName));
+            model.addAttribute("userList", userService.findByLastNameContaining(lastName));
         populateDefaultModel(model);
         LOGGER.debug("User search list ByName");
         return "users";
@@ -151,7 +146,7 @@ public class UserController {
 
     @PostMapping(value = "/users/searchByEmail")
     public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
-        model.addAttribute("userList", this.userService.findByEmailContaining(userEmail));
+        model.addAttribute("userList", userService.findByEmailContaining(userEmail));
         populateDefaultModel(model);
         LOGGER.debug("User search list ByEmail");
         return "users";
@@ -159,7 +154,7 @@ public class UserController {
 
     @PostMapping(value = "/users/searchByRole")
     public String userSearchByRole(@RequestParam(value = "role") UserRole role, Model model) {
-        model.addAttribute("userList", this.userService.findByRole(role));
+        model.addAttribute("userList", userService.findByRole(role));
         populateDefaultModel(model);
         LOGGER.debug("User search list ByRole POST");
         return "users";

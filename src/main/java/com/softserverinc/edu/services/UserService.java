@@ -65,20 +65,18 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public User getProjectManagerOfProject(Project project) {
-        return userRepository.findByProjectAndRoleIsAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false);
+    public User getProjectManager(Project project) {
+        return userRepository.findByProjectAndRole(project, UserRole.ROLE_PROJECT_MANAGER);
     }
 
     public List<User> findUsersInProject(Project project, boolean isDeleted, int enabled) {
         List<User> users = userRepository.findByProjectAndIsDeletedAndEnabledIs(project, isDeleted, enabled);
-        users.sort((user1, user2) -> Integer.valueOf(user1.getRole().ordinal()).compareTo
-                (Integer.valueOf(user2.getRole().ordinal())));
+        users.sort((user1, user2) -> Integer.valueOf(user1.getRole().ordinal()).compareTo(user2.getRole().ordinal()));
         return users;
     }
 
-    public Page<User> findUsersInProjectPageable(Project project, boolean isDeleted, int enabled, Pageable pageable) {
-        return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project, UserRole.ROLE_PROJECT_MANAGER,
-                isDeleted, enabled, pageable);
+    public Page<User> findUsersByProjectPageable(Project project, Pageable pageable) {
+        return userRepository.findByProjectAndRoleNot(project, UserRole.ROLE_PROJECT_MANAGER, pageable);
     }
 
     public Page<User> findByProject(Project project, int enabled, Pageable pageable) {
@@ -102,7 +100,7 @@ public class UserService {
     }
 
     @Transactional
-    public User save(User user, RedirectAttributes redirectAttributes) {
+    public User saveUser(User user, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
         if (user.isNewuser()) {
             redirectAttributes.addFlashAttribute("msg", "User added successfully!");
@@ -135,35 +133,37 @@ public class UserService {
         return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
     }
 
-    public Page<User> findNotDeletedUsersByRole(UserRole role, boolean isDeleted, int enabled, Pageable pageable) {
-        return userRepository.findByRoleAndIsDeletedAndEnabledIs(role, isDeleted, enabled, pageable);
+    public Page<User> findUsersByRole(UserRole role, Pageable pageable) {
+        return userRepository.findByRole(role, pageable);
     }
 
     public Page<User> userSearch(Project project, String searchParam, UserRole role, String searchedString,
                                  Pageable pageable) {
         if (role == null) {
             if (searchParam.equals("First Name")) {
-                return userRepository.findByProjectAndFirstNameContainingAndRoleNotAndIsDeletedAndEnabledIs(
-                        project, searchedString, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
-            } else if (searchParam.equals("Last Name")) {
-                return userRepository.findByProjectAndLastNameContainingAndRoleNotAndIsDeletedAndEnabledIs(
-                        project, searchedString, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
-            } else if (searchParam.equals("Email")) {
-                return userRepository.findByEmailContainingAndProjectAndRoleNotAndIsDeletedAndEnabledIs(
-                        searchedString, project, UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
-            } else return userRepository.findByProjectAndRoleNotAndIsDeletedAndEnabledIs(project,
-                    UserRole.ROLE_PROJECT_MANAGER, false, 1, pageable);
+                return userRepository.findByProjectAndFirstNameContainingAndRoleNot(project, searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, pageable);
+            }
+            if (searchParam.equals("Last Name")) {
+                return userRepository.findByProjectAndLastNameContainingAndRoleNot(project, searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, pageable);
+            }
+            if (searchParam.equals("Email")) {
+                return userRepository.findByEmailContainingAndProjectAndRoleNot(searchedString, project,
+                        UserRole.ROLE_PROJECT_MANAGER, pageable);
+            }
+            return userRepository.findByProjectAndRoleNot(project, UserRole.ROLE_PROJECT_MANAGER, pageable);
         }
         if (searchParam.equals("First Name")) {
-            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeletedAndEnabledIs(
-                    project, searchedString, role, false, 1, pageable);
-        } else if (searchParam.equals("Last Name")) {
-            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeletedAndEnabledIs(
-                    project, searchedString, role, false, 1, pageable);
-        } else if (searchParam.equals("Email")) {
-            return userRepository.findByEmailContainingAndRoleAndIsDeletedAndEnabledIs(searchedString,
-                    role, false, 1, pageable);
-        } else return userRepository.findByProjectAndRoleAndIsDeletedAndEnabledIs(project, role, false, 1, pageable);
+            return userRepository.findByProjectAndFirstNameContainingAndRole(project, searchedString, role, pageable);
+        }
+        if (searchParam.equals("Last Name")) {
+            return userRepository.findByProjectAndLastNameContainingAndRole(project, searchedString, role, pageable);
+        }
+        if (searchParam.equals("Email")) {
+            return userRepository.findByEmailContainingAndRole(searchedString, role, pageable);
+        }
+        return userRepository.findByProjectAndRole(project, role, pageable);
     }
 
     public User getAvaliableUser(User user) {
@@ -195,7 +195,7 @@ public class UserService {
     public User projectManagerAppointment(Long userId, Long projectId, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
-        User exProjectManager = userService.getProjectManagerOfProject(project);
+        User exProjectManager = userService.getProjectManager(project);
         redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager", user.getFullName()));
         if (!project.getUsers().isEmpty() && exProjectManager != null) {
             exProjectManager.setProject(null);
@@ -225,6 +225,15 @@ public class UserService {
                 project.getTitle()));
         user.setRole(role);
         user.setProject(project);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User setIsDeletedTrue(long id) {
+        User user = userService.findOne(id);
+        user.setIsDeleted(true);
+        user.setProject(null);
+        user.setRole(UserRole.ROLE_USER);
         return userRepository.save(user);
     }
 }

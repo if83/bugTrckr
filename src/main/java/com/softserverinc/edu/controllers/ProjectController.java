@@ -99,8 +99,8 @@ public class ProjectController {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("projectManager", userService.getProjectManagerOfProject(project));
-        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageableUser));
+        model.addAttribute("projectManager", userService.getProjectManager(project));
+        model.addAttribute("usersList", userService.findUsersByProjectPageable(project, pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
         return "project";
@@ -117,7 +117,7 @@ public class ProjectController {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("projectManager", userService.getProjectManagerOfProject(project));
+        model.addAttribute("projectManager", userService.getProjectManager(project));
         model.addAttribute("usersList", userService.userSearch(project, searchedParam, role, searchedString,
                 pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
@@ -132,9 +132,9 @@ public class ProjectController {
             @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        Page<User> usersList = userService.findUsersInProjectPageable(project, false, 1, pageableUser);
+        Page<User> usersList = userService.findUsersByProjectPageable(project, pageableUser);
         model.addAttribute("usersList", usersList);
-        model.addAttribute("projectManager", userService.getProjectManagerOfProject(project));
+        model.addAttribute("projectManager", userService.getProjectManager(project));
         model.addAttribute("releaseList", releaseService.searchByTitle(project, searchedString, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
         return "project";
@@ -147,8 +147,8 @@ public class ProjectController {
                   @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("usersList", userService.findUsersInProjectPageable(project, false, 1, pageableUser));
-        model.addAttribute("projectManager", userService.getProjectManagerOfProject(project));
+        model.addAttribute("usersList", userService.findUsersByProjectPageable(project, pageableUser));
+        model.addAttribute("projectManager", userService.getProjectManager(project));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findIssuesByProject(project, searchedString ,pageableIssue));
         return "project";
@@ -158,7 +158,7 @@ public class ProjectController {
     @GetMapping("/projects/project/{projectId}/usersWithoutProject")
     public String usersWithoutProject(@PathVariable @P("projectId") Long projectId, Model model,
                                       @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS)Pageable pageable){
-        model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, pageable));
+        model.addAttribute("userList", userService.findUsersByRole(UserRole.ROLE_USER, pageable));
         model.addAttribute("project", projectService.findById(projectId));
         usersRolesInProject(model);
         return "users_without_project";
@@ -184,8 +184,8 @@ public class ProjectController {
         Project project = projectService.findById(projectId);
         model.addAttribute("action", "addPM");
         model.addAttribute("project", project);
-        model.addAttribute("usersInProject", userService.findUsersInProjectPageable(project, false, 1, usersInProject));
-        model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, allUsers));
+        model.addAttribute("usersInProject", userService.findUsersByProjectPageable(project, usersInProject));
+        model.addAttribute("userList", userService.findUsersByRole(UserRole.ROLE_USER, allUsers));
         return "users_without_project";
     }
 
@@ -208,7 +208,7 @@ public class ProjectController {
         model.addAttribute("project", project);
         model.addAttribute("userList", userService.userSearch(null, searchedParam, UserRole.ROLE_USER, searchedString,
                 allUsers));
-        model.addAttribute("usersInProject", userService.findUsersInProjectPageable(project, false, 1, usersInProject));
+        model.addAttribute("usersInProject", userService.findUsersByProjectPageable(project, usersInProject));
         return "users_without_project";
     }
 
@@ -221,7 +221,7 @@ public class ProjectController {
         model.addAttribute("action", "addPM");
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("userList", userService.findNotDeletedUsersByRole(UserRole.ROLE_USER, false, 1, allUsers));
+        model.addAttribute("userList", userService.findUsersByRole(UserRole.ROLE_USER, allUsers));
         model.addAttribute("usersInProject", userService.userSearch(project, searchedParam, null,
                 searchedString, usersInProject));
         return "users_without_project";
