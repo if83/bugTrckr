@@ -4,10 +4,10 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <!--Abstract definition: it is a definition in which the template addAttributes are not completely filled.
+    <!--Abstract definition: it is a definition in which the template attributes are not completely filled.
     It creates base page and a number of extending definitions, reusing already created layout.-->
 
-    <!--Absent addAttributes:
+    <!--Absent attributes:
       - content
       - title
       -->

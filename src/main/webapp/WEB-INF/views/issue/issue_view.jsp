@@ -10,7 +10,15 @@
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left"> ${issue.title} </h1>
+            <h1 class="pull-left"> ${issue.title}
+                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                    <sup>
+                        <a href="<spring:url value='/issue/${issue.id}/edit/' />">
+                            <i class="fa fa-edit icon-table-u"></i>
+                        </a>
+                    </sup>
+                </sec:authorize>
+            </h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
@@ -161,7 +169,7 @@
 
     <%--TODO: prokhorenkovkv add frontend validation--%>
     <%--right panel--%>
-        role = ${currentUser.role}
+    role = ${currentUser.role}
     <div class="col-sm-7">
         <%--navigation tabs--%>
         <div id="tabs">
@@ -241,31 +249,32 @@
                             </c:choose>
                         </div>
                         <div class="prevent-inline-displaying">
-                            ${issueCommentsListIterator.text}
+                                ${issueCommentsListIterator.text}
                         </div>
                     </c:forEach>
                 </div>
 
                 <%--comment form--%>
                 <div class="margin-top-30">
-                    <sec:authorize access="@issueCommentSecurityService.hasPermissionToCreateIssueComment('${issue.id}')">
+                    <sec:authorize
+                            access="@issueCommentSecurityService.hasPermissionToCreateIssueComment('${issue.id}')">
                         <form:form action="${commentsAction}" modelAttribute="newIssueComment"
                                    method="POST">
                             <c:choose>
                                 <c:when test="${currentUser == null}">
                                     <spring:bind path="anonymousName">
-                                    <div class="margin-top-10">
-                                        <label for="anonymousName">Introduce yourself to comment</label>
-                                        <form:input path="anonymousName" type="text" class="form-control"
-                                                    id="anonymousName"
-                                                    placeholder="Type your name here (8-32 characters)"
-                                                    value="${newIssueComment.anonymousName}"/>
-                                        <form:errors path="anonymousName" class="control-label"/>
-                                    </div>
+                                        <div class="margin-top-10">
+                                            <label for="anonymousName">Introduce yourself to comment</label>
+                                            <form:input path="anonymousName" type="text" class="form-control"
+                                                        id="anonymousName"
+                                                        placeholder="Type your name here (8-32 characters)"
+                                                        value="${newIssueComment.anonymousName}"/>
+                                            <form:errors path="anonymousName" class="control-label"/>
+                                        </div>
                                     </spring:bind>
                                 </c:when>
                                 <c:otherwise>
-                                <form:hidden path="anonymousName"/>
+                                    <form:hidden path="anonymousName"/>
                                 </c:otherwise>
                             </c:choose>
                             <spring:bind path="text">

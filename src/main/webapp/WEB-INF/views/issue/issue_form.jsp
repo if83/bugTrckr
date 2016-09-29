@@ -127,9 +127,6 @@
                                                  items="${projects}" itemLabel="title" itemValue="id"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <%--<form:select path="project" type="text" cssClass="selectpicker form-control"
-                                                 id="projectInput" disabled="true"
-                                                 item="${projects}" itemLabel="title" itemValue="id"/>--%>
                                     <form:select  path="project" type="text" cssClass="selectpicker form-control"
                                                   id="projectInput">
                                         <form:option selected="selected" value="${issue.project}"

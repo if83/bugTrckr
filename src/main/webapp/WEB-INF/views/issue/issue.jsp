@@ -112,17 +112,17 @@
                             <td class="text-center"><c:out value="${issue.estimateTime}"/></td>
                             <td class="text-center">
                                 <div class="actionButtons">
-                                    <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
-                                    <a href="<spring:url value='/issue/${issue.id}/edit' />">
-                                        </sec:authorize>
-                                        <i class="fa fa-edit icon-table-u"></i></a>
-                                    &nbsp
-                                    <sec:authorize
-                                            access="@issueSecurityService.hasPermissionToRemoveIssue(${issue.id})">
-                                    <a data-toggle="modal" data-target="#removeModal${issue.id}">
-                                        </sec:authorize>
-                                        <i class="fa fa-trash fa-lg icon-table-u"></i></a>
 
+                                    <a <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                         href="<spring:url value='/issue/${issue.id}/edit' />"
+                                        </sec:authorize>
+                                        ><i class="fa fa-edit icon-table-u"></i></a>
+                                    &nbsp
+                                        <a <sec:authorize
+                                            access="@issueSecurityService.hasPermissionToRemoveIssue(${issue.id})">
+                                        data-toggle="modal" data-target="#removeModal${issue.id}"
+                                        </sec:authorize>
+                                        ><i class="fa fa-trash fa-lg icon-table-u"></i></a>
                                     <!-- Modal confirmation for removing issue-->
                                     <div class="modal fade" id="removeModal${issue.id}" tabindex="-1" role="dialog">
                                         <div class="modal-dialog" role="document">
@@ -234,23 +234,18 @@
                                 <td class="text-center"><c:out value="${userIssue.estimateTime}"/></td>
                                 <td class="text-center">
                                     <div class="actionButtons">
-                                        <sec:authorize
-                                                access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
-                                            <a href="<spring:url value='/issue/${userIssue.id}/worklog' />"><i
-                                                    class="fa fa-hourglass-half icon-table-u"></i></a>
-                                            &nbsp
-                                        </sec:authorize>
-                                        <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')
+                                        <a <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')
                                     or hasAnyRole('DEVELOPER', 'QA') and ${userIssue.editAbility}">
-                                        <a href="<spring:url value='/issue/${userIssue.id}/edit' />">
+                                        href="<spring:url value='/issue/${userIssue.id}/edit' />"
                                             </sec:authorize>
-                                            <i class="fa fa-edit icon-table-u"></i></a>
+                                                ><i class="fa fa-edit icon-table-u"></i></a>
                                         &nbsp
-                                        <sec:authorize
+                                        <a <sec:authorize
                                                 access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
-                                            <a data-toggle="modal" data-target="#removeModalNew${userIssue.id}">
-                                                <i class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                             data-toggle="modal" data-target="#removeModalNew${userIssue.id}"
                                         </sec:authorize>
+                                            ><i class="fa fa-trash fa-lg icon-table-u"></i></a>
+
 
                                         <!-- Modal confirmation for removing issue from MyIssues Tab-->
                                         <div class="modal fade" id="removeModalNew${userIssue.id}" tabindex="-1"
