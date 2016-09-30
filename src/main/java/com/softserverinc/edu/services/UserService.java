@@ -142,8 +142,8 @@ public class UserService {
         return userRepository.findByRole(role, pageable);
     }
 
-    public Page<User> userSearch(Project project, String searchParam, UserRole role, String searchedString,
-                                 Pageable pageable) {
+    public Page<User> searchByUsers(Project project, String searchParam, UserRole role, String searchedString,
+                                    Pageable pageable) {
         if (role == null) {
             if (searchParam.equals("First Name")) {
                 return userRepository.findByProjectAndFirstNameContainingAndRoleNot(project, searchedString,
@@ -197,7 +197,7 @@ public class UserService {
     }
 
     @Transactional
-    public User projectManagerAppointment(Long userId, Long projectId, RedirectAttributes redirectAttributes) {
+    public User appointmentOfProjectManager(Long userId, Long projectId, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
         User exProjectManager = userService.getProjectManager(project);
@@ -213,7 +213,7 @@ public class UserService {
     }
 
     @Transactional
-    public User changeUserRole(User user, Project project, UserRole role, RedirectAttributes redirectAttributes) {
+    public User changeUserRoleInProject(User user, Project project, UserRole role, RedirectAttributes redirectAttributes) {
         if (user.getProject() == project) {
             if (user.getRole().isDeveloper()) {
                 redirectAttributes.addFlashAttribute("msg", String.format("position of %s role was changed to QA",

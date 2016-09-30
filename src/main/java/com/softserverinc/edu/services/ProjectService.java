@@ -22,9 +22,6 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     @Autowired
-    private ProjectService projectService;
-
-    @Autowired
     private UserRepository userRepository;
 
 
@@ -62,7 +59,7 @@ public class ProjectService {
     @Transactional
     public void delete(Long projectId, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("msg", "Project was deleted");
-        for(User user: projectService.findById(projectId).getUsers()){
+        for(User user: projectRepository.findOne(projectId).getUsers()){
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);
             userRepository.save(user);
