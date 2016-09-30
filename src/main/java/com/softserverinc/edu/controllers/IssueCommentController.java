@@ -49,9 +49,8 @@ public class IssueCommentController {
         if (result.hasErrors()) {
             return "redirect:/issue/" + issueId;
         }
-        /*TODO: obidniakv fix exceptions*/
-        /*historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
-                newIssueComment);*/
+        historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
+                newIssueComment);
         if (newIssueComment.getId() == null) {
             newIssueComment.setTimeStamp(new Date());
         } else {

@@ -32,6 +32,8 @@ HistoryDto {
 
     private String issueComment;
 
+    private String anonymName;
+
     public Issue getIssue() {
         return issue;
     }
@@ -118,5 +120,13 @@ HistoryDto {
 
     public void setIssueComment(String issueComment) {
         this.issueComment = issueComment;
+    }
+
+    public String getAnonymName() {
+        return anonymName;
+    }
+
+    public void setAnonymName(String anonymName) {
+        this.anonymName = anonymName;
     }
 }

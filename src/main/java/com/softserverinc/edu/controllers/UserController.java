@@ -115,8 +115,8 @@ public class UserController {
     public String viewUser(@PathVariable("id") long id, Model model,
                            @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         User user = userService.findOne(id);
-        Page<HistoryDto> allHistory = historyService.findAllHistoryForUser(user, pageable);
-        model.addAttribute("allHistory", allHistory);
+        model.addAttribute("allHistory", historyService.findAllHistoryForUser(user, pageable));
+        model.addAttribute("commentHistory", historyService.findCommentHistoryForUser(user, pageable));
         model.addAttribute("user", user);
         return "userview";
     }

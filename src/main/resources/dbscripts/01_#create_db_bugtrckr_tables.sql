@@ -91,7 +91,8 @@ CREATE TABLE `History` (
   `priority`         VARCHAR(32),
   `status`           VARCHAR(32),
   `description`      TEXT,
-  `issuecomment` TEXT,
+  `issuecomment`     TEXT,
+  `anonymName`       VARCHAR(32),
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

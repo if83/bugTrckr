@@ -29,26 +29,6 @@ public class HistoryService {
     @Autowired
     private IssueCommentService issueCommentService;
 
-    public History findOne(Long id) {
-        return historyRepository.findOne(id);
-    }
-
-    @Transactional
-    public List<History> findAll() {
-        return historyRepository.findAll();
-    }
-
-    @Transactional
-    public Page<HistoryDto> findAllHistoryForUser(User user, Pageable pageable) {
-        return convertToHistoryDto(historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(
-                user.getId(), user.getId(), pageable), pageable);
-    }
-
-    @Transactional
-    public Page<HistoryDto> findAllHistoryForIssue(Issue issue, Pageable pageable) {
-        return convertToHistoryDto(historyRepository.findByIssueOrderByCreateTimeDesc(issue, pageable), pageable);
-    }
-
     @Transactional
     public History save(History history) {
         return historyRepository.saveAndFlush(history);
@@ -62,6 +42,28 @@ public class HistoryService {
     @Transactional
     public History update(History history) {
         return historyRepository.saveAndFlush(history);
+    }
+
+    public History findOne(Long id) {
+        return historyRepository.findOne(id);
+    }
+
+    public List<History> findAll() {
+        return historyRepository.findAll();
+    }
+
+    public Page<HistoryDto> findAllHistoryForUser(User user, Pageable pageable) {
+        return convertToHistoryDto(historyRepository.findByAssignedToUserIdOrChangedByUserIdOrderByCreateTimeDesc(
+                user.getId(), user.getId(), pageable), pageable);
+    }
+
+    public Page<HistoryDto> findCommentHistoryForUser(User user, Pageable pageable) {
+        return convertToHistoryDto(historyRepository.findByChangedByUserIdAndIssueCommentIsNotNull(user.getId(), pageable),
+                pageable);
+    }
+
+    public Page<HistoryDto> findAllHistoryForIssue(Issue issue, Pageable pageable) {
+        return convertToHistoryDto(historyRepository.findByIssueOrderByCreateTimeDesc(issue, pageable), pageable);
     }
 
     public void writeToHistory(Issue issue, User changeBy) {
@@ -114,18 +116,26 @@ public class HistoryService {
     }
 
     public void writeToHistory(Issue issue, User changeBy, IssueComment comment) {
-        Long changeByUserId = (changeBy == null) ? null : changeBy.getId();
+        Long changeByUserId = null;
+        String anonymName = null;
+        if (changeBy.getId() == null) {
+            anonymName = changeBy.getFirstName();
+        } else {
+            changeByUserId = changeBy.getId();
+        }
         Long assignedToUserId = issue.getAssignee().getId();
         if (issueCommentService.isCommentNew(comment)) {
             save(History.newBuilder()
                     .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                    .setAction(HistoryAction.ADD_ISSUE_COMMENT).setIssueComment(comment.getText()).build()
+                    .setAction(HistoryAction.ADD_ISSUE_COMMENT).setIssueComment(comment.getText())
+                    .setAnonymName(anonymName).build()
             );
             return;
         }
         save(History.newBuilder()
                 .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                .setAction(HistoryAction.EDIT_ISSUE_COMMENT).setIssueComment(comment.getText()).build()
+                .setAction(HistoryAction.EDIT_ISSUE_COMMENT).setIssueComment(comment.getText())
+                .setAnonymName(anonymName).build()
         );
     }
 
@@ -169,6 +179,7 @@ public class HistoryService {
             historyDto.setIssueComment(history.getIssueComment());
             historyDto.setPriority(history.getPriority());
             historyDto.setType(history.getType());
+            historyDto.setAnonymName(history.getAnonymName());
             result.add(historyDto);
         }
         Page<HistoryDto> historiesPage = new PageImpl<>(result, pageable, historyList.getTotalElements());

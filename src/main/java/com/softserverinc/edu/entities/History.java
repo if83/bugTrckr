@@ -22,35 +22,27 @@ public class History {
     @JoinColumn(name = "issueId", referencedColumnName = "id", nullable = false)
     private Issue issue;
 
-    @Column
     private Long changedByUserId;
 
-    @Column
     private String createTime;
 
-    @Column
     private HistoryAction action;
 
-    @Column
     private String title;
 
-    @Column
     private IssueType type;
 
-    @Column
     private IssuePriority priority;
 
-    @Column
     private IssueStatus status;
 
-    @Column
     private Long assignedToUserId;
 
-    @Column
     private String description;
 
-    @Column
     private String issueComment;
+
+    private String anonymName;
 
     private History() {
     }
@@ -101,6 +93,10 @@ public class History {
 
     public String getIssueComment() {
         return issueComment;
+    }
+
+    public String getAnonymName() {
+        return anonymName;
     }
 
     public static Builder newBuilder() {
@@ -169,6 +165,11 @@ public class History {
 
         public Builder setIssueComment(String issueComment) {
             History.this.issueComment = issueComment;
+            return this;
+        }
+
+        public Builder setAnonymName(String anonymName) {
+            History.this.anonymName = anonymName;
             return this;
         }
 

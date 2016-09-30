@@ -33,7 +33,7 @@ input#imgfileInput.form-control {
 }
 
 .user-history .removed-user {
-    color: red;
+    color: #ff755d;
 }
 
 #pageID .pagination li a,

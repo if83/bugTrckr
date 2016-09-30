@@ -34,13 +34,7 @@ public class IssueService {
     private HistoryService historyService;
 
     @Autowired
-    private LabelService labelService;
-
-    @Autowired
-    private ProjectService projectService;
-
-    @Autowired
-    private ProjectReleaseService projectReleaseService;
+    private IssueService issueService;
 
     @Autowired
     private BasicSecurityService basicSecurityService;
@@ -90,7 +84,7 @@ public class IssueService {
 
     public void saveIssueChanges(Issue issue) {
         User changedByUser = basicSecurityService.getActiveUser();
-        if (issue.isNewIssue()){
+        if (issueService.isNewIssue(issue)){
             issue.setCreatedBy(changedByUser);
         }
         historyService.writeToHistory(issue, changedByUser);
