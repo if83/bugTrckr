@@ -34,12 +34,6 @@ $(document).ready(function () {
     });
 
     //Management of project's options
-    if ($('#guest').is(':checked')){
-        $('#enableView').show();
-    }else {
-        $('#enableView').hide();
-    }
-    
     $('#guest').change(function(){
        if ($(this).is(':checked')){
            $('#enableView').show();

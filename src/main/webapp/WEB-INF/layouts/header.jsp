@@ -97,13 +97,13 @@
                                 <form:form commandName="loginForm" modelAttribute="loginForm" action="/"
                                            id="loginform" class="reg-page" method="POST">
 
-                                    <div id="msg" class="alert alert-danger margin-bottom-20" hidden></div>
-
                                     <div class="alert-danger">
                                         <h5 class="text-center alert alert-danger" id="error">
                                             Invalid email or password
                                         </h5>
                                     </div>
+
+                                    <div id="msg" class="alert alert-danger margin-bottom-20 text-center" hidden></div>
 
                                     <div class="input-group" id="email">
                                         <span class="input-group-addon"><i class="fa fa-user"></i></span>

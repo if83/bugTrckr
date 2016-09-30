@@ -126,90 +126,55 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-
+                <c:forEach var="user" items="${userList.content}">
+                    <tr>
+                        <td>
+                            <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
+                                <c:out value="${user.firstName}"/>
+                            </a>
+                        </td>
+                        <td><c:out value="${user.lastName}"/></td>
+                        <td><c:out value="${user.email}"/></td>
+                        <td><c:out value="${user.role}"/></td>
+                        <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
+                        <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
+                        <td>
+                            <div class="actionButtons">
+                                <a href="<spring:url value='/user/${user.id}/edit' />"><i
+                                        class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp
+                                <a href="<spring:url value='/user/${user.id}/remove' />"><i
+                                        class="fa fa-trash fa-lg icon-table-u"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
                 <tbody>
-
-                <c:if test="${isControllerPagable}">
-                    <c:forEach var="user" items="${userList.content}">
-                        <tr>
-                            <td>
-                                <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
-                                    <c:out value="${user.firstName}"/>
-                                </a>
-                            </td>
-                            <td><c:out value="${user.lastName}"/></td>
-                            <td><c:out value="${user.email}"/></td>
-                            <td><c:out value="${user.role}"/></td>
-                            <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
-                            <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
-                            <td>
-                                <div class="actionButtons">
-                                    <a href="<spring:url value='/user/${user.id}/edit' />"><i
-                                            class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp
-                                    <a href="<spring:url value='/user/${user.id}/remove' />"><i
-                                            class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
-
-
-                <c:if test="${!isControllerPagable}">
-                    <c:forEach var="user" items="${userList}">
-                        <tr>
-                            <td>
-                                <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
-                                    <c:out value="${user.firstName}"/>
-                                </a>
-                            </td>
-                            <td><c:out value="${user.lastName}"/></td>
-                            <td><c:out value="${user.email}"/></td>
-                            <td><c:out value="${user.role}"/></td>
-                            <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
-                            <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
-                            <td>
-                                <div class="actionButtons">
-                                    <a href="<spring:url value='/user/${user.id}/edit' />"><i
-                                            class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp
-                                    <a href="<spring:url value='/user/${user.id}/remove' />"><i
-                                            class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
-
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="row">
+        <nav aria-label="Page navigation" id="pagerID">
+            <div class="text-center">
+                <ul class="pagination">
+                    <li>
+                        <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
 
-    <c:if test="${isControllerPagable}">
-        <div class="row">
-            <nav aria-label="Page navigation" id="pagerID">
-                <div class="text-center">
-                    <ul class="pagination">
+                    <c:forEach var="apage" begin="0" end="${userList.totalPages - 1}">
                         <li>
-                            <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
+                            <a href="<spring:url value='/users?page=${page}'/>"> <c:out value="${page + 1}"/></a>
                         </li>
-
-                        <c:forEach var="apage" begin="0" end="${userList.totalPages - 1}">
-                            <li>
-                                <a href="<spring:url value='/users?page=${apage}'/>"> <c:out value="${apage + 1}"/></a>
-                            </li>
-                        </c:forEach>
-                        <li>
-                            <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </c:if>
-
+                    </c:forEach>
+                    <li>
+                        <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </div>

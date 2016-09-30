@@ -4,6 +4,7 @@ import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -88,16 +92,16 @@ public class UserService {
         return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
     }
 
-    public List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName) {
-        return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
+    public Page<User> findByFullName(String firstName, String lastName, Pageable pageable) {
+        return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName, pageable);
     }
 
-    public List<User> findByFirstNameContaining(String firstName) {
-        return userRepository.findByFirstNameContaining(firstName);
+    public Page<User> findByFirstNameContaining(String firstName, Pageable pageable) {
+        return userRepository.findByFirstNameContaining(firstName, pageable);
     }
 
-    public List<User> findByLastNameContaining(String lastName) {
-        return userRepository.findByLastNameContaining(lastName);
+    public Page<User> findByLastNameContaining(String lastName, Pageable pageable) {
+        return userRepository.findByLastNameContaining(lastName, pageable);
     }
 
     public List<User> findAll() {
@@ -240,5 +244,33 @@ public class UserService {
         user.setProject(null);
         user.setRole(UserRole.ROLE_USER);
         return userRepository.save(user);
+    }
+
+    public List<UserRole> getAvailableRolesForUser(UserRole role) {
+        List<UserRole> result = new ArrayList<>();
+        switch (role) {
+            case ROLE_USER:
+                result.add(UserRole.ROLE_DEVELOPER);
+                result.add(UserRole.ROLE_QA);
+                result.add(UserRole.ROLE_PROJECT_MANAGER);
+                return result;
+            case ROLE_DEVELOPER:
+                result.add(UserRole.ROLE_USER);
+                result.add(UserRole.ROLE_QA);
+                result.add(UserRole.ROLE_PROJECT_MANAGER);
+                return result;
+            case ROLE_QA:
+                result.add(UserRole.ROLE_USER);
+                result.add(UserRole.ROLE_DEVELOPER);
+                result.add(UserRole.ROLE_PROJECT_MANAGER);
+                return result;
+            case ROLE_PROJECT_MANAGER:
+                result.add(UserRole.ROLE_USER);
+                result.add(UserRole.ROLE_DEVELOPER);
+                result.add(UserRole.ROLE_PROJECT_MANAGER);
+                return result;
+            default:
+                return result;
+        }
     }
 }

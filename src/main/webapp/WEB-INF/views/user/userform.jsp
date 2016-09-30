@@ -35,67 +35,104 @@
 <div class="margin-top-30 row">
     <div class="col-sm-8  col-md-offset-2">
         <div class="row">
+
             <form:form commandName="userCommand" action="/user/add" modelAttribute="user" method="POST">
-                <div class="col-sm-6">
-                    <spring:bind path="firstName">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="firstNameInput">First name</label>
-                            <form:input path="firstName" type="text" cssClass="form-control" id="firstNameInput"
-                                        placeholder="First name"/>
-                            <form:errors path="firstName" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="email">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="emailInput">E-mail</label>
-                            <form:input path="email" type="email" cssClass="form-control" id="emailInput"
-                                        placeholder="E-mail"/>
-                            <form:errors path="email" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="password">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="passwordInput">Password</label>
-                            <form:input path="password" type="password" cssClass="form-control" id="passwordInput"
-                                        placeholder="Password"/>
-                            <form:errors path="password" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row">
+                        <spring:bind path="email">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label for="emailInput">E-mail</label>
+                                <form:input path="email" type="email" cssClass="form-control" id="emailInput"
+                                            placeholder="E-mail"/>
+                                <form:errors path="email" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <spring:bind path="lastName">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="lastNameInput">Last name</label>
-                            <form:input path="lastName" type="text" cssClass="form-control" id="lastNameInput"
-                                        placeholder="Last name"/>
-                            <form:errors path="lastName" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row">
+                        <spring:bind path="firstName">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label for="firstNameInput">First name</label>
+                                <form:input path="firstName" type="text" cssClass="form-control" id="firstNameInput"
+                                            placeholder="First name"/>
+                                <form:errors path="firstName" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
 
-                    <spring:bind path="role">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="roleInput">Role</label>
-                            <form:select path="role" type="text" cssClass="form-control" id="roleInput"
-                                         placeholder="Role">
-                                <form:option value="" label="  Select a role"/>
-                                <form:options items="${roles}"/>
-                            </form:select>
-                            <form:errors path="role" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
+                    <div class="col-sm-6 pull-right row">
+                        <spring:bind path="lastName">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label for="lastNameInput">Last name</label>
+                                <form:input path="lastName" type="text" cssClass="form-control" id="lastNameInput"
+                                            placeholder="Last name"/>
+                                <form:errors path="lastName" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
+                </div>
 
-                    <spring:bind path="confirmPassword">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label for="confirmPasswordInput">Confirm password</label>
-                            <form:input path="confirmPassword" type="password" cssClass="form-control"
-                                        id="confirmPasswordInput"
-                                        placeholder="Confirm password"/>
-                            <form:errors path="confirmPassword" cssClass="control-label"/>
-                        </div>
-                    </spring:bind>
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row">
+                        <spring:bind path="password">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label for="passwordInput">Password</label>
+                                <form:input path="password" type="password" cssClass="form-control" id="passwordInput"
+                                            placeholder="Password"/>
+                                <form:errors path="password" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
+
+                    <div class="col-sm-6 pull-right row">
+                        <spring:bind path="confirmPassword">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label for="confirmPasswordInput">Confirm password</label>
+                                <form:input path="confirmPassword" type="password" cssClass="form-control"
+                                            id="confirmPasswordInput"
+                                            placeholder="Confirm password"/>
+                                <form:errors path="confirmPassword" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
+
+                    <label class="margin-bottom-20 margin-top-20">
+                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspChoose Project for User
+                    </label>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row">
+                        <spring:bind path="project">
+                            <div class="form-group ${status.error ? 'has-error' : ''}" id="project" hidden>
+                                <label for="roleInput">Project</label>
+                                <form:select path="project" type="text" cssClass="form-control selectpicker" id="projectInput"
+                                             placeholder="Role">
+                                    <form:option value="">Without Project</form:option>
+                                    <c:forEach var="project" items="${projects}">
+                                        <form:option cssClass="projectOption" value="${project}" label="${project.getTitle()}"/>
+                                    </c:forEach>
+                                </form:select>
+                                <form:errors path="role" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
+
+                    <div class="col-sm-6 pull-right row">
+                        <spring:bind path="role">
+                            <div class="form-group ${status.error ? 'has-error' : ''}" id="role" hidden>
+                                <label for="roleInput">Role</label>
+                                <form:select path="role" type="text" cssClass="form-control selectpicker" id="roleInput">
+                                    <c:forEach var="role" items="${roles}">
+                                        <form:option cssClass="roleOption" value="${role}" label="${role.toString()}"/>
+                                    </c:forEach>
+                                </form:select>
+                                <form:errors path="role" cssClass="control-label"/>
+                            </div>
+                        </spring:bind>
+                    </div>
                 </div>
 
                 <div class="col-sm-12">

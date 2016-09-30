@@ -25,11 +25,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
 
-    List<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName);
+    Page<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName, Pageable pageable);
 
-    List<User> findByFirstNameContaining(String firstName);
+    Page<User> findByFirstNameContaining(String firstName, Pageable pageable);
 
-    List<User> findByLastNameContaining(String lastName);
+    Page<User> findByLastNameContaining(String lastName, Pageable pageable);
 
     Page<User> findAll(Pageable pageable);
 

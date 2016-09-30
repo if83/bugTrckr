@@ -2,7 +2,6 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.HistoryDto;
-import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
@@ -11,7 +10,6 @@ import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
-import com.softserverinc.edu.services.WorkLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User controller
@@ -55,25 +55,9 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/users")
-    public String userForm(Model model, Pageable pageable, Principal principal) {
-        User loggedUser = userService.findByEmailIs(principal.getName());
-        Page<User> user;
-
-        //If role is not Admin send list of users without admins
-        if (loggedUser.getRole() == UserRole.ROLE_ADMIN)
-            user = userService.findByIsDeletedFalseAndEnabledIs(1, pageable);
-        else {
-            Project project = projectService.findById(loggedUser.getProject().getId());
-            user = userService.findByProject(project, 1, pageable);
-        }
-
-        model.addAttribute("userList", user);
-        model.addAttribute("totalPagesCount", user.getTotalPages());
+    public String userForm(Model model, Pageable pageable) {
         populateDefaultModel(model);
-        model.addAttribute("fileUploadForm", new FileUploadForm());
-        model.addAttribute("isControllerPagable", true);
-
-        LOGGER.debug("User list");
+        model.addAttribute("userList", userService.findByIsDeletedFalseAndEnabledIs(1, pageable));
         return "users";
     }
 
@@ -86,8 +70,10 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}/edit")
-    public String editUser(@PathVariable("id") long id, Model model, RedirectAttributes redirectAttrs) {
-        model.addAttribute("user", userService.findOne(id));
+    public String editUser(@PathVariable("id") long id, Model model) {
+        User user = userService.findOne(id);
+        model.addAttribute("user", user);
+        model.addAttribute("roles", userService.getAvailableRolesForUser(user.getRole()));
         model.addAttribute("formaction", "edit");
         return "userform";
     }
@@ -129,22 +115,20 @@ public class UserController {
         return "redirect:/user/" + id + "/view";
     }
 
-    @PostMapping(value = "/users/searchByName")
-    public String userSearchByName(@RequestParam(value = "firstName") String firstName,
-                                   @RequestParam(value = "lastName") String lastName,
-                                   Model model) {
+    @PostMapping("/users/searchByName")
+    public String userSearchByName(@RequestParam String firstName, @RequestParam String lastName, Model model,
+                                   Pageable pageable) {
         if (!firstName.isEmpty() && !lastName.isEmpty())
-            model.addAttribute("userList", userService.findByFirstNameContainingAndLastNameContaining(firstName, lastName));
+            model.addAttribute("userList", userService.findByFullName(firstName, lastName, pageable));
         else if (!firstName.isEmpty())
-            model.addAttribute("userList", userService.findByFirstNameContaining(firstName));
+            model.addAttribute("userList", userService.findByFirstNameContaining(firstName, pageable));
         else
-            model.addAttribute("userList", userService.findByLastNameContaining(lastName));
+            model.addAttribute("userList", userService.findByLastNameContaining(lastName, pageable));
         populateDefaultModel(model);
-        LOGGER.debug("User search list ByName");
         return "users";
     }
 
-    @PostMapping(value = "/users/searchByEmail")
+    @PostMapping("/users/searchByEmail")
     public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
         model.addAttribute("userList", userService.findByEmailContaining(userEmail));
         populateDefaultModel(model);
@@ -183,6 +167,13 @@ public class UserController {
     }
 
     private void populateDefaultModel(Model model) {
-        model.addAttribute("roles", UserRole.values());
+        List<UserRole> roles = new ArrayList<>();
+        roles.add(UserRole.ROLE_USER);
+        roles.add(UserRole.ROLE_QA);
+        roles.add(UserRole.ROLE_DEVELOPER);
+        roles.add(UserRole.ROLE_PROJECT_MANAGER);
+        model.addAttribute("roles", roles);
+        model.addAttribute("projects", projectService.findAll());
     }
+
 }
