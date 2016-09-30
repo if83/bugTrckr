@@ -26,7 +26,7 @@
             <div class="col-sm-10 col-sm-offset-1 text-left">
                 <div class="release-name">
                     Release: ${release.version}
-                    <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                    <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease('${release.id}')">
                         <small>
                             <a class="viewLink"
                                href="<spring:url value='/project/${release.project.id}/release/${release.id}/edit'/>">[edit]</a>
@@ -65,7 +65,7 @@
                     </div>
                     <%--add issue button--%>
                     <div class="col-sm-5">
-                    <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                    <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease('${release.id}')">
                         <a href="<spring:url value='/issue/add'/>"
                            class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add issue</a>
                     </sec:authorize>
@@ -78,7 +78,7 @@
                         <th class="text-center">Title</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Assigne to</th>
-                        <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                        <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease('${release.id}')">
                             <th class="text-center">Actions</th>
                         </sec:authorize>
                     </tr>
@@ -89,26 +89,26 @@
                             <input name="issueId" type="hidden" value="${issue.id}"/>
                             <input name="issueTitle" type="hidden" value="${issue.title}"/>
                             <td>
-                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                     <a class="viewLink" href="<spring:url value='/issue/${issue.id}'/>">${issue.title}</a>
                                 </sec:authorize>
-                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                     ${issue.title}
                                 </sec:authorize>
                             </td>
                             <td>
-                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                     <select class="statuses-dropdown selectpicker" data-width="100%">
                                         <option selected="selected"
                                                 value="${issue.status}">${issue.status.toString()}</option>
                                     </select>
                                 </sec:authorize>
-                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                     ${issue.status.toString()}
                                 </sec:authorize>
                             </td>
                             <td>
-                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                     <select class="users-dropdown selectpicker" data-live-search="true" data-width="100%">
                                         <option selected="selected"
                                                 value="${issue.assignee.id}">${issue.assignee.firstName} ${issue.assignee.lastName}</option>
@@ -117,11 +117,11 @@
                                         </c:forEach>
                                     </select>
                                 </sec:authorize>
-                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                <sec:authorize access="!@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                     ${issue.assignee.firstName} ${issue.assignee.lastName}
                                 </sec:authorize>
                             </td>
-                            <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease(${release.id})">
+                            <sec:authorize access="@releaseSecurityService.hasPermissionToEditRelease('${release.id}')">
                                 <td>
                                     <a href="<spring:url value='/issue/${issue.id}/edit'/>"><i
                                             class="fa fa-edit fa-lg icon-table-u"></i></a>

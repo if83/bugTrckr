@@ -81,7 +81,7 @@
                 </div>
                 <%--add release button--%>
                 <div class="col-sm-5">
-                    <sec:authorize access="@releaseSecurityService.hasPermissionToAddRelease(${project.id})">
+                    <sec:authorize access="@releaseSecurityService.hasPermissionToAddRelease('${project.id}')">
                         <a href="<spring:url value='/project/${project.id}/release/add'/>"
                            class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add release</a>
                     </sec:authorize>
@@ -102,7 +102,7 @@
                 <c:forEach var="rel" items="${releaseList.content}">
                     <tr>
                         <td class="text-center">
-                            <sec:authorize access="@releaseSecurityService.hasPermissionToViewRelease(${rel.id})">
+                            <sec:authorize access="@releaseSecurityService.hasPermissionToViewRelease('${rel.id}')">
                                 <a class="viewLink"
                                    href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
                                 </a>
