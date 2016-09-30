@@ -102,11 +102,13 @@
         <put-attribute name="content" value="/WEB-INF/views/issue/issue_view.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/issue/issue.css"/>
+            <add-attribute value="/css/issue/jquery-ui.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/issue/issue_view.js"/>
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
+            <add-attribute value="/js/issue/jquery-ui.js"/>
         </put-list-attribute>
     </definition>
 

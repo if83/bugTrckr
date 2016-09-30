@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $( ".datepicker" ).datepicker();
+
     var location = window.location.href;
 
     //notification messages

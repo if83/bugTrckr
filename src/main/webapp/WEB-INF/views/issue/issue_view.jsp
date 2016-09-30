@@ -425,8 +425,8 @@
                                 <spring:bind path="startDate">
                                     <div class="margin-top-10">
                                         <label for="startDate">Start date</label>
-                                        <form:input path="startDate" type="text" class="form-control" id="startDate"
-                                                    value="${startDate}" placeholder="yyyy-MM-dd"/>
+                                        <form:input path="startDate" type="text" class="form-control datepicker" id="startDate"
+                                                    value="${startDate}"/>
                                         <form:errors path="startDate" class="control-label"/>
                                     </div>
                                 </spring:bind>
@@ -434,8 +434,8 @@
                                 <spring:bind path="endDate">
                                     <div class="margin-top-20">
                                         <label for="endDate">End date</label>
-                                        <form:input path="endDate" type="text" class="form-control" id="endDate"
-                                                    value="${endDate}" placeholder="yyyy-MM-dd"/>
+                                        <form:input path="endDate" type="text" class="form-control datepicker" id="endDate"
+                                                    value="${endDate}"/>
                                         <form:errors path="endDate" class="control-label"/>
                                     </div>
                                 </spring:bind>
