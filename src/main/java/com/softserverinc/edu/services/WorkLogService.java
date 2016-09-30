@@ -63,17 +63,21 @@ public class WorkLogService {
     }
 
     public void forNewWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
-        if (issueId != 0) { //crutch
+        if (!editorRequests(issueId)) {
             if (workLogSecurityService.isAuthenticated()) {
                 model.addAttribute("workLogAction", issueId + "/worklog/save");
                 model.addAttribute("workLog", getNewWorkLog(issueId));
-                model.addAttribute("startDate", parseDateToSQLFormat(issueService.findById(issueId).getCreateTime()));
+                model.addAttribute("startDate", parseDateToSQLFormat(getCurrentIssue(issueId).getCreateTime()));
                 model.addAttribute("endDate", getCurrentDate());
                 model.addAttribute("permissionToUseWorkLogForm", workLogSecurityService.getPermissionToCreateWorkLog(issueId));
             }
             model.addAttribute("stage", "new");
             populateWorkLogModel(model, issueId, pageable);
         }
+    }
+
+    public Boolean editorRequests (Long issueId){
+        return issueId == 0;
     }
 
     public void forEditWorkLogModel(ModelMap model, Long workLogId, Long issueId, Pageable pageable) {
@@ -92,15 +96,15 @@ public class WorkLogService {
 
     public void populateWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
         model.addAttribute("currentUser", workLogSecurityService.getActiveUser());
-        model.addAttribute("parsedDueDate", parseDateToSQLFormat(issueService.findById(issueId).getDueDate()));
+        model.addAttribute("parsedDueDate", parseDateToSQLFormat(getCurrentIssue(issueId).getDueDate()));
         model.addAttribute("totalSpentTimeByAllUsers", getTotalSpentTimeForIssueByAllUsers(issueId));
         model.addAttribute("workLogsOfCurrentIssueByAllUsers", findByIssue(getCurrentIssue(issueId), pageable));
     }
 
     public WorkLog getNewWorkLog(Long issueId) {
-        if (issueService.findById(issueId).getAssignee().equals(workLogSecurityService.getActiveUser())) {
+        if (getCurrentIssue(issueId).getAssignee().equals(workLogSecurityService.getActiveUser())) {
             WorkLog workLog = new WorkLog();
-            workLog.setIssue(issueService.findById(issueId));
+            workLog.setIssue(getCurrentIssue(issueId));
             workLog.setUser(workLogSecurityService.getActiveUser());
             return workLog;
         }

@@ -12,19 +12,22 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Component
 public class WorkLogFormValidator {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(WorkLogFormValidator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkLogFormValidator.class);
 
     @Autowired
     private WorkLogService workLogService;
 
     @Autowired
     private IssueService issueService;
+
+    public boolean validateWorklogUI(WorkLog workLog, User user, Long issueId) {
+        return validateAmountOfTime(workLog) || validateWorkingOnIssueDates(workLog, user, issueId);
+    }
 
     public boolean validateAmountOfTime(WorkLog workLog) {
         if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() < 0)
@@ -36,7 +39,8 @@ public class WorkLogFormValidator {
             int days = (int) (1 + (dateFormatSQL.parse(endTime).getTime() -
                     dateFormatSQL.parse(startTime).getTime()) / PageConstant.MS_IN_ONE_DAY);
             double dailyAmountOfTime = workLog.getAmountOfTime() / days;
-            return dailyAmountOfTime < PageConstant.WORKDAY_DURATION_IN_HRS; //may specify user or project workday duration instead
+            //may specify user or project workday duration instead
+            return dailyAmountOfTime < PageConstant.WORKDAY_DURATION_IN_HRS;
         } catch (ParseException e) {
             LOGGER.error(e.toString(), e);
         }
@@ -44,22 +48,24 @@ public class WorkLogFormValidator {
     }
 
     public boolean validateWorkingOnIssueDates(WorkLog workLog, User user, Long issueId) {
-        Date startTime = workLog.getStartDate();
-        Date endTime = workLog.getEndDate();
-        if (endTime.getTime() < startTime.getTime() ||
-                workLog.getIssue().getDueDate().getTime() < endTime.getTime() ||
-                workLog.getIssue().getCreateTime().getTime() > startTime.getTime()) {
+        Long startTimeUI = workLog.getStartDate().getTime();
+        Long endTimeUI = workLog.getEndDate().getTime();
+        Long issueDueDateTime = workLog.getIssue().getDueDate().getTime();
+        Long issueCreateDateTime = workLog.getIssue().getCreateTime().getTime();
+
+        if (endTimeUI < startTimeUI || issueDueDateTime < endTimeUI || issueCreateDateTime > startTimeUI) {
             return false;
         }
+
         if (workLog.getId() == null) {
             List<WorkLog> workLoglist = workLogService.findByUserAndIssue(user, issueService.findById(issueId));
             for (WorkLog workLogIterator : workLoglist) {
-                if ((workLog.getStartDate().getTime() >= workLogIterator.getStartDate().getTime() &&
-                        workLog.getStartDate().getTime() <= workLogIterator.getEndDate().getTime()) ||
-                        (workLog.getEndDate().getTime() >= workLogIterator.getStartDate().getTime() &&
-                                workLog.getEndDate().getTime() <= workLogIterator.getEndDate().getTime()) ||
-                        (workLog.getStartDate().getTime() <= workLogIterator.getStartDate().getTime() &&
-                                workLog.getEndDate().getTime() >= workLogIterator.getEndDate().getTime())) {
+                Long startTimeDB = workLogIterator.getStartDate().getTime();
+                Long endTimeDB = workLogIterator.getEndDate().getTime();
+                Boolean wasStartTimeLogged = startTimeUI >=  startTimeDB && startTimeUI <= endTimeDB;
+                Boolean wasEndTimeLogged = endTimeUI >= startTimeDB && endTimeUI <= endTimeDB;
+                Boolean wasPeriodLogged = startTimeUI <= startTimeDB && endTimeUI >= endTimeDB;
+                if (wasStartTimeLogged ||wasEndTimeLogged ||wasPeriodLogged) {
                     return false;
                 }
             }

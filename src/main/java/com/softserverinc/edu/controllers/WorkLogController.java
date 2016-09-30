@@ -2,12 +2,12 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.WorkLog;
 import com.softserverinc.edu.forms.WorkLogFormValidator;
-import com.softserverinc.edu.services.UserService;
 import com.softserverinc.edu.services.WorkLogService;
 import com.softserverinc.edu.services.securityServices.WorkLogSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,13 +22,10 @@ import javax.validation.Valid;
 @Controller
 public class WorkLogController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(WorkLogController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkLogController.class);
 
     @Autowired
     private WorkLogService workLogService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private WorkLogFormValidator workLogFormValidator;
@@ -38,26 +35,24 @@ public class WorkLogController {
 
     @PreAuthorize("@workLogSecurityService.hasPermissionToSaveWorkLog(#issueId, #workLog)")
     @RequestMapping(value = "issue/{issueId}/worklog/save", method = RequestMethod.POST)
-    public String addWorkLogPOST(@PathVariable Long issueId,
-                                 @ModelAttribute("worklog") @Valid WorkLog workLog,
+    public String addWorkLogPOST(@PathVariable @P("issueId") Long issueId,
+                                 @ModelAttribute("worklog") @P("workLog") @Valid WorkLog workLog,
                                  BindingResult result,
                                  RedirectAttributes redirectAttributes) {
-        if (!workLogFormValidator.validateAmountOfTime(workLog) ||
-                !workLogFormValidator.validateWorkingOnIssueDates(workLog,
-                        workLogSecurityService.getActiveUser(), issueId) ||
+        if (!workLogFormValidator.validateWorklogUI(workLog, workLogSecurityService.getActiveUser(), issueId) ||
                 result.hasErrors()) {
             redirectAttributes.addFlashAttribute("msg", "Unable to save. Please fix your data.");
             return "redirect:/issue/" + issueId;
         }
         workLogService.save(workLog);
         LOGGER.info("Worklog saved, id= " + workLog.getId());
-        redirectAttributes.addFlashAttribute("msg","Work log entry saved.");
+        redirectAttributes.addFlashAttribute("msg", "Work log entry saved.");
         return "redirect:/issue/" + issueId;
     }
 
     @PreAuthorize("@workLogSecurityService.hasPermissionToRemoveWorkLog(#worklogId)")
     @RequestMapping(value = "issue/{issueId}/worklog/{worklogId}/remove", method = RequestMethod.GET)
-    public String removeWorkLog(@PathVariable("worklogId") long worklogId,
+    public String removeWorkLog(@PathVariable @P("worklogId") Long worklogId,
                                 RedirectAttributes redirectAttributes) {
         workLogService.delete(worklogId);
         LOGGER.debug("Worklog " + worklogId + " is removed!");
