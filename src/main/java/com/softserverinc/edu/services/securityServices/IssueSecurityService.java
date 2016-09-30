@@ -45,7 +45,7 @@ public class IssueSecurityService extends BasicSecurityService {
         boolean isDeveloper = getActiveUserRole().isDeveloper();
         boolean isQA = getActiveUserRole().isQA();
         boolean isUserOnProject = false;
-        if (getActiveUser()!= null && !getActiveUserRole().isAdmin()){
+        if (getActiveUser()!= null && !getActiveUserRole().isAdmin() && currentIssueId != 0){
             isUserOnProject = getActiveUser().getProject().equals(getProjectByIssue(currentIssueId));
         }
         return  isAdmin || ((isDeveloper || isQA || isProjectManager) && isUserOnProject) ;

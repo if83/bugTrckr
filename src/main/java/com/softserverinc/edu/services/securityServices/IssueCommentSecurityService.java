@@ -24,10 +24,15 @@ public class IssueCommentSecurityService extends BasicSecurityService {
     private ProjectService projectService;
 
     public Boolean hasPermissionToCreateIssueComment(Long issueId) {
-        return isAuthenticated() ||
-                projectService.findByProjectReleases(
-                        projectReleaseService.findByIssues(
-                                issueService.findById(issueId))).getGuestAddComment();
+        if (issueId == null) {
+            return false;
+        }
+        else {
+            return isAuthenticated() ||
+                    projectService.findByProjectReleases(
+                            projectReleaseService.findByIssues(
+                                    issueService.findById(issueId))).getGuestAddComment();
+        }
     }
 
     public Boolean hasPermissionToRemoveIssueComment(Long issueCommentId) {
@@ -43,7 +48,6 @@ public class IssueCommentSecurityService extends BasicSecurityService {
     }
 
     private User getProjectManager(Long issueCommentId) {
-
         Issue issue = issueService.findById(issueCommentService.findOne(issueCommentId).getIssue().getId());
         ProjectRelease projectRelease = projectReleaseService.findByIssues(issue);
         Project project = projectService.findByProjectReleases(projectRelease);

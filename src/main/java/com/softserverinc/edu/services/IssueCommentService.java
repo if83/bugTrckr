@@ -61,9 +61,7 @@ public class IssueCommentService {
     }
 
     public IssueComment getEditedCommentById(Long issueCommentId) {
-        IssueComment issueComment = findOne(issueCommentId);
-        issueComment.setIsEdited(true);
-        return issueComment;
+        return findOne(issueCommentId);
     }
 
     public IssueComment getNewIssueComment(Long issueId) {

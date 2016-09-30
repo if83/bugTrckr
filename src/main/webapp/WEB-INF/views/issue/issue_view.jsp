@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
             <h1 class="pull-left"> ${issue.title}
-                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                     <sup>
                         <a href="<spring:url value='/issue/${issue.id}/edit/' />">
                             <i class="fa fa-edit icon-table-u"></i>

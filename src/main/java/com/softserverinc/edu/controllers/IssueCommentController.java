@@ -9,9 +9,9 @@ import com.softserverinc.edu.services.securityServices.IssueCommentSecurityServi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.Date;
 
 @Controller
 public class IssueCommentController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(IssueCommentController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IssueCommentController.class);
 
     @Autowired
     private IssueCommentService issueCommentService;
@@ -44,17 +43,20 @@ public class IssueCommentController {
 
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment(#issueId)")
     @RequestMapping(value = "issue/{issueId}/comment/save", method = RequestMethod.POST)
-    public String addIssueComment(@PathVariable Long issueId,
+    public String addIssueComment(@PathVariable @P("issueId")Long issueId,
                                   @ModelAttribute("newIssueComment") @Valid IssueComment newIssueComment,
-                                  BindingResult result,
-                                  ModelMap model,
-                                  Principal principal) {
+                                  BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/issue/" + issueId;
         }
-        historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
-                newIssueComment);
-        newIssueComment.setTimeStamp(new Date());
+        /*TODO: obidniakv fix exceptions*/
+        /*historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
+                newIssueComment);*/
+        if (newIssueComment.getId() == null) {
+            newIssueComment.setTimeStamp(new Date());
+        } else {
+            newIssueComment.setIsEdited(true);
+        }
         issueCommentService.save(newIssueComment);
         LOGGER.info("Comment saved, id= " + newIssueComment.getId());
         return "redirect:/issue/" + issueId;
@@ -62,10 +64,10 @@ public class IssueCommentController {
 
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToRemoveIssueComment(#issueCommentId)")
     @RequestMapping(value = "issue/{issueId}/comment/{issueCommentId}/remove", method = RequestMethod.GET)
-    public String removeIssueComment(@PathVariable("issueCommentId") long issueCommentId,
-                                     @PathVariable("issueId") long issueId) {
+    public String removeIssueComment(@PathVariable @P("issueCommentId") long issueCommentId,
+                                     @PathVariable Long issueId) {
         issueCommentService.delete(issueCommentId);
-        LOGGER.debug("Comment " + issueCommentId + " is removed!");
+        LOGGER.info("Comment " + issueCommentId + " is removed!");
         return "redirect:/issue/" + issueId;
     }
 }
