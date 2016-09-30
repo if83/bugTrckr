@@ -59,7 +59,7 @@ CREATE TABLE `Issue` (
   #   `lastUpdateDate`   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   `createTime`       DATETIME    NOT NULL DEFAULT "2016-01-01",
-  `dueDate`          DATE,
+  `dueDate`          DATETIME,
   `lastUpdateDate`   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `estimateTime`     INT         NOT NULL,
   `parentId`         INT,
@@ -99,11 +99,11 @@ CREATE TABLE `History` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `WorkLog` (
-  `id`           INT     NOT NULL AUTO_INCREMENT,
-  `issueId`      INT     NOT NULL,
-  `userId`       INT     NOT NULL,
-  `startDate`    DATE    NOT NULL,
-  `endDate`      DATE    NOT NULL,
+  `id`           INT         NOT NULL AUTO_INCREMENT,
+  `issueId`      INT         NOT NULL,
+  `userId`       INT         NOT NULL,
+  `startDate`    DATETIME    NOT NULL,
+  `endDate`      DATETIME    NOT NULL,
   `amountOfTime` INT     NOT NULL,
   PRIMARY KEY (`id`)
 )

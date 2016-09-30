@@ -1,5 +1,6 @@
 package com.softserverinc.edu.entities;
 
+import com.softserverinc.edu.constants.PageConstant;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,14 +30,14 @@ public class WorkLog {
 
     @NotNull
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
     private Date startDate;
 
     @NotNull
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
     private Date endDate;
 
     @NotNull

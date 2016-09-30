@@ -33,9 +33,9 @@ public class WorkLogFormValidator {
         if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() < 0)
             return false;
         try {
-            SimpleDateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
-            String startTime = workLogService.parseDateToSQLFormat(workLog.getStartDate());
-            String endTime = workLogService.parseDateToSQLFormat(workLog.getEndDate());
+            SimpleDateFormat dateFormatSQL = new SimpleDateFormat(PageConstant.DATE_FORMAT);
+            String startTime = workLogService.formatDate(workLog.getStartDate());
+            String endTime = workLogService.formatDate(workLog.getEndDate());
             int days = (int) (1 + (dateFormatSQL.parse(endTime).getTime() -
                     dateFormatSQL.parse(startTime).getTime()) / PageConstant.MS_IN_ONE_DAY);
             double dailyAmountOfTime = workLog.getAmountOfTime() / days;

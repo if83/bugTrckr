@@ -1,5 +1,6 @@
 package com.softserverinc.edu.services;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.WorkLog;
@@ -43,6 +44,7 @@ public class WorkLogService {
     public Page<WorkLog> findByIssue(Issue issue, Pageable pageable) {
         return workLogRepository.findByIssue(issue, pageable);
     }
+
     public List<WorkLog> findByIssueId(Long issueId) {
         return workLogRepository.findByIssue(issueService.findById(issueId));
     }
@@ -67,7 +69,7 @@ public class WorkLogService {
             if (workLogSecurityService.isAuthenticated()) {
                 model.addAttribute("workLogAction", issueId + "/worklog/save");
                 model.addAttribute("workLog", getNewWorkLog(issueId));
-                model.addAttribute("startDate", parseDateToSQLFormat(getCurrentIssue(issueId).getCreateTime()));
+                model.addAttribute("startDate", formatDate(getCurrentIssue(issueId).getCreateTime()));
                 model.addAttribute("endDate", getCurrentDate());
                 model.addAttribute("permissionToUseWorkLogForm", workLogSecurityService.getPermissionToCreateWorkLog(issueId));
             }
@@ -76,7 +78,7 @@ public class WorkLogService {
         }
     }
 
-    public Boolean editorRequests (Long issueId){
+    public Boolean editorRequests(Long issueId) {
         return issueId == 0;
     }
 
@@ -96,7 +98,7 @@ public class WorkLogService {
 
     public void populateWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
         model.addAttribute("currentUser", workLogSecurityService.getActiveUser());
-        model.addAttribute("parsedDueDate", parseDateToSQLFormat(getCurrentIssue(issueId).getDueDate()));
+        model.addAttribute("parsedDueDate", formatDate(getCurrentIssue(issueId).getDueDate()));
         model.addAttribute("totalSpentTimeByAllUsers", getTotalSpentTimeForIssueByAllUsers(issueId));
         model.addAttribute("workLogsOfCurrentIssueByAllUsers", findByIssue(getCurrentIssue(issueId), pageable));
     }
@@ -116,7 +118,7 @@ public class WorkLogService {
     }
 
     public String getCurrentDate() {
-        SimpleDateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormatSQL = new SimpleDateFormat(PageConstant.DATE_FORMAT);
         return dateFormatSQL.format(new Date());
     }
 
@@ -129,8 +131,7 @@ public class WorkLogService {
         return totalSpentTime;
     }
 
-    public static String parseDateToSQLFormat(Date date) {
-        SimpleDateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormatSQL.format(date);
+    public String formatDate(Date date) {
+        return new SimpleDateFormat(PageConstant.DATE_FORMAT).format(date);
     }
 }
