@@ -104,6 +104,10 @@ public class IssueService {
         save(issue);
     }
 
+    public boolean isNewIssue(Issue issue) {
+        return (issue.getId() == null || issue.getId() == 0L);
+    }
+
     @Transactional
     public Page<Issue> findIssuesByRelease(ProjectRelease projectRelease, Pageable pageable) {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
@@ -175,4 +179,5 @@ public class IssueService {
         }
         return userService.findAll();
     }
+
 }

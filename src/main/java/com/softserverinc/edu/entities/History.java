@@ -52,110 +52,130 @@ public class History {
     @Column
     private String issueComment;
 
-    public History() {
-    }
-
-    public History(Issue issue, Long changeByUserId, Long assignedToUserId, HistoryAction action) {
-        this.issue = issue;
-        this.changedByUserId = changeByUserId;
-        this.assignedToUserId = assignedToUserId;
-        this.action = action;
+    private History() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Issue getIssue() {
         return issue;
-    }
-
-    public void setIssue(Issue issue) {
-        this.issue = issue;
     }
 
     public Long getChangedByUserId() {
         return changedByUserId;
     }
 
-    public void setChangedByUserId(Long changedByUserId) {
-        this.changedByUserId = changedByUserId;
-    }
-
     public String getCreateTime() {
         return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 
     public HistoryAction getAction() {
         return action;
     }
 
-    public void setAction(HistoryAction action) {
-        this.action = action;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public IssueType getType() {
         return type;
     }
 
-    public void setType(IssueType type) {
-        this.type = type;
-    }
-
     public IssuePriority getPriority() {
         return priority;
-    }
-
-    public void setPriority(IssuePriority priority) {
-        this.priority = priority;
     }
 
     public IssueStatus getStatus() {
         return status;
     }
 
-    public void setStatus(IssueStatus status) {
-        this.status = status;
-    }
-
     public Long getAssignedToUserId() {
         return assignedToUserId;
-    }
-
-    public void setAssignedToUserId(Long assignedToUserId) {
-        this.assignedToUserId = assignedToUserId;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getIssueComment() {
         return issueComment;
     }
 
-    public void setIssueComment(String issueComment) {
-        this.issueComment = issueComment;
+    public static Builder newBuilder() {
+        return new History().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(Long id) {
+            History.this.id = id;
+            return this;
+        }
+
+        public Builder setIssue(Issue issue) {
+            History.this.issue = issue;
+            return this;
+        }
+
+        public Builder setChangedByUserId(Long changedByUserId) {
+            History.this.changedByUserId = changedByUserId;
+            return this;
+        }
+
+        public Builder setCreateTime(String createTime) {
+            History.this.createTime = createTime;
+            return this;
+        }
+
+        public Builder setAction(HistoryAction action) {
+            History.this.action = action;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            History.this.title = title;
+            return this;
+        }
+
+        public Builder setType(IssueType type) {
+            History.this.type = type;
+            return this;
+        }
+
+        public Builder setPriority(IssuePriority priority) {
+            History.this.priority = priority;
+            return this;
+        }
+
+        public Builder setStatus(IssueStatus status) {
+            History.this.status = status;
+            return this;
+        }
+
+        public Builder setAssignedToUserId(Long assignedToUserId) {
+            History.this.assignedToUserId = assignedToUserId;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            History.this.description = description;
+            return this;
+        }
+
+        public Builder setIssueComment(String issueComment) {
+            History.this.issueComment = issueComment;
+            return this;
+        }
+
+        public History build() {
+            return History.this;
+        }
+
     }
 
     @Override

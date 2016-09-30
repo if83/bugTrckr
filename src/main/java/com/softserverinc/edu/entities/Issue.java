@@ -220,10 +220,6 @@ public class Issue {
         this.parentId = parentId;
     }
 
-    public boolean isNewIssue() {
-        return (this.id == null || this.id == 0L);
-    }
-
     public String getDescription() {
         return description;
     }
