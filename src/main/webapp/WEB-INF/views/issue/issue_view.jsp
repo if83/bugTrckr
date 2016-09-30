@@ -134,12 +134,8 @@
                 <div class="col-sm-8">${issue.lastUpdateDate}</div>
             </div>
             <div class="row">
-                <label class="col-sm-4">Estimate time</label>
+                <label class="col-sm-4">Estimate time, hrs</label>
                 <div class="col-sm-8"><p>${issue.estimateTime}</p></div>
-            </div>
-            <div class="row">
-                <label class="col-sm-4">Ability to edit</label>
-                <div class="col-sm-8">${issue.editAbility}</div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Labels</label>

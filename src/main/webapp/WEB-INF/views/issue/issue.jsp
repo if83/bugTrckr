@@ -113,7 +113,7 @@
                             <td class="text-center">
                                 <div class="actionButtons">
 
-                                    <a <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue(${issue.id})">
+                                    <a <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
                                          href="<spring:url value='/issue/${issue.id}/edit' />"
                                         </sec:authorize>
                                         ><i class="fa fa-edit icon-table-u"></i></a>
@@ -234,8 +234,8 @@
                                 <td class="text-center"><c:out value="${userIssue.estimateTime}"/></td>
                                 <td class="text-center">
                                     <div class="actionButtons">
-                                        <a <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER')
-                                    or hasAnyRole('DEVELOPER', 'QA') and ${userIssue.editAbility}">
+                                        <a <sec:authorize
+                                                access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
                                         href="<spring:url value='/issue/${userIssue.id}/edit' />"
                                             </sec:authorize>
                                                 ><i class="fa fa-edit icon-table-u"></i></a>

@@ -25,23 +25,30 @@ public class IssueSecurityService extends BasicSecurityService {
     }
 
     public boolean hasPermissionToRemoveIssue(Long currentIssueId) {
-        return ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
-                && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId)))
-                || ((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA())
-                && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId) )
-                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())) );
+         boolean isAdmin = getActiveUserRole().isAdmin();
+         boolean isProjectManager = getActiveUserRole().isProjectManager();
+         boolean isDeveloper = getActiveUserRole().isDeveloper();
+         boolean isQA = getActiveUserRole().isQA();
+         boolean isUserOnProject = false;
+         boolean isAssigned = false;
+        if (getActiveUser() != null && !getActiveUserRole().isAdmin()){
+            isUserOnProject = getActiveUser().getProject().equals(getProjectByIssue(currentIssueId));
+            isAssigned = getActiveUser().equals(getIssueById(currentIssueId).getAssignee());
+        }
+        return  isAdmin || (isProjectManager && isUserOnProject)
+                || ((isDeveloper || isQA) && isUserOnProject && isAssigned) ;
     }
 
     public boolean hasPermissionToEditIssue(Long currentIssueId) {
-        return ( (getActiveUserRole().isAdmin()) || (getActiveUserRole().isProjectManager()
-                && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId)))
-                || (((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA()
-                || getActiveUserRole().isProjectManager() )
-                && (getIssueById(currentIssueId).getCreatedBy().equals(getActiveUser())))
-                || ((getActiveUserRole().isDeveloper() || getActiveUserRole().isQA())
-                && (getIssueById(currentIssueId).getEditAbility()
-                && getActiveUser().getProject().equals(getProjectByIssue(currentIssueId) )
-                && getActiveUser().equals(getIssueById(currentIssueId).getAssignee())))) );
+        boolean isAdmin = getActiveUserRole().isAdmin();
+        boolean isProjectManager = getActiveUserRole().isProjectManager();
+        boolean isDeveloper = getActiveUserRole().isDeveloper();
+        boolean isQA = getActiveUserRole().isQA();
+        boolean isUserOnProject = false;
+        if (getActiveUser()!= null && !getActiveUserRole().isAdmin()){
+            isUserOnProject = getActiveUser().getProject().equals(getProjectByIssue(currentIssueId));
+        }
+        return  isAdmin || ((isDeveloper || isQA || isProjectManager) && isUserOnProject) ;
     }
 
 }

@@ -4,9 +4,7 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
-import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.IssueRepository;
 import com.softserverinc.edu.services.securityServices.BasicSecurityService;
@@ -16,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -94,7 +90,9 @@ public class IssueService {
 
     public void saveIssueChanges(Issue issue) {
         User changedByUser = basicSecurityService.getActiveUser();
-        issue.setCreatedBy(changedByUser);
+        if (issue.isNewIssue()){
+            issue.setCreatedBy(changedByUser);
+        }
         historyService.writeToHistory(issue, changedByUser);
         save(issue);
     }
@@ -167,31 +165,14 @@ public class IssueService {
         return issueRepository.findByProject(project, pageable);
     }
 
-    public void populateDefaultModel(Model model) {
-        model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("types", IssueType.values());
-        model.addAttribute("priority", IssuePriority.values());
-        model.addAttribute("allLabels", labelService.findAll());
-        model.addAttribute("users", authenticationCheck());
-        model.addAttribute("projectReleases", projectReleaseService.findAll());
-    }
-
     public Page<Issue> findByUser(Principal principal, Pageable pageable) {
         return issueRepository.findByAssignee((userService.findByEmailIs(principal.getName())), pageable);
     }
 
-    private List<User> authenticationCheck() {
+    public List<User> checkAuthentication() {
         if (!issueSecurityService.isAuthenticated()) {
             return userService.findByRole(UserRole.ROLE_PROJECT_MANAGER);
         }
         return userService.findAll();
-    }
-
-    public void addAttributes(Issue issue, RedirectAttributes redirectAttributes){
-        if (issue.isNewIssue()) {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
-        } else {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", issue.getTitle()));
-        }
     }
 }

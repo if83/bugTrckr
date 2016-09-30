@@ -2,8 +2,9 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.Issue;
-import com.softserverinc.edu.entities.IssueComment;
+import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
+import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,15 @@ public class IssueController {
     @Autowired
     private WorkLogService workLogService;
 
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private LabelService labelService;
+
+    @Autowired
+    private ProjectReleaseService projectReleaseService;
+
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
                                @Qualifier("issue")
@@ -61,7 +71,7 @@ public class IssueController {
     @PostMapping("/issue/search")
     public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
-        issueService.populateDefaultModel(model);
+        populateDefaultModel(model);
         return "issue";
     }
 
@@ -124,14 +134,14 @@ public class IssueController {
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableStatusesForStatus(issue.getStatus()));
-        issueService.populateDefaultModel(model);
+        populateDefaultModel(model);
         LOGGER.debug("Issue edit" + id);
         return "issue_form";
     }
 
     @GetMapping("/issue/add")
     public String addIssue(Model model) {
-        issueService.populateDefaultModel(model);
+        populateDefaultModel(model);
         model.addAttribute("sampleDate", new Date());
         model.addAttribute("issue", new Issue());
         model.addAttribute("formAction", "new");
@@ -141,13 +151,13 @@ public class IssueController {
     @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes) {
-        issueService.populateDefaultModel(model);
+        populateDefaultModel(model);
         if (result.hasErrors()) {
             model.addAttribute("formAction", "new");
             return "issue_form";
         }
+        addAttributes(issue, redirectAttributes);
         issueService.saveIssueChanges(issue);
-        issueService.addAttributes(issue, redirectAttributes);
         LOGGER.debug("Issue updated or saved " + issue.getId());
         return "redirect:/issue";
     }
@@ -159,13 +169,30 @@ public class IssueController {
     }
 
     @PostMapping("/getAvaliableIssueStatuses")
-    @ResponseBody public
-    Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
+    @ResponseBody
+    public Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
         return issueService.getMapOfIssueStatuses(selectedStatus);
     }
 
     private String getCurrentTime() {
         return new SimpleDateFormat(DATE_TIME_PATTERN).format(new Date());
+    }
+
+    private void populateDefaultModel(Model model) {
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("types", IssueType.values());
+        model.addAttribute("priority", IssuePriority.values());
+        model.addAttribute("allLabels", labelService.findAll());
+        model.addAttribute("users", issueService.checkAuthentication());
+        model.addAttribute("projectReleases", projectReleaseService.findAll());
+    }
+
+    private void addAttributes(Issue issue, RedirectAttributes redirectAttributes){
+        if (issue.getId() == null) {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
+        } else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", issue.getTitle()));
+        }
     }
 
 }

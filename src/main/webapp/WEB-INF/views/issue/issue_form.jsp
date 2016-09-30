@@ -161,17 +161,6 @@
                         </spring:bind>
                     </c:if>
                 </div>
-
-                <div class="col-sm-6">
-                    <spring:bind path="editAbility">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <label>Ability to edit an issue:</label>
-                            <form:checkbox id="issue" path="editAbility" value="false"/>
-                            &nbsp&nbsp</label>
-                            <form:errors path="editAbility" class="control-label"/>
-                        </div>
-                    </spring:bind>
-                </div>
                 <div class="col-sm-12">
                     <div>
                         <label for="editor1">Description</label>

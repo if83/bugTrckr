@@ -64,7 +64,6 @@ CREATE TABLE `Issue` (
   `estimateTime`     INT         NOT NULL,
   `parentId`         INT,
   `description`      TEXT,
-  `editAbility`      BOOLEAN     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

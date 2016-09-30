@@ -97,10 +97,6 @@ public class Issue {
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
 
-    @NotNull(message = "Please choose if users can edit this issue")
-    @Column(nullable = false)
-    private Boolean editAbility;
-
     public Issue() {
     }
 
@@ -234,14 +230,6 @@ public class Issue {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getEditAbility() {
-        return editAbility;
-    }
-
-    public void setEditAbility(Boolean editAbility) {
-        this.editAbility = editAbility;
     }
 
     @Override
