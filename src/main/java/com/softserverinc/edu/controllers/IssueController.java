@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -31,8 +30,6 @@ import java.util.Map;
 public class IssueController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IssueController.class);
-
-    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Autowired
     private IssueService issueService;
@@ -135,7 +132,6 @@ public class IssueController {
         model.addAttribute("formAction", "edit");
         model.addAttribute("statuses", issueService.getAvaliableStatusesForStatus(issue.getStatus()));
         populateDefaultModel(model);
-        LOGGER.debug("Issue edit" + id);
         return "issue_form";
     }
 
@@ -158,7 +154,7 @@ public class IssueController {
         }
         addAttributes(issue, redirectAttributes);
         issueService.saveIssueChanges(issue);
-        LOGGER.debug("Issue updated or saved " + issue.getId());
+        LOGGER.debug("Issue is updated or saved " + issue.getId());
         return "redirect:/issue";
     }
 
@@ -172,10 +168,6 @@ public class IssueController {
     @ResponseBody
     public Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
         return issueService.getMapOfIssueStatuses(selectedStatus);
-    }
-
-    private String getCurrentTime() {
-        return new SimpleDateFormat(DATE_TIME_PATTERN).format(new Date());
     }
 
     private void populateDefaultModel(Model model) {

@@ -5,6 +5,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <div class="breadcrumbs">
@@ -49,24 +50,20 @@
     <div class="margin-top-30 col-sm-5">
         <div>
             <div class="row">
-                <label class="col-sm-4">ID</label>
-                <div class="col-sm-8"><p>${issue.id}</p></div>
-            </div>
-            <div class="row">
                 <label class="col-sm-4">Title</label>
                 <div class="col-sm-8"><p>${issue.title}</p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Type</label>
-                <div class="col-sm-8"><p>${issue.type}</p></div>
+                <div class="col-sm-8"><p>${issue.type.toString()}</p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Status</label>
-                <div class="col-sm-8"><p>${issue.status}</p></div>
+                <div class="col-sm-8"><p>${issue.status.toString()}</p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Priority</label>
-                <div class="col-sm-8">${issue.priority}</div>
+                <div class="col-sm-8">${issue.priority.toString()}</div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Project</label>
@@ -123,15 +120,24 @@
             </div>
             <div class="row">
                 <label class="col-sm-4">Create Time</label>
-                <div class="col-sm-8"><p>${issue.createTime}</p></div>
+                <div class="col-sm-8"><p>
+                    <c:set var="createTime" value="${issue.createTime}" />
+                    <fmt:formatDate type="both" value="${createTime}" pattern="dd-MM-yyyy HH:mm"/>
+                </p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Time to finish the issue</label>
-                <div class="col-sm-8">${issue.dueDate}</div>
+                <div class="col-sm-8">
+                    <c:set var="dueDate" value="${issue.dueDate}" />
+                    <fmt:formatDate type="both" value="${dueDate}" pattern="dd-MM-yyyy HH:mm"/>
+                </div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Last updated time</label>
-                <div class="col-sm-8">${issue.lastUpdateDate}</div>
+                <div class="col-sm-8">
+                    <c:set var="lastUpdateDate" value="${issue.lastUpdateDate}" />
+                    <fmt:formatDate type="both" value="${lastUpdateDate}" pattern="dd-MM-yyyy HH:mm"/>
+                </div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Estimate time, hrs</label>
@@ -141,13 +147,9 @@
                 <label class="col-sm-4">Labels</label>
                 <div class="col-sm-8">
                     <c:forEach var="label" items="${issue.labels}">
-                        <c:out value="${label.title}"></c:out>
+                        <c:out value="${label.title}"/>
                     </c:forEach>
                 </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-4">Description</label>
-                <div class="col-sm-8">${issue.description}</div>
             </div>
             <div class="row">
                 <c:set var="leftTime" value="${issue.estimateTime - totalSpentTimeByAllUsers}"/>
@@ -159,6 +161,10 @@
                 <div class="col-sm-8">
                     <td>${totalSpentTimeByAllUsers} hrs
                 </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-4">Description</label>
+                <div class="col-sm-8">${issue.description}</div>
             </div>
         </div>
     </div>

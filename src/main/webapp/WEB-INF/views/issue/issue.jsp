@@ -77,7 +77,7 @@
 
                 </thead>
                 <c:forEach var="issue" items="${listOfIssues.content}">
-                    <sec:authorize access="@issueSecurityService.hasPermissionToViewIssue(${issue.id})">
+                    <sec:authorize access="@issueSecurityService.hasPermissionToViewIssue('${issue.id}')">
                         <tr>
                             <td class="text-center">
 
@@ -119,7 +119,7 @@
                                         ><i class="fa fa-edit icon-table-u"></i></a>
                                     &nbsp
                                         <a <sec:authorize
-                                            access="@issueSecurityService.hasPermissionToRemoveIssue(${issue.id})">
+                                            access="@issueSecurityService.hasPermissionToRemoveIssue('${issue.id}')">
                                         data-toggle="modal" data-target="#removeModal${issue.id}"
                                         </sec:authorize>
                                         ><i class="fa fa-trash fa-lg icon-table-u"></i></a>

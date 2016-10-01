@@ -1,5 +1,6 @@
 package com.softserverinc.edu.entities;
 
+import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.enums.IssuePriority;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.IssueType;
@@ -13,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -26,6 +28,7 @@ public class Issue {
     private Long id;
 
     @NotEmpty(message = "Please enter the issue title")
+    @Size(max = 32, message = "Issue title must be no longer than 32 characters")
     @Column(nullable = false, length = 32)
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String title;
@@ -72,17 +75,17 @@ public class Issue {
     @NotNull
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
     private Date createTime = new Date();
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
     private Date dueDate;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
     private Date lastUpdateDate;
 
     @NotNull(message = "Please enter estimated time")
@@ -93,6 +96,7 @@ public class Issue {
     private Long parentId;
 
     @NotEmpty(message = "Please enter description")
+    @Size(max = 10000, message = "Issue description must be no longer than 10000 characters")
     @Column(nullable = false, length = 10000)
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;

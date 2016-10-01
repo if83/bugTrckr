@@ -55,8 +55,9 @@
                             <label for="typeInput">Type</label>
                             <form:select path="type" type="text" cssClass="selectpicker form-control" id="typeInput"
                                          placeholder="Type">
-                                <form:option value="" label="  Select a type"/>
-                                <form:options items="${types}"/>
+                                <c:forEach var="type" items="${types}">
+                                    <form:option value="${type}">${type.toString()}</form:option>
+                                </c:forEach>
                             </form:select>
                             <form:errors path="type" cssClass="control-label"/>
                         </div>
@@ -66,10 +67,10 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <label for="priorityInput">Priority</label>
                             <form:select path="priority" type="text" cssClass="selectpicker form-control"
-                                         id="priorityInput"
-                                         placeholder="Priority">
-                                <form:option value="" label="  Choose the piority"/>
-                                <form:options items="${priority}"/>
+                                         id="priorityInput" placeholder="Priority">
+                                <c:forEach var="onePriority" items="${priority}">
+                                    <form:option value="${onePriority}">${onePriority.toString()}</form:option>
+                                </c:forEach>
                             </form:select>
                             <form:errors path="priority" cssClass="control-label"/>
                         </div>

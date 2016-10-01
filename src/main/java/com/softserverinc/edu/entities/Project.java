@@ -46,7 +46,7 @@ public class Project {
     private Boolean guestAddComment;
 
     @NotEmpty(message = "Please enter project description")
-    @Size(max = 10000, message = "Project title must be no longer than 10000 characters")
+    @Size(max = 10000, message = "Project description must be no longer than 10000 characters")
     @Column(length = 10000, nullable = false)
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
