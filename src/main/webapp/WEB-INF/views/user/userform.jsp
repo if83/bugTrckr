@@ -25,11 +25,11 @@
     <div class="col-sm-8  col-md-offset-2">
         <div class="row">
 
-            <form:form commandName="userCommand" action="/user/add" modelAttribute="user" method="POST">
+            <form:form id="userForm" commandName="userCommand" action="/user/add" modelAttribute="user" method="POST">
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <spring:bind path="email">
-                            <div class="form-group">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <label for="emailInput">E-mail</label>
                                 <form:input path="email" type="email" cssClass="form-control" id="emailInput"
                                             placeholder="E-mail"/>

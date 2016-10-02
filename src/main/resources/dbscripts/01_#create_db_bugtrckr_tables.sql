@@ -2,7 +2,7 @@ CREATE TABLE `User` (
   `id`            INT         NOT NULL AUTO_INCREMENT,
   `firstName`     VARCHAR(20) NOT NULL,
   `lastName`      VARCHAR(20) NOT NULL,
-  `email`         VARCHAR(64) NOT NULL UNIQUE,
+  `email`         VARCHAR(32) NOT NULL UNIQUE,
   `password`      VARCHAR(60) NOT NULL ,
   `role`          VARCHAR(20) NOT NULL,
   `projectId`     INT,

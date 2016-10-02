@@ -37,7 +37,7 @@ public class User {
     private String lastName;
 
     @NotEmpty(message = "Enter user's email")
-    @Size(max = 64, message = "Email must be no longer than 20 characters")
+    @Size(max = 32, message = "Email must be no longer than 20 characters")
     @Email
     @Column(unique = true, nullable = false, length = 64)
     private String email;
