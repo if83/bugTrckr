@@ -33,7 +33,7 @@ CREATE TABLE `ProjectRelease` (
   `id`            INT         NOT NULL AUTO_INCREMENT,
   `projectId`     INT         NOT NULL,
   `version`       VARCHAR(32) NOT NULL,
-  `releaseStatus` VARCHAR(11) NOT NULL,
+  `releaseStatus` VARCHAR(11) NOT NULL DEFAULT 'OPEN',
   `description`   TEXT,
   PRIMARY KEY (`id`)
 )

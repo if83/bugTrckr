@@ -231,11 +231,11 @@ VALUES ('Fix typos', 'TASK', 'LOW', '1', '1', '2','2', '2016-02-02', '50', '1', 
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
 VALUES ('Update libs', 'BUG', 'LOW', '1', '1', '2','2', '2016-02-02', '13', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Don`t store user', 'TASK', 'LOW', '1', '1','1', '5', '2016-02-02', '54', '1', 'some text','OPEN');
+VALUES ('Don`t store user', 'TASK', 'LOW', '1', '1','3', '5', '2016-02-02', '54', '1', 'some text','OPEN');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Slow speed', 'EPIC', 'LOW', '1', '1', '2', '1','2016-02-02', '3', '1', 'some text', 'IN_PROGRESS');
+VALUES ('Slow speed', 'EPIC', 'LOW', '1', '1', '2', '10','2016-02-02', '3', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Cannot logout', 'TASK', 'LOW', '1', '1', '6','1', '2016-02-02', '58', '1', 'some text', 'QA_VALIDATION');
+VALUES ('Cannot logout', 'TASK', 'LOW', '1', '1', '6','2', '2016-02-02', '58', '1', 'some text', 'QA_VALIDATION');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId,  assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
 VALUES ('Add default val', 'TASK', 'LOW', '1', '1', '4','4', '2016-02-02', '46', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)

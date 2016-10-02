@@ -42,16 +42,20 @@
                     <form:errors path="version" class="control-label"/>
                 </div>
             </spring:bind>
-            <spring:bind path="releaseStatus">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="statusInput">Status</label>
-                    <form:select path="releaseStatus" type="text" class="selectpicker form-control" id="statusInput"
-                                 placeholder="Status">
-                        <form:options items="${releaseStatuses}"/>
-                    </form:select>
-                    <form:errors path="releaseStatus" class="control-label"/>
-                </div>
-            </spring:bind>
+            <c:if test="${formAction eq 'edit'}">
+                <spring:bind path="releaseStatus">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <label for="statusInput">Status</label>
+                        <form:select path="releaseStatus" type="text" class="selectpicker form-control" id="statusInput"
+                                     placeholder="Select status">
+                            <c:forEach var="status" items="${releaseStatuses}">
+                                <form:option value="${status}" label="${status.toString()}"/>
+                            </c:forEach>
+                        </form:select>
+                        <form:errors path="releaseStatus" class="control-label"/>
+                    </div>
+                </spring:bind>
+            </c:if>
         </div>
         <div class="col-sm-10 col-sm-offset-1">
             <label for="editor1">Description</label>
@@ -72,7 +76,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" >${buttonName} release</h4>
+                        <h4 class="modal-title">${buttonName} release</h4>
                     </div>
                     <div class="modal-body text-center">
                         Please confirm ${buttonName} of release

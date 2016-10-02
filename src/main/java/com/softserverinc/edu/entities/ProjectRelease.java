@@ -29,10 +29,9 @@ public class ProjectRelease {
     @Column(nullable = false, length = 32)
     private String version;
 
-    @NotNull(message = "")
     @Column(nullable = false, length = 11)
     @Enumerated(EnumType.STRING)
-    private ReleaseStatus releaseStatus;
+    private ReleaseStatus releaseStatus = ReleaseStatus.OPEN;
 
     @Column(length = 10000)
     private String description;
