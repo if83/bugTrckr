@@ -5,27 +5,16 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-<c:choose>
-    <c:when test="${formaction eq 'new'}">
-        <c:set var="breadcrumsname" scope="session" value="Add User"/>
-        <c:set var="buttonname" scope="session" value="Create"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="breadcrumsname" scope="session" value="Update User"/>
-        <c:set var="buttonname" scope="session" value="Update"/>
-    </c:otherwise>
-</c:choose>
-
 <div class="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
-            <h1 class="pull-left"> ${breadcrumsname} </h1>
+            <h1 class="pull-left"> Add User </h1>
         </div>
         <div class="col-sm-8">
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/'/>">Home</a></li>
                 <li><a href="<spring:url value='/users'/>">Users</a></li>
-                <li class="active"> ${breadcrumsname} </li>
+                <li class="active"> Add User </li>
             </ol>
         </div>
     </div>
@@ -40,7 +29,7 @@
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <spring:bind path="email">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group">
                                 <label for="emailInput">E-mail</label>
                                 <form:input path="email" type="email" cssClass="form-control" id="emailInput"
                                             placeholder="E-mail"/>
@@ -53,7 +42,7 @@
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <spring:bind path="firstName">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group">
                                 <label for="firstNameInput">First name</label>
                                 <form:input path="firstName" type="text" cssClass="form-control" id="firstNameInput"
                                             placeholder="First name"/>
@@ -64,7 +53,7 @@
 
                     <div class="col-sm-6 pull-right row">
                         <spring:bind path="lastName">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group">
                                 <label for="lastNameInput">Last name</label>
                                 <form:input path="lastName" type="text" cssClass="form-control" id="lastNameInput"
                                             placeholder="Last name"/>
@@ -75,9 +64,9 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <div class="col-sm-6 pull-left row">
+                    <div class="col-sm-6 pull-left row password">
                         <spring:bind path="password">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group">
                                 <label for="passwordInput">Password</label>
                                 <form:input path="password" type="password" cssClass="form-control" id="passwordInput"
                                             placeholder="Password"/>
@@ -86,9 +75,9 @@
                         </spring:bind>
                     </div>
 
-                    <div class="col-sm-6 pull-right row">
+                    <div class="col-sm-6 pull-right row password">
                         <spring:bind path="confirmPassword">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group">
                                 <label for="confirmPasswordInput">Confirm password</label>
                                 <form:input path="confirmPassword" type="password" cssClass="form-control"
                                             id="confirmPasswordInput"
@@ -106,11 +95,11 @@
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <spring:bind path="project">
-                            <div class="form-group ${status.error ? 'has-error' : ''}" id="project" hidden>
+                            <div class="form-group" id="project" hidden>
                                 <label for="roleInput">Project</label>
                                 <form:select path="project" type="text" cssClass="form-control selectpicker" id="projectInput"
-                                             placeholder="Role">
-                                    <form:option value="">Without Project</form:option>
+                                             data-live-search="true">
+                                    <form:option cssClass="projectOption" value="" label="None"/>
                                     <c:forEach var="project" items="${projects}">
                                         <form:option cssClass="projectOption" value="${project}" label="${project.getTitle()}"/>
                                     </c:forEach>
@@ -122,9 +111,10 @@
 
                     <div class="col-sm-6 pull-right row">
                         <spring:bind path="role">
-                            <div class="form-group ${status.error ? 'has-error' : ''}" id="role" hidden>
+                            <div class="form-group" id="role" hidden>
                                 <label for="roleInput">Role</label>
                                 <form:select path="role" type="text" cssClass="form-control selectpicker" id="roleInput">
+                                    <form:option cssClass="roleOption" value="ROLE_USER" label="User"/>
                                     <c:forEach var="role" items="${roles}">
                                         <form:option cssClass="roleOption" value="${role}" label="${role.toString()}"/>
                                     </c:forEach>
@@ -145,7 +135,7 @@
                 <form:hidden path="id"/>
 
                 <div class="col-sm-12">
-                    <input type="submit" value="${buttonname}" class="margin-top-30 btn-u pull-right"/>
+                    <input type="submit" value="Create" class="margin-top-30 btn-u pull-right"/>
                 </div>
             </form:form>
         </div>

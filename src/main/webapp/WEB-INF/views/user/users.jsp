@@ -153,28 +153,29 @@
             </table>
         </div>
     </div>
-    <div class="row">
-        <nav aria-label="Page navigation" id="pagerID">
-            <div class="text-center">
-                <ul class="pagination">
-                    <li>
-                        <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-
-                    <c:forEach var="apage" begin="0" end="${userList.totalPages - 1}">
+    <c:if test="${userList.getTotalPages()> 1}">
+        <div class="row">
+            <nav aria-label="Page navigation" id="pagerID">
+                <div class="text-center">
+                    <ul class="pagination">
                         <li>
-                            <a href="<spring:url value='/users?page=${page}'/>"> <c:out value="${page + 1}"/></a>
+                            <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
                         </li>
-                    </c:forEach>
-                    <li>
-                        <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+                        <c:forEach var="page" begin="0" end="${userList.getTotalPages() - 1}">
+                            <li>
+                                <a href="<spring:url value='/users?page=${page}'/>"> <c:out value="${page + 1}"/></a>
+                            </li>
+                        </c:forEach>
+                        <li>
+                            <a href="<spring:url value='/users?page=${userList.getTotalPages() - 1}'/>" aria-label="End">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </c:if>
 </div>

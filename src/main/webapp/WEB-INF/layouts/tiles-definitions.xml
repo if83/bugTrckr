@@ -196,7 +196,7 @@
     </definition>
 
     <definition name="userform" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="User add/edit"/>
+        <put-attribute name="title" value="User add"/>
         <put-attribute name="content" value="/WEB-INF/views/user/userform.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
@@ -204,6 +204,18 @@
         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/user/user_form.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="user_form_edit" extends="abstractDefaultTemplate">
+        <put-attribute name="title" value="User edit"/>
+        <put-attribute name="content" value="/WEB-INF/views/user/user_form_edit.jsp"/>
+        <put-list-attribute name="stylesheets" inherit="true">
+            <add-attribute value="/css/user.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/ckeditor/ckeditor.js"/>
+            <add-attribute value="/js/user/user_form_edit.js"/>
         </put-list-attribute>
     </definition>
 

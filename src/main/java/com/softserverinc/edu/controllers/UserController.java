@@ -5,7 +5,6 @@ import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.forms.FileUploadForm;
-import com.softserverinc.edu.forms.UserFormValidator;
 import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
@@ -27,8 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumSet;
 
 /**
  * User controller
@@ -37,7 +35,7 @@ import java.util.List;
 @SessionAttributes("fileUploadForm")
 public class UserController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -48,21 +46,15 @@ public class UserController {
     @Autowired
     private HistoryService historyService;
 
-    @Autowired
-    private UserFormValidator userFormValidator;
-
-    @Autowired
-    private UserRepository userRepository;
-
     @GetMapping("/users")
     public String userForm(Model model, Pageable pageable) {
         populateDefaultModel(model);
-        model.addAttribute("userList", userService.findByIsDeletedFalseAndEnabledIs(1, pageable));
+        model.addAttribute("userList", userService.findAllUsers(pageable));
         return "users";
     }
 
     @GetMapping("/user/{id}/remove")
-    public String removeUser(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+    public String removeUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         userService.setIsDeletedTrue(id);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "User is deleted!");
@@ -70,26 +62,35 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}/edit")
-    public String editUser(@PathVariable("id") long id, Model model) {
+    public String editUser(@PathVariable Long id, Model model) {
         User user = userService.findOne(id);
         model.addAttribute("user", user);
         model.addAttribute("roles", userService.getAvailableRolesForUser(user.getRole()));
-        model.addAttribute("formaction", "edit");
-        return "userform";
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("action", "edit");
+        return "user_form_edit";
+    }
+
+    @PostMapping("/user/{id}/edit")
+    public String editUserPost(@PathVariable Long id, @RequestParam String email,
+                               @RequestParam String firstName, @RequestParam String lastName,
+                               @RequestParam Long project, @RequestParam UserRole role,
+                               @RequestParam String description){
+        userService.saveEditedUser(id, email, firstName, lastName, project, role, description);
+        return "redirect:/users";
     }
 
     @GetMapping("/user/add")
     public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("formaction", "new");
         populateDefaultModel(model);
+        model.addAttribute("user", new User());
         return "userform";
     }
 
     @PostMapping("/user/add")
     public String addUserPost(@ModelAttribute @Valid User user, BindingResult result,
-                              RedirectAttributes redirectAttributes) {
-        userFormValidator.validate(user, result);
+                              RedirectAttributes redirectAttributes, Model model) {
+        populateDefaultModel(model);
         if (result.hasErrors()) {
             return "userform";
         }
@@ -98,7 +99,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}/view")
-    public String viewUser(@PathVariable("id") long id, Model model,
+    public String viewUser(@PathVariable long id, Model model,
                            @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         User user = userService.findOne(id);
         model.addAttribute("allHistory", historyService.findAllHistoryForUser(user, pageable));
@@ -167,11 +168,7 @@ public class UserController {
     }
 
     private void populateDefaultModel(Model model) {
-        List<UserRole> roles = new ArrayList<>();
-        roles.add(UserRole.ROLE_USER);
-        roles.add(UserRole.ROLE_QA);
-        roles.add(UserRole.ROLE_DEVELOPER);
-        roles.add(UserRole.ROLE_PROJECT_MANAGER);
+        EnumSet<UserRole> roles = EnumSet.of(UserRole.ROLE_PROJECT_MANAGER, UserRole.ROLE_DEVELOPER, UserRole.ROLE_QA);
         model.addAttribute("roles", roles);
         model.addAttribute("projects", projectService.findAll());
     }

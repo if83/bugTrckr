@@ -16,12 +16,6 @@ import javax.validation.constraints.Size;
 public class User {
 
     /**
-     * For saveAndUpdate method
-     */
-    @Transient
-    private boolean newuser;
-
-    /**
      * form:input - confirmPassword
      */
     @Transient
@@ -168,10 +162,6 @@ public class User {
 
     public void setProject(Project project) {
         this.project = project;
-    }
-
-    public boolean isNewuser() {
-        return (this.id == null || this.id == 0L);
     }
 
     public boolean isDeleted() {

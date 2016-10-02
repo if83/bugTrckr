@@ -4,7 +4,6 @@ import com.softserverinc.edu.entities.IssueComment;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserService {
@@ -108,16 +105,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    @Transactional
-    public User saveUser(User user, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("css", "success");
-        if (user.isNewuser()) {
-            redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-        } else {
-            redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
-        }
+    public void passwordEncoder(User user){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+
+    @Transactional
+    public User saveUser(User user, RedirectAttributes redirectAttributes) {
+        if(user.getRole().isProjectManager()){
+            passwordEncoder(user);
+            user.setEnabled(1);
+            return userService.saveProjectManager(user, user.getProject(), redirectAttributes);
+        }
+        passwordEncoder(user);
         user.setEnabled(1);
         return userRepository.save(user);
     }
@@ -138,12 +138,12 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable) {
-        return userRepository.findByIsDeletedFalseAndEnabledIs(enabled, pageable);
-    }
-
     public Page<User> findUsersByRole(UserRole role, Pageable pageable) {
         return userRepository.findByRole(role, pageable);
+    }
+
+    public Page<User> findAllUsers(Pageable pageable){
+        return userRepository.findByRoleNot(UserRole.ROLE_ADMIN, pageable);
     }
 
     public Page<User> searchByUsers(Project project, String searchParam, UserRole role, String searchedString,
@@ -217,6 +217,24 @@ public class UserService {
     }
 
     @Transactional
+    public User saveProjectManager(User user, Project project, RedirectAttributes redirectAttributes) {
+        User exProjectManager = userService.getProjectManager(project);
+        if (!project.getUsers().isEmpty() && exProjectManager != null && user != exProjectManager) {
+            exProjectManager.setProject(null);
+            exProjectManager.setRole(UserRole.ROLE_USER);
+            userRepository.save(exProjectManager);
+        }
+        redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
+                project.getTitle()));
+        if(user.getRole().isProjectManager() && user.getProject() == project){
+            return userRepository.save(user);
+        }
+        user.setProject(project);
+        user.setRole(UserRole.ROLE_PROJECT_MANAGER);
+        return userRepository.save(user);
+    }
+
+    @Transactional
     public User changeUserRoleInProject(User user, Project project, UserRole role, RedirectAttributes redirectAttributes) {
         if (user.getProject() == project) {
             if (user.getRole().isDeveloper()) {
@@ -272,5 +290,31 @@ public class UserService {
             default:
                 return result;
         }
+    }
+
+    public User saveEditedUser(Long userId, String email, String firstName, String lastName, Long projectId,
+                               UserRole role, String description) {
+        User user = userService.findOne(userId);
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setDescription(description);
+        if(projectId == null || role.isUser()){
+            user.setProject(null);
+            user.setRole(UserRole.ROLE_USER);
+            return userRepository.save(user);
+        }
+        user.setRole(role);
+        user.setProject(projectService.findById(projectId));
+        if(role.isProjectManager()){
+            User exProjectManager = userService.getProjectManager(projectService.findById(projectId));
+            if(exProjectManager==null){
+                return userRepository.save(user);
+            }
+            exProjectManager.setProject(null);
+            exProjectManager.setRole(UserRole.ROLE_USER);
+            userRepository.save(exProjectManager);
+        }
+        return userRepository.save(user);
     }
 }

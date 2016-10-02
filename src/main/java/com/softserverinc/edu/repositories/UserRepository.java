@@ -33,8 +33,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findAll(Pageable pageable);
 
-    Page<User> findByIsDeletedFalseAndEnabledIs(int enabled, Pageable pageable);
-
     Page<User> findByRole(UserRole role, Pageable pageable);
 
     Page<User> findByProjectAndFirstNameContainingAndRole(Project project, String searchedString, UserRole searchedRole,
@@ -59,4 +57,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
                                                          Pageable pageable);
 
     Page<User> findByProjectAndRoleNot(Project project, UserRole notRole, Pageable pageable);
+
+    Page<User> findByRoleNot(UserRole notRole, Pageable pageable);
 }
