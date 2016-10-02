@@ -5,7 +5,7 @@ $(document).ready(function () {
     if(msg.length > 0){
         $('#modalChangesIssue').find('.modal-body').html(msg);
         $('#modalChangesIssue').modal('show');
-        setTimeout(function(){$('#modalChangesIssue').modal('hide')}, 3000);
+        setTimeout(function(){$('#modalChangesIssue').modal('hide')}, 1800);
     };
 });
 

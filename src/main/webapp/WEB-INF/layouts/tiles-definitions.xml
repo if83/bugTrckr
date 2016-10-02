@@ -93,6 +93,7 @@
             <add-attribute value="/js/ckeditor/ckeditor.js"/>
             <add-attribute value="/js/issue/jquery-ui.js"/>
             <add-attribute value="/js/issue/issue-page.js"/>
+            <add-attribute value="/js/issue/issue_form.js"/>
             <add-attribute value="/js/issue/datepicker.js"/>
         </put-list-attribute>
     </definition>

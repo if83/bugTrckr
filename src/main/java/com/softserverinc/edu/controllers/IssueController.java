@@ -52,6 +52,14 @@ public class IssueController {
     @Autowired
     private ProjectReleaseService projectReleaseService;
 
+    /**
+     * This controller shows all possible issues
+     * @param model - holder for model attributes
+     * @param principal - represents the user, who is authenticated
+     * @param pageableIssue - represents the total number of pages in the set of allIssues
+     * @param pageableUser - represents the total number of pages in the set of myIssues
+     * @return view renderer, issue.jsp
+     */
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
                                @Qualifier("issue")
@@ -64,6 +72,8 @@ public class IssueController {
         }
         return "issue";
     }
+
+
 
     @PostMapping("/issue/search")
     public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
@@ -179,7 +189,7 @@ public class IssueController {
         model.addAttribute("projectReleases", projectReleaseService.findAll());
     }
 
-    private void addAttributes(Issue issue, RedirectAttributes redirectAttributes){
+    private void addAttributes(Issue issue, RedirectAttributes redirectAttributes) {
         if (issue.getId() == null) {
             redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));
         } else {

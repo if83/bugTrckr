@@ -12,13 +12,19 @@
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
             <h1 class="pull-left"> ${issue.title}
-                <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
-                    <sup>
-                        <a href="<spring:url value='/issue/${issue.id}/edit/' />">
-                            <i class="fa fa-edit icon-table-u"></i>
-                        </a>
-                    </sup>
-                </sec:authorize>
+                <sec:authentication var="principal" property="principal" />
+                <c:choose>
+                    <c:when test="${principal != null}">
+                        <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
+                            <sup>
+                                <a href="<spring:url value='/issue/${issue.id}/edit/' />">
+                                    <i class="fa fa-edit icon-table-u"></i>
+                                </a>
+                            </sup>
+                        </sec:authorize>
+                    </c:when>
+                </c:choose>
+
             </h1>
         </div>
         <div class="col-sm-8">
@@ -121,21 +127,21 @@
             <div class="row">
                 <label class="col-sm-4">Create Time</label>
                 <div class="col-sm-8"><p>
-                    <c:set var="createTime" value="${issue.createTime}" />
+                    <c:set var="createTime" value="${issue.createTime}"/>
                     <fmt:formatDate type="both" value="${createTime}" pattern="dd-MM-yyyy HH:mm"/>
                 </p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Time to finish the issue</label>
                 <div class="col-sm-8">
-                    <c:set var="dueDate" value="${issue.dueDate}" />
+                    <c:set var="dueDate" value="${issue.dueDate}"/>
                     <fmt:formatDate type="both" value="${dueDate}" pattern="dd-MM-yyyy HH:mm"/>
                 </div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Last updated time</label>
                 <div class="col-sm-8">
-                    <c:set var="lastUpdateDate" value="${issue.lastUpdateDate}" />
+                    <c:set var="lastUpdateDate" value="${issue.lastUpdateDate}"/>
                     <fmt:formatDate type="both" value="${lastUpdateDate}" pattern="dd-MM-yyyy HH:mm"/>
                 </div>
             </div>
@@ -147,7 +153,9 @@
                 <label class="col-sm-4">Labels</label>
                 <div class="col-sm-8">
                     <c:forEach var="label" items="${issue.labels}">
-                        <c:out value="${label.title}"/>
+                        <span class="label label-default">
+                            <c:out value="${label.title}"/>
+                        </span>&nbsp;
                     </c:forEach>
                 </div>
             </div>
@@ -433,7 +441,8 @@
                                 <spring:bind path="startDate">
                                     <div class="margin-top-10">
                                         <label for="startDate">Start date</label>
-                                        <form:input path="startDate" type="text" class="form-control datepicker" id="startDate"
+                                        <form:input path="startDate" type="text" class="form-control datepicker"
+                                                    id="startDate"
                                                     value="${startDate}"/>
                                         <form:errors path="startDate" class="control-label"/>
                                     </div>
@@ -442,7 +451,8 @@
                                 <spring:bind path="endDate">
                                     <div class="margin-top-20">
                                         <label for="endDate">End date</label>
-                                        <form:input path="endDate" type="text" class="form-control datepicker" id="endDate"
+                                        <form:input path="endDate" type="text" class="form-control datepicker"
+                                                    id="endDate"
                                                     value="${endDate}"/>
                                         <form:errors path="endDate" class="control-label"/>
                                     </div>

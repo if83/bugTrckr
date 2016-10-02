@@ -38,7 +38,7 @@
 <div class="margin-top-30 row">
     <div class="col-sm-12 col-md-8 col-md-offset-1">
         <div class="row">
-            <form:form commandName="issueCommand" action="/issue/add" modelAttribute="issue" method="POST">
+            <form:form id="issueForm" commandName="issueCommand" action="/issue/add" modelAttribute="issue" method="POST">
                 <div class="col-sm-6">
 
                     <spring:bind path="title">
@@ -128,8 +128,8 @@
                                                  items="${projects}" itemLabel="title" itemValue="id"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <form:select  path="project" type="text" cssClass="selectpicker form-control"
-                                                  id="projectInput">
+                                    <form:select path="project" type="text" cssClass="selectpicker form-control"
+                                                 id="projectInput">
                                         <form:option selected="selected" value="${issue.project}"
                                                      label="${issue.project.title}"/>
                                     </form:select>

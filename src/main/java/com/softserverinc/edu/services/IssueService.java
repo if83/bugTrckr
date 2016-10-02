@@ -84,7 +84,7 @@ public class IssueService {
 
     public void saveIssueChanges(Issue issue) {
         User changedByUser = basicSecurityService.getActiveUser();
-        if (issueService.isNewIssue(issue)){
+        if (issueService.isNewIssue(issue)) {
             issue.setCreatedBy(changedByUser);
         }
         historyService.writeToHistory(issue, changedByUser);
