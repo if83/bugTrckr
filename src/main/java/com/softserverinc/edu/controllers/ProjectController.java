@@ -34,9 +34,6 @@ public class ProjectController {
     @Autowired
     private IssueService issueService;
 
-    @Autowired
-    private HistoryService historyService;
-
     @GetMapping("/projects")
     public String listOfProjects(@PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable,
                                  ModelMap model) {
@@ -47,7 +44,7 @@ public class ProjectController {
     @PostMapping("projects/search")
     public String projectSearchByTitle(@RequestParam String title, Model model,
                                        @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
-        model.addAttribute("listOfProjects", projectService.findByTitleContaining(title, pageable));
+        model.addAttribute("listOfProjects", projectService.findProjectByTitle(title, pageable));
         return "projects";
     }
 
@@ -65,14 +62,21 @@ public class ProjectController {
         if(result.hasErrors()) {
             return "project_form";
         }
-        projectService.save(project, redirectAttributes);
+        if (project.getId() == null) {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
+
+        } else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
+        }
+        projectService.save(project);
         return "redirect:/projects/project/" + project.getId();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/projects/{projectId}/remove")
     public String deleteProject(@PathVariable Long projectId, RedirectAttributes redirectAttributes) {
-        projectService.delete(projectId, redirectAttributes);
+        redirectAttributes.addFlashAttribute("msg", "Project was deleted");
+        projectService.delete(projectId);
         return "redirect:/projects";
     }
 
@@ -93,7 +97,7 @@ public class ProjectController {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("projectManager", userService.getProjectManager(project));
+        model.addAttribute("projectManager", userService.getProjectManager(projectId));
         model.addAttribute("usersList", userService.findUsersByProjectPageable(project, pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
@@ -109,9 +113,9 @@ public class ProjectController {
         usersRolesInProject(model);
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("projectManager", userService.getProjectManager(project));
-        model.addAttribute("usersList", userService.searchByUsers(project, searchedParam, role, searchedString,
-                pageableUser));
+        model.addAttribute("projectManager", userService.getProjectManager(projectId));
+        model.addAttribute("usersList",
+                userService.searchByUsers(project, searchedParam, role, searchedString, pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
         return "project";
@@ -124,7 +128,7 @@ public class ProjectController {
             @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("projectManager", userService.getProjectManager(project));
+        model.addAttribute("projectManager", userService.getProjectManager(projectId));
         model.addAttribute("usersList", userService.findUsersByProjectPageable(project, pageableUser));
         model.addAttribute("releaseList", releaseService.searchByTitle(project, searchedString, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findByProject(project, pageableIssue));
@@ -138,7 +142,7 @@ public class ProjectController {
                   @Qualifier("issue") @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageableIssue) {
         Project project = projectService.findById(projectId);
         model.addAttribute("project", project);
-        model.addAttribute("projectManager", userService.getProjectManager(project));
+        model.addAttribute("projectManager", userService.getProjectManager(projectId));
         model.addAttribute("usersList", userService.findUsersByProjectPageable(project, pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
         model.addAttribute("listOfIssues", issueService.findIssuesByProject(project, searchedString ,pageableIssue));
@@ -152,7 +156,6 @@ public class ProjectController {
         usersRolesInProject(model);
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("userList", userService.findUsersByRole(UserRole.ROLE_USER, pageable));
-        model.addAttribute("userHistory", historyService);
         return "users_without_project";
     }
 
@@ -185,7 +188,9 @@ public class ProjectController {
     @GetMapping("/projects/project/{projectId}/addProjectManager/usersWithoutProject/{userId}")
     public String appointmentOfProjectManager(@PathVariable Long projectId, @PathVariable Long userId,
                                       RedirectAttributes redirectAttributes){
-        userService.appointmentOfProjectManager(userId, projectId, redirectAttributes);
+        redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager",
+                userService.findOne(userId).getFullName()));
+        userService.appointmentOfProjectManager(userId, projectId);
         return "redirect:/projects/project/" + projectId;
     }
 
@@ -223,7 +228,9 @@ public class ProjectController {
     @GetMapping("/projects/project/{projectId}/removeUser/{userId}")
     public String deleteUserFromProject(@PathVariable Long userId, @PathVariable @P("projectId") Long projectId,
                                         RedirectAttributes redirectAttributes) {
-        userService.deleteUserFromProject(userId, redirectAttributes);
+        redirectAttributes.addFlashAttribute("msg", String.format("%s was removed from project",
+                userService.findOne(userId).getFullName()));
+        userService.deleteUserFromProject(userId);
         return "redirect:/projects/project/" + projectId;
     }
 
@@ -231,16 +238,14 @@ public class ProjectController {
     @GetMapping("/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
     public String appointmentUserToProject(@PathVariable @P("projectId") Long projectId, @PathVariable Long userId,
                                            RedirectAttributes redirectAttributes) {
-        userService.changeUserRoleInProject(userService.findOne(userId), projectService.findById(projectId), null,
-                redirectAttributes);
+        userService.changeUserRoleInProject(userId, projectId, null, redirectAttributes);
         return "redirect:/projects/project/" + projectId;
     }
 
     @PostMapping("/projects/project/{projectId}/usersWithoutProject/{userId}/selectRole")
     public String selectUserRole(@ModelAttribute("role") UserRole role, @PathVariable Long projectId,
                                  @PathVariable Long userId, RedirectAttributes redirectAttributes) {
-        userService.changeUserRoleInProject(userService.findOne(userId), projectService.findById(projectId), role,
-                redirectAttributes);
+        userService.changeUserRoleInProject(userId, projectId, role, redirectAttributes);
         return "redirect:/projects/project/" + projectId;
     }
 

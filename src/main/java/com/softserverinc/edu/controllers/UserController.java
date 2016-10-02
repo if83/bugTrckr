@@ -92,7 +92,14 @@ public class UserController {
         if (result.hasErrors()) {
             return "userform";
         }
-        userService.saveUser(user, redirectAttributes);
+        if(user.getRole().isProjectManager()){
+            redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
+                    user.getProject().getTitle()));
+        }
+        else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s is added", user.getFullName()));
+        }
+        userService.saveUser(user);
         return "redirect:/users";
     }
 

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-12">
             <h2 class="col-sm-offset-1 pull-left">${project.title}
-                <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                     <small><a class="viewLink" href="<spring:url value='/projects/${project.id}/edit'/>">[edit]</a>
                     </small>
                 </sec:authorize>
@@ -93,7 +93,7 @@
                 <tr>
                     <th class="text-center">Version</th>
                     <th class="text-center">Status</th>
-                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                         <th class="text-center">Actions</th>
                     </sec:authorize>
                 </tr>
@@ -107,12 +107,12 @@
                                    href="<spring:url value='/project/${project.id}/release/${rel.id}'/>">${rel.version}
                                 </a>
                             </sec:authorize>
-                            <sec:authorize access="!@releaseSecurityService.hasPermissionToViewRelease(${rel.id})">
+                            <sec:authorize access="!@releaseSecurityService.hasPermissionToViewRelease('${rel.id}')">
                                 ${rel.version}
                             </sec:authorize>
                         </td>
                         <td class="text-center">${rel.releaseStatus.toString()}</td>
-                        <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                        <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                             <td class="text-center">
                                 <a class="btn" href="<spring:url value='/project/${project.id}/release/${rel.id}/edit' />"><i
                                         class="fa fa-edit fa-lg icon-table-u"></i></a>
@@ -185,7 +185,7 @@
                 </div>
                 <%--add user button--%>
                 <div class="col-sm-1">
-                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                         <a href="<spring:url value='/projects/project/${project.id}/usersWithoutProject'/>"
                            class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add User</a>
                     </sec:authorize>
@@ -197,7 +197,7 @@
                 <tr>
                     <th class="text-center">User name</th>
                     <th class="text-center">Role</th>
-                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                    <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                         <th class="text-center">Actions</th>
                     </sec:authorize>
                 </tr>
@@ -214,7 +214,7 @@
                             </a>
                         </td>
                         <td class="text-center">${user.role.toString()}</td>
-                        <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                        <sec:authorize access="@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                             <td class="text-center">
                                 <!--Change of user's role-->
                                 <a class="changeRoleBtn btn" href="<spring:url value='/projects/project/

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +55,6 @@ public class UserService {
         return comment.getUser();
     }
 
-    public User findByPrincipal(Principal principal) {
-        if (principal == null) {
-            return null;
-        }
-        return userRepository.findByEmailIs(principal.getName());
-    }
-
     public List<User> findUsersByRelease(ProjectRelease release) {
         return findUsersInProject(projectService.findById(release.getProject().getId()), false, 1);
     }
@@ -71,7 +63,8 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public User getProjectManager(Project project) {
+    public User getProjectManager(Long projectId) {
+        Project project = projectService.findById(projectId);
         return userRepository.findByProjectAndRole(project, UserRole.ROLE_PROJECT_MANAGER);
     }
 
@@ -83,10 +76,6 @@ public class UserService {
 
     public Page<User> findUsersByProjectPageable(Project project, Pageable pageable) {
         return userRepository.findByProjectAndRoleNot(project, UserRole.ROLE_PROJECT_MANAGER, pageable);
-    }
-
-    public Page<User> findByProject(Project project, int enabled, Pageable pageable) {
-        return userRepository.findByProjectAndIsDeletedFalseAndEnabledIs(project, enabled, pageable);
     }
 
     public Page<User> findByFullName(String firstName, String lastName, Pageable pageable) {
@@ -111,11 +100,11 @@ public class UserService {
     }
 
     @Transactional
-    public User saveUser(User user, RedirectAttributes redirectAttributes) {
+    public User saveUser(User user) {
         if(user.getRole().isProjectManager()){
             passwordEncoder(user);
             user.setEnabled(1);
-            return userService.saveProjectManager(user, user.getProject(), redirectAttributes);
+            return userService.saveProjectManager(user.getId(), user.getProject().getId());
         }
         passwordEncoder(user);
         user.setEnabled(1);
@@ -192,20 +181,18 @@ public class UserService {
     }
 
     @Transactional
-    public User deleteUserFromProject(Long id, RedirectAttributes redirectAttributes) {
+    public User deleteUserFromProject(Long id) {
         User user = userService.findOne(id);
-        redirectAttributes.addFlashAttribute("msg", String.format("%s was removed from project", user.getFullName()));
         user.setRole(UserRole.ROLE_USER);
         user.setProject(null);
         return userRepository.save(user);
     }
 
     @Transactional
-    public User appointmentOfProjectManager(Long userId, Long projectId, RedirectAttributes redirectAttributes) {
+    public User appointmentOfProjectManager(Long userId, Long projectId) {
         User user = userService.findOne(userId);
         Project project = projectService.findById(projectId);
-        User exProjectManager = userService.getProjectManager(project);
-        redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager", user.getFullName()));
+        User exProjectManager = userService.getProjectManager(projectId);
         if (!project.getUsers().isEmpty() && exProjectManager != null) {
             exProjectManager.setProject(null);
             exProjectManager.setRole(UserRole.ROLE_USER);
@@ -217,15 +204,15 @@ public class UserService {
     }
 
     @Transactional
-    public User saveProjectManager(User user, Project project, RedirectAttributes redirectAttributes) {
-        User exProjectManager = userService.getProjectManager(project);
+    public User saveProjectManager(Long userId, Long projectId) {
+        User exProjectManager = userService.getProjectManager(projectId);
+        Project project = projectService.findById(projectId);
+        User user = userService.findOne(userId);
         if (!project.getUsers().isEmpty() && exProjectManager != null && user != exProjectManager) {
             exProjectManager.setProject(null);
             exProjectManager.setRole(UserRole.ROLE_USER);
             userRepository.save(exProjectManager);
         }
-        redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
-                project.getTitle()));
         if(user.getRole().isProjectManager() && user.getProject() == project){
             return userRepository.save(user);
         }
@@ -235,7 +222,10 @@ public class UserService {
     }
 
     @Transactional
-    public User changeUserRoleInProject(User user, Project project, UserRole role, RedirectAttributes redirectAttributes) {
+    public User changeUserRoleInProject(Long userId, Long projectId, UserRole role,
+                                        RedirectAttributes redirectAttributes) {
+        User user = userService.findOne(userId);
+        Project project = projectService.findById(projectId);
         if (user.getProject() == project) {
             if (user.getRole().isDeveloper()) {
                 redirectAttributes.addFlashAttribute("msg", String.format("position of %s role was changed to QA",
@@ -307,7 +297,7 @@ public class UserService {
         user.setRole(role);
         user.setProject(projectService.findById(projectId));
         if(role.isProjectManager()){
-            User exProjectManager = userService.getProjectManager(projectService.findById(projectId));
+            User exProjectManager = userService.getProjectManager(projectId);
             if(exProjectManager==null){
                 return userRepository.save(user);
             }

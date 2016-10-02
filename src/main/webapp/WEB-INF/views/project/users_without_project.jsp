@@ -63,9 +63,6 @@
                 <tr>
                     <th class="text-center">Full Name</th>
                     <th class="text-center">E-mail</th>
-                    <c:if test="${action ne 'addPM'}">
-                        <th class="text-center">Working on Issues</th>
-                    </c:if>
                     <th class="text-center">Add to Project</th>
                 </tr>
                 </thead>
@@ -76,18 +73,6 @@
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>"><c:out value="${user.fullName}"/></a>
                         </td>
                         <td class="text-center"><c:out value="${user.email}"/></td>
-                        <c:if test="${action ne 'addPM'}">
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${userHistory.findAllHistoryForUser(user, null).getContent().isEmpty()}">
-                                        None
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:out value="${userHistory.findAllHistoryForUser(user, null).getContent().size()}"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </c:if>
                         <td class="text-center">
                             <c:choose>
                                 <c:when test="${action eq 'addPM'}">

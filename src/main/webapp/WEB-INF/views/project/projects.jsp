@@ -189,14 +189,14 @@
                         </td>
                         <%--Access to editing of PM's project--%>
                         <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER') and
-                        @projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                        @projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                             <td class="text-center">
                                 <a href="<spring:url value='/projects/${project.id}/edit' />">
                                     <i class="fa fa-edit fa-lg icon-table-u"></i></a>
                             </td>
                         </sec:authorize>
                         <sec:authorize access="hasAnyRole('ADMIN', 'PROJECT_MANAGER') and
-                        !@projectSecurityService.hasPermissionToProjectManagement(${project.id})">
+                        !@projectSecurityService.hasPermissionToProjectManagement('${project.id}')">
                             <td class="text-center">
                                 <i class="fa fa-lock fa-lg icon-table-u"></i>
                             </td>

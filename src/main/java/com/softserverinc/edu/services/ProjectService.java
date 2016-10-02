@@ -29,7 +29,7 @@ public class ProjectService {
         return projectRepository.findOne(id);
     }
 
-    public Page<Project> findByTitleContaining(String title, Pageable pageable) {
+    public Page<Project> findProjectByTitle(String title, Pageable pageable) {
         return projectRepository.findByTitleContaining(title, pageable);
     }
 
@@ -46,19 +46,12 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project save(Project project, RedirectAttributes redirectAttributes) {
-        if (project.getId() == null) {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
-
-        } else {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
-        }
+    public Project save(Project project) {
         return projectRepository.save(project);
     }
 
     @Transactional
-    public void delete(Long projectId, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("msg", "Project was deleted");
+    public void delete(Long projectId) {
         for(User user: projectRepository.findOne(projectId).getUsers()){
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);
@@ -66,5 +59,4 @@ public class ProjectService {
         }
         projectRepository.delete(projectId);
     }
-
 }
