@@ -34,12 +34,11 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-1 col-sm-offset-1">
-        <a href="<spring:url value='/user/add/' />" class="btn btn-primary btn-u"><i class="fa fa-plus icon-bg-u"></i>
-            Add
-            user</a>
+        <a href="<spring:url value='/user/add/' />" class="btn btn-default"><i class="fa fa-plus"></i>
+            Add user</a>
     </div>
     <div class="col-sm-1">
-        <button class="btn btn-primary btn-u" type="button" data-toggle="collapse" data-target="#collapseSearch"
+        <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseSearch"
                 aria-expanded="false" aria-controls="collapseSearch">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
         </button>
@@ -112,32 +111,29 @@
 
 <div class="margin-top-30">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-10 col-sm-offset-1">
 
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>User name</th>
                     <th>E-mail</th>
                     <th>Role</th>
                     <th>Project Title</th>
-                    <th class="hidden-xs">Description</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
+                <tbody>
                 <c:forEach var="user" items="${userList.content}">
                     <tr>
                         <td>
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
-                                <c:out value="${user.firstName}"/>
+                                <c:out value="${user.firstName} ${user.lastName}"/>
                             </a>
                         </td>
-                        <td><c:out value="${user.lastName}"/></td>
                         <td><c:out value="${user.email}"/></td>
                         <td><c:out value="${user.role}"/></td>
                         <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
-                        <td class="hidden-xs"><c:out value="${fn:substring(user.description, 0, 20)}"/></td>
                         <td>
                             <div class="actionButtons">
                                 <a href="<spring:url value='/user/${user.id}/edit' />"><i
@@ -148,34 +144,33 @@
                         </td>
                     </tr>
                 </c:forEach>
-                <tbody>
                 </tbody>
             </table>
+            <%--pagination of releses-table--%>
+            <c:if test="${userList.getTotalPages() gt 1}">
+                <nav aria-label="Page navigation" id="pagerID">
+                    <div class="text-center">
+                        <ul class="pagination">
+                            <li>
+                                <a href="<spring:url value='/users?page=0'/>"
+                                   aria-label="Start">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <c:forEach var="page" begin="0" end="${userList.getTotalPages() - 1}">
+                                <li>
+                                    <a href="<spring:url value='/users?page=${page}'/>">${page + 1}</a>
+                                </li>
+                            </c:forEach>
+                            <li>
+                                <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </c:if>
         </div>
     </div>
-    <c:if test="${userList.getTotalPages()> 1}">
-        <div class="row">
-            <nav aria-label="Page navigation" id="pagerID">
-                <div class="text-center">
-                    <ul class="pagination">
-                        <li>
-                            <a href="<spring:url value='/users?page=0'/>" aria-label="Start">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <c:forEach var="page" begin="0" end="${userList.getTotalPages() - 1}">
-                            <li>
-                                <a href="<spring:url value='/users?page=${page}'/>"> <c:out value="${page + 1}"/></a>
-                            </li>
-                        </c:forEach>
-                        <li>
-                            <a href="<spring:url value='/users?page=${userList.getTotalPages() - 1}'/>" aria-label="End">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </c:if>
 </div>
