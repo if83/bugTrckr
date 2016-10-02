@@ -1,6 +1,5 @@
 package com.softserverinc.edu.entities;
 
-import com.softserverinc.edu.annotations.UniqueEmail;
 import com.softserverinc.edu.entities.enums.UserRole;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -36,7 +35,6 @@ public class User {
     @Column(nullable = false, length = 20)
     private String lastName;
 
-    @UniqueEmail
     @NotEmpty(message = "Enter user's email")
     @Size(max = 32, message = "Email must be no longer than 32 characters")
     @Email

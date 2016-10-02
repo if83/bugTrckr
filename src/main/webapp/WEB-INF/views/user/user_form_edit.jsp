@@ -29,6 +29,9 @@
                         <div class="form-group">
                             <label for="emailInput">E-mail</label>
                             <input name="email" type="email" class="form-control" id="emailInput" value="${user.email}"/>
+                            <div class="help-block">
+                                <p class="error-msg has-error"><strong>${msg}</strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -51,7 +54,7 @@
                 </div>
 
                 <label class="margin-bottom-20 margin-top-20 col-sm-12">
-                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspChoose Project for User
+                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspChange Project and Role for User
                 </label>
 
                 <div class="col-sm-12">
@@ -73,6 +76,7 @@
                                 </c:forEach>
                                 <option class="projectOption" value="">None</option>
                             </select>
+                            <p class="project-info small">*if Project is not selected, role User will be assigned</p>
                             <p id="projectDefault" hidden>${user.project.id}</p>
                         </div>
                     </div>
@@ -85,6 +89,7 @@
                                     <option class="roleOption" value="${role}">${role.toString()}</option>
                                 </c:forEach>
                             </select>
+                            <p class="role-info small">*if role is User, Project will not be assigned</p>
                             <p id="roleDefault" hidden>${user.role}</p>
                         </div>
                     </div>

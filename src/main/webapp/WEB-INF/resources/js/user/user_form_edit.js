@@ -10,7 +10,7 @@ $(document).ready(function () {
             $(element).closest('.form-group').removeClass('has-error');
         }
     });
-
+    
     $("#userForm").validate({
         rules: {
             "email": {
@@ -25,7 +25,7 @@ $(document).ready(function () {
             "lastName": {
                 required: true,
                 maxlength: 20
-            },
+            }
         },
         messages: {
             "email": {

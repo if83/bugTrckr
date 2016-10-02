@@ -317,4 +317,8 @@ public class UserService {
         }
         return userRepository.save(user);
     }
+
+    public boolean isEmailUnique(String email, Long userId){
+        return userService.findByEmailIs(email).getId() != null && userService.findByEmailIs(email).getId() != userId;
+    }
 }

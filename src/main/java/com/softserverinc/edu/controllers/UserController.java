@@ -3,6 +3,7 @@ package com.softserverinc.edu.controllers;
 import com.softserverinc.edu.constants.PageConstant;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
+import com.softserverinc.edu.forms.UserFormValidator;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
@@ -20,11 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.EnumSet;
+import java.util.*;
 
-/**
- * User controller
- */
 @Controller
 @SessionAttributes("fileUploadForm")
 public class UserController {
@@ -39,6 +37,9 @@ public class UserController {
 
     @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    private UserFormValidator userFormValidator;
 
     @GetMapping("/users")
     public String userForm(Model model, Pageable pageable) {
@@ -61,7 +62,6 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("roles", userService.getAvailableRolesForUser(user.getRole()));
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("action", "edit");
         return "user_form_edit";
     }
 
@@ -69,7 +69,11 @@ public class UserController {
     public String editUserPost(@PathVariable Long id, @RequestParam String email,
                                @RequestParam String firstName, @RequestParam String lastName,
                                @RequestParam Long project, @RequestParam UserRole role,
-                               @RequestParam String description){
+                               @RequestParam String description, RedirectAttributes redirectAttributes){
+        if(userService.isEmailUnique(email, id)){
+            redirectAttributes.addFlashAttribute("msg", "User with the same email already exists");
+            return"redirect:/user/" + id + "/edit";
+        }
         userService.saveEditedUser(id, email, firstName, lastName, project, role, description);
         return "redirect:/users";
     }
@@ -83,8 +87,8 @@ public class UserController {
 
     @PostMapping("/user/add")
     public String addUserPost(@ModelAttribute @Valid User user, BindingResult result,
-                              RedirectAttributes redirectAttributes, Model model) {
-        populateDefaultModel(model);
+                              RedirectAttributes redirectAttributes) {
+        userFormValidator.validate(user, result);
         if (result.hasErrors()) {
             return "userform";
         }
@@ -140,9 +144,12 @@ public class UserController {
     }
 
     private void populateDefaultModel(Model model) {
-        EnumSet<UserRole> roles = EnumSet.of(UserRole.ROLE_PROJECT_MANAGER, UserRole.ROLE_DEVELOPER, UserRole.ROLE_QA);
+        List<UserRole> roles = new ArrayList<>();
+        roles.add(UserRole.ROLE_USER);
+        roles.add(UserRole.ROLE_QA);
+        roles.add(UserRole.ROLE_DEVELOPER);
+        roles.add(UserRole.ROLE_PROJECT_MANAGER);
         model.addAttribute("roles", roles);
         model.addAttribute("projects", projectService.findAll());
     }
-
 }

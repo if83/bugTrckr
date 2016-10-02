@@ -41,3 +41,7 @@ input#imgfileInput.form-control {
 #pageID .pagination li a:focus {
     color: #784A3B;
 }
+
+.error-msg{
+    color: #b94a48;
+}

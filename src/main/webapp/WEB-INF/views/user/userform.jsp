@@ -29,7 +29,7 @@
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <spring:bind path="email">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group">
                                 <label for="emailInput">E-mail</label>
                                 <form:input path="email" type="email" cssClass="form-control" id="emailInput"
                                             placeholder="E-mail"/>
@@ -88,7 +88,7 @@
                     </div>
 
                     <label class="margin-bottom-20 margin-top-20">
-                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspChoose Project for User
+                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspSelect Project and Role for User
                     </label>
                 </div>
 
@@ -105,6 +105,7 @@
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="role" cssClass="control-label"/>
+                                <p class="project-info small">*if Project is not selected, role User will be assigned</p>
                             </div>
                         </spring:bind>
                     </div>
@@ -114,12 +115,12 @@
                             <div class="form-group" id="role" hidden>
                                 <label for="roleInput">Role</label>
                                 <form:select path="role" type="text" cssClass="form-control selectpicker" id="roleInput">
-                                    <form:option cssClass="roleOption" value="ROLE_USER" label="User"/>
                                     <c:forEach var="role" items="${roles}">
                                         <form:option cssClass="roleOption" value="${role}" label="${role.toString()}"/>
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="role" cssClass="control-label"/>
+                                <p class="role-info small">*if role is User, Project will not be assigned</p>
                             </div>
                         </spring:bind>
                     </div>
@@ -135,7 +136,7 @@
                 <form:hidden path="id"/>
 
                 <div class="col-sm-12">
-                    <input type="submit" value="Create" class="margin-top-30 btn-u pull-right"/>
+                    <input type="submit" value="Create" class="margin-top-30 btn btn-default pull-right"/>
                 </div>
             </form:form>
         </div>
