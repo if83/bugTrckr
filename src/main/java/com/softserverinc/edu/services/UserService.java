@@ -114,11 +114,9 @@ public class UserService {
     public User saveUser(User user, RedirectAttributes redirectAttributes) {
         if(user.getRole().isProjectManager()){
             passwordEncoder(user);
-            user.setEnabled(1);
             return userService.saveProjectManager(user, user.getProject(), redirectAttributes);
         }
         passwordEncoder(user);
-        user.setEnabled(1);
         return userRepository.save(user);
     }
 

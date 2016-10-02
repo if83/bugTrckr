@@ -3,15 +3,13 @@ CREATE TABLE `User` (
   `firstName`     VARCHAR(20) NOT NULL,
   `lastName`      VARCHAR(20) NOT NULL,
   `email`         VARCHAR(64) NOT NULL UNIQUE,
-  `password`      VARCHAR(60),
+  `password`      VARCHAR(60) NOT NULL ,
   `role`          VARCHAR(20) NOT NULL,
   `projectId`     INT,
   `description`   TEXT,
   `isDeleted`     BOOLEAN     NOT NULL DEFAULT '0',
   /*For spring security*/
   `enabled`       TINYINT     NOT NULL DEFAULT 1,
-  `imageData`     MEDIUMBLOB,
-  `imageFilename` VARCHAR(64),
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

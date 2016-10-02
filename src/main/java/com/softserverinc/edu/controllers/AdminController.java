@@ -95,8 +95,6 @@ public class AdminController {
             oneLocalUser.setProjectTitle(user.getProject().getTitle());
         oneLocalUser.setDescription(user.getDescription());
         if (details) {
-            oneLocalUser.setImageFilename(user.getImageFilename());
-            oneLocalUser.setImageData(user.getImageData());
             oneLocalUser.setDescription(user.getDescription());
         }
         return oneLocalUser;

@@ -21,12 +21,6 @@ public class User {
     @Transient
     private String confirmPassword;
 
-    /**
-     * for encoding images from byte[] arrays. Have only a Get method
-     */
-    @Transient
-    private String encodedImage;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -57,13 +51,6 @@ public class User {
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private UserRole role;
-
-    @Lob
-    @Column(columnDefinition = "mediumblob")
-    private byte[] imageData;
-
-    @Column(length = 64)
-    private String imageFilename;
 
     @Size(max = 10000, message = "Description must be no longer than 10000 characters")
     @Column(length = 10000)
@@ -170,30 +157,6 @@ public class User {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public byte[] getImageData() {
-        return imageData;
-    }
-
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
-    }
-
-    public String getEncodedImage() {
-        if (getImageData() != null)
-            encodedImage = new String(new Base64().encode(getImageData()));
-        else
-            encodedImage = "";
-        return encodedImage;
-    }
-
-    public String getImageFilename() {
-        return imageFilename;
-    }
-
-    public void setImageFilename(String imageFilename) {
-        this.imageFilename = imageFilename;
     }
 
     public int getEnabled() {

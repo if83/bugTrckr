@@ -78,21 +78,21 @@ VALUES ('Larry', 'Ellison', 'developer@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKn
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('Vint', 'Cerf', 'quality_e@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuIJu4uF3lOaaY/48mo5hoeSjpe5w.JHG',
         'ROLE_QA', 'qa', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('Richard', 'Stallman', 'developer23@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_DEVELOPER', 'dev', '1', '1');
-INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+   'ROLE_DEVELOPER', 'dev', '1');
+INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('Ken', 'Thompson', 'developer24@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_DEVELOPER', 'qa', '1', '1');
-   INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+   'ROLE_DEVELOPER', 'qa', '1');
+   INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('Ada', 'Lovelace', 'developer249@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_DEVELOPER', 'qa', '1', '1');
-   INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+   'ROLE_DEVELOPER', 'qa', '1');
+   INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('Tim', 'Bray', 'dev112@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_QA', 'qa', '1', '1');
-      INSERT INTO User (firstName, lastName, email, password, role, description, projectId, enabled)
+   'ROLE_QA', 'qa', '1');
+      INSERT INTO User (firstName, lastName, email, password, role, description, projectId)
 VALUES ('John', 'Carmack', 'developer224@ss.com', '$2a$12$xic5wp8Nbgq2gyZtr/K0eevVPYzH/6XnEhOof4WSyChayZgN.unom',
-   'ROLE_DEVELOPER', 'qa', '1', '1');
+   'ROLE_DEVELOPER', 'qa', '1');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
 VALUES ('Newhow', '1', '1', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
@@ -268,15 +268,15 @@ VALUES ('Move pictures', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-02-02', '5
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
 VALUES ('Change status', 'TASK', 'BLOCKER', '4', '1', '4', '3', '2016-02-02', '15', '5', 'some text');
 
-INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
+INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('Javier',	'Manning', 'user6@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user6', '0');
-INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
+        'user6');
+INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('Seth',	'Lucas', 'user7@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user7', '0');
-INSERT INTO User (firstName, lastName, email, password, role, description, enabled)
+        'user7');
+INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('Raul',	'Jenkins', 'user8@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
-        'user8', '0');
+        'user8');
 
 INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
 VALUES ('Enrique',	'Ross', 'user9@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
@@ -389,31 +389,6 @@ VALUES('Jody',	'Hudson', 'developer124@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKn
 INSERT INTO User (firstName, lastName, email, password, role, description, isDeleted)
 VALUES('Melody',	'Webb', 'developer127@ss.com', '$2a$12$gKyrJQIWc6Q7EQXv9feAKOKnMf/DZWnNxn.5IzoBD2YBK/nVRFRV2',
    'ROLE_USER', 'developer8', '1');
-
-UPDATE User
-SET imageData = LOAD_FILE('/var/lib/mysql-files/large.jpg'), imageFilename = 'large.jpg'
-WHERE `role` = 'ROLE_ADMIN';
-
-UPDATE User
-SET imageData = LOAD_FILE('/var/lib/mysql-files/martin_schoeller1.jpg'), imageFilename = 'martin_schoeller1.jpg'
-WHERE `role` = 'ROLE_USER';
-
-UPDATE User
-SET imageData = LOAD_FILE('/var/lib/mysql-files/mel-gibson-mugshot.jpg'), imageFilename = 'mel-gibson-mugshot.jpg'
-WHERE `role` = 'ROLE_PROJECT_MANAGER';
-
-UPDATE User
-SET imageData   = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-clint.jpg'),
-  imageFilename = 'martin-schoeller-clint.jpg'
-WHERE `role` = 'ROLE_DEVELOPER';
-
-UPDATE User
-SET imageData = LOAD_FILE('/var/lib/mysql-files/martin-schoeller-bill.jpg'), imageFilename = 'martin-schoeller-bill.jpg'
-WHERE `role` = 'ROLE_QA';
-
-UPDATE User
-SET imageData = LOAD_FILE('/var/lib/mysql-files/famous1_mini.jpg'), imageFilename = 'famous1_mini.jpg'
-WHERE `role` = 'ROLE_GUEST';
 
 INSERT INTO Label (`title`) VALUES ('Java');
 INSERT INTO Label (`title`) VALUES ('C#');

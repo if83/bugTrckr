@@ -1,18 +1,14 @@
 package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.constants.PageConstant;
-import com.softserverinc.edu.entities.HistoryDto;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
-import com.softserverinc.edu.forms.FileUploadForm;
-import com.softserverinc.edu.repositories.UserRepository;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
@@ -20,11 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.EnumSet;
 
@@ -143,28 +137,6 @@ public class UserController {
         populateDefaultModel(model);
         LOGGER.debug("User search list ByRole POST");
         return "users";
-    }
-
-    @PostMapping(value = "/user/addimage")
-    public String fileUploadPost(@RequestParam("userId") long userId,
-                                 @RequestPart("fileImage") MultipartFile fileImage,
-                                 Model model) throws IOException {
-
-        String redirectPath = "redirect:/user/add";
-
-        if (userId != 0L) {
-            redirectPath = "redirect:/user/" + userId + "/edit";
-        }
-
-        //save an image for redirection
-        FileUploadForm fileUploadForm = new FileUploadForm();
-        fileUploadForm.setUserId(userId);
-        fileUploadForm.setFileImage(fileImage.getBytes());
-        fileUploadForm.setFileName(fileImage.getOriginalFilename());
-        model.addAttribute("fileUploadForm", fileUploadForm);
-
-        LOGGER.debug("formUser() id: ", userId);
-        return redirectPath;
     }
 
     private void populateDefaultModel(Model model) {
