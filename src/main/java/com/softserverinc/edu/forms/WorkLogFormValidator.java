@@ -26,11 +26,11 @@ public class WorkLogFormValidator {
     private IssueService issueService;
 
     public boolean validateWorklogUI(WorkLog workLog, User user, Long issueId) {
-        return validateAmountOfTime(workLog) || validateWorkingOnIssueDates(workLog, user, issueId);
+        return /*validateAmountOfTime(workLog) || */validateWorkingOnIssueDates(workLog, user, issueId);
     }
 
     public boolean validateAmountOfTime(WorkLog workLog) {
-        if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() < 0)
+        if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() <= 0)
             return false;
         try {
             SimpleDateFormat dateFormatSQL = new SimpleDateFormat(PageConstant.DATE_FORMAT);
@@ -44,7 +44,7 @@ public class WorkLogFormValidator {
         } catch (ParseException e) {
             LOGGER.error(e.toString(), e);
         }
-        return false;
+        return true;
     }
 
     public boolean validateWorkingOnIssueDates(WorkLog workLog, User user, Long issueId) {
@@ -65,7 +65,7 @@ public class WorkLogFormValidator {
                 Boolean wasStartTimeLogged = startTimeUI >=  startTimeDB && startTimeUI <= endTimeDB;
                 Boolean wasEndTimeLogged = endTimeUI >= startTimeDB && endTimeUI <= endTimeDB;
                 Boolean wasPeriodLogged = startTimeUI <= startTimeDB && endTimeUI >= endTimeDB;
-                if (wasStartTimeLogged ||wasEndTimeLogged ||wasPeriodLogged) {
+                if (wasStartTimeLogged || wasEndTimeLogged || wasPeriodLogged) {
                     return false;
                 }
             }

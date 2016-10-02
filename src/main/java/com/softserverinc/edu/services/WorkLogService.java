@@ -79,7 +79,7 @@ public class WorkLogService {
     }
 
     public Boolean editorRequests(Long issueId) {
-        return issueId == 0;
+        return issueId == 0 || issueId == null;
     }
 
     public void forEditWorkLogModel(ModelMap model, Long workLogId, Long issueId, Pageable pageable) {
