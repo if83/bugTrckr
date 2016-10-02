@@ -209,45 +209,40 @@
                             <span class="text-danger">[edited]</span>
                         </c:if>
                         <div class="pull-right">
-                            <c:choose>
-                                <c:when test="${(currentUser == issueCommentsListIterator.user and currentUser.role != null) or
+                            <c:if test="${(currentUser == issueCommentsListIterator.user and currentUser.role != null) or
                                                 currentUser.role == 'ROLE_ADMIN' or
                                                 permissionToUseWorkLogForm == 'PROJECT_MANAGER'}">
-                                    <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
-                                        <i class="fa fa-edit icon-table-u"></i></a>
-                                    &nbsp;
-                                    <a href="" data-toggle="modal"
-                                       data-target="#removeCommentButton-${issueCommentsListIterator.id}"><i
-                                            class="fa fa-remove icon-table-u"></i></a>
-                                    <div class="modal fade" id="removeCommentButton-${issueCommentsListIterator.id}"
-                                         tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title pull-left">Remove comment</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="text-center">Please confirm removal</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-default" data-dismiss="modal">
-                                                        Cancel
-                                                    </button>
-                                                    <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />"
-                                                       class="btn btn-u">Delete</a>
-                                                </div>
+                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/edit'/>">
+                                    <i class="fa fa-edit icon-table-u"></i></a>
+                                &nbsp;
+                                <a href="" data-toggle="modal"
+                                   data-target="#removeCommentButton-${issueCommentsListIterator.id}"><i
+                                        class="fa fa-remove icon-table-u"></i></a>
+                                <div class="modal fade" id="removeCommentButton-${issueCommentsListIterator.id}"
+                                     tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title pull-left">Remove comment</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-center">Please confirm removal</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />"
+                                                   class="btn btn-u">Delete</a>
                                             </div>
                                         </div>
                                     </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="fa fa-lock icon-table-u"></i>
-                                </c:otherwise>
-                            </c:choose>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="prevent-inline-displaying">
                                 ${issueCommentsListIterator.text}
@@ -324,7 +319,14 @@
                                         <a href="<spring:url value='/user/${workLogIterator.user.id}/view'/>">
                                                 ${workLogIterator.user.firstName} ${workLogIterator.user.lastName}</a>
                                     </td>
-                                    <td>${workLogIterator.startDate} - ${workLogIterator.endDate}</td>
+                                    <td>
+                                        <%--<c:set var="startDate" value="${workLogIterator.startDate}"/>
+                                        <fmt:formatDate type="both" value="${startDate}" pattern="dd/MM/yyyy"/>
+                                        &ndash;
+                                        <c:set var="endDate" value="${workLogIterator.endDate}"/>
+                                        <fmt:formatDate type="both" value="${endDate}" pattern="dd/MM/yyyy"/>--%>
+                                        ${workLogIterator.startDate} &ndash; ${workLogIterator.endDate}
+                                    </td>
                                     <td>${workLogIterator.amountOfTime} hrs</td>
                                     <c:choose>
                                         <c:when test="${(workLogIterator.user == currentUser) or

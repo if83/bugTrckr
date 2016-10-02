@@ -24,7 +24,7 @@ public class IssueCommentSecurityService extends BasicSecurityService {
     private ProjectService projectService;
 
     public Boolean hasPermissionToCreateIssueComment(Long issueId) {
-        if (issueId == null) {
+        if (issueId == null) { // TODO: prokhorenkovkv use method
             return false;
         }
         else {

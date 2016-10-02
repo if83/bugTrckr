@@ -54,6 +54,8 @@ public class IssueCommentController {
         if (newIssueComment.getId() == null) {
             newIssueComment.setTimeStamp(new Date());
         } else {
+            Date timeStamp = issueCommentService.findOne(newIssueComment.getId()).getTimeStamp();
+            newIssueComment.setTimeStamp(timeStamp);
             newIssueComment.setIsEdited(true);
         }
         issueCommentService.save(newIssueComment);

@@ -3,8 +3,6 @@ package com.softserverinc.edu.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,7 +39,7 @@ public class IssueComment {
     private Boolean isEdited;
 
     @Column
-    @Size(min = 8, max = 32)
+    /*@Size(min = 8, max = 32)*/
     private String anonymousName;
 
     public IssueComment() {
