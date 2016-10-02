@@ -1,10 +1,13 @@
 $(document).ready(function () {
 
-//Validation of Project Form
+    //Validation of User Form
     $.validator.setDefaults({
         errorClass: 'help-block',
         highlight: function (element) {
             $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
         }
     });
 
@@ -45,7 +48,7 @@ $(document).ready(function () {
             },
             "lastName": {
                 required: "Please enter last name ",
-                maxlength: "Last Name must be not longer than 20 characters"
+                maxlength: "Last name must be not longer than 20 characters"
             },
             "password": {
                 required: "Please enter password",

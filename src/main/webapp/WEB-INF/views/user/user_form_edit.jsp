@@ -23,7 +23,7 @@
     <div class="col-sm-8  col-md-offset-2">
         <div class="row">
 
-            <form action="/user/${user.id}/edit" method="POST">
+            <form id="userForm" action="/user/${user.id}/edit" method="POST">
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <div class="form-group">
