@@ -254,7 +254,7 @@
                 <div class="margin-top-30">
                     <sec:authorize
                             access="@issueCommentSecurityService.hasPermissionToCreateIssueComment('${issue.id}')">
-                        <form:form action="${commentsAction}" modelAttribute="newIssueComment"
+                        <form:form action="${commentsAction}" modelAttribute="issueComment"
                                    method="POST">
                             <c:choose>
                                 <c:when test="${currentUser == null}">
@@ -264,7 +264,7 @@
                                             <form:input path="anonymousName" type="text" class="form-control"
                                                         id="anonymousName"
                                                         placeholder="Type your name here (8-32 characters)"
-                                                        value="${newIssueComment.anonymousName}"/>
+                                                        value="${issueComment.anonymousName}"/>
                                             <form:errors path="anonymousName" class="control-label"/>
                                         </div>
                                     </spring:bind>
@@ -276,7 +276,7 @@
                             <spring:bind path="text">
                                 <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
                                     <form:textarea path="text" cols="100" id="text" rows="5"
-                                                   value="${newIssueComment.text}"
+                                                   value="${issueComment.text}"
                                                    class="ckeditor"></form:textarea>
                                     <form:errors path="text" class="control-label"/>
                                 </div>

@@ -1,10 +1,7 @@
 package com.softserverinc.edu.services.securityServices;
 
 import com.softserverinc.edu.entities.*;
-import com.softserverinc.edu.services.IssueCommentService;
-import com.softserverinc.edu.services.IssueService;
-import com.softserverinc.edu.services.ProjectReleaseService;
-import com.softserverinc.edu.services.ProjectService;
+import com.softserverinc.edu.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +20,11 @@ public class IssueCommentSecurityService extends BasicSecurityService {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private WorkLogService workLogService;
+
     public Boolean hasPermissionToCreateIssueComment(Long issueId) {
-        if (issueId == null) { // TODO: prokhorenkovkv use method
+        if (workLogService.editorRequests(issueId)) {
             return false;
         }
         else {

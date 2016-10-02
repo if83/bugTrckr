@@ -5,7 +5,6 @@ import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.IssueCommentService;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.UserService;
-import com.softserverinc.edu.services.securityServices.IssueCommentSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.Date;
 
 @Controller
 public class IssueCommentController {
@@ -33,9 +31,6 @@ public class IssueCommentController {
     private IssueService issueService;
 
     @Autowired
-    private IssueCommentSecurityService issueCommentSecurityService;
-
-    @Autowired
     private HistoryService historyService;
 
     @Autowired
@@ -44,22 +39,16 @@ public class IssueCommentController {
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment(#issueId)")
     @RequestMapping(value = "issue/{issueId}/comment/save", method = RequestMethod.POST)
     public String addIssueComment(@PathVariable @P("issueId")Long issueId,
-                                  @ModelAttribute("newIssueComment") @Valid IssueComment newIssueComment,
+                                  @ModelAttribute("issueComment") @Valid IssueComment issueComment,
                                   BindingResult result) {
-        if (result.hasErrors()) {
+        if (!issueCommentService.validateIssueCommentUI(issueComment) || result.hasErrors()) {
             return "redirect:/issue/" + issueId;
         }
-        historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(newIssueComment),
-                newIssueComment);
-        if (newIssueComment.getId() == null) {
-            newIssueComment.setTimeStamp(new Date());
-        } else {
-            Date timeStamp = issueCommentService.findOne(newIssueComment.getId()).getTimeStamp();
-            newIssueComment.setTimeStamp(timeStamp);
-            newIssueComment.setIsEdited(true);
-        }
-        issueCommentService.save(newIssueComment);
-        LOGGER.info("Comment saved, id= " + newIssueComment.getId());
+        historyService.writeToHistory(issueService.findById(issueId), userService.getAuthorOfIssueComment(issueComment),
+                issueComment);
+        issueCommentService.preSaveIssueComment(issueComment);
+        issueCommentService.save(issueComment);
+        LOGGER.info("Comment saved, id= " + issueComment.getId());
         return "redirect:/issue/" + issueId;
     }
 

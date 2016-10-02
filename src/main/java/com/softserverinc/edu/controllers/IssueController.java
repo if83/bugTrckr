@@ -82,7 +82,7 @@ public class IssueController {
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
         model.addAttribute("commentsAction", issueId + "/comment/save");
         model.addAttribute("allHistory", historyService.findAllHistoryForIssue(issue, historyPageable));
-        model.addAttribute("newIssueComment", issueCommentService.getNewIssueComment(issueId));
+        model.addAttribute("issueComment", issueCommentService.getNewIssueComment(issueId));
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";
     }
@@ -95,7 +95,7 @@ public class IssueController {
                                        @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable workLogPageable) {
         model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
-        model.addAttribute("newIssueComment", issueCommentService.getNewIssueComment(issueId));
+        model.addAttribute("issueComment", issueCommentService.getNewIssueComment(issueId));
         workLogService.forEditWorkLogModel(model, workLogId, issueId, workLogPageable);
         return "issue_view";
     }
@@ -108,7 +108,7 @@ public class IssueController {
                                        @Qualifier("worklog") Pageable workLogPageable) {
         model.addAttribute("issue", issueService.findById(issueId));
         model.addAttribute("issueCommentsList", issueCommentService.findByIssueId(issueId));
-        model.addAttribute("newIssueComment", issueCommentService.getEditedCommentById(issueCommentId));
+        model.addAttribute("issueComment", issueCommentService.getEditedCommentById(issueCommentId));
         model.addAttribute("commentsAction", "../save");
         workLogService.forNewWorkLogModel(model, issueId, workLogPageable);
         return "issue_view";

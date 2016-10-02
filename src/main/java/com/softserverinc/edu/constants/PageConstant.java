@@ -9,5 +9,8 @@ public interface PageConstant {
     int WORKDAY_DURATION_IN_HRS = 8;
     int MS_IN_ONE_DAY = (int) TimeUnit.DAYS.toMillis(1);
     String DATE_FORMAT = "dd/MM/yyyy";
+    String EMPTY_STRING = "";
+    int MIN_ANONYM_NAME_LENGTH = 8;
+    int MAX_ANONYM_NAME_LENGTH = 32;
 
 }
