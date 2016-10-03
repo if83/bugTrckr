@@ -82,7 +82,7 @@ public class IssueCommentService {
             return anonymousNameLength >= PageConstant.MIN_ANONYM_NAME_LENGTH &&
                     anonymousNameLength <= PageConstant.MAX_ANONYM_NAME_LENGTH;
         }
-        return true;
+        return false;
     }
 
     public void preSaveIssueComment (IssueComment issueComment) {

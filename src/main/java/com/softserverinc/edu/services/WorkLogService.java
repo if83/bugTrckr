@@ -201,7 +201,6 @@ public class WorkLogService {
         for (WorkLog worklogIterator : workLogList) {
             totalSpentTime += worklogIterator.getAmountOfTime();
         }
-        System.out.println("DATE = " + formatDate(new Date()));
         return totalSpentTime;
     }
 

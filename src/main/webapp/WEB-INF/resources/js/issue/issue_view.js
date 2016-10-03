@@ -1,8 +1,9 @@
 $(document).ready(function () {
     var location = window.location.href;
 
-    //add datepicker
+    //adds datepicker
     $( ".datepicker" ).datepicker({
+        dateFormat: 'dd/mm/yy',
         changeMonth: true,
         changeYear: true
     });
@@ -21,12 +22,12 @@ $(document).ready(function () {
         setTimeout(function(){$("#modalChanges").modal("hide")}, 1500);
     };
     
-    //styles for work log paginating
+    //css styles for work log paginating
     if(location.indexOf("?worklog_page=") > 0) {
         activateWorkLogTab();
     }
 
-    //block tabs when editing comment
+    //locks tabs when editing comment
     if(location.indexOf("comment") > 0 && location.indexOf("edit") > 0) {
         $(".workLogToggler").hide();
 
@@ -41,7 +42,10 @@ $(document).ready(function () {
 
     //styles for work log editing
     if(location.indexOf("worklog") > 0 && location.indexOf("edit") > 0) {
-        //lock tabs when editing worklog
+        
+        $("#fixedNewCommentButton").hide();
+        
+        //locks tabs when editing worklog
         $("#tab-comments").click(function(){
             return false;
         });
@@ -61,8 +65,6 @@ $(document).ready(function () {
             event.preventDefault();
             window.location.href = document.referrer;
         });
-        $("#workLogSubmitButton").removeClass("col-sm-offset-5");
-        $("#workLogButtons").removeClass("col-sm-10 col-sm-offset-1").addClass("col-sm-5 col-sm-offset-4");
     }
     
     // work log list/form toggler
@@ -80,10 +82,26 @@ $(document).ready(function () {
             $(".workLogToggler").text("Add entry");
     });
 
-    //contains classes to prevent inline displaying text
-    $(".prevent-inline-displaying").css({ "word-wrap": "break-word" });
+    //css styles for comment editing
+    if(location.indexOf("comment") > 0 && location.indexOf("edit") > 0) {
+        //referes to comment form
+        $("html,body").animate({scrollTop: $("#issueCommentForm").offset().top}, 1000);
 
-    //contains classes to display work log tab
+        //lock tabs when editing comment
+        $("#tab-worklog").click(function(){
+            return false;
+        });
+        $("#tab-history").click(function(){
+            return false;
+        });
+
+        $("#issueCommentCancelButton").removeClass("hidden").addClass("margin-top-30 btn-u").click(function(event){
+            event.preventDefault();
+            window.location.href = document.referrer;
+        });
+    };
+
+    //contains css classes to display work log tab
     function activateWorkLogTab() {
         $("#tab-comments").removeClass("active");
         $("#tabs-comments").removeClass("active");
@@ -91,4 +109,7 @@ $(document).ready(function () {
         $("#tabs-worklog").addClass("in active");
     };
 
+    //contains css classes to prevent inline text displaying
+    $(".prevent-inline-displaying").css({ "word-wrap": "break-word" });
+    
 });
