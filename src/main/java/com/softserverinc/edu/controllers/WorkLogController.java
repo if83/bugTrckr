@@ -19,6 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Serves requests used for working with WorkLog entity
+ */
 @Controller
 public class WorkLogController {
 
@@ -33,15 +36,24 @@ public class WorkLogController {
     @Autowired
     private WorkLogSecurityService workLogSecurityService;
 
+    /**
+     * Serves WorkLog saving requests
+     *
+     * @param issueId issue's id
+     * @param workLog instance of WorkLog entity accepted from UI
+     * @param result contains workLog validating results
+     * @param redirectAttributes attributes for redirect requests
+     * @return redirecting URL to previous page
+     */
     @PreAuthorize("@workLogSecurityService.hasPermissionToSaveWorkLog(#issueId, #workLog)")
     @RequestMapping(value = "issue/{issueId}/worklog/save", method = RequestMethod.POST)
     public String addWorkLogPOST(@PathVariable @P("issueId") Long issueId,
                                  @ModelAttribute("worklog") @P("workLog") @Valid WorkLog workLog,
                                  BindingResult result,
                                  RedirectAttributes redirectAttributes) {
-        if (!workLogFormValidator.validateWorklogUI(workLog, workLogSecurityService.getActiveUser(), issueId) ||
-                result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("msg", "Unable to save. Please fix your data.");
+        if (result.hasErrors() || !workLogFormValidator.validateWorklogUI(workLog,
+                workLogSecurityService.getActiveUser(), issueId)) {
+            redirectAttributes.addFlashAttribute("msg", "Unable to save work log. Please fix your data.");
             return "redirect:/issue/" + issueId;
         }
         workLogService.save(workLog);
@@ -50,6 +62,13 @@ public class WorkLogController {
         return "redirect:/issue/" + issueId;
     }
 
+    /**
+     * Serves WorkLog instance removing requests
+     *
+     * @param worklogId WorkLog entry's id
+     * @param redirectAttributes attributes for redirect requests
+     * @return redirecting URL to previous page
+     */
     @PreAuthorize("@workLogSecurityService.hasPermissionToRemoveWorkLog(#worklogId)")
     @RequestMapping(value = "issue/{issueId}/worklog/{worklogId}/remove", method = RequestMethod.GET)
     public String removeWorkLog(@PathVariable @P("worklogId") Long worklogId,

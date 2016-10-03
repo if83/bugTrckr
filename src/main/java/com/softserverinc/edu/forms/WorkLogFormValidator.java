@@ -14,6 +14,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+/**
+ * Defines methods for accepted from UI validating WorkLog instance
+ */
 @Component
 public class WorkLogFormValidator {
 
@@ -25,10 +28,25 @@ public class WorkLogFormValidator {
     @Autowired
     private IssueService issueService;
 
+    /**
+     * Invokes more specific validation methods
+     *
+     * @param workLog WorkLog instance accepted from UI
+     * @param user current user
+     * @param issueId issue's id
+     * @return Boolean representation of validation
+     */
     public boolean validateWorklogUI(WorkLog workLog, User user, Long issueId) {
-        return /*validateAmountOfTime(workLog) || */validateWorkingOnIssueDates(workLog, user, issueId);
+        return validateAmountOfTime(workLog) && validateWorkingOnIssueDates(workLog, user, issueId);
     }
 
+    /**
+     * Validates daily amount of working time
+     * Prevents logging more than workday duration amount of working time
+     *
+     * @param workLog WorkLog instance accepted from UI
+     * @return Boolean representation of validation
+     */
     public boolean validateAmountOfTime(WorkLog workLog) {
         if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() <= 0)
             return false;
@@ -47,6 +65,15 @@ public class WorkLogFormValidator {
         return true;
     }
 
+    /**
+     * Validates working on issue dates
+     * Prevents same periods repetitive work logging by current user and logging periods outside issue's lifecycle
+     *
+     * @param workLog WorkLog instance accepted from UI
+     * @param user current user
+     * @param issueId issue's id
+     * @return Boolean representation of validation
+     */
     public boolean validateWorkingOnIssueDates(WorkLog workLog, User user, Long issueId) {
         Long startTimeUI = workLog.getStartDate().getTime();
         Long endTimeUI = workLog.getEndDate().getTime();
@@ -65,6 +92,7 @@ public class WorkLogFormValidator {
                 Boolean wasStartTimeLogged = startTimeUI >=  startTimeDB && startTimeUI <= endTimeDB;
                 Boolean wasEndTimeLogged = endTimeUI >= startTimeDB && endTimeUI <= endTimeDB;
                 Boolean wasPeriodLogged = startTimeUI <= startTimeDB && endTimeUI >= endTimeDB;
+
                 if (wasStartTimeLogged || wasEndTimeLogged || wasPeriodLogged) {
                     return false;
                 }

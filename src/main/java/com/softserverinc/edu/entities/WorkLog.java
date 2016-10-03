@@ -10,6 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * Describes WorkLog entity's fields
+ */
 @Entity
 public class WorkLog {
 
@@ -119,4 +122,3 @@ public class WorkLog {
                 .toString();
     }
 }
-//TODO: prokhorenkovkv fix timezones

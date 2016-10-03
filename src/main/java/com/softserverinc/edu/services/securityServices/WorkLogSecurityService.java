@@ -26,29 +26,53 @@ public class WorkLogSecurityService extends BasicSecurityService {
     @Autowired
     private ProjectService projectService;
 
-    public Boolean hasPermissionToRemoveWorkLog(Long workLogId) {
-        return getActiveUserRole().isAdmin() ||
-                workLogService.findOne(workLogId).getUser().equals(getActiveUser())||
-                getProjectManager(workLogId).equals(getActiveUser());
-
+    private WorkLog getWorkLogById(Long workLogId) {
+        return workLogService.findOne(workLogId);
     }
 
+    /**
+     * Checks if current user has permission to remove WorkLog entry
+     *
+     * @param workLogId workLog's id
+     * @return Boolean representation of permission to remove WorkLog entry
+     */
+    public Boolean hasPermissionToRemoveWorkLog(Long workLogId) {
+        return getActiveUserRole().isAdmin() || getWorkLogById(workLogId).getUser().equals(getActiveUser())||
+                getProjectManager(workLogId).equals(getActiveUser());
+    }
+
+    /**
+     * Checks if current user has permission to save WorkLog entry
+     *
+     * @param issueId issue's id for which is work logging
+     * @param workLog WorkLog instance
+     * @return Boolean representation of permission to remove WorkLog entry
+     */
     public Boolean hasPermissionToSaveWorkLog(Long issueId, WorkLog workLog) {
-        return getActiveUserRole().isAdmin() ||
-                issueService.findById(issueId).getAssignee().equals(getActiveUser()) ||
-                workLog.getUser().equals(getActiveUser())||
+        return getActiveUserRole().isAdmin() || issueService.findById(issueId).getAssignee().equals(getActiveUser()) ||
+                workLog.getUser().equals(getActiveUser()) ||
                 getProjectManager(workLog.getId()).equals(getActiveUser());
         }
 
+    /**
+     * Checks if current user has permission to edit WorkLog entry
+     *
+     * @param workLogId workLog's id
+     * @return Boolean representation of permission to edit WorkLog entry
+     */
     public Boolean hasPermissionToEditWorkLog(Long workLogId) {
-        return getActiveUserRole().isAdmin() ||
-                workLogService.findOne(workLogId).getUser().equals(getActiveUser()) ||
+        return getActiveUserRole().isAdmin() || getWorkLogById(workLogId).getUser().equals(getActiveUser()) ||
                 getProjectManager(workLogId).equals(getActiveUser());
-
     }
 
+    /**
+     * Searches project manager user of project for which is work logging
+     *
+     * @param workLogId workLog's id
+     * @return user which is project manager of project for which is work logging
+     */
     private User getProjectManager(Long workLogId){
-        WorkLog workLog = workLogService.findOne(workLogId);
+        WorkLog workLog = getWorkLogById(workLogId);
         Issue issue = issueService.findById(workLog.getIssue().getId());
         ProjectRelease projectRelease = projectReleaseService.findByIssues(issue);
         Project project = projectService.findByProjectReleases(projectRelease);
@@ -58,6 +82,12 @@ public class WorkLogSecurityService extends BasicSecurityService {
                 return null;
     }
 
+    /**
+     * Checks if current user has permission to use work log form for creating new WorkLog entry
+     *
+     * @param issueId issue's id
+     * @return String representation of role of user who has permission to create WorkLog entry
+     */
     public String getPermissionToCreateWorkLog(Long issueId){
         if (workLogService.getCurrentIssue(issueId).getAssignee().equals(getActiveUser())){
             return roleToSectionAuthorizeUseableString(getActiveUserRole());
@@ -65,6 +95,12 @@ public class WorkLogSecurityService extends BasicSecurityService {
         return null;
     }
 
+    /**
+     * Checks if current user has permission to use work log form for editing WorkLog entry
+     *
+     * @param issueId issue's id
+     * @return String representation of user's role which has permission to edit WorkLog entry
+     */
     public String getPermissionToEditWorkLog(Long issueId){
         if (didCurrentUserWorkOnCurrentIssue(getActiveUser(), issueId)){
             return roleToSectionAuthorizeUseableString(getActiveUserRole());
@@ -75,16 +111,30 @@ public class WorkLogSecurityService extends BasicSecurityService {
         return null;
     }
 
-    public Boolean didCurrentUserWorkOnCurrentIssue(User currentUser, Long issueId){
+    /**
+     * Checks whether current user worked on issue
+     *
+     * @param user current user
+     * @param issueId issue's id
+     * @return Boolean representation of checking
+     */
+    public Boolean didCurrentUserWorkOnCurrentIssue(User user, Long issueId){
         List<WorkLog> workLog = workLogService.findByIssueId(issueId);
         for (WorkLog workLogIterator: workLog) {
-            if(workLogIterator.getUser().equals(currentUser)) {
+            if(workLogIterator.getUser().equals(user)) {
                 return true;
             }
         }
         return false;
     }
-     public String roleToSectionAuthorizeUseableString (UserRole userRole) {
-         return userRole.toString().toUpperCase().replace(' ', '_');
-     }
+
+    /**
+     * Converts UserRole object to authorize sections usable format
+     *
+     * @param userRole user's role
+     * @return String representation of user's role usable for authorize sections on jsp
+     */
+    public String roleToSectionAuthorizeUseableString (UserRole userRole) {
+        return userRole.toString().toUpperCase().replace(' ', '_');
+    }
 }
