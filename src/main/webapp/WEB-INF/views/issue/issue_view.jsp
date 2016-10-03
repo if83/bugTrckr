@@ -328,12 +328,11 @@
                                                 ${workLogIterator.user.firstName} ${workLogIterator.user.lastName}</a>
                                     </td>
                                     <td>
-                                        <%--<c:set var="startDate" value="${workLogIterator.startDate}"/>
-                                        <fmt:formatDate type="both" value="${startDate}" pattern="dd/MM/yyyy"/>
+                                        <c:set var="startDateFormatted" value="${workLogIterator.startDate}"/>
+                                        <fmt:formatDate type="date" value="${startDateFormatted}" pattern="dd/MM/yyyy"/>
                                         &ndash;
-                                        <c:set var="endDate" value="${workLogIterator.endDate}"/>
-                                        <fmt:formatDate type="both" value="${endDate}" pattern="dd/MM/yyyy"/>--%>
-                                        ${workLogIterator.startDate} &ndash; ${workLogIterator.endDate}
+                                        <c:set var="endDateFormatted" value="${workLogIterator.endDate}"/>
+                                        <fmt:formatDate type="date" value="${endDateFormatted}" pattern="dd/MM/yyyy"/>
                                     </td>
                                     <td>${workLogIterator.amountOfTime} hrs</td>
                                     <c:choose>
@@ -454,7 +453,7 @@
                                         <form:input path="endDate" type="text" class="form-control datepicker"
                                                     id="endDate"
                                                     value="${endDate}"/>
-                                        <form:errors path="endDate" class="control-label"/>
+                                 <form:errors path="endDate" class="control-label"/>
                                     </div>
                                 </spring:bind>
 
@@ -482,6 +481,7 @@
                                 </span>
                             </div>
                         </form:form>
+                        <%--<button id="workLogCancelButton" class="hidden">Cancel</button>--%>
                     </sec:authorize>
                 </div>
             </div>
@@ -608,4 +608,3 @@
         </div>
     </div>
 </div>
-<%--TODO: prokhorenkovkv add datepicker--%>
