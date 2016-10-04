@@ -73,8 +73,6 @@ public class IssueController {
         return "issue";
     }
 
-
-
     @PostMapping("/issue/search")
     public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
@@ -169,6 +167,7 @@ public class IssueController {
     }
 
     @PostMapping("/issue/changeIssue")
+    @ResponseBody
     public void changeIssueFromAjax(@RequestParam Long issueId, @RequestParam String action,
                                     @RequestParam String inputData) {
         issueService.saveIssueChangesFromAjax(issueId, inputData, action);

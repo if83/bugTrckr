@@ -66,51 +66,51 @@ public class HistoryService {
         return convertToHistoryDto(historyRepository.findByIssueOrderByCreateTimeDesc(issue, pageable), pageable);
     }
 
-    public void writeToHistory(Issue issue, User changeBy) {
+    public void writeToHistory(Issue updatedIssue, User changeBy) {
         Long changeByUserId = (changeBy == null) ? null : changeBy.getId();
-        Long assignedToUserId = issue.getAssignee().getId();
-        if (issueService.isNewIssue(issue)) {
+        Long assignedToUserId = updatedIssue.getAssignee().getId();
+        if (issueService.isNewIssue(updatedIssue)) {
             save(History.newBuilder()
-                    .setIssue(issueService.save(issue)).setChangedByUserId(changeByUserId)
+                    .setIssue(issueService.save(updatedIssue)).setChangedByUserId(changeByUserId)
                     .setAssignedToUserId(assignedToUserId).setAction(HistoryAction.CREATE_ISSUE).build()
             );
             return;
         }
-        Issue notChangedIssue = issueService.findById(issue.getId());
-        if (!issue.getStatus().equals(notChangedIssue.getStatus())) {
+        Issue previousIssue = issueService.findById(updatedIssue.getId());
+        if (!updatedIssue.getStatus().equals(previousIssue.getStatus())) {
             save(History.newBuilder()
-                    .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                    .setAction(HistoryAction.CHANGE_ISSUE_STATUS).setStatus(issue.getStatus()).build()
+                    .setIssue(updatedIssue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                    .setAction(HistoryAction.CHANGE_ISSUE_STATUS).setStatus(updatedIssue.getStatus()).build()
             );
         }
-        if (!issue.getTitle().equals(notChangedIssue.getTitle())) {
+        if (!updatedIssue.getTitle().equals(previousIssue.getTitle())) {
             save(History.newBuilder()
-                    .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                    .setAction(HistoryAction.CHANGE_ISSUE_TITLE).setTitle(issue.getTitle()).build()
+                    .setIssue(updatedIssue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                    .setAction(HistoryAction.CHANGE_ISSUE_TITLE).setTitle(updatedIssue.getTitle()).build()
             );
         }
-        if (!issue.getType().equals(notChangedIssue.getType())) {
+        if (!updatedIssue.getType().equals(previousIssue.getType())) {
             save(History.newBuilder()
-                    .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                    .setAction(HistoryAction.CHANGE_ISSUE_TYPE).setType(issue.getType()).build()
+                    .setIssue(updatedIssue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                    .setAction(HistoryAction.CHANGE_ISSUE_TYPE).setType(updatedIssue.getType()).build()
             );
         }
-        if (!issue.getPriority().equals(notChangedIssue.getPriority())) {
+        if (!updatedIssue.getPriority().equals(previousIssue.getPriority())) {
             save(History.newBuilder()
-                    .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                    .setAction(HistoryAction.CHANGE_ISSUE_PRIORITY).setPriority(issue.getPriority()).build()
+                    .setIssue(updatedIssue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                    .setAction(HistoryAction.CHANGE_ISSUE_PRIORITY).setPriority(updatedIssue.getPriority()).build()
             );
         }
-        if (!issue.getAssignee().equals(notChangedIssue.getAssignee())) {
+        if (!updatedIssue.getAssignee().equals(previousIssue.getAssignee())) {
             save(History.newBuilder()
-                    .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                    .setIssue(updatedIssue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
                     .setAction(HistoryAction.CHANGE_ISSUE_ASSIGNEE).build()
             );
         }
-        if (!issue.getDescription().equals(notChangedIssue.getDescription())) {
+        if (!updatedIssue.getDescription().equals(previousIssue.getDescription())) {
             save(History.newBuilder()
-                    .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                    .setAction(HistoryAction.CHANGE_ISSUE_DESCRIPTION).setDescription(issue.getDescription()).build()
+                    .setIssue(updatedIssue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                    .setAction(HistoryAction.CHANGE_ISSUE_DESCRIPTION).setDescription(updatedIssue.getDescription()).build()
             );
         }
     }
@@ -139,25 +139,24 @@ public class HistoryService {
         );
     }
 
-    public void writeToHistory(Issue issue, User changeBy, String inputData, String action) {
-        HistoryAction historyAction = HistoryAction.valueOf(action);
+    public void writeToHistory(Issue issue, User changeBy, String inputData, HistoryAction action) {
         Long changeByUserId = (changeBy == null) ? null : changeBy.getId();
-        switch (historyAction) {
-           case CHANGE_ISSUE_ASSIGNEE:
+        switch (action) {
+            case CHANGE_ISSUE_ASSIGNEE:
                 Long assignedToUserId = Long.valueOf(inputData);
                 issue.setAssignee(userService.findOne(assignedToUserId));
                 save(History.newBuilder()
-                       .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                       .setAction(historyAction).build()
+                        .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
+                        .setAction(action).build()
                 );
                 return;
             case CHANGE_ISSUE_STATUS:
-                IssueStatus updatedStatus = IssueStatus.IN_PROGRESS.valueOf(inputData);
+                IssueStatus updatedStatus = IssueStatus.valueOf(inputData);
                 assignedToUserId = issue.getAssignee().getId();
                 issue.setStatus(updatedStatus);
                 save(History.newBuilder()
                         .setIssue(issue).setChangedByUserId(changeByUserId).setAssignedToUserId(assignedToUserId)
-                        .setStatus(updatedStatus).setAction(historyAction).build()
+                        .setStatus(updatedStatus).setAction(action).build()
                 );
         }
     }

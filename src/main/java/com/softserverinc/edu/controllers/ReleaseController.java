@@ -43,7 +43,7 @@ public class ReleaseController {
         ProjectRelease release = releaseService.findById(releaseId);
         model.addAttribute("release", release);
         model.addAttribute("issueList", issueService.findIssuesByRelease(release, pageable));
-        model.addAttribute("users",userService.findUsersByRelease(release));
+        model.addAttribute("users",userService.findUsersForRelease(release));
         return "release";
     }
 
@@ -55,7 +55,7 @@ public class ReleaseController {
         model.addAttribute("release", release);
         model.addAttribute("issueList",
                 issueService.findByReleaseAndIssueTitle(release, searchedString, pageable));
-        model.addAttribute("users", userService.findUsersByRelease(release));
+        model.addAttribute("users", userService.findUsersForRelease(release));
         return "release";
     }
 

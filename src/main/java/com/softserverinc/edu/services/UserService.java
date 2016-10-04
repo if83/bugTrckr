@@ -54,8 +54,9 @@ public class UserService {
         return comment.getUser();
     }
 
-    public List<User> findUsersByRelease(ProjectRelease release) {
-        return findUsersInProject(projectService.findById(release.getProject().getId()), false, 1);
+    public List<User> findUsersForRelease(ProjectRelease release) {
+        Project project = projectService.findById(release.getProject().getId());
+        return findUsersInProject(project, false, 1);
     }
 
     public List<User> findByRole(UserRole role) {

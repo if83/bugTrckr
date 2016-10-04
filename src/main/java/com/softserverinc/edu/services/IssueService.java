@@ -4,6 +4,7 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
+import com.softserverinc.edu.entities.enums.HistoryAction;
 import com.softserverinc.edu.entities.enums.IssueStatus;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.IssueRepository;
@@ -93,18 +94,53 @@ public class IssueService {
 
     public void saveIssueChangesFromAjax(Long issueId, String inputData, String action) {
         Issue issue = findById(issueId);
+        HistoryAction historyAction = HistoryAction.valueOf(action);
         User changedByUser = basicSecurityService.getActiveUser();
-        historyService.writeToHistory(issue, changedByUser, inputData, action);
-        save(issue);
+        if (isIssueInputDataValid(issue, inputData, historyAction)) {
+            historyService.writeToHistory(issue, changedByUser, inputData, historyAction);
+            save(issue);
+        }
+    }
+
+    public boolean isIssueInputDataValid(Issue issue, String inputData, HistoryAction action) {
+        switch (action) {
+            case CHANGE_ISSUE_ASSIGNEE:
+                return isUserValidForIssue(issue, Long.valueOf(inputData));
+            case CHANGE_ISSUE_STATUS:
+                return isStatusValidForIssue(issue, IssueStatus.IN_PROGRESS.valueOf(inputData));
+        }
+        return false;
     }
 
     public boolean isNewIssue(Issue issue) {
         return (issue.getId() == null || issue.getId() == 0L);
     }
 
+    public boolean isStatusValidForIssue(Issue issue, IssueStatus updatedStatus) {
+        IssueStatus previousStatus = issue.getStatus();
+        List<IssueStatus> avaliableStatuses = getAvaliableStatusesForStatus(previousStatus);
+        for (IssueStatus status : avaliableStatuses) {
+            if (updatedStatus.equals(status)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Transactional
     public Page<Issue> findIssuesByRelease(ProjectRelease projectRelease, Pageable pageable) {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
+    }
+
+    public boolean isUserValidForIssue(Issue issue, Long userId) {
+        User updatedUser = userService.findOne(userId);
+        List<User> avaliableUsers = userService.findUsersForRelease(issue.getProjectRelease());
+        for (User user : avaliableUsers) {
+            if (updatedUser.equals(user)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Transactional
@@ -115,20 +151,6 @@ public class IssueService {
     @Transactional
     public Page<Issue> findIssuesByProject(Project project, String searchedString, Pageable pageable) {
         return issueRepository.findByProjectAndTitleContaining(project, searchedString, pageable);
-    }
-
-    public boolean isStatusChanged(Issue changedIssue) {
-        Issue oldIssue = findById(changedIssue.getId());
-        return !(oldIssue.getStatus().equals(changedIssue.getStatus()));
-    }
-
-    public boolean isAssigneeChanged(Issue changedIssue) {
-        Issue oldIssue = findById(changedIssue.getId());
-        return !(oldIssue.getAssignee().equals(changedIssue.getAssignee()));
-    }
-
-    public Page<Issue> findByAssignee(User assignee, Pageable pageable) {
-        return issueRepository.findByAssignee(assignee, pageable);
     }
 
     public List<Issue> findAll() {

@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // change assignee of issue from dropdown in issues table
+    // changes assignee of issue from dropdown in issues table
     $('.users-dropdown').on('changed.bs.select', function (e) {
         var queryObj = {};
         var issueTitle = $(this).parents("tr").find("input[name='issueTitle']").val();
@@ -19,7 +19,7 @@ $(document).ready(function () {
         });
     });
 
-    // change status of issue from dropdown in issues-table
+    // changes status of issue from dropdown in issues-table
     $(".statuses-dropdown").on('changed.bs.select', function (e) {
         var queryObj = {};
         var selectedStatus = $(e.currentTarget).val();
@@ -39,7 +39,7 @@ $(document).ready(function () {
         });
     });
 
-    // change status of issue and load avaliable statuses when open statuses dropdown in issues-table
+    // loads avaliable statuses when open statuses dropdown in issues-table
     $(".statuses-dropdown").on("show.bs.select", function (e) {
         var self = $(this);
         var queryObj = {};
@@ -60,7 +60,7 @@ $(document).ready(function () {
         });
     });
 
-    // hide popup of changing issue after some time
+    // hides popup of changing issue after some time
     $('#modalChangeIssue').on('show.bs.modal', function (event) {
         setTimeout(function(){
             $('#modalChangeIssue').modal('hide')
