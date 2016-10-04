@@ -11,10 +11,7 @@ public class ProjectSecurityService extends BasicSecurityService {
     private ProjectService projectService;
 
     public boolean hasPermissionToViewProject(Long currentProjectId) {
-        if (isAuthenticated()) {
-            return true;
-        }
-        return projectService.findById(currentProjectId).getGuestView();
+        return isAuthenticated() ? true : projectService.findById(currentProjectId).getGuestView();
     }
 
     public boolean hasPermissionToProjectManagement(Long currentProjectId) {

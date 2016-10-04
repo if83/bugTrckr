@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@SessionAttributes("fileUploadForm")
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -42,6 +42,7 @@ public class UserController {
     @Autowired
     private UserFormValidator userFormValidator;
 
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @GetMapping("/users")
     public String userForm(Model model, Pageable pageable) {
         populateDefaultModel(model);
@@ -49,6 +50,7 @@ public class UserController {
         return "users";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @GetMapping("/user/{id}/remove")
     public String removeUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         userService.setIsDeletedTrue(id);
@@ -57,6 +59,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @GetMapping("/user/{id}/edit")
     public String editUser(@PathVariable Long id, Model model) {
         User user = userService.findOne(id);
@@ -66,6 +69,7 @@ public class UserController {
         return "user_form_edit";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @PostMapping("/user/{id}/edit")
     public String editUserPost(@PathVariable Long id, @RequestParam String email,
                                @RequestParam String firstName, @RequestParam String lastName,
@@ -79,6 +83,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @GetMapping("/user/add")
     public String addUser(Model model) {
         populateDefaultModel(model);
@@ -86,6 +91,7 @@ public class UserController {
         return "userform";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @PostMapping("/user/add")
     public String addUserPost(@ModelAttribute @Valid User user, BindingResult result,
                               RedirectAttributes redirectAttributes) {
@@ -107,6 +113,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToViewUserProfile()")
     @GetMapping("/user/{id}/view")
     public String viewUser(@PathVariable long id, Model model,
                            @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
@@ -117,6 +124,7 @@ public class UserController {
         return "userview";
     }
 
+    @PreAuthorize("@userSecurityService.hasPermissionToViewUserProfile()")
     @GetMapping("/user/details")
     public String viewUserByDetails(Principal principal) {
         String loggedInUserName = principal.getName();

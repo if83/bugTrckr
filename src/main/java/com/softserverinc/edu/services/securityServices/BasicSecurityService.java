@@ -25,10 +25,11 @@ public class BasicSecurityService {
     }
 
     public boolean isAuthenticated() {
-        return SecurityContextHolder.getContext().getAuthentication() != null
-               && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-               && !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken);
+        boolean isAuthenticationNotNull = SecurityContextHolder.getContext().getAuthentication() != null;
+        boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        boolean isNotAnonymousAuthentication = !(SecurityContextHolder.getContext().getAuthentication()
+                instanceof AnonymousAuthenticationToken);
+        return isAuthenticationNotNull && isAuthenticated && isNotAnonymousAuthentication;
     }
 
 }

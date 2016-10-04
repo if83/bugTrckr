@@ -34,8 +34,10 @@
 
 <div class="margin-top-30 row">
     <div class="col-sm-1 col-sm-offset-1">
-        <a href="<spring:url value='/user/add/' />" class="btn btn-default"><i class="fa fa-plus"></i>
-            Add user</a>
+        <sec:authorize access="@userSecurityService.hasPermissionToUserManagement()">
+            <a href="<spring:url value='/user/add/' />" class="btn btn-default"><i class="fa fa-plus"></i>
+                Add user</a>
+        </sec:authorize>
     </div>
     <div class="col-sm-1">
         <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseSearch"
@@ -136,10 +138,13 @@
                         <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
                         <td>
                             <div class="actionButtons">
-                                <a href="<spring:url value='/user/${user.id}/edit' />"><i
-                                        class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp
-                                <a href="<spring:url value='/user/${user.id}/remove' />"><i
-                                        class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                <sec:authorize access="@userSecurityService.hasPermissionToUserManagement()">
+                                    <a href="<spring:url value='/user/${user.id}/edit' />"><i
+                                            class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp
+                                    <a href="<spring:url value='/user/${user.id}/remove' />"><i
+                                            class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                </sec:authorize>
+
                             </div>
                         </td>
                     </tr>
@@ -163,7 +168,8 @@
                                 </li>
                             </c:forEach>
                             <li>
-                                <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>" aria-label="End">
+                                <a href="<spring:url value='/users?page=${userList.totalPages - 1}'/>"
+                                   aria-label="End">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
