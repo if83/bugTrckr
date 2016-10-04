@@ -88,6 +88,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/images/**");
     }
 
+    /**
+     * md5 password encoder
+     * @return BCryptPasswordEncoder instance
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);

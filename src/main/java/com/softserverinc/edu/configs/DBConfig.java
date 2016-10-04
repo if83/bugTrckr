@@ -32,8 +32,6 @@ import java.util.Properties;
 @EnableJpaRepositories("com.softserverinc.edu.repositories")
 public class DBConfig extends WebMvcConfigurerAdapter {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(DBConfig.class);
-
     /**
      * Getting properties data from bean
      */
@@ -59,7 +57,7 @@ public class DBConfig extends WebMvcConfigurerAdapter {
     /**
      * Add Support of transactions. It is need @EnableTransactionManagement annotation
      *
-     * @param entityManagerFactory
+     * @param entityManagerFactory use to interact with the entity manager factory for the persistence unit
      * @return jpaTransactionManager
      */
     @Bean
@@ -84,7 +82,8 @@ public class DBConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Hibernate Manager configuration. For this configs it needs JpaVendorAdapter instance
+     * Hibernate Manager configuration.
+     * <p>invoke {@link #jpaVendorAdapter()}</p>
      *
      * @return entityManagerFactory
      */
@@ -109,6 +108,10 @@ public class DBConfig extends WebMvcConfigurerAdapter {
         return new UserService();
     }
 
+    /**
+     * Hibernate search properties
+     * @return hibernateProperties
+     */
     private Properties hibernateSearchProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.search.default.directory_provider",

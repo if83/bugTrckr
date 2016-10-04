@@ -34,28 +34,29 @@ public class WebAppInitializer implements WebApplicationInitializer {
         container.addListener(new ContextLoaderListener(rootContext));
 
         //activate spring security by configuring filter
-        //all request will path through this filter
+        //all requests will path through this filter
         DelegatingFilterProxy filter = new DelegatingFilterProxy("springSecurityFilterChain");
 
         // Define and register a dispatcher servlet that can manage all servlets
         DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
         ServletRegistration.Dynamic registration = container.addServlet("dispatcherServlet", dispatcherServlet);
 
-        //adding a filter to container that handles all requests from /
+        //adding a filter to container that handles all requests
         container.addFilter("springSecurityFilterChain", filter).addMappingForUrlPatterns(null, false, "/*");
 
-        // allow for lazy loading in web views despite the original transactions already being completed
+        // allow lazy loading in web views despite the original transactions already being completed
         container.addFilter("OpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class)
                 .addMappingForUrlPatterns(null, false, "*");
 
-        //filter encoding all request parameters to unicode
+        //filter for encoding all request parameters to unicode
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         container.addFilter("encode", characterEncodingFilter)
                 .addMappingForUrlPatterns(null, false, "/*");
 
-        // load the servlet only once
+        // load servlet only once
         registration.setLoadOnStartup(1);
+
         // add mapping this servlet to all requests
         registration.addMapping("/");
     }

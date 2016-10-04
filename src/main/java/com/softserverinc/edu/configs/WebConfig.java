@@ -29,10 +29,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @Import({SecurityConfig.class, DBConfig.class, TilesConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
-
     /**
-     * Configures properties for application from properties file
+     * Configures properties for application using properties file
      *
      * @return empty properties configurer where Spring put data from properties file by annotation mechanism
      */
@@ -42,27 +40,20 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Configure implisite controllers for views
-     *
-     * @param registry
+     * Configure controllers for views
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        registry.addViewController("/history");
         registry.addViewController("/issue");
         registry.addViewController("/projects");
-        registry.addViewController("/label");
-        registry.addViewController("/worklog");
         registry.addViewController("/about");
         registry.addViewController("/admin");
         registry.addViewController("/accessDenied");
     }
 
     /**
-     * Make resources aviable to web client. Spring handle the folders starting from WEB-INF
-     *
-     * @param registry
+     * Make resources available to web client. Spring handle the folders starting from WEB-INF
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
