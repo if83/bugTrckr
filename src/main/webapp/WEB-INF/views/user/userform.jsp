@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="breadcrumbs">
     <div class="row">
@@ -86,12 +87,10 @@
                             </div>
                         </spring:bind>
                     </div>
-
                     <label class="margin-bottom-20 margin-top-20">
                         <input type="checkbox" id="chooseProject"/>&nbsp&nbspSelect Project and Role for User
                     </label>
                 </div>
-
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <spring:bind path="project">
@@ -99,7 +98,7 @@
                                 <label for="roleInput">Project</label>
                                 <form:select path="project" type="text" cssClass="form-control selectpicker" id="projectInput"
                                              data-live-search="true">
-                                    <form:option cssClass="projectOption" value="" label="None"/>
+                                    <form:option cssClass="projectOption" value="0" label="Project is not selected"/>
                                     <c:forEach var="project" items="${projects}">
                                         <form:option cssClass="projectOption" value="${project}" label="${project.getTitle()}"/>
                                     </c:forEach>

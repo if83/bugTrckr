@@ -21,7 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @SessionAttributes("fileUploadForm")
@@ -68,13 +69,13 @@ public class UserController {
     @PostMapping("/user/{id}/edit")
     public String editUserPost(@PathVariable Long id, @RequestParam String email,
                                @RequestParam String firstName, @RequestParam String lastName,
-                               @RequestParam Long project, @RequestParam UserRole role,
+                               @RequestParam Long projectId, @RequestParam UserRole role,
                                @RequestParam String description, RedirectAttributes redirectAttributes){
-        if(userService.isEmailUnique(email, id)){
+        if(userService.isEmailExists(email, id)){
             redirectAttributes.addFlashAttribute("msg", "User with the same email already exists");
             return"redirect:/user/" + id + "/edit";
         }
-        userService.saveEditedUser(id, email, firstName, lastName, project, role, description);
+        userService.saveEditedUser(id, email, firstName, lastName, projectId, role, description);
         return "redirect:/users";
     }
 
@@ -92,14 +93,17 @@ public class UserController {
         if (result.hasErrors()) {
             return "userform";
         }
-        if(user.getRole().isProjectManager()){
-            redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
-                    user.getProject().getTitle()));
-        }
-        else {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s is added", user.getFullName()));
-        }
+        userService.userRoleAndProjectValidator(user, user.getProject(), user.getRole());
         userService.saveUser(user);
+        if(user.getProject() != null){
+            if(user.getRole().isProjectManager()){
+                redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
+                        user.getProject().getTitle()));
+            }
+            else {
+                redirectAttributes.addFlashAttribute("msg", String.format("%s is added", user.getFullName()));
+            }
+        }
         return "redirect:/users";
     }
 

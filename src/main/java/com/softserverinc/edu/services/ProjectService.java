@@ -22,7 +22,7 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
 
     public Project findById(Long id) {
@@ -53,9 +53,7 @@ public class ProjectService {
     @Transactional
     public void delete(Long projectId) {
         for(User user: projectRepository.findOne(projectId).getUsers()){
-            user.setRole(UserRole.ROLE_USER);
-            user.setProject(null);
-            userRepository.save(user);
+            userService.userManagementInProject(user, null, UserRole.ROLE_USER);
         }
         projectRepository.delete(projectId);
     }

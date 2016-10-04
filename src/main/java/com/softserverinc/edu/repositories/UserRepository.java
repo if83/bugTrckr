@@ -35,28 +35,30 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByRole(UserRole role, Pageable pageable);
 
-    Page<User> findByProjectAndFirstNameContainingAndRole(Project project, String searchedString, UserRole searchedRole,
-                                                          Pageable pageable);
+    Page<User> findByProjectAndFirstNameContainingAndRoleAndIsDeleted(Project project, String searchedString,
+                                                        UserRole searchedRole, boolean isDeleted, Pageable pageable);
 
-    Page<User> findByProjectAndLastNameContainingAndRole(Project project, String searchedString, UserRole searchedRole,
-                                                         Pageable pageable);
+    Page<User> findByProjectAndLastNameContainingAndRoleAndIsDeleted(Project project, String searchedString,
+                                                        UserRole searchedRole, boolean isDeleted, Pageable pageable);
 
-    Page<User> findByEmailContainingAndRole(String searchedString, UserRole searchedRole, Pageable pageable);
+    Page<User> findByEmailContainingAndRoleAndIsDeleted(String searchedString, UserRole searchedRole,
+                                                        boolean isDeleted, Pageable pageable);
 
-    Page<User> findByProjectAndRole(Project project, UserRole role, Pageable pageable);
+    Page<User> findByProjectAndRoleAndIsDeleted(Project project, UserRole role, boolean isDeleted,Pageable pageable);
 
     User findByProjectAndRole(Project project, UserRole role);
 
-    Page<User> findByProjectAndFirstNameContainingAndRoleNot(Project project, String searchedString, UserRole notRole,
-                                                             Pageable pageable);
+    Page<User> findByProjectAndFirstNameContainingAndRoleNotAndIsDeleted(Project project, String searchedString,
+                                                              UserRole notRole, boolean isDeleted, Pageable pageable);
 
-    Page<User> findByProjectAndLastNameContainingAndRoleNot(Project project, String searchedString, UserRole notRole,
-                                                            Pageable pageable);
+    Page<User> findByProjectAndLastNameContainingAndRoleNotAndIsDeleted(Project project, String searchedString,
+                                                              UserRole notRole, boolean isDeleted, Pageable pageable);
 
-    Page<User> findByEmailContainingAndProjectAndRoleNot(String searchedString, Project project, UserRole notRole,
-                                                         Pageable pageable);
+    Page<User> findByEmailContainingAndProjectAndRoleNotAndIsDeleted(String searchedString, Project project,
+                                                              UserRole notRole, boolean isDeleted, Pageable pageable);
 
-    Page<User> findByProjectAndRoleNot(Project project, UserRole notRole, Pageable pageable);
+    Page<User> findByProjectAndRoleNotAndIsDeleted(Project project, UserRole notRole, boolean isDeleted,
+                                                   Pageable pageable);
 
     Page<User> findByRoleNot(UserRole notRole, Pageable pageable);
 }

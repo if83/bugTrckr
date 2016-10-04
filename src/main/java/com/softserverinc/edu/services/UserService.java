@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,7 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public User getProjectManager(Long projectId) {
+    public User getProjectManagerOfProject(Long projectId) {
         Project project = projectService.findById(projectId);
         return userRepository.findByProjectAndRole(project, UserRole.ROLE_PROJECT_MANAGER);
     }
@@ -74,8 +73,15 @@ public class UserService {
         return users;
     }
 
+    /**
+     * Find all users in Project except Project Manager.
+     * @param project the instance of Project entity
+     * @param pageable the paging information
+     * @return the paginated list of users in Project except Project Manager
+     */
     public Page<User> findUsersByProjectPageable(Project project, Pageable pageable) {
-        return userRepository.findByProjectAndRoleNot(project, UserRole.ROLE_PROJECT_MANAGER, pageable);
+        return userRepository.findByProjectAndRoleNotAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false,
+                pageable);
     }
 
     public Page<User> findByFullName(String firstName, String lastName, Pageable pageable) {
@@ -94,21 +100,32 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    /**
+     * Set encoded password to the User instance.
+     * @param user the instance of User entity
+     */
     public void passwordEncoder(User user){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
+    /**
+     * Save created User into database.
+     * <p>invoke {@link #passwordEncoder(User user)}</p>
+     * <p>If user's role is ROLE_PROJECT_MANAGER it invokes {@link #saveProjectManager(Long, Long)}</p>
+     * @param user the instance of User entity
+     */
     @Transactional
-    public User saveUser(User user) {
+    public void saveUser(User user) {
         if(user.getRole().isProjectManager()){
             passwordEncoder(user);
             user.setEnabled(1);
-            return userService.saveProjectManager(user.getId(), user.getProject().getId());
+            userService.saveProjectManager(user.getId(), user.getProject().getId());
+            return;
         }
         passwordEncoder(user);
         user.setEnabled(1);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -135,33 +152,46 @@ public class UserService {
         return userRepository.findByRoleNot(UserRole.ROLE_ADMIN, pageable);
     }
 
+    /**
+     * Search users by different combinations of selected parameters
+     * @param project instance of Project entity, may be null only if role is ROLE_USER
+     * @param searchParam the search parameter that corresponds for the user's fields (firstName, lastName, email),
+     *                    may be null
+     * @param role the search parameter that corresponds for the user's role, may be null if project not null
+     * @param searchedString the string that entered by the user from UI, may be null
+     * @param pageable pageable Object
+     * @return list of found users
+     */
     public Page<User> searchByUsers(Project project, String searchParam, UserRole role, String searchedString,
                                     Pageable pageable) {
         if (role == null) {
             if (searchParam.equals("First Name")) {
-                return userRepository.findByProjectAndFirstNameContainingAndRoleNot(project, searchedString,
-                        UserRole.ROLE_PROJECT_MANAGER, pageable);
+                return userRepository.findByProjectAndFirstNameContainingAndRoleNotAndIsDeleted(project, searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, false, pageable);
             }
             if (searchParam.equals("Last Name")) {
-                return userRepository.findByProjectAndLastNameContainingAndRoleNot(project, searchedString,
-                        UserRole.ROLE_PROJECT_MANAGER, pageable);
+                return userRepository.findByProjectAndLastNameContainingAndRoleNotAndIsDeleted(project, searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, false, pageable);
             }
             if (searchParam.equals("Email")) {
-                return userRepository.findByEmailContainingAndProjectAndRoleNot(searchedString, project,
-                        UserRole.ROLE_PROJECT_MANAGER, pageable);
+                return userRepository.findByEmailContainingAndProjectAndRoleNotAndIsDeleted(searchedString, project,
+                        UserRole.ROLE_PROJECT_MANAGER, false, pageable);
             }
-            return userRepository.findByProjectAndRoleNot(project, UserRole.ROLE_PROJECT_MANAGER, pageable);
+            return userRepository.findByProjectAndRoleNotAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false,
+                    pageable);
         }
         if (searchParam.equals("First Name")) {
-            return userRepository.findByProjectAndFirstNameContainingAndRole(project, searchedString, role, pageable);
+            return userRepository.findByProjectAndFirstNameContainingAndRoleAndIsDeleted(project, searchedString, role,
+                    false, pageable);
         }
         if (searchParam.equals("Last Name")) {
-            return userRepository.findByProjectAndLastNameContainingAndRole(project, searchedString, role, pageable);
+            return userRepository.findByProjectAndLastNameContainingAndRoleAndIsDeleted(project, searchedString, role,
+                    false, pageable);
         }
         if (searchParam.equals("Email")) {
-            return userRepository.findByEmailContainingAndRole(searchedString, role, pageable);
+            return userRepository.findByEmailContainingAndRoleAndIsDeleted(searchedString, role, false, pageable);
         }
-        return userRepository.findByProjectAndRole(project, role, pageable);
+        return userRepository.findByProjectAndRoleAndIsDeleted(project, role, false, pageable);
     }
 
     public User getAvaliableUser(User user) {
@@ -180,80 +210,74 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Save user into database with role ROLE_PROJECT_MANAGER.
+     * <ul>
+     *    <li>if project's id is null or, if there is project manager in the project and his id equals to userId then
+     *     method does nothing</li>
+     *    <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
+     * </ul>
+     * @param userId the id of user
+     * @param projectId the id of project
+     */
     @Transactional
-    public User deleteUserFromProject(Long id) {
-        User user = userService.findOne(id);
-        user.setRole(UserRole.ROLE_USER);
-        user.setProject(null);
-        return userRepository.save(user);
-    }
-
-    @Transactional
-    public User appointmentOfProjectManager(Long userId, Long projectId) {
-        User user = userService.findOne(userId);
-        Project project = projectService.findById(projectId);
-        User exProjectManager = userService.getProjectManager(projectId);
-        if (!project.getUsers().isEmpty() && exProjectManager != null) {
-            exProjectManager.setProject(null);
-            exProjectManager.setRole(UserRole.ROLE_USER);
-            userRepository.save(exProjectManager);
+    public void saveProjectManager(Long userId, Long projectId) {
+        if(projectId == 0){
+            return;
         }
-        user.setProject(project);
-        user.setRole(UserRole.ROLE_PROJECT_MANAGER);
-        return userRepository.save(user);
-    }
-
-    @Transactional
-    public User saveProjectManager(Long userId, Long projectId) {
-        User exProjectManager = userService.getProjectManager(projectId);
         Project project = projectService.findById(projectId);
         User user = userService.findOne(userId);
-        if (!project.getUsers().isEmpty() && exProjectManager != null && user != exProjectManager) {
-            exProjectManager.setProject(null);
-            exProjectManager.setRole(UserRole.ROLE_USER);
-            userRepository.save(exProjectManager);
-        }
         if(user.getRole().isProjectManager() && user.getProject() == project){
-            return userRepository.save(user);
+            return;
         }
-        user.setProject(project);
-        user.setRole(UserRole.ROLE_PROJECT_MANAGER);
-        return userRepository.save(user);
+        User exProjectManager = userService.getProjectManagerOfProject(projectId);
+
+        if (!projectService.findById(projectId).getUsers().isEmpty() && exProjectManager != null) {
+            userService.userManagementInProject(exProjectManager, null, UserRole.ROLE_USER);
+        }
+        userService.userManagementInProject(user, project, UserRole.ROLE_PROJECT_MANAGER);
     }
 
+    /**
+     * Change user's role amd project and save user into database
+     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)} if chosen role not null</p>
+     * @param userId the id of user
+     * @param projectId the id of project
+     * @param role value of user role from UI, may be null
+     */
     @Transactional
-    public User changeUserRoleInProject(Long userId, Long projectId, UserRole role,
-                                        RedirectAttributes redirectAttributes) {
+    public void changeUserRoleInProject(Long userId, Long projectId, UserRole role) {
         User user = userService.findOne(userId);
-        Project project = projectService.findById(projectId);
-        if (user.getProject() == project) {
+        if (role == null) {
             if (user.getRole().isDeveloper()) {
-                redirectAttributes.addFlashAttribute("msg", String.format("position of %s role was changed to QA",
-                        user.getFullName()));
                 user.setRole(UserRole.ROLE_QA);
             } else {
-                redirectAttributes.addFlashAttribute("msg", String.format("position of %s was changed to Developer",
-                        user.getFullName()));
                 user.setRole(UserRole.ROLE_DEVELOPER);
             }
-            return userRepository.save(user);
+            userRepository.save(user);
+            return;
         }
-        redirectAttributes.addFlashAttribute("msg", String.format("%s %s was added to %s ", role, user.getFullName(),
-                project.getTitle()));
-        user.setRole(role);
-        user.setProject(project);
-        return userRepository.save(user);
+        Project project = projectService.findById(projectId);
+        userService.userManagementInProject(user, project, role);
     }
 
+    /**
+     * Remove user from project and set isDeleted true
+     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
+     * @param id the id value of user's instance
+     */
     @Transactional
-    public User setIsDeletedTrue(long id) {
+    public void setIsDeletedTrue(long id) {
         User user = userService.findOne(id);
         user.setIsDeleted(true);
-        user.setProject(null);
-        user.setRole(UserRole.ROLE_USER);
-        return userRepository.save(user);
+        userService.userManagementInProject(user, null, UserRole.ROLE_USER);
     }
 
+    /**
+     * Return list of available roles for user
+     * @param role current user's role
+     * @return list of available roles for user
+     */
     public List<UserRole> getAvailableRolesForUser(UserRole role) {
         List<UserRole> result = new ArrayList<>();
         switch (role) {
@@ -282,33 +306,71 @@ public class UserService {
         }
     }
 
-    public User saveEditedUser(Long userId, String email, String firstName, String lastName, Long projectId,
+    /**
+     * Set the following parameters that come from UI to user instance and save it into database.
+     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
+     * <p>if role is ROLE_PROJECT_MANAGER invokes {@link #saveProjectManager(Long, Long)}</p>
+     * @param userId the id of the user
+     * @param email the email address of the user
+     * @param firstName the first name of user
+     * @param lastName the last name of user
+     * @param projectId the id of user's project, null if user not assigned to any Project or user's role is ROLE_USER
+     * @param role the role of user
+     * @param description the description of user
+     */
+    @Transactional
+    public void saveEditedUser(Long userId, String email, String firstName, String lastName, Long projectId,
                                UserRole role, String description) {
         User user = userService.findOne(userId);
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setDescription(description);
-        if(projectId == null || role.isUser()){
-            user.setProject(null);
-            user.setRole(UserRole.ROLE_USER);
-            return userRepository.save(user);
-        }
-        user.setRole(role);
-        user.setProject(projectService.findById(projectId));
         if(role.isProjectManager()){
-            User exProjectManager = userService.getProjectManager(projectId);
-            if(exProjectManager==null){
-                return userRepository.save(user);
-            }
-            exProjectManager.setProject(null);
-            exProjectManager.setRole(UserRole.ROLE_USER);
-            userRepository.save(exProjectManager);
+            userService.saveProjectManager(userId, projectId);
+            return;
         }
-        return userRepository.save(user);
+        Project project = projectService.findById(projectId);
+        userService.userManagementInProject(user, project, role);
     }
 
-    public boolean isEmailUnique(String email, Long userId){
+    /**
+     * Check if entered email is unique
+     * @param email the entered email address
+     * @param userId the id of the user that changes email address
+     * @return true if there is a user with this email address and the id of the user not equals to the id of
+     * existed user, otherwise false
+     */
+    public boolean isEmailExists(String email, Long userId){
         return userService.findByEmailIs(email).getId() != null && userService.findByEmailIs(email).getId() != userId;
+    }
+
+    /**
+     * Change fields of role and project in User instance when user assigned or dropped from project or changed
+     * his role in project
+     * <p>invoke {@link #userRoleAndProjectValidator(User, Project, UserRole)}</p>
+     * @param user the instance of User entity
+     * @param project the instance of Project entity
+     * @param role the user's role
+     */
+    @Transactional
+    public void userManagementInProject(User user, Project project, UserRole role){
+        user.setProject(project);
+        user.setRole(role);
+        userService.userRoleAndProjectValidator(user, project, role);
+        userRepository.save(user);
+    }
+
+    /**
+     * Validate values of user's project and role entered from UI
+     * @param user the instance of User entity
+     * @param project the instance of Project Entity
+     * @param role the user's role
+     */
+    public void userRoleAndProjectValidator(User user, Project project, UserRole role){
+        if(role.isUser() && project != null || !role.isUser() && project == null){
+            user.setRole(UserRole.ROLE_USER);
+            user.setProject(null);
+        }
     }
 }

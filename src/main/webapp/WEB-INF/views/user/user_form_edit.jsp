@@ -60,21 +60,21 @@
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <div class="form-group" id="project" hidden>
-                            <label for="roleInput">Project</label>
-                            <select name="project" class="form-control selectpicker" id="projectInput"
+                            <label for="projectInput">Project</label>
+                            <select name="projectId" class="form-control selectpicker" id="projectInput"
                                     data-live-search="true">
                                 <c:choose>
                                     <c:when test="${user.project eq null}">
-                                        <option class="projectOption" value="">None</option>
+                                        <option class="projectOption" value="0">Project is not selected</option>
                                     </c:when>
                                     <c:otherwise>
-                                        <option class="projectOption" value="${user.project.getId()}">${user.project.getTitle()}</option>
+                                        <option class="projectOption" value="${user.project.id}">${user.project.title}</option>
+                                        <option class="projectOption" value="0">Project is not selected</option>
                                     </c:otherwise>
                                 </c:choose>
                                 <c:forEach var="project" items="${projects}">
-                                    <option class="projectOption" value="${project.getId()}">${project.getTitle()}</option>
+                                    <option class="projectOption" value="${project.id}">${project.title}</option>
                                 </c:forEach>
-                                <option class="projectOption" value="">None</option>
                             </select>
                             <p class="project-info small">*if Project is not selected, role User will be assigned</p>
                             <p id="projectDefault" hidden>${user.project.id}</p>

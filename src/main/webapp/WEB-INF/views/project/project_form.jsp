@@ -44,18 +44,18 @@
 
             <label class="margin-top-30">
                 <form:checkbox id="guest" path="guestView" value="true"/>&nbsp&nbspEnable project review by guests
-                <p class="small">(this option allows unauthorized users to visit project page)</p>
             </label>
+            <p class="small">(this option allows unauthorized users to visit project page)</p>
 
             <div id="enableView">
                 <label class="margin-top-30"><form:checkbox id="issue" path="guestCreateIssues" value="true"/>
                     &nbsp&nbspEnable creation of issue by guests
-                    <p class="small">(this option allows unauthorized users to create issues in the project)</p>
                 </label>
+                <p class="small">(this option allows unauthorized users to create issues in the project)</p>
                 <label class="margin-top-30"><form:checkbox id="comment" path="guestAddComment" value="true"/>
                     &nbsp&nbspEnable commenting of issues in project
-                    <p class="small">(this option allows unauthorized users to comment issues in the project)</p>
                 </label>
+                <p class="small">(this option allows unauthorized users to comment issues in the project)</p>
             </div>
         </div>
 
@@ -75,6 +75,5 @@
                     data-target="#projectCreatingModal">${buttonname}
             </button>
         </div>
-
     </form:form>
 </div>

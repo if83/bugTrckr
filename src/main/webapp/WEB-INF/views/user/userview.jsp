@@ -70,13 +70,6 @@
             </div>
         </sec:authorize>
     </div>
-
-    <div class="col-sm-11 col-sm-offset-1 col-md-3">
-        <figure>
-            <img src="data:image/jpg;base64,<c:out value='${user.encodedImage}'/>" class="img-thumbnail"
-                 alt="${user.lastName}"/>
-        </figure>
-    </div>
 </div>
 
 <div class="row">
