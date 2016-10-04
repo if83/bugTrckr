@@ -374,4 +374,9 @@ public class UserService {
             user.setProject(null);
         }
     }
+
+    public Page<User> search (String firstName, String lastName, String email,UserRole role, Pageable pageable) {
+        return userRepository.findByFirstNameContainingAndLastNameContainingAndEmailContainingAndRoleIs(firstName,
+                lastName, email, role, pageable);
+    }
 }

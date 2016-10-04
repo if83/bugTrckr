@@ -50,16 +50,17 @@
 <div class="collapse" id="collapseSearch">
     <div class="row">
         <div class="col md-8 col-md-offset-4">
-            <div class="row">
-                <form action="/users/searchByName" method="POST" class="form-inline">
+            <form action="/users/search" method="POST" class="form-inline">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="input-group">
                             <input name="firstName" type="text" class="form-control form-text"
                                    placeholder="First name"/>
                             <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
-                                                                                aria-hidden="true"></span></button>
-                        </span>
+                                        <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                </span>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -67,46 +68,39 @@
                             <input name="lastName" type="text" class="form-control form-text"
                                    placeholder="Last name"/>
                             <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
+                                    <button type="submit" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </button>
+                                </span>
                         </div>
-                        </td>
                     </div>
-                    <div class="col-md-4"></div>
-                </form>
-            </div>
-            <div class="margin-top-10 row">
-                <div class="col-xs-12 col-md-4">
-                    <form action="/users/searchByEmail" method="POST" class="form-inline">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <input name="email" type="text" class="form-control form-text" required="required"
+                            <input name="email" type="text" class="form-control form-text"
                                    placeholder="Email"/>
                             <span class="input-group-btn">
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
                                                                                 aria-hidden="true"></span></button>
                         </span>
                         </div>
-                    </form>
-                </div>
-                <div class="col-xs-12 col-md-4">
-                    <form action="/users/searchByRole" modelAttribute="roles" method="POST" class="form-inline">
+                    </div>
+                    <div class="col-md-4">
                         <div class="input-group">
                             <select name="role" type="text" class="form-control" id="roleInput">
                                 <c:forEach var="role" items="${roles}">
-                                    <option><c:out value="${role}"/></option>
+                                    <option value="${role}">${role.toString()}</option>
                                 </c:forEach>
                             </select>
                             <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
-                                                                                aria-hidden="true"></span></button>
-                        </span>
+                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"
+                                                                                    aria-hidden="true"></span></button>
+                            </span>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-md-4"></div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -114,7 +108,6 @@
 <div class="margin-top-30">
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
-
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>

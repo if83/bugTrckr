@@ -133,32 +133,13 @@ public class UserController {
         return "redirect:/user/" + id + "/view";
     }
 
-    @PostMapping("/users/searchByName")
-    public String userSearchByName(@RequestParam String firstName, @RequestParam String lastName, Model model,
-                                   Pageable pageable) {
-        if (!firstName.isEmpty() && !lastName.isEmpty())
-            model.addAttribute("userList", userService.findByFullName(firstName, lastName, pageable));
-        else if (!firstName.isEmpty())
-            model.addAttribute("userList", userService.findByFirstNameContaining(firstName, pageable));
-        else
-            model.addAttribute("userList", userService.findByLastNameContaining(lastName, pageable));
+    @PostMapping("/users/search")
+    public String userSearchByName(@RequestParam String firstName, @RequestParam String lastName,
+                                   @RequestParam String email, @RequestParam String role,
+                                   Model model, Pageable pageable) {
+        model.addAttribute("userList", userService.search(firstName, lastName,
+                email, UserRole.valueOf(role), pageable));
         populateDefaultModel(model);
-        return "users";
-    }
-
-    @PostMapping("/users/searchByEmail")
-    public String userSearchByEmailPost(@RequestParam(value = "email") String userEmail, Model model) {
-        model.addAttribute("userList", userService.findByEmailContaining(userEmail));
-        populateDefaultModel(model);
-        LOGGER.debug("User search list ByEmail");
-        return "users";
-    }
-
-    @PostMapping(value = "/users/searchByRole")
-    public String userSearchByRole(@RequestParam(value = "role") UserRole role, Model model) {
-        model.addAttribute("userList", userService.findByRole(role));
-        populateDefaultModel(model);
-        LOGGER.debug("User search list ByRole POST");
         return "users";
     }
 

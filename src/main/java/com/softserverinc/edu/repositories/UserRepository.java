@@ -25,6 +25,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByProjectAndIsDeletedFalseAndEnabledIs(Project project, int enabled, Pageable pageable);
 
+    Page<User> findByFirstNameContainingAndLastNameContainingAndEmailContainingAndRoleIs(String firstName,
+            String lastName, String email, UserRole userRole, Pageable pageable);
+
     Page<User> findByFirstNameContainingAndLastNameContaining(String firstName, String lastName, Pageable pageable);
 
     Page<User> findByFirstNameContaining(String firstName, Pageable pageable);
