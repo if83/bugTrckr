@@ -84,9 +84,9 @@
                         <div class="form-group" id="role" hidden>
                             <label for="roleInput">Role</label>
                             <select name="role" class="form-control selectpicker" id="roleInput">
-                                <option class="roleOption" value="${user.role}">${user.role.toString()}</option>
+                                <option class="roleOptionFirst" value="${user.role}">${user.role.toString()}</option>
                                 <c:forEach var="role" items="${roles}">
-                                    <option class="roleOption" value="${role}">${role.toString()}</option>
+                                    <option class="roleOption${role.toString()}" value="${role}">${role.toString()}</option>
                                 </c:forEach>
                             </select>
                             <p class="role-info small">*if role is User, Project will not be assigned</p>

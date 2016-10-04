@@ -53,6 +53,9 @@ $(document).ready(function () {
         if ($(this).is(':checked')){
             $('#role').show();
             $('#project').show();
+            if($('.roleOptionFirst').val() == "ROLE_USER"){
+                $('#projectInput').val(0).change();
+            }
         }else{
             $('#project').hide();
             $('#role').hide();
@@ -60,13 +63,25 @@ $(document).ready(function () {
             $('#roleInput').val($('#roleDefault').html()).change();
         }
     });
-    
-    if($('#roleInput').val() == 'ROLE_USER'){
-        //set default value to user's project if user role is USER
-        $('#projectInput').val(null).change();
-    }
-    else if($('#projectInput').val() == null){
-        //set default value of user role if user's project is null
-        $('#roleInput').val('ROLE_USER').change();
-    }
+
+    $('#projectInput').select().on("change", function() {
+        $('#roleInput').prop('disabled', true);
+        if($('#projectInput').val() != 0){
+            $('.roleOptionUser').hide();
+            $('#roleInput').val('ROLE_QA').change();
+            $('#roleInput').prop('disabled', false);
+        }if(($('#projectInput').val() == 0)) {
+            $('#roleInput').val('ROLE_USER').change();
+            $('.roleOptionUser').show();
+            $('#roleInput').prop('disabled', true);
+        }
+    });
+
+    $(function () {
+        $('#roleInput').select().on("change", function () {
+            if($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER'){
+                $('#projectInput').val(0).change();
+            }
+        });
+    });
 });

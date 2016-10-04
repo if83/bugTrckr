@@ -115,7 +115,7 @@
                                 <label for="roleInput">Role</label>
                                 <form:select path="role" type="text" cssClass="form-control selectpicker" id="roleInput">
                                     <c:forEach var="role" items="${roles}">
-                                        <form:option cssClass="roleOption" value="${role}" label="${role.toString()}"/>
+                                        <form:option cssClass="roleOption${role.toString()}" value="${role}" label="${role.toString()}"/>
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="role" cssClass="control-label"/>

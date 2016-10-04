@@ -63,7 +63,7 @@ $(document).ready(function () {
     });
 
     CKEDITOR.replace('editor1', {toolbar: 'Basic'});
-
+    
     //Create new User
     //show fields of choosing user role and project
     $('#chooseProject').change(function(){
@@ -71,21 +71,34 @@ $(document).ready(function () {
         if ($(this).is(':checked')){
             $('#role').show();
             $('#project').show();
+            $('#projectInput').val(0).change();
         }else{
             //hide fields of choosing user role and project and set default values
             $('#project').hide();
             $('#role').hide();
-            $('#projectInput').val(null).change();
+            $('#projectInput').val(0).change();
             $('#roleInput').val('ROLE_USER').change();
         }
     });
+
+    $('#projectInput').select().on("change", function() {
+        $('#roleInput').prop('disabled', true);
+        if($('#projectInput').val() != 0){
+            $('.roleOptionUser').hide();
+            $('#roleInput').val('ROLE_QA').change();
+            $('#roleInput').prop('disabled', false);
+        }if(($('#projectInput').val() == 0)) {
+            $('#roleInput').val('ROLE_USER').change();
+            $('.roleOptionUser').show();
+            $('#roleInput').prop('disabled', true);
+        }
+    });
     
-    if($('#roleInput').val() == 'ROLE_USER'){
-        //set default value to user's project if user role is USER
-        $('#projectInput').val(null).change();
-    }
-    if($('#projectInput').val() == null){
-        //set default value of user role if user's project is null
-        $('#roleInput').val('ROLE_USER').change();
-    }
+    $(function () {
+        $('#roleInput').select().on("change", function () {
+            if($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER'){
+                $('#projectInput').val(0).change();
+            }
+        });
+    });
 });
