@@ -77,12 +77,13 @@ public class IssueCommentService {
     }
 
     public Boolean validateIssueCommentUI(IssueComment issueComment) {
-        if (!issueComment.getAnonymousName().equals(PageConstant.EMPTY_STRING)) {
+        if (!issueComment.getAnonymousName().equals(PageConstant.EMPTY_STRING) ||
+                !basicSecurityService.isAuthenticated()) {
             int anonymousNameLength = issueComment.getAnonymousName().length();
             return anonymousNameLength >= PageConstant.MIN_ANONYM_NAME_LENGTH &&
                     anonymousNameLength <= PageConstant.MAX_ANONYM_NAME_LENGTH;
         }
-        return false;
+        return true;
     }
 
     public void preSaveIssueComment (IssueComment issueComment) {
