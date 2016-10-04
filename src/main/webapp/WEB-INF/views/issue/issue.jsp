@@ -110,42 +110,51 @@
                                 </a>
                             </td>
                             <td class="text-center"><c:out value="${issue.estimateTime}"/></td>
-                            <td class="text-center">
-                                <div class="actionButtons">
+                            <sec:authorize access="isAuthenticated()">
+                                <td class="text-center">
+                                    <div class="actionButtons">
 
-                                    <a <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
-                                         href="<spring:url value='/issue/${issue.id}/edit' />"
+                                        <a <sec:authorize
+                                                access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
+                                            href="<spring:url value='/issue/${issue.id}/edit'/>"
                                         </sec:authorize>
                                         ><i class="fa fa-edit icon-table-u"></i></a>
-                                    &nbsp
+                                        &nbsp
                                         <a <sec:authorize
-                                            access="@issueSecurityService.hasPermissionToRemoveIssue('${issue.id}')">
-                                        data-toggle="modal" data-target="#removeModal${issue.id}"
-                                        </sec:authorize>
-                                        ><i class="fa fa-trash fa-lg icon-table-u"></i></a>
-                                    <!-- Modal confirmation for removing issue-->
-                                    <div class="modal fade" id="removeModal${issue.id}" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close"><span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title pull-left">Removal</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Please conform the deleting of <strong>${issue.title}</strong> ?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    <a href="<spring:url value='/issue/${issue.id}/remove' />"
-                                                       class="btn btn-u">Confirm</a>
+                                                access="@issueSecurityService.hasPermissionToRemoveIssue('${issue.id}')">
+                                            href="<spring:url
+                                                value='/issue/${issue.id}/remove'/>" class="removeIssueBtn"
+                                        </sec:authorize> >
+                                            <i class="fa fa-trash fa-lg icon-table-u"></i>
+                                            <p class="removeIssueNotification hidden">Confirm removal of
+                                                <strong>${issue.title}</strong></p>
+                                        </a>
+
+                                        <!-- Modal confirmation for removing issue-->
+                                        <div class="modal fade" id="removeIssueModal" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close"><span
+                                                                aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title pull-left">Removal</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Please conform the deleting of <strong>${issue.title}</strong> ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-default" data-dismiss="modal">Cancel
+                                                        </button>
+                                                        <a class="btn btn-u confirmIssueRemoval">Confirm</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
+                            </sec:authorize>
                         </tr>
                     </sec:authorize>
                 </c:forEach>
@@ -236,19 +245,22 @@
                                     <div class="actionButtons">
                                         <a <sec:authorize
                                                 access="hasAnyRole('ADMIN', 'PROJECT_MANAGER', 'DEVELOPER', 'QA')">
-                                        href="<spring:url value='/issue/${userIssue.id}/edit' />"
-                                            </sec:authorize>
-                                                ><i class="fa fa-edit icon-table-u"></i></a>
+                                            href="<spring:url value='/issue/${userIssue.id}/edit'/>"
+                                        </sec:authorize>
+                                        ><i class="fa fa-edit icon-table-u"></i></a>
                                         &nbsp
                                         <a <sec:authorize
                                                 access="hasAnyRole('ADMIN', 'PROJECT_MANAGER','DEVELOPER', 'QA')">
-                                             data-toggle="modal" data-target="#removeModalNew${userIssue.id}"
-                                        </sec:authorize>
-                                            ><i class="fa fa-trash fa-lg icon-table-u"></i></a>
-
+                                            href="<spring:url
+                                                value='/issue/${userIssue.id}/remove'/>" class="removeMyIssueBtn"
+                                        </sec:authorize> >
+                                            <i class="fa fa-trash fa-lg icon-table-u"></i>
+                                            <p class="removeMyIssueNotification hidden">Confirm removal of
+                                                <strong>${userIssue.title}</strong></p>
+                                        </a>
 
                                         <!-- Modal confirmation for removing issue from MyIssues Tab-->
-                                        <div class="modal fade" id="removeModalNew${userIssue.id}" tabindex="-1"
+                                        <div class="modal fade" id="removeMyIssueModal" tabindex="-1"
                                              role="dialog">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -265,8 +277,7 @@
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">Cancel
                                                         </button>
-                                                        <a href="<spring:url value='/issue/${userIssue.id}/remove' />"
-                                                           class="btn btn-u">Confirm</a>
+                                                        <a class="btn btn-u confirmMyIssueRemoval">Confirm</a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -54,11 +54,12 @@ public class IssueController {
 
     /**
      * This controller shows all possible issues
-     * @param model - holder for model attributes
-     * @param principal - represents the user, who is authenticated
-     * @param pageableIssue - represents the total number of pages in the set of allIssues
-     * @param pageableUser - represents the total number of pages in the set of myIssues
-     * @return view renderer, issue.jsp
+     *
+     * @param model         holder for model attributes
+     * @param principal     represents the user, who is authenticated
+     * @param pageableIssue represents the total number of pages in the set of allIssues
+     * @param pageableUser  represents the total number of pages in the set of myIssues
+     * @return list of issues
      */
     @GetMapping("/issue")
     public String listOfIssues(Model model, Principal principal,
@@ -73,13 +74,32 @@ public class IssueController {
         return "issue";
     }
 
+    /**
+     * Search controller
+     *
+     * @param title    search by this issue title
+     * @param model    holder for model attributes
+     * @param pageable represents the total number of pages in the set of issues
+     * @return all issues, finded by title
+     */
     @PostMapping("/issue/search")
-    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model, Pageable pageable) {
+    public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model,
+                                     @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable) {
         model.addAttribute("listOfIssues", issueService.findByTitleContaining(title, pageable));
         populateDefaultModel(model);
         return "issue";
     }
 
+
+    /**
+     * Show specific issue, according to id
+     *
+     * @param issueId         represents issue by this id
+     * @param model           holder for model attributes
+     * @param workLogPageable represents the total number of pages in the set of worklog
+     * @param historyPageable represents the total number of pages in the set of history
+     * @return specific issue by id
+     */
     @GetMapping("issue/{issueId}")
     public String issueById(@PathVariable Long issueId, ModelMap model,
                             @Qualifier("worklog")
@@ -95,6 +115,15 @@ public class IssueController {
         return "issue_view";
     }
 
+    /**
+     * Worklog by id on the specific issue page
+     *
+     * @param issueId         represents issue by this id
+     * @param workLogId       represents worklog id on this issue page
+     * @param model           holder for model attributes
+     * @param workLogPageable represents the total number of pages in the set of worklog
+     * @return specific issue page by id
+     */
     @PreAuthorize("@workLogSecurityService.hasPermissionToEditWorkLog(#workLogId)")
     @GetMapping("issue/{issueId}/worklog/{workLogId}/edit")
     public String issueByIdEditWorklog(@PathVariable Long issueId,
@@ -108,6 +137,15 @@ public class IssueController {
         return "issue_view";
     }
 
+    /**
+     * Comments by id on the specific issue page
+     *
+     * @param issueId         represents issue by this id
+     * @param issueCommentId  represents comment id on this issue page
+     * @param model           holder for model attributes
+     * @param workLogPageable represents the total number of pages in the set of worklog
+     * @return specific issue page by id
+     */
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToEditIssueComment(#issueCommentId)")
     @GetMapping("issue/{issueId}/comment/{issueCommentId}/edit")
     public String issueByIdEditComment(@PathVariable Long issueId,
@@ -122,6 +160,13 @@ public class IssueController {
         return "issue_view";
     }
 
+    /**
+     * Controller for removing issue by id
+     *
+     * @param id                 represents issue by this id
+     * @param redirectAttributes represents attributes for a redirect scenario
+     * @return list of all issues with information about issue removal
+     */
     @PreAuthorize("@issueSecurityService.hasPermissionToRemoveIssue(#id)")
     @GetMapping("/issue/{id}/remove")
     public String removeIssue(@PathVariable @P("id") long id, final RedirectAttributes redirectAttributes) {
@@ -132,6 +177,13 @@ public class IssueController {
         return "redirect:/issue";
     }
 
+    /**
+     * Controller for edit issue form, method GET
+     *
+     * @param id    represents issue by this id
+     * @param model holder for model attributes
+     * @return issue edit form by id
+     */
     @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
     @GetMapping("/issue/{id}/edit")
     public String editIssue(@PathVariable @P("id") long id, Model model) {
@@ -143,6 +195,12 @@ public class IssueController {
         return "issue_form";
     }
 
+    /**
+     * Controller for add issue form, method GET
+     *
+     * @param model holder for model attributes
+     * @return issue add form
+     */
     @GetMapping("/issue/add")
     public String addIssue(Model model) {
         populateDefaultModel(model);
@@ -152,6 +210,15 @@ public class IssueController {
         return "issue_form";
     }
 
+    /**
+     * Controller for add/edit issue form, method POST
+     *
+     * @param issue              represents specific issue
+     * @param result             represents binding results
+     * @param model              holder for model attributes
+     * @param redirectAttributes represents attributes for a redirect scenario
+     * @return list of all issues with information about issue add/edit operation
+     */
     @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes) {
@@ -166,6 +233,13 @@ public class IssueController {
         return "redirect:/issue";
     }
 
+    /**
+     * Controller for changing issue status by ajax
+     *
+     * @param issueId   represents issue by this id
+     * @param action    represents the value for action
+     * @param inputData represents the inputData
+     */
     @PostMapping("/issue/changeIssue")
     @ResponseBody
     public void changeIssueFromAjax(@RequestParam Long issueId, @RequestParam String action,
@@ -173,12 +247,23 @@ public class IssueController {
         issueService.saveIssueChangesFromAjax(issueId, inputData, action);
     }
 
+    /**
+     * Show all possible issue statuses
+     *
+     * @param selectedStatus represents selected status
+     * @return hashMap with IssueStatuses inside
+     */
     @PostMapping("/getAvaliableIssueStatuses")
     @ResponseBody
     public Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
         return issueService.getMapOfIssueStatuses(selectedStatus);
     }
 
+    /**
+     * Method for adding attributes into model
+     *
+     * @param model holder for model attributes
+     */
     private void populateDefaultModel(Model model) {
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("types", IssueType.values());
@@ -188,6 +273,12 @@ public class IssueController {
         model.addAttribute("projectReleases", projectReleaseService.findAll());
     }
 
+    /**
+     * Method for adding redirectAttributes into view
+     *
+     * @param issue              represents specific issue
+     * @param redirectAttributes represents attributes for a redirect scenario
+     */
     private void addAttributes(Issue issue, RedirectAttributes redirectAttributes) {
         if (issue.getId() == null) {
             redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", issue.getTitle()));

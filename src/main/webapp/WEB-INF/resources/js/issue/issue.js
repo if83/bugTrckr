@@ -7,5 +7,21 @@ $(document).ready(function () {
         $('#modalChangesIssue').modal('show');
         setTimeout(function(){$('#modalChangesIssue').modal('hide')}, 1800);
     };
+
+    //Modal for removing issue
+    $('.removeIssueBtn').click(function (e) {
+        e.preventDefault();
+        $('#removeIssueModal').find('.modal-body').html($(this).find('.removeIssueNotification').html());
+        $('#removeIssueModal .confirmIssueRemoval').attr("href", $(this).attr("href"));
+        $('#removeIssueModal').modal();
+    });
+
+    //Modal for removing my issue
+    $('.removeMyIssueBtn').click(function (e) {
+        e.preventDefault();
+        $('#removeMyIssueModal').find('.modal-body').html($(this).find('.removeMyIssueNotification').html());
+        $('#removeMyIssueModal .confirmMyIssueRemoval').attr("href", $(this).attr("href"));
+        $('#removeMyIssueModal').modal();
+    });
 });
 
