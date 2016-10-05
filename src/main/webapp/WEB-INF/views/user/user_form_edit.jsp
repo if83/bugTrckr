@@ -107,7 +107,7 @@
 
                 <div class="col-sm-12">
                     <button id="cancelBtn" class="margin-top-30 btn btn-default col-sm-offset-9 row">Cancel</button>
-                    <input type="submit" value="Update" class="margin-top-30 btn btn-default pull-right"/>
+                    <input type="submit" id="confirmForm" value="Update" class="margin-top-30 btn btn-default pull-right"/>
                 </div>
             </form>
         </div>

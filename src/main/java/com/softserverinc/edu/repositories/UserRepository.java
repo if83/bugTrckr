@@ -51,14 +51,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByProjectAndRole(Project project, UserRole role);
 
-    Page<User> findByProjectAndFirstNameContainingAndRoleNotAndIsDeleted(Project project, String searchedString,
-                                                              UserRole notRole, boolean isDeleted, Pageable pageable);
+    Page<User> findByProjectAndFirstNameContainingAndRoleNot(Project project, String searchedString, UserRole notRole,
+                                                             Pageable pageable);
 
-    Page<User> findByProjectAndLastNameContainingAndRoleNotAndIsDeleted(Project project, String searchedString,
-                                                              UserRole notRole, boolean isDeleted, Pageable pageable);
+    Page<User> findByProjectAndLastNameContainingAndRoleNot(Project project, String searchedString, UserRole notRole,
+                                                            Pageable pageable);
 
-    Page<User> findByEmailContainingAndProjectAndRoleNotAndIsDeleted(String searchedString, Project project,
-                                                              UserRole notRole, boolean isDeleted, Pageable pageable);
+    Page<User> findByEmailContainingAndProjectAndRoleNot(String searchedString, Project project, UserRole notRole,
+                                                         Pageable pageable);
 
     Page<User> findByProjectAndRoleNotAndIsDeleted(Project project, UserRole notRole, boolean isDeleted,
                                                    Pageable pageable);

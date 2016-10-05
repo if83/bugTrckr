@@ -191,7 +191,7 @@ public class ProjectController {
                                       RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager",
                 userService.findOne(userId).getFullName()));
-        userService.saveProjectManager(userId, projectId);
+        userService.saveProjectManager(userService.findOne(userId), projectId);
         return "redirect:/projects/project/" + projectId;
     }
 

@@ -7,8 +7,6 @@ import com.softserverinc.edu.forms.UserFormValidator;
 import com.softserverinc.edu.services.HistoryService;
 import com.softserverinc.edu.services.ProjectService;
 import com.softserverinc.edu.services.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,8 +25,6 @@ import java.util.List;
 
 @Controller
 public class UserController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -82,7 +78,8 @@ public class UserController {
     public String editUserPost(@PathVariable Long id, @RequestParam String email,
                                @RequestParam String firstName, @RequestParam String lastName,
                                @RequestParam Long projectId, @RequestParam UserRole role,
-                               @RequestParam String description, RedirectAttributes redirectAttributes){
+                               @RequestParam String description, RedirectAttributes redirectAttributes, Model model){
+        populateDefaultModel(model);
         if(userService.isEmailExists(email, id)){
             redirectAttributes.addFlashAttribute("msg", "User with the same email address already exists");
             return"redirect:/user/" + id + "/edit";
@@ -103,7 +100,8 @@ public class UserController {
     @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @PostMapping("/user/add")
     public String addUserPost(@ModelAttribute @Valid User user, BindingResult result,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes, Model model) {
+        populateDefaultModel(model);
         userFormValidator.validate(user, result);
         if (result.hasErrors()) {
             return "userform";

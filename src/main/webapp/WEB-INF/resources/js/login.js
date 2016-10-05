@@ -10,7 +10,7 @@ $(document).ready(function () {
             "username": {
                 required: true,
                 email: true,
-                maxlength: 64
+                maxlength: 32
             },
             "password": {
                 required: true,
@@ -22,7 +22,7 @@ $(document).ready(function () {
             "username": {
                 email: "Email isn't correct",
                 required: "Please enter email",
-                maxlength: "Email must be not longer than 64 characters"
+                maxlength: "Email must be not longer than 32 characters"
             },
             "password": {
                 required: "Please enter the password",

@@ -76,11 +76,14 @@ $(document).ready(function () {
             $('#roleInput').val('ROLE_QA').change();
             $('#roleInput').prop('disabled', false);
         }if(($('#projectInput').val() == 0)) {
-            $('.roleOptionFirst').show();
-            $('#roleInput').val('ROLE_USER').change();
-            $('.roleOptionROLE_USER').show();
+            $('.roleOptionROLE_USER').val("ROLE_USER").change().show();
             $('#roleInput').prop('disabled', true);
+            $('#roleInput').val($('.roleOptionROLE_USER').val()).change();
         }
+    });
+
+    $('#confirmForm').click(function () {
+        $('#roleInput').prop('disabled', false);
     });
 
     //cancel button of form

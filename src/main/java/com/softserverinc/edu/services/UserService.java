@@ -112,7 +112,7 @@ public class UserService {
     /**
      * Save created User into database.
      * <p>invoke {@link #passwordEncoder(User user)}</p>
-     * <p>If user's role is ROLE_PROJECT_MANAGER it invokes {@link #saveProjectManager(Long, Long)}</p>
+     * <p>If user's role is ROLE_PROJECT_MANAGER it invokes {@link #saveProjectManager(User, Long)}</p>
      * @param user the instance of User entity
      */
     @Transactional
@@ -120,7 +120,7 @@ public class UserService {
         if(user.getRole().isProjectManager()){
             passwordEncoder(user);
             user.setEnabled(1);
-            userService.saveProjectManager(user.getId(), user.getProject().getId());
+            userService.saveProjectManager(user, user.getProject().getId());
             return;
         }
         passwordEncoder(user);
@@ -166,16 +166,16 @@ public class UserService {
                                     Pageable pageable) {
         if (role == null) {
             if (searchParam.equals("First Name")) {
-                return userRepository.findByProjectAndFirstNameContainingAndRoleNotAndIsDeleted(project, searchedString,
-                        UserRole.ROLE_PROJECT_MANAGER, false, pageable);
+                return userRepository.findByProjectAndFirstNameContainingAndRoleNot(project, searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, pageable);
             }
             if (searchParam.equals("Last Name")) {
-                return userRepository.findByProjectAndLastNameContainingAndRoleNotAndIsDeleted(project, searchedString,
-                        UserRole.ROLE_PROJECT_MANAGER, false, pageable);
+                return userRepository.findByProjectAndLastNameContainingAndRoleNot(project, searchedString,
+                        UserRole.ROLE_PROJECT_MANAGER, pageable);
             }
             if (searchParam.equals("Email")) {
-                return userRepository.findByEmailContainingAndProjectAndRoleNotAndIsDeleted(searchedString, project,
-                        UserRole.ROLE_PROJECT_MANAGER, false, pageable);
+                return userRepository.findByEmailContainingAndProjectAndRoleNot(searchedString, project,
+                        UserRole.ROLE_PROJECT_MANAGER, pageable);
             }
             return userRepository.findByProjectAndRoleNotAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false,
                     pageable);
@@ -217,17 +217,16 @@ public class UserService {
      *     method does nothing</li>
      *    <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
      * </ul>
-     * @param userId the id of user
+     * @param user the instance of User entity
      * @param projectId the id of project
      */
     @Transactional
-    public void saveProjectManager(Long userId, Long projectId) {
+    public void saveProjectManager(User user, Long projectId) {
         if(projectId == 0){
             return;
         }
         Project project = projectService.findById(projectId);
-        User user = userService.findOne(userId);
-        if(user.getRole().isProjectManager() && user.getProject() == project){
+        if(user.getId()!= null && user.getRole().isProjectManager() && user.getProject() == project){
             return;
         }
         User exProjectManager = userService.getProjectManagerOfProject(projectId);
@@ -235,12 +234,15 @@ public class UserService {
         if (!projectService.findById(projectId).getUsers().isEmpty() && exProjectManager != null) {
             userService.userManagementInProject(exProjectManager, null, UserRole.ROLE_USER);
         }
+        if(user.getId() == null){
+            userRepository.save(user);
+        }
         userService.userManagementInProject(user, project, UserRole.ROLE_PROJECT_MANAGER);
     }
 
     /**
-     * Change user's role amd project and save user into database
-     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)} if chosen role not null</p>
+     * Change user's role and project and save user into database
+     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)} if passed role not null</p>
      * @param userId the id of user
      * @param projectId the id of project
      * @param role value of user role from UI, may be null
@@ -262,9 +264,10 @@ public class UserService {
     }
 
     /**
-     * Remove user from project and set isDeleted true
+     * Remove user from project and set toDeleted in passed option
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
      * @param id the id value of user's instance
+     * @param toDelete user's field that determines the existence of the user in the system
      */
     @Transactional
     public void setIsDeleted(long id, boolean toDelete) {
@@ -276,7 +279,7 @@ public class UserService {
     /**
      * Set the following parameters that come from UI to user instance and save it into database.
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
-     * <p>if role is ROLE_PROJECT_MANAGER invokes {@link #saveProjectManager(Long, Long)}</p>
+     * <p>if role is ROLE_PROJECT_MANAGER invokes {@link #saveProjectManager(User, Long)}</p>
      * @param userId the id of the user
      * @param email the email address of the user
      * @param firstName the first name of user
@@ -294,7 +297,7 @@ public class UserService {
         user.setLastName(lastName);
         user.setDescription(description);
         if(role.isProjectManager()){
-            userService.saveProjectManager(userId, projectId);
+            userService.saveProjectManager(user, projectId);
             return;
         }
         Project project = projectService.findById(projectId);

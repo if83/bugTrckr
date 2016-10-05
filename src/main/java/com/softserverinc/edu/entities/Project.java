@@ -22,8 +22,8 @@ public class Project {
     private Long id;
 
     @NotEmpty(message = "Please enter project title")
-    @Size(max = 100, message = "Project title must be no longer than 100 characters")
-    @Column(nullable = false, length = 100)
+    @Size(max = 20, message = "Project title must be no longer than 20 characters")
+    @Column(nullable = false, length = 20)
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String title;
 
@@ -36,12 +36,21 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private Set<Issue> issues;
 
+    /**
+     * Determine permission for unauthorized users to view the project
+     */
     @Column(nullable = false)
     private Boolean guestView;
 
+    /**
+     * Determine permission for unauthorized users to create issues in the project
+     */
     @Column(nullable = false)
     private Boolean guestCreateIssues;
 
+    /**
+     * Determine permission for unauthorized users to comment issues in the project
+     */
     @Column(nullable = false)
     private Boolean guestAddComment;
 

@@ -79,7 +79,7 @@ $(document).ready(function () {
             $('#roleInput').val('ROLE_USER').change();
         }
     });
-
+    
     //validation of input of user's role
     $('#projectInput').select().on("change", function() {
         $('#roleInput').prop('disabled', true);
@@ -87,9 +87,9 @@ $(document).ready(function () {
             $('.roleOptionUser').hide();
             $('#roleInput').val('ROLE_QA').change();
             $('#roleInput').prop('disabled', false);
-        }if(($('#projectInput').val() == 0)) {
-            $('#roleInput').val('ROLE_USER').change();
+        }if(($('#projectInput').val() == 0)) {;
             $('.roleOptionUser').show();
+            $('#roleInput').val('ROLE_USER').change();
             $('#roleInput').prop('disabled', true);
         }
     });
@@ -103,6 +103,10 @@ $(document).ready(function () {
         });
     });
 
+    $('#confirmForm').click(function () {
+        $('#roleInput').prop('disabled', false);
+    });
+    
     //cancel button of form
     $("#cancelBtn").click(function(event){
         event.preventDefault();

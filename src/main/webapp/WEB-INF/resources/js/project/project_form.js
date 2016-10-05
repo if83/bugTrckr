@@ -38,7 +38,7 @@ $(document).ready(function () {
         rules: {
             "title": {
                 required: true,
-                maxlength: 100
+                maxlength: 20
             },
             "description": {
                 required: function()
@@ -51,7 +51,7 @@ $(document).ready(function () {
         messages: {
             "title": {
                 required: "Please enter project's title",
-                maxlength: "Project's title must be not longer than 100 characters"
+                maxlength: "Project's title must be not longer than 20 characters"
             },
             "description": {
                 required: "Please enter project's description",

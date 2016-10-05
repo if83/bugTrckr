@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 public class User {
 
     /**
-     * form:input - confirmPassword
+     * responsible for password confirmation in user form
      */
     @Transient
     private String confirmPassword;
@@ -75,7 +75,7 @@ public class User {
     }
 
     public String getFullName() {
-        return firstName + " " +lastName;
+        return firstName + " " + lastName;
     }
 
     public Long getId() {
