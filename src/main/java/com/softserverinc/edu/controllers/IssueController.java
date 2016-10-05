@@ -234,11 +234,12 @@ public class IssueController {
     }
 
     /**
-     * Controller for changing issue status by ajax
+     * This controller is invoking when somebody is changing issue status
+     * or assignee from release page (by ajax). It saves changed issue.
      *
-     * @param issueId   represents issue by this id
-     * @param action    represents the value for action
-     * @param inputData represents the inputData
+     * @param issueId   represents id of modified issue
+     * @param action    represents the action (what's changed)
+     * @param inputData represents the input data (selected status or assignee)
      */
     @PostMapping("/issue/changeIssue")
     @ResponseBody
@@ -248,10 +249,10 @@ public class IssueController {
     }
 
     /**
-     * Show all possible issue statuses
+     * Returns all available issue statuses for current selected status..
      *
-     * @param selectedStatus represents selected status
-     * @return hashMap with IssueStatuses inside
+     * @param   selectedStatus represents selected status
+     * @return  Map with issue statuses and their string representation (it's simpler for JSon parsing)
      */
     @PostMapping("/getAvailableIssueStatuses")
     @ResponseBody

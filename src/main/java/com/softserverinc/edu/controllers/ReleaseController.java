@@ -42,7 +42,7 @@ public class ReleaseController {
                               @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         ProjectRelease release = releaseService.findById(releaseId);
         model.addAttribute("release", release);
-        model.addAttribute("issueList", issueService.findIssuesByRelease(release, pageable));
+        model.addAttribute("issueList", issueService.findIssuesForRelease(release, pageable));
         model.addAttribute("users",userService.findUsersForRelease(release));
         return "release";
     }

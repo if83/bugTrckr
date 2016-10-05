@@ -7,8 +7,13 @@ import com.softserverinc.edu.entities.enums.IssueType;
 
 import java.util.Date;
 
-public class
-HistoryDto {
+/**
+ * This class was created because simple {@see History.java} class can
+ * keep only id of users on {@see History#assignedToUser} and
+ * {@see History#changedByUser} fields (but not "User" objects).
+ * To avoid this limitation "History" object can be converted to "HistoryDto" object
+ */
+public class HistoryDto {
 
     private Issue issue;
 

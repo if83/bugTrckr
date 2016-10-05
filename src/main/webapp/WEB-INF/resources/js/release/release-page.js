@@ -39,7 +39,7 @@ $(document).ready(function () {
         });
     });
 
-    // loads avaliable statuses when open statuses dropdown in issues-table
+    // loads avaliable statuses when user opens statuses dropdown on issues-table
     $(".statuses-dropdown").on("show.bs.select", function (e) {
         var self = $(this);
         var queryObj = {};
@@ -50,6 +50,7 @@ $(document).ready(function () {
             url: "/getAvaliableIssueStatuses",
             data: queryObj,
             type: 'POST',
+            // as result it recives the map of issue statuses ant their string representation
             success: function (statuses) {
                 $.each(statuses, function (index, value) {
                     var html = "<option value='" + index + "'>" + value + "</option>";

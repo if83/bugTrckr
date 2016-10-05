@@ -48,9 +48,29 @@ public class IssueService {
     }
 
     /**
-     * List of all available issue statuses
+     * Saves issue changes, that come from ajax, into database.
+     * Before that checks is input data valid (for this it invokes
+     * {@see #isIssueInputDataValid(Issue issue, String inputData, HistoryAction action)}).
+     * Writes changes to the history.
      *
-     * @param status Current issue status
+     * @param issueId   Represents id of current issue
+     * @param inputData Represents changed data (updated status, assignee etc.)
+     * @param action    Represents action (what's changed)
+     */
+    public void saveIssueChangesFromAjax(Long issueId, String inputData, String action) {
+        Issue issue = findById(issueId);
+        HistoryAction historyAction = HistoryAction.valueOf(action);
+        User changedByUser = basicSecurityService.getActiveUser();
+        if (isIssueInputDataValid(issue, inputData, historyAction)) {
+            historyService.writeToHistory(issue, changedByUser, inputData, historyAction);
+            save(issue);
+        }
+    }
+
+    /**
+     * Returns all available issue statuses for selected status
+     *
+     * @param status current issue status
      * @return list of issue statuses
      */
     public List<IssueStatus> getAvailableStatusesForStatus(IssueStatus status) {
@@ -82,10 +102,11 @@ public class IssueService {
     }
 
     /**
-     * Returns the map of issue statuses
+     * Returns statuses from {@see #getAvailableStatusesForStatus(IssueStatus status)}
+     * and wrap them into map (it's simpler for JSon parsing)
      *
-     * @param selectedStatus Represents an issue status
-     * @return The map of issue statuses
+     * @param selectedStatus represents selected status
+     * @return Map with issue statuses and their string representation
      */
     public Map<IssueStatus, String> getMapOfIssueStatuses(String selectedStatus) {
         Map<IssueStatus, String> result = new HashMap<>();
@@ -96,9 +117,9 @@ public class IssueService {
     }
 
     /**
-     * Saves changes in issue
+     * Saves issue changes and write them to the history.
      *
-     * @param issue Represents the current issue
+     * @param issue represents the current issue
      */
     public void saveIssueChanges(Issue issue) {
         User changedByUser = basicSecurityService.getActiveUser();
@@ -110,28 +131,12 @@ public class IssueService {
     }
 
     /**
-     * Saves issue changes from ajax
-     *
-     * @param issueId   Represents current issue id
-     * @param inputData Represents input data
-     * @param action    Represents action
-     */
-    public void saveIssueChangesFromAjax(Long issueId, String inputData, String action) {
-        Issue issue = findById(issueId);
-        HistoryAction historyAction = HistoryAction.valueOf(action);
-        User changedByUser = basicSecurityService.getActiveUser();
-        if (isIssueInputDataValid(issue, inputData, historyAction)) {
-            historyService.writeToHistory(issue, changedByUser, inputData, historyAction);
-            save(issue);
-        }
-    }
-
-    /**
-     * Checks if input data is valid
+     * Checks if input data is valid for selected issue.
+     * For this it invokes more specific methods.
      *
      * @param issue     Represents current issue
      * @param inputData Represents input data
-     * @param action    Represents action
+     * @param action    Represents action (what's changed)
      * @return True, if the data is valid, false otherwise
      */
     private boolean isIssueInputDataValid(Issue issue, String inputData, HistoryAction action) {
@@ -139,7 +144,7 @@ public class IssueService {
             case CHANGE_ISSUE_ASSIGNEE:
                 return isUserValidForIssue(issue, Long.valueOf(inputData));
             case CHANGE_ISSUE_STATUS:
-                return isStatusValidForIssue(issue, IssueStatus.IN_PROGRESS.valueOf(inputData));
+                return isStatusValidForIssue(issue, IssueStatus.valueOf(inputData));
         }
         return false;
     }
@@ -154,6 +159,15 @@ public class IssueService {
         return (issue.getId() == null || issue.getId() == 0L);
     }
 
+    /**
+     * Checks if changed status is valid for current issue.
+     * Invokes {@see #getAvailableStatusesForStatus(IssueStatus status)}
+     * and compare input status with available statuses for it.
+     *
+     * @param issue         current issue
+     * @param updatedStatus selected status
+     * @return              true if status is valid, false otherwise
+     */
     private boolean isStatusValidForIssue(Issue issue, IssueStatus updatedStatus) {
         IssueStatus previousStatus = issue.getStatus();
         List<IssueStatus> availableStatuses = getAvailableStatusesForStatus(previousStatus);
@@ -166,23 +180,25 @@ public class IssueService {
     }
 
     /**
-     * Finds an issue by release
+     * Finds an issue for release
      *
      * @param projectRelease Represents current release
      * @param pageable       Represents the total number of pages in the set of issues
      * @return Page of issues by release
      */
     @Transactional
-    public Page<Issue> findIssuesByRelease(ProjectRelease projectRelease, Pageable pageable) {
+    public Page<Issue> findIssuesForRelease(ProjectRelease projectRelease, Pageable pageable) {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
     }
 
     /**
-     * Checks if user is valid for current issue
+     * Checks if changed assignee is valid for current issue.
+     * Invokes {@see com.softserverinc.edu.services.UserService#findUsersForRelease(ProjectRelease release)}
+     * and compare input assignee with available users on release.
      *
-     * @param issue  Represents current issue
-     * @param userId Represents user id
-     * @return True, if an user is valid, false otherwise
+     * @param issue  current issue
+     * @param userId represents id of selected user
+     * @return       true, if the user is valid, false otherwise
      */
     private boolean isUserValidForIssue(Issue issue, Long userId) {
         User updatedUser = userService.findOne(userId);
@@ -196,12 +212,12 @@ public class IssueService {
     }
 
     /**
-     * Finds an issue by release and by issue title
+     * Finds issues by title (or title substring) for selected release.
      *
      * @param projectRelease Represents release for search
-     * @param searchedString Represents issues title for search
+     * @param searchedString Represents substring of title for search
      * @param pageable       Represents the total number of pages in the set of issues
-     * @return Page of issues by release and by issue title
+     * @return               Page of issues
      */
     @Transactional
     public Page<Issue> findByReleaseAndIssueTitle(ProjectRelease projectRelease, String searchedString, Pageable pageable) {

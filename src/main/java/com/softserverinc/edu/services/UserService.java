@@ -44,9 +44,18 @@ public class UserService {
         return userRepository.findByEmailIs(email);
     }
 
+    /**
+     * Returns user that added comment to issue.
+     * If comment was added by anonymous user, return mock user object.
+     *
+     * @param comment current comment
+     * @return author of issue comment
+     */
     public User getAuthorOfIssueComment(IssueComment comment) {
+        // check if user is anonym
         if (comment.getUser() == null) {
             User mockUser = new User();
+            // set name, that anonym specified when added comment
             mockUser.setFirstName(comment.getAnonymousName());
             return mockUser;
         }
@@ -198,7 +207,16 @@ public class UserService {
         return userRepository.findByProjectAndRoleAndIsDeleted(project, role, false, pageable);
     }
 
-    public User getAvaliableUser(User user) {
+    /**
+     * This method is invoking when there is needed the object of user (but not null).
+     * When input parameter is null it means that some action was made by anonymous user
+     * and method must return mock object of user.
+     * When user is deleted method must return mock user with real name of removed user.
+     *
+     * @param user selected user
+     * @return mock or real object of user
+     */
+    public User getAvailableUser(User user) {
         User mockUser;
         if (user == null) {
             mockUser = new User();

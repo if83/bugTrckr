@@ -131,15 +131,6 @@ public class UserController {
         return "userview";
     }
 
-    @PreAuthorize("@userSecurityService.hasPermissionToViewUserProfile()")
-    @GetMapping("/user/details")
-    public String viewUserByDetails(Principal principal) {
-        String loggedInUserName = principal.getName();
-        User user = userService.findByEmailIs(loggedInUserName);
-        long id = user.getId();
-        return "redirect:/user/" + id + "/view";
-    }
-
     @PostMapping("/users/search")
     public String userSearch(@RequestParam String firstName, @RequestParam String lastName,
                                    @RequestParam String email, @RequestParam String role,
@@ -148,6 +139,15 @@ public class UserController {
                 email, UserRole.valueOf(role), pageable));
         populateDefaultModel(model);
         return "users";
+    }
+
+    @PreAuthorize("@userSecurityService.hasPermissionToViewUserProfile()")
+    @GetMapping("/user/details")
+    public String viewUserByDetails(Principal principal) {
+        String loggedInUserName = principal.getName();
+        User user = userService.findByEmailIs(loggedInUserName);
+        long id = user.getId();
+        return "redirect:/user/" + id + "/view";
     }
 
     private void populateDefaultModel(Model model) {
