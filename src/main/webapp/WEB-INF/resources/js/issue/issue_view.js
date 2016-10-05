@@ -3,11 +3,11 @@ $(document).ready(function () {
 
     //adds datepicker
     $( ".datepicker" ).datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: 'dd.mm.yy',
         changeMonth: true,
         changeYear: true
     });
-       
+
     //activates work log tab if there was an attempt to save work log
     if($("#message").text().toLowerCase().indexOf("work log") > 0 || document.referrer.indexOf("worklog") > 0) {
         activateWorkLogTab();
@@ -21,7 +21,7 @@ $(document).ready(function () {
         $("#modalChanges").modal("show");
         setTimeout(function(){$("#modalChanges").modal("hide")}, 1500);
     };
-    
+
     //css styles for work log paginating
     if(location.indexOf("?worklog_page=") > 0) {
         activateWorkLogTab();
@@ -42,9 +42,9 @@ $(document).ready(function () {
 
     //styles for work log editing
     if(location.indexOf("worklog") > 0 && location.indexOf("edit") > 0) {
-        
+
         $("#fixedNewCommentButton").hide();
-        
+
         //locks tabs when editing worklog
         $("#tab-comments").click(function(){
             return false;
@@ -66,7 +66,7 @@ $(document).ready(function () {
             window.location.href = document.referrer;
         });
     }
-    
+
     // work log list/form toggler
     $(".workLogToggler").click(function() {
         if ($("#workLogTable").hasClass("margin-top-10"))
@@ -111,5 +111,24 @@ $(document).ready(function () {
 
     //contains css classes to prevent inline text displaying
     $(".prevent-inline-displaying").css({ "word-wrap": "break-word" });
-    
+
+    $("#scrollButtons .fa-arrow-circle-down").click(function (event) {
+        event.preventDefault();
+        $("html,body").animate({scrollTop: $("#issueCommentForm").offset().top}, 1000);
+    });
+
+    $("#scrollButtons .fa-arrow-circle-up").click(function (event) {
+        event.preventDefault();
+        $("html,body").animate({scrollTop: $("#breadcrumbs").offset().top}, 1000);
+    });
+
+    $("#anonymousName").keyup(function count(event){
+        var number = $("#anonymousName").val().length;
+
+        if(number < 8 || number >32){
+            $("#issueCommentSubmitButton").submit(function (ev) {
+               ev.preventDefault();
+            });
+        }
+    });
 });

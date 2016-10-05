@@ -156,7 +156,7 @@ public class WorkLogService {
      * @param issueId issue's id
      * @param pageable Pageable object
      */
-    public void populateWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
+    private void populateWorkLogModel(ModelMap model, Long issueId, Pageable pageable) {
         model.addAttribute("currentUser", workLogSecurityService.getActiveUser());
         model.addAttribute("parsedDueDate", formatDate(getCurrentIssue(issueId).getDueDate()));
         model.addAttribute("totalSpentTimeByAllUsers", getTotalSpentTimeForIssueByAllUsers(issueId));
@@ -169,7 +169,7 @@ public class WorkLogService {
      * @param issueId issue's id
      * @return WorkLog instance with specified issue and user fields
      */
-    public WorkLog getNewWorkLog(Long issueId) {
+    private WorkLog getNewWorkLog(Long issueId) {
         if (getCurrentIssue(issueId).getAssignee().equals(workLogSecurityService.getActiveUser())) {
             WorkLog workLog = new WorkLog();
             workLog.setIssue(getCurrentIssue(issueId));
@@ -195,7 +195,7 @@ public class WorkLogService {
      * @param issueId issue's id
      * @return total spent work time for issue with specified id by all users
      */
-    public Long getTotalSpentTimeForIssueByAllUsers(Long issueId) {
+    private Long getTotalSpentTimeForIssueByAllUsers(Long issueId) {
         Long totalSpentTime = new Long(0);
         List<WorkLog> workLogList = findByIssue(getCurrentIssue(issueId));
         for (WorkLog worklogIterator : workLogList) {

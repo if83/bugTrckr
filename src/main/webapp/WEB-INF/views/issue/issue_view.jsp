@@ -7,8 +7,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<div id="head"></div>
 
-<div class="breadcrumbs">
+<div class="breadcrumbs" id="breadcrumbs">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
             <h1 class="pull-left"> ${issue.title}
@@ -197,6 +198,10 @@
         <div class="tab-content">
             <%--comments--%>
             <div role="tabpanel" class="tab-pane fade in active" id="tabs-comments">
+                <div id="scrollButtons">
+                    <a href=""><i class="fa fa-arrow-circle-up fa-2x icon-table-u" aria-hidden="true"></i></a><br>
+                    <a href=""><i class="fa fa-arrow-circle-down fa-2x icon-table-u" aria-hidden="true"></i></a>
+                </div>
                 <%--comments list--%>
                 <div class="margin-top-30">
                     <c:if test="${issueCommentsList.isEmpty()}">There is no comments yet. Be first.</c:if>
@@ -217,7 +222,7 @@
                             </c:choose>
                             &nbsp;commented
                             <c:set var="timeStampDate" value="${issueCommentsListIterator.timeStamp}"/>
-                            <fmt:formatDate type="date" value="${timeStampDate}" pattern="dd/MM/yyyy"/>
+                            <fmt:formatDate type="date" value="${timeStampDate}"/> <%--pattern="dd.MM.yyyy"--%>
                             at
                             <c:set var="timeStampTime" value="${issueCommentsListIterator.timeStamp}"/>
                             <fmt:formatDate type="time" value="${timeStampTime}" pattern="HH:mm:ss"/>
@@ -344,10 +349,10 @@
                                     </td>
                                     <td>
                                         <c:set var="startDateFormatted" value="${workLogIterator.startDate}"/>
-                                        <fmt:formatDate type="date" value="${startDateFormatted}" pattern="dd/MM/yyyy"/>
+                                        <fmt:formatDate type="date" value="${startDateFormatted}"/><%-- pattern="dd/MM/yyyy"--%>
                                         &ndash;
                                         <c:set var="endDateFormatted" value="${workLogIterator.endDate}"/>
-                                        <fmt:formatDate type="date" value="${endDateFormatted}" pattern="dd/MM/yyyy"/>
+                                        <fmt:formatDate type="date" value="${endDateFormatted}"/><%-- pattern="dd/MM/yyyy"--%>
                                     </td>
                                     <td>${workLogIterator.amountOfTime} hrs</td>
                                     <c:choose>
