@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     //Validation of User edit form
     $.validator.setDefaults({
         errorClass: 'help-block',
@@ -53,8 +52,9 @@ $(document).ready(function () {
         if ($(this).is(':checked')){
             $('#role').show();
             $('#project').show();
-            if($('.roleOptionFirst').val() == "ROLE_USER"){
-                $('#projectInput').val(0).change();
+            alert($('#projectInput').val() == 0);
+            if($('#projectInput').val() == 0){
+                $('#roleInput').prop('disabled', true);
             }
         }else{
             $('#project').hide();
@@ -64,6 +64,7 @@ $(document).ready(function () {
         }
     });
 
+    //validation of input of user's role
     $('#projectInput').select().on("change", function() {
         $('#roleInput').prop('disabled', true);
         if($('#projectInput').val() != 0){
@@ -77,11 +78,18 @@ $(document).ready(function () {
         }
     });
 
+    //validation of input of user's project
     $(function () {
         $('#roleInput').select().on("change", function () {
             if($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER'){
                 $('#projectInput').val(0).change();
             }
         });
+    });
+
+    //cancel button of form
+    $("#cancelBtn").click(function(event){
+        event.preventDefault();
+        window.location.href = document.referrer;
     });
 });

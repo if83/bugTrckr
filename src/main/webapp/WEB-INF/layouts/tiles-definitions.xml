@@ -191,6 +191,7 @@
             <add-attribute value="/css/user.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/js/user/users.js"/>
             <add-attribute value="/js/user/list.js"/>
         </put-list-attribute>
     </definition>

@@ -76,9 +76,10 @@ public class UserController {
                                @RequestParam Long projectId, @RequestParam UserRole role,
                                @RequestParam String description, RedirectAttributes redirectAttributes){
         if(userService.isEmailExists(email, id)){
-            redirectAttributes.addFlashAttribute("msg", "User with the same email already exists");
+            redirectAttributes.addFlashAttribute("msg", "User with the same email address already exists");
             return"redirect:/user/" + id + "/edit";
         }
+        redirectAttributes.addFlashAttribute("msg", String.format("user %s %s is edited", firstName, lastName));
         userService.saveEditedUser(id, email, firstName, lastName, projectId, role, description);
         return "redirect:/users";
     }

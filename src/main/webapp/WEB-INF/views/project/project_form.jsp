@@ -70,10 +70,15 @@
             <div class="error" id="#descriptioEror"></div>
         </spring:bind>
 
-        <div class="col-sm-10 col-sm-offset-1">
-            <button type="submit" class="margin-top-30 btn btn-default pull-right" data-toggle="modal"
-                    data-target="#projectCreatingModal">${buttonname}
-            </button>
+        <div class="margin-top-30 col-sm-10 col-sm-offset-1">
+            <div class="col-sm-1 col-sm-offset-9">
+                <button id="cancelBtn" class="btn btn-default">Cancel</button>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-default pull-right" data-toggle="modal"
+                        data-target="#projectCreatingModal">${buttonname}
+                </button>
+            </div>
         </div>
     </form:form>
 </div>

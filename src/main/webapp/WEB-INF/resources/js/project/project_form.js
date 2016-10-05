@@ -59,4 +59,10 @@ $(document).ready(function () {
             },
         },
     });
+
+    //cancel button of form
+    $("#cancelBtn").click(function(event){
+        event.preventDefault();
+        window.location.href = document.referrer;
+    });
 });

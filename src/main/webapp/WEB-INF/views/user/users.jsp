@@ -18,20 +18,6 @@
     </div>
 </div>
 
-<c:if test="${not empty msg}">
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-8">
-            <div class="alert alert-${css} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"
-                        aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>${msg}</strong>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <div class="margin-top-30 row">
     <div class="col-sm-1 col-sm-offset-1">
         <sec:authorize access="@userSecurityService.hasPermissionToUserManagement()">
@@ -170,6 +156,18 @@
                     </div>
                 </nav>
             </c:if>
+        </div>
+    </div>
+</div>
+
+<!-- Popup for notifying of changing project-->
+<p hidden id="message">${msg}</p>
+<div class="modal fade" id="modalChanges" tabindex="-1" data-backdrop="false"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+            </div>
         </div>
     </div>
 </div>
