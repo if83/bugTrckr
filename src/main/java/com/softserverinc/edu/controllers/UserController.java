@@ -53,9 +53,18 @@ public class UserController {
     @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @GetMapping("/user/{id}/remove")
     public String removeUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        userService.setIsDeletedTrue(id);
+        userService.setIsDeleted(id, true);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "User is deleted!");
+        return "redirect:/users";
+    }
+
+    @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
+    @GetMapping("/user/{id}/restore")
+    public String restoreUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        userService.setIsDeleted(id, false);
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "User is restored!");
         return "redirect:/users";
     }
 
@@ -135,7 +144,7 @@ public class UserController {
     }
 
     @PostMapping("/users/search")
-    public String userSearchByName(@RequestParam String firstName, @RequestParam String lastName,
+    public String userSearch(@RequestParam String firstName, @RequestParam String lastName,
                                    @RequestParam String email, @RequestParam String role,
                                    Model model, Pageable pageable) {
         model.addAttribute("userList", userService.search(firstName, lastName,

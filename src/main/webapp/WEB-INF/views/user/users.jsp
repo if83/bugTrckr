@@ -94,14 +94,15 @@
 <div class="margin-top-30">
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
-            <table class="table table-striped table-hover table-bordered">
+            <table class="table table-striped table-hover table-bordered text-center">
                 <thead>
                 <tr>
-                    <th>User name</th>
-                    <th>E-mail</th>
-                    <th>Role</th>
-                    <th>Project Title</th>
-                    <th>Actions</th>
+                    <th class="text-center">User name</th>
+                    <th class="text-center">E-mail</th>
+                    <th class="text-center">Role</th>
+                    <th class="text-center">Project Title</th>
+                    <th class="text-center">Is deleted</th>
+                    <th class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -109,21 +110,46 @@
                     <tr>
                         <td>
                             <a class="viewLink" href="<spring:url value='/user/${user.id}/view'/>">
-                                <c:out value="${user.firstName} ${user.lastName}"/>
+                                    ${user.firstName} ${user.lastName}
                             </a>
                         </td>
-                        <td><c:out value="${user.email}"/></td>
-                        <td><c:out value="${user.role}"/></td>
-                        <td><c:out value="${fn:substring(user.project.title, 0, 40)}"/></td>
+                        <td>${user.email}</td>
+                        <td>${user.role.toString()}</td>
+                        <td>
+                            <a class="viewLink" href="<spring:url value='/projects/project/${user.project.id}'/>">
+                                    ${user.project.title}
+                            </a>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.isDeleted()}">
+                                    <input type="checkbox" name="isDeletedChbx" checked="checked" disabled/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" name="isDeletedChbx" disabled/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>
                             <div class="actionButtons">
                                 <sec:authorize access="@userSecurityService.hasPermissionToUserManagement()">
-                                    <a href="<spring:url value='/user/${user.id}/edit' />"><i
-                                            class="fa fa-edit fa-lg icon-table-u"></i></a> &nbsp
-                                    <a href="<spring:url value='/user/${user.id}/remove' />"><i
-                                            class="fa fa-trash fa-lg icon-table-u"></i></a>
+                                    <c:choose>
+                                        <c:when test="${not user.isDeleted()}">
+                                            <a href="<spring:url value='/user/${user.id}/edit' />"><i
+                                                    class="fa fa-edit fa-lg icon-table-u"></i></a>
+                                            <a href="<spring:url value='/user/${user.id}/remove' />"
+                                               class="btn removeUserBtn">
+                                                <i class="fa fa-trash fa-lg icon-table-u"></i>
+                                                <p class="removeUserNotification hidden">Confirm remove user ${user.getFullName()}</p>
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fa fa-edit fa-lg disabled-icon"></i>
+                                            <a href="<spring:url value='/user/${user.id}/restore' />"><i
+                                                    class="fa fa-external-link-square icon-table-u"></i></a>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </sec:authorize>
-
                             </div>
                         </td>
                     </tr>

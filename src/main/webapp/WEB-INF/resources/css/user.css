@@ -36,6 +36,12 @@ input#imgfileInput.form-control {
     color: #ff755d;
 }
 
+.disabled-icon {
+    color: grey;
+    margin-left: 9px;
+    margin-right: 11px;
+}
+
 #pageID .pagination li a,
 #pageID .pagination li a:hover,
 #pageID .pagination li a:focus {

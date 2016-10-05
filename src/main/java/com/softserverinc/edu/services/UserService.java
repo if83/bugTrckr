@@ -268,9 +268,9 @@ public class UserService {
      * @param id the id value of user's instance
      */
     @Transactional
-    public void setIsDeletedTrue(long id) {
+    public void setIsDeleted(long id, boolean toDelete) {
         User user = userService.findOne(id);
-        user.setIsDeleted(true);
+        user.setIsDeleted(toDelete);
         userService.userManagementInProject(user, null, UserRole.ROLE_USER);
     }
 
