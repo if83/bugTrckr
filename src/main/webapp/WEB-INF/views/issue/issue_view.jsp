@@ -128,26 +128,26 @@
                 <label class="col-sm-4">Create Time</label>
                 <div class="col-sm-8"><p>
                     <c:set var="createTime" value="${issue.createTime}"/>
-                    <fmt:formatDate type="both" value="${createTime}" pattern="dd-MM-yyyy HH:mm"/>
+                    <fmt:formatDate type="date" value="${createTime}"/>
                 </p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Time to finish the issue</label>
                 <div class="col-sm-8">
                     <c:set var="dueDate" value="${issue.dueDate}"/>
-                    <fmt:formatDate type="both" value="${dueDate}" pattern="dd-MM-yyyy HH:mm"/>
+                    <fmt:formatDate type="date" value="${dueDate}"/>
                 </div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Last updated time</label>
                 <div class="col-sm-8">
                     <c:set var="lastUpdateDate" value="${issue.lastUpdateDate}"/>
-                    <fmt:formatDate type="both" value="${lastUpdateDate}" pattern="dd-MM-yyyy HH:mm"/>
+                    <fmt:formatDate type="date" value="${lastUpdateDate}"/>
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-4">Estimate time, hrs</label>
-                <div class="col-sm-8"><p>${issue.estimateTime}</p></div>
+                <label class="col-sm-4">Estimate time</label>
+                <div class="col-sm-8"><p>${issue.estimateTime} hrs</p></div>
             </div>
             <div class="row">
                 <label class="col-sm-4">Labels</label>
