@@ -24,7 +24,7 @@ public class UserFormValidator implements Validator {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             errors.rejectValue("confirmPassword", "error.confirmPassword");
         }
-        if(userService.findByEmailIs(user.getEmail()) != null){
+        if (userService.findByEmailIs(user.getEmail()) != null) {
             errors.rejectValue("email", "error.email");
         }
     }

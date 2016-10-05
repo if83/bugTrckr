@@ -60,7 +60,7 @@ public class ProjectController {
     @PostMapping("/projects/add")
     public String addProjectPost(@ModelAttribute @Valid Project project, BindingResult result,
                                  RedirectAttributes redirectAttributes) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "project_form";
         }
         confirmationOfProjectChanges(project, redirectAttributes);
@@ -141,14 +141,14 @@ public class ProjectController {
         model.addAttribute("projectManager", userService.getProjectManagerOfProject(projectId));
         model.addAttribute("usersList", userService.findUsersByProjectPageable(project, pageableUser));
         model.addAttribute("releaseList", releaseService.findByProject(project, pageableRelease));
-        model.addAttribute("listOfIssues", issueService.findIssuesByProject(project, searchedString ,pageableIssue));
+        model.addAttribute("listOfIssues", issueService.findIssuesByProject(project, searchedString, pageableIssue));
         return "project";
     }
 
     @PreAuthorize("@projectSecurityService.hasPermissionToProjectManagement(#projectId)")
     @GetMapping("/projects/project/{projectId}/usersWithoutProject")
     public String usersWithoutProject(@PathVariable @P("projectId") Long projectId, Model model,
-                                      @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS)Pageable pageable){
+                                      @PageableDefault(PageConstant.AMOUNT_PROJECT_ELEMENTS) Pageable pageable) {
         usersRolesInProject(model);
         model.addAttribute("project", projectService.findById(projectId));
         model.addAttribute("userList", userService.findUsersByRole(UserRole.ROLE_USER, pageable));
@@ -183,7 +183,7 @@ public class ProjectController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/projects/project/{projectId}/addProjectManager/usersWithoutProject/{userId}")
     public String appointmentOfProjectManager(@PathVariable Long projectId, @PathVariable Long userId,
-                                      RedirectAttributes redirectAttributes){
+                                              RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager",
                 userService.findOne(userId).getFullName()));
         userService.saveProjectManager(userService.findOne(userId), projectId);
@@ -247,13 +247,13 @@ public class ProjectController {
         userService.changeUserRoleInProject(userId, projectId, role);
         return "redirect:/projects/project/" + projectId;
     }
-    
+
     private void usersRolesInProject(Model model) {
         model.addAttribute("DEV", UserRole.ROLE_DEVELOPER);
         model.addAttribute("QA", UserRole.ROLE_QA);
     }
-    
-    private void confirmationOfProjectChanges(Project project, RedirectAttributes redirectAttributes){
+
+    private void confirmationOfProjectChanges(Project project, RedirectAttributes redirectAttributes) {
         if (project.getId() == null) {
             redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
 
@@ -262,15 +262,15 @@ public class ProjectController {
         }
     }
 
-    private void confirmationOfChangeOfUserRole(Long userId, RedirectAttributes redirectAttributes){
+    private void confirmationOfChangeOfUserRole(Long userId, RedirectAttributes redirectAttributes) {
         User user = userService.findOne(userId);
         UserRole role = user.getRole();
-        if(role.isDeveloper()){
+        if (role.isDeveloper()) {
             redirectAttributes.addFlashAttribute("msg", String.format("role of %s was changed to QA",
                     user.getFullName()));
             return;
         }
-        if(role.isQA()){
+        if (role.isQA()) {
             redirectAttributes.addFlashAttribute("msg", String.format("role of %s was changed to Developer",
                     user.getFullName()));
         }

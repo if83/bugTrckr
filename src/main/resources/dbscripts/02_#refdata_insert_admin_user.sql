@@ -3,7 +3,7 @@ VALUES ('admin', 'admin', 'admin@ss.com', '$2a$12$r.6YLln22ky5r5Wlb38iZ.v2fG30U/
         'first');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('BugTrckr', '1', '0', '0', ' Esse forensibus sententiae ut vel, pri te meis lucilius conceptam. Sumo evertitur ea per, populo aliquip dolores ei vis. Blandit expetendis no duo, augue nostro labitur te usu. Nam ne iriure aperiam.
+VALUES ('BugTrckr', '1', '1', '1', ' Esse forensibus sententiae ut vel, pri te meis lucilius conceptam. Sumo evertitur ea per, populo aliquip dolores ei vis. Blandit expetendis no duo, augue nostro labitur te usu. Nam ne iriure aperiam.
  In veritus signiferumque quo, mea no alii fuisset, has in ipsum invidunt. Ei vero animal sea, et vix quaestio iudicabit signiferumque. Est ut alienum inimicus, enim dicat ea mea. His tantas semper argumentum ei, dictas admodum intellegam pri ad, alienum constituto repudiandae vix ex. Qui eros deseruisse ei, ad natum ludus scriptorem per, in vel lobortis salutandi prodesset.
  Accusamus patrioque nam in. Habemus adipisci eu est, has everti mollis voluptatibus at. Assum volutpat usu ei. Duo ex consulatu instructior, id dicta fierent mediocrem sed, mutat interpretaris te pri. Oratio sapientem adolescens ius id, an molestiae abhorreant eum, his suas dicit definitionem ut. Ut zril.');
 
@@ -109,7 +109,7 @@ VALUES ('Justin', '	Mills', 'quality_e1@ss.com', '$2a$12$bTRBMwG6lnCVzvVD4YuyGuI
         'ROLE_QA', 'qa', '2');
 
 INSERT INTO Project (title, guestView, guestCreateIssues, guestAddComment, description)
-VALUES ('U-dincon', '1', '1', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
+VALUES ('U-dincon', '0', '0', '0', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto dolor illum incidunt ipsa magnam, numquam perferendis quae quos ut? Ducimus eaque quis quos.');
 INSERT INTO ProjectRelease (projectId, version, releaseStatus, description)
 VALUES ('3', '3', 'OPEN', 'RELEASE 3');
 INSERT INTO User (firstName, lastName, email, password, role, description, projectId)

@@ -21,7 +21,7 @@ $(document).ready(function () {
         var id = $(e.target).attr("href");
         localStorage.setItem('selectedTab', id);
         //adding of specific part of search url in dependence of chosen tab
-        if ( id == "#usersInProject" ){
+        if (id == "#usersInProject") {
             $('#search').attr('action', url + "/usersInProject_search");
         } else {
             $('#search').attr('action', url + "/allUsers_search");

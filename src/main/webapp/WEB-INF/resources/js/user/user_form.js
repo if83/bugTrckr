@@ -62,16 +62,16 @@ $(document).ready(function () {
     });
 
     CKEDITOR.replace('editor1', {toolbar: 'Basic'});
-    
+
     //Create new User
     //show fields of choosing user role and project
-    $('#chooseProject').change(function(){
+    $('#chooseProject').change(function () {
         //show fields of choosing user role and project
-        if ($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             $('#role').show();
             $('#project').show();
             $('#projectInput').val(0).change();
-        }else{
+        } else {
             //hide fields of choosing user role and project and set default values
             $('#project').hide();
             $('#role').hide();
@@ -79,25 +79,27 @@ $(document).ready(function () {
             $('#roleInput').val('ROLE_USER').change();
         }
     });
-    
+
     //validation of input of user's role
-    $('#projectInput').select().on("change", function() {
+    $('#projectInput').select().on("change", function () {
         $('#roleInput').prop('disabled', true);
-        if($('#projectInput').val() != 0){
+        if ($('#projectInput').val() != 0) {
             $('.roleOptionUser').hide();
             $('#roleInput').val('ROLE_QA').change();
             $('#roleInput').prop('disabled', false);
-        }if(($('#projectInput').val() == 0)) {;
+        }
+        if (($('#projectInput').val() == 0)) {
+            ;
             $('.roleOptionUser').show();
             $('#roleInput').val('ROLE_USER').change();
             $('#roleInput').prop('disabled', true);
         }
     });
-    
+
     //validation of input of user's project
     $(function () {
         $('#roleInput').select().on("change", function () {
-            if($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER'){
+            if ($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER') {
                 $('#projectInput').val(0).change();
             }
         });
@@ -106,9 +108,9 @@ $(document).ready(function () {
     $('#confirmForm').click(function () {
         $('#roleInput').prop('disabled', false);
     });
-    
+
     //cancel button of form
-    $("#cancelBtn").click(function(event){
+    $("#cancelBtn").click(function (event) {
         event.preventDefault();
         window.location.href = document.referrer;
     });

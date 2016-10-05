@@ -6,23 +6,23 @@ $(document).ready(function () {
     });
 
     //Management of project's options
-    if ($('#guest').is(':checked')){
+    if ($('#guest').is(':checked')) {
         $('#enableView').show();
-    }else {
+    } else {
         $('#enableView').hide();
     }
-    $('#guest').change(function(){
-        if ($(this).is(':checked')){
+    $('#guest').change(function () {
+        if ($(this).is(':checked')) {
             $('#enableView').show();
             $('#issue').attr('disabled', false);
             $('#comment').attr('disabled', false);
-        }else {
+        } else {
             $('#enableView').hide();
             $('#issue').attr('disabled', true);
             $('#comment').attr('disabled', true);
         }
     });
-    
+
     //Validation of Project Form
     $.validator.setDefaults({
         errorClass: 'help-block',
@@ -41,8 +41,7 @@ $(document).ready(function () {
                 maxlength: 20
             },
             "description": {
-                required: function()
-                {
+                required: function () {
                     CKEDITOR.instances.editor1.updateElement();
                 },
                 maxlength: 10000
@@ -61,7 +60,7 @@ $(document).ready(function () {
     });
 
     //cancel button of form
-    $("#cancelBtn").click(function(event){
+    $("#cancelBtn").click(function (event) {
         event.preventDefault();
         window.location.href = document.referrer;
     });

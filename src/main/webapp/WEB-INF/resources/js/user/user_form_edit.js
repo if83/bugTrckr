@@ -9,7 +9,7 @@ $(document).ready(function () {
             $(element).closest('.form-group').removeClass('has-error');
         }
     });
-    
+
     $("#userForm").validate({
         rules: {
             "email": {
@@ -47,20 +47,20 @@ $(document).ready(function () {
     CKEDITOR.replace('editor1', {toolbar: 'Basic'});
 
     //Edit User
-    $('#chooseProject').change(function(){
+    $('#chooseProject').change(function () {
         //show fields of choosing user role and project
-        if ($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             $('#role').show();
             $('#project').show();
-            if($('#projectInput').val() == 0){
+            if ($('#projectInput').val() == 0) {
                 $('#roleInput').prop('disabled', true);
                 $('#roleInput').val("ROLE_USER").change()
-            }else{
+            } else {
                 $('.roleOptionROLE_USER').hide();
                 var clazz = ".roleOption" + $('#roleInput').val();
                 $(clazz).hide();
             }
-        }else{
+        } else {
             $('#project').hide();
             $('#role').hide();
             $('#projectInput').val($('#projectDefault').html()).change();
@@ -69,17 +69,26 @@ $(document).ready(function () {
     });
 
     //validation of input of user's role
-    $('#projectInput').select().on("change", function() {
+    $('#projectInput').select().on("change", function () {
         $('#roleInput').prop('disabled', true);
-        if($('#projectInput').val() != 0){
+        if ($('#projectInput').val() != 0) {
             $('.roleOptionROLE_USER').hide();
             $('#roleInput').val('ROLE_QA').change();
             $('#roleInput').prop('disabled', false);
-        }if(($('#projectInput').val() == 0)) {
+        }
+        if (($('#projectInput').val() == 0)) {
             $('.roleOptionROLE_USER').val("ROLE_USER").change().show();
             $('#roleInput').prop('disabled', true);
             $('#roleInput').val($('.roleOptionROLE_USER').val()).change();
         }
+    });
+
+    $(function () {
+        $('#roleInput').select().on("change", function () {
+            if ($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER') {
+                $('#projectInput').val(0).change();
+            }
+        });
     });
 
     $('#confirmForm').click(function () {
@@ -87,7 +96,7 @@ $(document).ready(function () {
     });
 
     //cancel button of form
-    $("#cancelBtn").click(function(event){
+    $("#cancelBtn").click(function (event) {
         event.preventDefault();
         window.location.href = document.referrer;
     });
