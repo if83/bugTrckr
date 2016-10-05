@@ -97,7 +97,14 @@
                                 <strong>
                                     <c:choose>
                                         <c:when test="${history.changedByUser.id eq null}">
-                                            <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName} [removed]</span>
+                                            <c:choose>
+                                                <c:when test="${empty history.changedByUser.lastName}">
+                                                    <span class="removed-user">${history.anonymName} [anonym]</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName} [removed]</span>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:when>
                                         <c:otherwise>
                                             <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
@@ -191,7 +198,14 @@
                                     <strong>
                                         <c:choose>
                                             <c:when test="${history.changedByUser.id eq null}">
-                                                <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName} [removed]</span>
+                                                <c:choose>
+                                                    <c:when test="${empty history.changedByUser.lastName}">
+                                                        <span class="removed-user">${history.anonymName} [anonym]</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="removed-user">${history.changedByUser.firstName} ${history.changedByUser.lastName} [removed]</span>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:when>
                                             <c:otherwise>
                                                 <a href="<spring:url value='/user/${history.changedByUser.id}/view' />">${history.changedByUser.firstName} ${history.changedByUser.lastName}</a>
