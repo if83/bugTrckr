@@ -53,7 +53,7 @@ public class IssueService {
      * @param status Current issue status
      * @return list of issue statuses
      */
-    public List<IssueStatus> getAvaliableStatusesForStatus(IssueStatus status) {
+    public List<IssueStatus> getAvailableStatusesForStatus(IssueStatus status) {
         List<IssueStatus> result = new ArrayList<>();
         switch (status) {
             case OPEN:
@@ -89,7 +89,7 @@ public class IssueService {
      */
     public Map<IssueStatus, String> getMapOfIssueStatuses(String selectedStatus) {
         Map<IssueStatus, String> result = new HashMap<>();
-        for (IssueStatus status : getAvaliableStatusesForStatus(IssueStatus.valueOf(selectedStatus))) {
+        for (IssueStatus status : getAvailableStatusesForStatus(IssueStatus.valueOf(selectedStatus))) {
             result.put(status, status.toString());
         }
         return result;
@@ -156,8 +156,8 @@ public class IssueService {
 
     private boolean isStatusValidForIssue(Issue issue, IssueStatus updatedStatus) {
         IssueStatus previousStatus = issue.getStatus();
-        List<IssueStatus> avaliableStatuses = getAvaliableStatusesForStatus(previousStatus);
-        for (IssueStatus status : avaliableStatuses) {
+        List<IssueStatus> availableStatuses = getAvailableStatusesForStatus(previousStatus);
+        for (IssueStatus status : availableStatuses) {
             if (updatedStatus.equals(status)) {
                 return true;
             }
@@ -186,8 +186,8 @@ public class IssueService {
      */
     private boolean isUserValidForIssue(Issue issue, Long userId) {
         User updatedUser = userService.findOne(userId);
-        List<User> avaliableUsers = userService.findUsersForRelease(issue.getProjectRelease());
-        for (User user : avaliableUsers) {
+        List<User> availableUsers = userService.findUsersForRelease(issue.getProjectRelease());
+        for (User user : availableUsers) {
             if (updatedUser.equals(user)) {
                 return true;
             }

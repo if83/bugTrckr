@@ -190,7 +190,7 @@ public class IssueController {
         Issue issue = issueService.findById(id);
         model.addAttribute("issue", issue);
         model.addAttribute("formAction", "edit");
-        model.addAttribute("statuses", issueService.getAvaliableStatusesForStatus(issue.getStatus()));
+        model.addAttribute("statuses", issueService.getAvailableStatusesForStatus(issue.getStatus()));
         populateDefaultModel(model);
         return "issue_form";
     }
@@ -253,9 +253,9 @@ public class IssueController {
      * @param selectedStatus represents selected status
      * @return hashMap with IssueStatuses inside
      */
-    @PostMapping("/getAvaliableIssueStatuses")
+    @PostMapping("/getAvailableIssueStatuses")
     @ResponseBody
-    public Map<IssueStatus, String> getAvaliableIssueStatuses(@RequestParam String selectedStatus) {
+    public Map<IssueStatus, String> getAvailableIssueStatuses(@RequestParam String selectedStatus) {
         return issueService.getMapOfIssueStatuses(selectedStatus);
     }
 
