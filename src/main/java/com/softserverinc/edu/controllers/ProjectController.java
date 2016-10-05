@@ -63,12 +63,7 @@ public class ProjectController {
         if(result.hasErrors()) {
             return "project_form";
         }
-        if (project.getId() == null) {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
-
-        } else {
-            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
-        }
+        confirmationOfProjectChanges(project, redirectAttributes);
         projectService.save(project);
         return "redirect:/projects/project/" + project.getId();
     }
@@ -239,8 +234,7 @@ public class ProjectController {
     @GetMapping("/projects/project/{projectId}/usersWithoutProject/{userId}/changeRole")
     public String appointmentUserToProject(@PathVariable @P("projectId") Long projectId, @PathVariable Long userId,
                                            RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("msg", String.format("role of %s was changed",
-                userService.findOne(userId).getFullName()));
+        confirmationOfChangeOfUserRole(userId, redirectAttributes);
         userService.changeUserRoleInProject(userId, projectId, null);
         return "redirect:/projects/project/" + projectId;
     }
@@ -253,9 +247,33 @@ public class ProjectController {
         userService.changeUserRoleInProject(userId, projectId, role);
         return "redirect:/projects/project/" + projectId;
     }
-
+    
     private void usersRolesInProject(Model model) {
         model.addAttribute("DEV", UserRole.ROLE_DEVELOPER);
         model.addAttribute("QA", UserRole.ROLE_QA);
     }
+    
+    private void confirmationOfProjectChanges(Project project, RedirectAttributes redirectAttributes){
+        if (project.getId() == null) {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s added successfully!", project.getTitle()));
+
+        } else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s updated successfully!", project.getTitle()));
+        }
+    }
+
+    private void confirmationOfChangeOfUserRole(Long userId, RedirectAttributes redirectAttributes){
+        User user = userService.findOne(userId);
+        UserRole role = user.getRole();
+        if(role.isDeveloper()){
+            redirectAttributes.addFlashAttribute("msg", String.format("role of %s was changed to QA",
+                    user.getFullName()));
+            return;
+        }
+        if(role.isQA()){
+            redirectAttributes.addFlashAttribute("msg", String.format("role of %s was changed to Developer",
+                    user.getFullName()));
+        }
+    }
+
 }

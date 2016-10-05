@@ -75,7 +75,8 @@ public class UserService {
 
     /**
      * Find all users in Project except Project Manager.
-     * @param project the instance of Project entity
+     *
+     * @param project  the instance of Project entity
      * @param pageable the paging information
      * @return the paginated list of users in Project except Project Manager
      */
@@ -102,9 +103,10 @@ public class UserService {
 
     /**
      * Set encoded password to the User instance.
+     *
      * @param user the instance of User entity
      */
-    public void passwordEncoder(User user){
+    public void passwordEncoder(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
@@ -113,11 +115,12 @@ public class UserService {
      * Save created User into database.
      * <p>invoke {@link #passwordEncoder(User user)}</p>
      * <p>If user's role is ROLE_PROJECT_MANAGER it invokes {@link #saveProjectManager(User, Long)}</p>
+     *
      * @param user the instance of User entity
      */
     @Transactional
     public void saveUser(User user) {
-        if(user.getRole().isProjectManager()){
+        if (user.getRole().isProjectManager()) {
             passwordEncoder(user);
             user.setEnabled(1);
             userService.saveProjectManager(user, user.getProject().getId());
@@ -148,18 +151,19 @@ public class UserService {
         return userRepository.findByRole(role, pageable);
     }
 
-    public Page<User> findAllUsers(Pageable pageable){
+    public Page<User> findAllUsers(Pageable pageable) {
         return userRepository.findByRoleNot(UserRole.ROLE_ADMIN, pageable);
     }
 
     /**
      * Search users by different combinations of selected parameters
-     * @param project instance of Project entity, may be null only if role is ROLE_USER
-     * @param searchParam the search parameter that corresponds for the user's fields (firstName, lastName, email),
-     *                    may be null
-     * @param role the search parameter that corresponds for the user's role, may be null if project not null
+     *
+     * @param project        instance of Project entity, may be null only if role is ROLE_USER
+     * @param searchParam    the search parameter that corresponds for the user's fields (firstName, lastName, email),
+     *                       may be null
+     * @param role           the search parameter that corresponds for the user's role, may be null if project not null
      * @param searchedString the string that entered by the user from UI, may be null
-     * @param pageable pageable Object
+     * @param pageable       pageable Object
      * @return list of found users
      */
     public Page<User> searchByUsers(Project project, String searchParam, UserRole role, String searchedString,
@@ -213,39 +217,42 @@ public class UserService {
     /**
      * Save user into database with role ROLE_PROJECT_MANAGER.
      * <ul>
-     *    <li>if project's id is null or, if there is project manager in the project and his id equals to userId then
-     *     method does nothing</li>
-     *    <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
+     * <li>if project's id is null or, if there is project manager in the project and his id equals to userId then
+     * method does nothing</li>
+     * <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
      * </ul>
-     * @param user the instance of User entity
+     *
+     * @param user      the instance of User entity
      * @param projectId the id of project
      */
     @Transactional
     public void saveProjectManager(User user, Long projectId) {
-        if(projectId == 0){
+        if (projectId == 0) {
             return;
         }
         Project project = projectService.findById(projectId);
-        if(user.getId()!= null && user.getRole().isProjectManager() && user.getProject() == project){
+        if (user.getId() != null && user.getRole().isProjectManager() && user.getProject() == project) {
             return;
         }
-        User exProjectManager = userService.getProjectManagerOfProject(projectId);
-
-        if (!projectService.findById(projectId).getUsers().isEmpty() && exProjectManager != null) {
-            userService.userManagementInProject(exProjectManager, null, UserRole.ROLE_USER);
+        User presentProjectManager = userService.getProjectManagerOfProject(projectId);
+        if (!project.getUsers().isEmpty() && presentProjectManager != null) {
+            userService.userManagementInProject(presentProjectManager, null, UserRole.ROLE_USER);
         }
-        if(user.getId() == null){
+        if (user.getId() == null) {
             userRepository.save(user);
+            return;
         }
         userService.userManagementInProject(user, project, UserRole.ROLE_PROJECT_MANAGER);
     }
 
     /**
      * Change user's role and project and save user into database
+     * <p>
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)} if passed role not null</p>
-     * @param userId the id of user
+     *
+     * @param userId    the id of user
      * @param projectId the id of project
-     * @param role value of user role from UI, may be null
+     * @param role      value of user role from UI, may be null
      */
     @Transactional
     public void changeUserRoleInProject(Long userId, Long projectId, UserRole role) {
@@ -266,7 +273,8 @@ public class UserService {
     /**
      * Remove user from project and set toDeleted in passed option
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
-     * @param id the id value of user's instance
+     *
+     * @param id       the id value of user's instance
      * @param toDelete user's field that determines the existence of the user in the system
      */
     @Transactional
@@ -280,12 +288,13 @@ public class UserService {
      * Set the following parameters that come from UI to user instance and save it into database.
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
      * <p>if role is ROLE_PROJECT_MANAGER invokes {@link #saveProjectManager(User, Long)}</p>
-     * @param userId the id of the user
-     * @param email the email address of the user
-     * @param firstName the first name of user
-     * @param lastName the last name of user
-     * @param projectId the id of user's project, null if user not assigned to any Project or user's role is ROLE_USER
-     * @param role the role of user
+     *
+     * @param userId      the id of the user
+     * @param email       the email address of the user
+     * @param firstName   the first name of user
+     * @param lastName    the last name of user
+     * @param projectId   the id of user's project, null if user not assigned to any Project or user's role is ROLE_USER
+     * @param role        the role of user
      * @param description the description of user
      */
     @Transactional
@@ -296,7 +305,7 @@ public class UserService {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setDescription(description);
-        if(role.isProjectManager()){
+        if (role.isProjectManager()) {
             userService.saveProjectManager(user, projectId);
             return;
         }
@@ -306,25 +315,28 @@ public class UserService {
 
     /**
      * Check if entered email is unique
-     * @param email the entered email address
+     *
+     * @param email  the entered email address
      * @param userId the id of the user that changes email address
      * @return true if there is a user with this email address and the id of the user not equals to the id of
      * existed user, otherwise false
      */
-    public boolean isEmailExists(String email, Long userId){
+    public boolean isEmailExists(String email, Long userId) {
         return userService.findByEmailIs(email).getId() != null && userService.findByEmailIs(email).getId() != userId;
     }
 
     /**
      * Change fields of role and project in User instance when user assigned or dropped from project or changed
      * his role in project
+     * <p>
      * <p>invoke {@link #userRoleAndProjectValidator(User, Project, UserRole)}</p>
-     * @param user the instance of User entity
+     *
+     * @param user    the instance of User entity
      * @param project the instance of Project entity
-     * @param role the user's role
+     * @param role    the user's role
      */
     @Transactional
-    public void userManagementInProject(User user, Project project, UserRole role){
+    public void userManagementInProject(User user, Project project, UserRole role) {
         user.setProject(project);
         user.setRole(role);
         userService.userRoleAndProjectValidator(user, project, role);
@@ -333,18 +345,19 @@ public class UserService {
 
     /**
      * Validate values of user's project and role entered from UI
-     * @param user the instance of User entity
+     *
+     * @param user    the instance of User entity
      * @param project the instance of Project Entity
-     * @param role the user's role
+     * @param role    the user's role
      */
-    public void userRoleAndProjectValidator(User user, Project project, UserRole role){
-        if(role.isUser() && project != null || !role.isUser() && project == null){
+    public void userRoleAndProjectValidator(User user, Project project, UserRole role) {
+        if (role.isUser() && project != null || !role.isUser() && project == null) {
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);
         }
     }
 
-    public Page<User> search (String firstName, String lastName, String email,UserRole role, Pageable pageable) {
+    public Page<User> search(String firstName, String lastName, String email, UserRole role, Pageable pageable) {
         return userRepository.findByFirstNameContainingAndLastNameContainingAndEmailContainingAndRoleIs(firstName,
                 lastName, email, role, pageable);
     }
