@@ -420,10 +420,10 @@ INSERT INTO Label_Issue (issueId, labelId) VALUES ('2','1');
 
 INSERT INTO `History` (`id`, `issueId`, `changedByUserId`, `assignedToUserId`, `action`, `title`, `type`,
     `priority`, `status`, `description`, `issuecomment`)
-VALUES (NULL, '1', '2', '6', '0', null, null, null, null, null, null);
+VALUES ('1', '1', '2', '6', '0', null, null, null, null, null, 'some changes');
 INSERT INTO `History` (`id`, `issueId`, `changedByUserId`, `assignedToUserId`, `action`, `title`, `type`,
     `priority`, `status`, `description`, `issuecomment`)
-VALUES (NULL, '1', '3', '4', '1', null, null, null, 2, null, null);
+VALUES ('2', '1', '3', '4', '1', null, null, null, 2, null, 'some changes');
 INSERT INTO `History` (`id`, `issueId`, `changedByUserId`, `assignedToUserId`, `action`, `title`, `type`,
     `priority`, `status`, `description`, `issuecomment`)
-VALUES (NULL, '1', '2', '7', '5', null, null, 3, null, null, null);
+VALUES ('3', '1', '2', '7', '5', null, null, 3, null, null, 'some changes');

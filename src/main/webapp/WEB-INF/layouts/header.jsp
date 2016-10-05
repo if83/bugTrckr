@@ -42,7 +42,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a>
-                        <form action="/search_text" method="POST" class="form-inline">
+                        <form action="search_text" method="POST" class="form-inline">
                             <input class="form-control" name="searchText" type="text" placeholder="Search"/>
                             <button class="btn btn-default pull-right" type="submit">Search</button>
                         </form>
@@ -87,11 +87,13 @@
                     </sec:authorize>
 
                     <!-- Modal for login form -->
-                    <div class="modal fade" id="loginFormModal" tabindex="-1"
+                    <div class="modal fade" id="loginFormModal"
                          role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
+                                <%----%>
                                 <div class="panel-heading">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="panel-title">Log into BugTrckr</h4>
                                 </div>
                                 <form:form commandName="loginForm" modelAttribute="loginForm" action="/"
