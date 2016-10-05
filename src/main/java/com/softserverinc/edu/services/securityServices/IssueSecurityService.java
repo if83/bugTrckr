@@ -12,11 +12,11 @@ public class IssueSecurityService extends BasicSecurityService {
     @Autowired
     private IssueService issueService;
 
-    private Issue getIssueById(Long currentIssueId){
+    private Issue getIssueById(Long currentIssueId) {
         return issueService.findById(currentIssueId);
     }
 
-    private Project getProjectByIssue(Long currentIssueId){
+    private Project getProjectByIssue(Long currentIssueId) {
         return issueService.findById(currentIssueId).getProject();
     }
 
@@ -25,30 +25,44 @@ public class IssueSecurityService extends BasicSecurityService {
     }
 
     public boolean hasPermissionToRemoveIssue(Long currentIssueId) {
-         boolean isAdmin = getActiveUserRole().isAdmin();
-         boolean isProjectManager = getActiveUserRole().isProjectManager();
-         boolean isDeveloper = getActiveUserRole().isDeveloper();
-         boolean isQA = getActiveUserRole().isQA();
-         boolean isUserOnProject = false;
-         boolean isAssigned = false;
-        if (getActiveUser() != null && !getActiveUserRole().isAdmin()){
-            isUserOnProject = getActiveUser().getProject().equals(getProjectByIssue(currentIssueId));
-            isAssigned = getActiveUser().equals(getIssueById(currentIssueId).getAssignee());
-        }
-        return  isAdmin || (isProjectManager && isUserOnProject)
-                || ((isDeveloper || isQA) && isUserOnProject && isAssigned) ;
+        return isAdmin() || (isProjectManager() && isUserOnProject(currentIssueId))
+                || ((isDeveloper() || isQA()) && isUserOnProject(currentIssueId) && isAssigned(currentIssueId));
     }
 
     public boolean hasPermissionToEditIssue(Long currentIssueId) {
-        boolean isAdmin = getActiveUserRole().isAdmin();
-        boolean isProjectManager = getActiveUserRole().isProjectManager();
-        boolean isDeveloper = getActiveUserRole().isDeveloper();
-        boolean isQA = getActiveUserRole().isQA();
+        return isAdmin() || ((isDeveloper() || isQA() || isProjectManager()) && isUserOnProject(currentIssueId));
+    }
+
+    private boolean isAssigned(Long currentIssueId) {
+        boolean isAssigned = false;
+        if (getActiveUser() != null && !getActiveUserRole().isAdmin()) {
+            isAssigned = getActiveUser().equals(getIssueById(currentIssueId).getAssignee());
+        }
+        return isAssigned;
+    }
+
+    private boolean isUserOnProject(Long currentIssueId) {
         boolean isUserOnProject = false;
-        if (getActiveUser()!= null && !getActiveUserRole().isAdmin() && currentIssueId != 0){
+        if (getActiveUser() != null && !getActiveUserRole().isAdmin() && currentIssueId != 0) {
             isUserOnProject = getActiveUser().getProject().equals(getProjectByIssue(currentIssueId));
         }
-        return  isAdmin || ((isDeveloper || isQA || isProjectManager) && isUserOnProject) ;
+        return isUserOnProject;
+    }
+
+    private boolean isAdmin() {
+        return getActiveUserRole().isAdmin();
+    }
+
+    private boolean isProjectManager() {
+        return getActiveUserRole().isProjectManager();
+    }
+
+    private boolean isDeveloper() {
+        return getActiveUserRole().isDeveloper();
+    }
+
+    private boolean isQA() {
+        return getActiveUserRole().isQA();
     }
 
 }

@@ -221,52 +221,68 @@ VALUES
    'guest7');
 
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId, createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Remove configs', 'TASK', 'LOW', '1', '1', '2','2', '2016-02-02', '3', '1', 'some text', 'IN_PROGRESS');
+VALUES ('Remove configs', 'TASK', 'LOW', '1', '1', '2','2', '2016-12-12', '3', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description , status)
-VALUES ('Fix UI in search', 'TASK', 'LOW', '1', '1', '4','2', '2016-02-02', '10', '1', 'some text', 'IN_PROGRESS');
+VALUES ('Fix UI in search', 'TASK', 'LOW', '1', '1', '4','2', '2016-12-12', '10', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('GUI doesn`t load', 'BUG', 'LOW', '1', '1', '3', '2','2016-02-02', '30', '1', 'some text', 'INVALID');
+VALUES ('GUI doesn`t load', 'BUG', 'LOW', '1', '1', '3', '2','2016-12-12', '30', '1', 'some text', 'INVALID');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Fix typos', 'TASK', 'LOW', '1', '1', '2','2', '2016-02-02', '50', '1', 'some text', 'OPEN');
+VALUES ('Fix typos', 'TASK', 'LOW', '1', '1', '2','2', '2016-12-12', '50', '1', 'some text', 'OPEN');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Update libs', 'BUG', 'LOW', '1', '1', '2','2', '2016-02-02', '13', '1', 'some text', 'IN_PROGRESS');
+VALUES ('Update libs', 'BUG', 'LOW', '1', '1', '2','2', '2016-12-12', '13', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Don`t store user', 'TASK', 'LOW', '1', '1','3', '5', '2016-02-02', '54', '1', 'some text','OPEN');
+VALUES ('Don`t store user', 'TASK', 'LOW', '1', '1','3', '5', '2016-12-12', '54', '1', 'some text','OPEN');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Slow speed', 'EPIC', 'LOW', '1', '1', '2', '10','2016-02-02', '3', '1', 'some text', 'IN_PROGRESS');
+VALUES ('Slow speed', 'EPIC', 'LOW', '1', '1', '2', '10','2016-12-12', '3', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Cannot logout', 'TASK', 'LOW', '1', '1', '6','2', '2016-02-02', '58', '1', 'some text', 'QA_VALIDATION');
+VALUES ('Cannot logout', 'TASK', 'LOW', '1', '1', '6','2', '2016-12-12', '58', '1', 'some text', 'QA_VALIDATION');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId,  assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Add default val', 'TASK', 'LOW', '1', '1', '4','4', '2016-02-02', '46', '1', 'some text', 'IN_PROGRESS');
+VALUES ('Add default val', 'TASK', 'LOW', '1', '1', '4','4', '2016-12-12', '46', '1', 'some text', 'IN_PROGRESS');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description, status)
-VALUES ('Fix JS', 'TASK', 'LOW', '1', '1', '2','4', '2016-02-02', '12', '1', 'some text', 'IN_PROGRESS');
-
-
-INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Fix styles', 'BUG', 'MEDIUM', '3', '1', '3','4', '2016-02-02', '30', '2', 'some text');
-INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Remove new user', 'IMPROVEMENT', 'HIGH', '4', '1','4', '4', '2016-02-02', '25', '3', 'some text');
-INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Add some options', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-02-02', '5', '4', 'some text');
-INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Remove pictures', 'TASK', 'BLOCKER', '4', '1', '4','3', '2016-02-02', '15', '5', 'some text');
+VALUES ('Fix JS', 'TASK', 'LOW', '1', '1', '5','4', '2016-12-12', '12', '1', 'some text', 'IN_PROGRESS');
 
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Fix Add button', 'BUG', 'MEDIUM', '3', '1', '3','3', '2016-02-02', '30', '2', 'some text');
+VALUES ('Fix styles', 'BUG', 'MEDIUM', '3', '1', '3','4', '2016-12-12', '30', '2', 'some text');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Remove pictures', 'IMPROVEMENT', 'HIGH', '4', '1', '4','3', '2016-02-02', '25', '3', 'some text');
+VALUES ('Remove new user', 'IMPROVEMENT', 'HIGH', '4', '1','4', '4', '2016-12-12', '25', '3', 'some text');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Add some new information', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-02-02', '5', '4', 'some text');
+VALUES ('Add some options', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-12-12', '5', '4', 'some text');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Remove fonts', 'TASK', 'BLOCKER', '4', '1', '4','3', '2016-02-02', '15', '5', 'some text');
+VALUES ('Remove pictures', 'TASK', 'BLOCKER', '4', '1', '4','3', '2016-12-12', '15', '5', 'some text');
+
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Create new folder', 'BUG', 'MEDIUM', '3', '1', '3','3', '2016-02-02', '30', '2', 'some text');
+VALUES ('Fix Add button', 'BUG', 'MEDIUM', '3', '1', '3','3', '2016-12-12', '30', '2', 'some text');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Test new labels', 'IMPROVEMENT', 'HIGH', '4', '1', '4','3', '2016-02-02', '25', '3', 'some text');
+VALUES ('Remove pictures', 'IMPROVEMENT', 'HIGH', '4', '1', '4','3', '2016-12-12', '25', '3', 'some text');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Move pictures', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-02-02', '5', '4', 'some text');
+VALUES ('Add some new information', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-12-12', '5', '4', 'some text');
 INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
-VALUES ('Change status', 'TASK', 'BLOCKER', '4', '1', '4', '3', '2016-02-02', '15', '5', 'some text');
+VALUES ('Remove fonts', 'TASK', 'BLOCKER', '4', '1', '4','3', '2016-12-12', '15', '5', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Create new folder', 'BUG', 'MEDIUM', '3', '1', '3','3', '2016-12-12', '30', '2', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Test new labels', 'IMPROVEMENT', 'HIGH', '4', '1', '4','3', '2016-12-12', '25', '3', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Move pictures', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-12-12', '5', '4', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Change status', 'TASK', 'BLOCKER', '4', '1', '4', '3', '2016-12-12', '15', '5', 'some text');
+
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Fix new issue', 'BUG', 'MEDIUM', '3', '1', '3','3', '2016-12-12', '30', '2', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('add new features', 'IMPROVEMENT', 'HIGH', '4', '1', '4','3', '2016-12-12', '25', '3', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Change information', 'EPIC', 'CRITICAL', '3','1',  '2','3', '2016-12-12', '5', '4', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Modify fonts', 'TASK', 'BLOCKER', '4', '1', '3','3', '2016-12-12', '15', '5', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Optimize performance', 'BUG', 'MEDIUM', '3', '1', '4','3', '2016-12-12', '30', '2', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Test new feature', 'IMPROVEMENT', 'HIGH', '4', '1', '2','3', '2016-12-12', '25', '3', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Create a button', 'EPIC', 'CRITICAL', '3','1',  '3','3', '2016-12-12', '5', '4', 'some text');
+INSERT INTO Issue (title, type, priority, projectReleaseId, projectId, assigneeId,createdById, dueDate, estimateTime, parentId, description)
+VALUES ('Change users', 'TASK', 'BLOCKER', '4', '1', '4', '3', '2016-12-12', '15', '5', 'some text');
 
 INSERT INTO User (firstName, lastName, email, password, role, description)
 VALUES ('Javier',	'Manning', 'user6@ss.com', '$2a$12$4f.T2qhKX9a4EUaN5otL4uAVIPYpO9yHu1nXM7CHf71sJnicp2oxy', 'ROLE_USER',
