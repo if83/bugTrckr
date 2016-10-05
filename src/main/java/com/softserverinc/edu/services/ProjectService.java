@@ -5,13 +5,11 @@ import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.enums.UserRole;
 import com.softserverinc.edu.repositories.ProjectRepository;
-import com.softserverinc.edu.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -50,6 +48,12 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
+    /**
+     * Remove project from database and remove users from project by invoking
+     * {@link com.softserverinc.edu.services.UserService#userManagementInProject(User, Project, UserRole)}
+     *
+     * @param projectId the id of project
+     */
     @Transactional
     public void delete(Long projectId) {
         for(User user: projectRepository.findOne(projectId).getUsers()){

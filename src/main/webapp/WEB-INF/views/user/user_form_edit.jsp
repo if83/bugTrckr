@@ -73,7 +73,9 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <c:forEach var="project" items="${projects}">
-                                    <option class="projectOption" value="${project.id}">${project.title}</option>
+                                    <c:if test="${user.project.id != project.id}">
+                                        <option class="projectOption" value="${project.id}">${project.title}</option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <p class="project-info small">*if Project is not selected, role User will be assigned</p>
@@ -86,10 +88,9 @@
                             <select name="role" class="form-control selectpicker" id="roleInput">
                                 <option class="roleOptionFirst" value="${user.role}">${user.role.toString()}</option>
                                 <c:forEach var="role" items="${roles}">
-                                    <option class="roleOption${role.toString()}" value="${role}">${role.toString()}</option>
+                                    <option class="roleOption${role}" value="${role}">${role.toString()}</option>
                                 </c:forEach>
                             </select>
-                            <p class="role-info small">*if role is User, Project will not be assigned</p>
                             <p id="roleDefault" hidden>${user.role}</p>
                         </div>
                     </div>
@@ -105,7 +106,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <button id="cancelBtn" class="margin-top-30 btn btn-default col-sm-offset-9">Cancel</button>
+                    <button id="cancelBtn" class="margin-top-30 btn btn-default col-sm-offset-9 row">Cancel</button>
                     <input type="submit" value="Update" class="margin-top-30 btn btn-default pull-right"/>
                 </div>
             </form>

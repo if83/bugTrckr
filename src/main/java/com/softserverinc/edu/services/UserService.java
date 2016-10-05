@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -272,39 +271,6 @@ public class UserService {
         User user = userService.findOne(id);
         user.setIsDeleted(toDelete);
         userService.userManagementInProject(user, null, UserRole.ROLE_USER);
-    }
-
-    /**
-     * Return list of available roles for user
-     * @param role current user's role
-     * @return list of available roles for user
-     */
-    public List<UserRole> getAvailableRolesForUser(UserRole role) {
-        List<UserRole> result = new ArrayList<>();
-        switch (role) {
-            case ROLE_USER:
-                result.add(UserRole.ROLE_DEVELOPER);
-                result.add(UserRole.ROLE_QA);
-                result.add(UserRole.ROLE_PROJECT_MANAGER);
-                return result;
-            case ROLE_DEVELOPER:
-                result.add(UserRole.ROLE_USER);
-                result.add(UserRole.ROLE_QA);
-                result.add(UserRole.ROLE_PROJECT_MANAGER);
-                return result;
-            case ROLE_QA:
-                result.add(UserRole.ROLE_USER);
-                result.add(UserRole.ROLE_DEVELOPER);
-                result.add(UserRole.ROLE_PROJECT_MANAGER);
-                return result;
-            case ROLE_PROJECT_MANAGER:
-                result.add(UserRole.ROLE_USER);
-                result.add(UserRole.ROLE_DEVELOPER);
-                result.add(UserRole.ROLE_PROJECT_MANAGER);
-                return result;
-            default:
-                return result;
-        }
     }
 
     /**

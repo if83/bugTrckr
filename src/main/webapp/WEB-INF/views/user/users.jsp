@@ -186,7 +186,7 @@
     </div>
 </div>
 
-<!-- Popup for notifying of changing project-->
+<!-- Popup for notifying of changing users-->
 <p hidden id="message">${msg}</p>
 <div class="modal fade" id="modalChanges" tabindex="-1" data-backdrop="false"
      role="dialog" aria-labelledby="myModalLabel">

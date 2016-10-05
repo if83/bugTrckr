@@ -119,7 +119,6 @@
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="role" cssClass="control-label"/>
-                                <p class="role-info small">*if role is User, Project will not be assigned</p>
                             </div>
                         </spring:bind>
                     </div>

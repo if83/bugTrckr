@@ -39,7 +39,7 @@ $(document).ready(function () {
             "lastName": {
                 required: "Please enter last name ",
                 maxlength: "Last name must be not longer than 20 characters"
-            },
+            }
         }
     });
 
@@ -52,9 +52,13 @@ $(document).ready(function () {
         if ($(this).is(':checked')){
             $('#role').show();
             $('#project').show();
-            alert($('#projectInput').val() == 0);
             if($('#projectInput').val() == 0){
                 $('#roleInput').prop('disabled', true);
+                $('#roleInput').val("ROLE_USER").change()
+            }else{
+                $('.roleOptionROLE_USER').hide();
+                var clazz = ".roleOption" + $('#roleInput').val();
+                $(clazz).hide();
             }
         }else{
             $('#project').hide();
@@ -68,23 +72,15 @@ $(document).ready(function () {
     $('#projectInput').select().on("change", function() {
         $('#roleInput').prop('disabled', true);
         if($('#projectInput').val() != 0){
-            $('.roleOptionUser').hide();
+            $('.roleOptionROLE_USER').hide();
             $('#roleInput').val('ROLE_QA').change();
             $('#roleInput').prop('disabled', false);
         }if(($('#projectInput').val() == 0)) {
+            $('.roleOptionFirst').show();
             $('#roleInput').val('ROLE_USER').change();
-            $('.roleOptionUser').show();
+            $('.roleOptionROLE_USER').show();
             $('#roleInput').prop('disabled', true);
         }
-    });
-
-    //validation of input of user's project
-    $(function () {
-        $('#roleInput').select().on("change", function () {
-            if($('#projectInput').val() != 0 && $('#roleInput').val() == 'ROLE_USER'){
-                $('#projectInput').val(0).change();
-            }
-        });
     });
 
     //cancel button of form

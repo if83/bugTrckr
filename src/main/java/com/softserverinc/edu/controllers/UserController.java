@@ -71,10 +71,9 @@ public class UserController {
     @PreAuthorize("@userSecurityService.hasPermissionToUserManagement()")
     @GetMapping("/user/{id}/edit")
     public String editUser(@PathVariable Long id, Model model) {
+        populateDefaultModel(model);
         User user = userService.findOne(id);
         model.addAttribute("user", user);
-        model.addAttribute("roles", userService.getAvailableRolesForUser(user.getRole()));
-        model.addAttribute("projects", projectService.findAll());
         return "user_form_edit";
     }
 
