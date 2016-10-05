@@ -24,12 +24,6 @@
     <div class="col-sm-11 col-sm-offset-1 col-md-6 col-md-offset-1">
 
         <div class="row">
-            <label class="col-sm-3">ID</label>
-            <div class="col-sm-9"><p>${user.id}</p></div>
-        </div>
-
-
-        <div class="row">
             <label class="col-sm-3">Email</label>
             <div class="col-sm-9"><p>${user.email}</p></div>
         </div>
@@ -46,7 +40,7 @@
 
         <div class="row">
             <label class="col-sm-3">Role</label>
-            <div class="col-sm-9"><p>${user.role}</p></div>
+            <div class="col-sm-9"><p>${user.role.toString()}</p></div>
         </div>
 
         <div class="row">
@@ -57,14 +51,16 @@
         <c:if test="${not empty user.project}">
             <div class="row">
                 <label class="col-sm-3">Active Project</label>
-                <div class="col-sm-9">${user.project.title}</div>
+
+                <div class="col-sm-9"><a class="viewLink" href="<spring:url value='/projects/project/${user.project.id}'/>">
+                    ${user.project.title}</a></div>
             </div>
         </c:if>
         <sec:authorize access="hasRole('ADMIN')">
             <div class="margin-top-30 row">
                 <div class="col-sm-4">
                     <spring:url value="/user/${user.id}/edit" var="useredit"/>
-                    <a class="btn btn-primary btn-u" href="${useredit}" role="button">Edit profile</a>
+                    <a class="btn btn-default" href="${useredit}" role="button">Edit profile</a>
                 </div>
                 <div class="col-sm-8"></div>
             </div>
@@ -221,30 +217,6 @@
                         </c:choose>
                     </c:forEach>
                 </ul>
-                <%--pagination of comments of user--%>
-                <c:if test="${allHistory.getTotalPages()> 1}">
-                    <nav aria-label="Page navigation" id="pagerID">
-                        <div class="text-center">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="<spring:url value='/user/${user.id}/view?page=0'/>" aria-label="Start">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <c:forEach var="page" begin="0" end="${allHistory.getTotalPages() - 1}">
-                                    <li>
-                                        <a href="<spring:url value='/user/${user.id}/view?page=${page}'/>">${page + 1}</a>
-                                    </li>
-                                </c:forEach>
-                                <li>
-                                    <a href="<spring:url value='/user/${user.id}/view?page=${allHistory.getTotalPages() - 1}'/>"
-                                       aria-label="End"><span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </c:if>
             </div>
         </div>
     </div>
