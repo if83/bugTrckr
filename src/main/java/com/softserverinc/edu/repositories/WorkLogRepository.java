@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * Contains custom Spring Data JPA methods wor working with DB
+ * Contain custom Spring Data JPA methods wor working with DB
  */
 public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
 
@@ -47,5 +47,4 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
      * @return Pageable list of all WorkLog entries
      */
     Page<WorkLog> findAll(Pageable pageable);
-
 }

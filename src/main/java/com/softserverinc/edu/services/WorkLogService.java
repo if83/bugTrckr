@@ -33,7 +33,7 @@ public class WorkLogService {
     private WorkLogSecurityService workLogSecurityService;
 
     /**
-     * Finds work log entry by id
+     * Find work log entry by id
      *
      * @param id work log entry's id
      * @return WorkLog entry with specified id or null if there is no such entry
@@ -43,7 +43,7 @@ public class WorkLogService {
     }
 
     /**
-     * Finds work log entry by issue and user.
+     * Find work log entry by issue and user.
      *
      * @param user user instance
      * @param issue issue instance
@@ -54,7 +54,7 @@ public class WorkLogService {
     }
 
     /**
-     * Finds work log entry by issue
+     * Find work log entry by issue
      *
      * @param issue issue instance
      * @return List of WorkLog entry with specified issue or empty list if there is no such entries
@@ -64,7 +64,7 @@ public class WorkLogService {
     }
 
     /**
-     * Finds work log entry by issue.
+     * Find work log entry by issue.
      *
      * @param issue issue instance
      * @param pageable Pageable object
@@ -75,7 +75,7 @@ public class WorkLogService {
     }
 
     /**
-     * Finds work log entry by issue's id
+     * Find work log entry by issue's id
      *
      * @param issueId issue's id
      * @return List of WorkLog entry which issue's field id is specified or empty list if there is no such entries
@@ -85,7 +85,7 @@ public class WorkLogService {
     }
 
     /**
-     * Saves WorkLog entry
+     * Save WorkLog entry
      *
      * @param workLog WorkLog instance
      * @return saved WorkLog instance
@@ -96,7 +96,7 @@ public class WorkLogService {
     }
 
     /**
-     * Removes WorkLog entry by specified id
+     * Remove WorkLog entry by specified id
      *
      * @param id WorkLog entry's id
      */
@@ -106,8 +106,10 @@ public class WorkLogService {
     }
 
     /**
-     * Fills model with values required for saving new WorkLog entry
+     * Fill model with values required for saving new WorkLog entry
      *
+     * <p>invoke {@link #populateWorkLogModel(ModelMap, Long, Pageable)}</p>
+     * <p>invoke {@link #editorRequests(Long)}</p>
      * @param model ModelMap instance
      * @param issueId issue's id
      * @param pageable Pageable object
@@ -128,8 +130,9 @@ public class WorkLogService {
     }
 
     /**
-     * Fills model with values required for editing WorkLog entry
+     * Fill model with values required for editing WorkLog entry
      *
+     * <p>invoke {@link #populateWorkLogModel(ModelMap, Long, Pageable)}</p>
      * @param model ModelMap instance
      * @param workLogId workLog's id
      * @param issueId issue's id
@@ -150,8 +153,11 @@ public class WorkLogService {
     }
 
     /**
-     * Fills model with values required for creating and editing WorkLog entry
+     * Fill model with values required for creating and editing WorkLog entry
      *
+     * <p>invoke {@link #formatDate(Date)}</p>
+     * <p>invoke {@link #getTotalSpentTimeForIssueByAllUsers(Long)}</p>
+     * <p>invoke {@link #getNewWorkLog(Long)}</p>
      * @param model  ModelMap instance
      * @param issueId issue's id
      * @param pageable Pageable object
@@ -164,8 +170,9 @@ public class WorkLogService {
     }
 
     /**
-     * Prepares WorkLog instance ready to be used in form
+     * Prepare WorkLog instance ready to be used in form
      *
+     * <p>invoke {@link #getCurrentIssue(Long)}</p>
      * @param issueId issue's id
      * @return WorkLog instance with specified issue and user fields
      */
@@ -180,7 +187,7 @@ public class WorkLogService {
     }
 
     /**
-     * Searches issue by id
+     * Search issue by id
      *
      * @param issueId issue's id
      * @return issue with specified id
@@ -190,13 +197,14 @@ public class WorkLogService {
     }
 
     /**
-     * Returns total spent work time for issue with specified id by all users
+     * Return total spent work time for issue with specified id by all users
      *
+     * <p>invoke {@link #getCurrentIssue(Long)}</p>
      * @param issueId issue's id
      * @return total spent work time for issue with specified id by all users
      */
     private Long getTotalSpentTimeForIssueByAllUsers(Long issueId) {
-        Long totalSpentTime = new Long(0);
+        Long totalSpentTime = 0L;
         List<WorkLog> workLogList = findByIssue(getCurrentIssue(issueId));
         for (WorkLog worklogIterator : workLogList) {
             totalSpentTime += worklogIterator.getAmountOfTime();
@@ -205,7 +213,7 @@ public class WorkLogService {
     }
 
     /**
-     * Converts Date objects to required String type
+     * Convert Date objects to String type
      *
      * @param date date
      * @return the String representation of date
@@ -215,7 +223,7 @@ public class WorkLogService {
     }
 
     /**
-     * Prevents requests from CKEDITOR tool
+     * Prevent requests from CKEditor tool
      *
      * @param issueId issue's id
      * @return Boolean representation of prevention
@@ -223,5 +231,4 @@ public class WorkLogService {
     public Boolean editorRequests(Long issueId) {
         return issueId == 0 || issueId == null;
     }
-
 }

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * Describes WorkLog entity's fields
+ * Describe WorkLog entity's fields
  */
 @Entity
 public class WorkLog {

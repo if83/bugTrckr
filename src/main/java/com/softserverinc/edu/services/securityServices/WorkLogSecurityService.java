@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Provide access control to controller methods and UI features
+ */
 @Service
 public class WorkLogSecurityService extends BasicSecurityService {
 
@@ -31,8 +34,9 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Checks if current user has permission to remove WorkLog entry
+     * Check if current user has permission to remove WorkLog entry
      *
+     * <p>invoke {@link #getProjectManager(Long)}</p>
      * @param workLogId workLog's id
      * @return Boolean representation of permission to remove WorkLog entry
      */
@@ -42,8 +46,9 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Checks if current user has permission to save WorkLog entry
+     * Check if current user has permission to save WorkLog entry
      *
+     * <p>invoke {@link #getProjectManager(Long)}</p>
      * @param issueId issue's id for which is work logging
      * @param workLog WorkLog instance
      * @return Boolean representation of permission to remove WorkLog entry
@@ -55,8 +60,9 @@ public class WorkLogSecurityService extends BasicSecurityService {
         }
 
     /**
-     * Checks if current user has permission to edit WorkLog entry
+     * Check if current user has permission to edit WorkLog entry
      *
+     * <p>invoke {@link #getProjectManager(Long)}</p>
      * @param workLogId workLog's id
      * @return Boolean representation of permission to edit WorkLog entry
      */
@@ -66,7 +72,7 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Searches project manager user of project for which is work logging
+     * Search project manager user of project for which is work logging
      *
      * @param workLogId workLog's id
      * @return user which is project manager of project for which is work logging
@@ -83,7 +89,7 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Checks if current user has permission to use work log form for creating new WorkLog entry
+     * Check if current user has permission to use work log form for creating new WorkLog entry
      *
      * @param issueId issue's id
      * @return String representation of role of user who has permission to create WorkLog entry
@@ -96,8 +102,9 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Checks if current user has permission to use work log form for editing WorkLog entry
+     * Check if current user has permission to use work log form for editing WorkLog entry
      *
+     * <p>invoke {@link #roleToSectionAuthorizeUseableString(UserRole)}</p>
      * @param issueId issue's id
      * @return String representation of user's role which has permission to edit WorkLog entry
      */
@@ -112,7 +119,7 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Checks whether current user worked on issue
+     * Check whether current user worked on issue
      *
      * @param user current user
      * @param issueId issue's id
@@ -129,7 +136,7 @@ public class WorkLogSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Converts UserRole object to authorize sections usable format
+     * Convert UserRole object to authorize sections usable format
      *
      * @param userRole user's role
      * @return String representation of user's role usable for authorize sections on jsp

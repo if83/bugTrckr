@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 /**
- * Serves requests used for working with WorkLog entity
+ * Serve requests used for working with WorkLog entity
  */
 @Controller
 public class WorkLogController {
@@ -37,7 +37,7 @@ public class WorkLogController {
     private WorkLogSecurityService workLogSecurityService;
 
     /**
-     * Serves WorkLog saving requests
+     * Serve WorkLog saving requests
      *
      * @param issueId issue's id
      * @param workLog instance of WorkLog entity accepted from UI
@@ -63,7 +63,7 @@ public class WorkLogController {
     }
 
     /**
-     * Serves WorkLog instance removing requests
+     * Serve WorkLog instance removing requests
      *
      * @param worklogId WorkLog entry's id
      * @param redirectAttributes attributes for redirect requests

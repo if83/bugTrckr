@@ -5,22 +5,16 @@ import com.softserverinc.edu.entities.User;
 import com.softserverinc.edu.entities.WorkLog;
 import com.softserverinc.edu.services.IssueService;
 import com.softserverinc.edu.services.WorkLogService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Defines methods for accepted from UI validating WorkLog instance
+ * Define  methods for accepted from UI WorkLog instance
  */
 @Component
 public class WorkLogFormValidator {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WorkLogFormValidator.class);
 
     @Autowired
     private WorkLogService workLogService;
@@ -29,8 +23,10 @@ public class WorkLogFormValidator {
     private IssueService issueService;
 
     /**
-     * Invokes more specific validation methods
+     * Invoke more specific validation methods
      *
+     * <p>invoke {@link #validateWorkingOnIssueDates(WorkLog, User, Long)}</p>
+     * <p>/invoke {@link #validateAmountOfTime(WorkLog)}</p>
      * @param workLog WorkLog instance accepted from UI
      * @param user current user
      * @param issueId issue's id
@@ -47,26 +43,20 @@ public class WorkLogFormValidator {
      * @param workLog WorkLog instance accepted from UI
      * @return Boolean representation of validation
      */
-    public boolean validateAmountOfTime(WorkLog workLog) {
-        if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() <= 0)
+    private boolean validateAmountOfTime(WorkLog workLog){
+        if(!(workLog.getAmountOfTime() instanceof Long) || workLog.getAmountOfTime() <= 0) {
             return false;
-        try {
-            SimpleDateFormat dateFormatSQL = new SimpleDateFormat(PageConstant.DATE_FORMAT);
-            String startTime = workLogService.formatDate(workLog.getStartDate());
-            String endTime = workLogService.formatDate(workLog.getEndDate());
-            int days = (int) (1 + (dateFormatSQL.parse(endTime).getTime() -
-                    dateFormatSQL.parse(startTime).getTime()) / PageConstant.MS_IN_ONE_DAY);
-            double dailyAmountOfTime = workLog.getAmountOfTime() / days;
-            //may specify user or project workday duration instead
-            return dailyAmountOfTime < PageConstant.WORKDAY_DURATION_IN_HRS;
-        } catch (ParseException e) {
-            LOGGER.error(e.toString(), e);
         }
-        return true;
+        Long startTime = workLog.getStartDate().getTime();
+        Long endTime = workLog.getEndDate().getTime();
+        int days = (int) (1 + (endTime - startTime) / PageConstant.MS_IN_ONE_DAY);
+        double dailyAmountOfTime = workLog.getAmountOfTime() / days;
+        //may specify user or project workday duration instead
+        return dailyAmountOfTime <= PageConstant.WORKDAY_DURATION_IN_HRS;
     }
 
     /**
-     * Validates working on issue dates
+     * Validate working on issue dates
      * Prevents same periods repetitive work logging by current user and logging periods outside issue's lifecycle
      *
      * @param workLog WorkLog instance accepted from UI
@@ -74,7 +64,7 @@ public class WorkLogFormValidator {
      * @param issueId issue's id
      * @return Boolean representation of validation
      */
-    public boolean validateWorkingOnIssueDates(WorkLog workLog, User user, Long issueId) {
+    private boolean validateWorkingOnIssueDates(WorkLog workLog, User user, Long issueId) {
         Long startTimeUI = workLog.getStartDate().getTime();
         Long endTimeUI = workLog.getEndDate().getTime();
         Long issueDueDateTime = workLog.getIssue().getDueDate().getTime();
