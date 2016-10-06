@@ -13,6 +13,10 @@
             <li role="presentation">
                 <a href="#projectsFound" aria-controls="#projectsFound" role="tab" data-toggle="tab">Projects found</a>
             </li>
+            <li role="presentation">
+                <a href="#releaseFound" aria-controls="#releaseFound" role="tab" data-toggle="tab">
+                    Releases found</a>
+            </li>
         </ul>
     </div>
 </div>
@@ -32,6 +36,7 @@
                     </thead>
                     <tbody>
                     <c:forEach var="issue" items="${issues}">
+                        <c:if test="msg is "></c:if>
                         <tr>
                             <td class="text-center">
                                 <a class="viewLink"
@@ -66,6 +71,34 @@
                             <a class="viewLink" href="<spring:url value='projects/project/${project.id}'/>">
                                 <c:out value="${project.title}"/> </a></td>
                         <td class="text-center"><c:out value="${project.description}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="releaseFound">
+        <div class="margin-top-30">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th class="text-center">Project</th>
+                    <th class="text-center">Version</th>
+                    <th class="text-center">Release Status</th>
+                    <th class="text-center">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="release" items="${releases}">
+                    <tr>
+                        <td class="text-center">
+                            <a class="viewLink" href="<spring:url value='projects/project/${release.project.id}'/>">
+                                <c:out value="${release.project.title}"/> </a></td>
+                        <td class="text-center">
+                            <a class="viewLink" href="<spring:url value='projects/project/${release.version}'/>">
+                                <c:out value="${release.version}"/> </a></td>
+                        <td class="text-center"><c:out value="${release.releaseStatus}"/></td>
+                        <td class="text-center"><c:out value="${release.description}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>

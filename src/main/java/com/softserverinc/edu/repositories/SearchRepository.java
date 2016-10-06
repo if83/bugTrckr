@@ -2,6 +2,7 @@ package com.softserverinc.edu.repositories;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
+import com.softserverinc.edu.entities.ProjectRelease;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
@@ -25,7 +26,7 @@ public class SearchRepository {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SearchRepository.class);
 
-    //Using JPA to index data
+
     @Transactional
     public void indexEntity() {
         try {
@@ -37,11 +38,11 @@ public class SearchRepository {
         }
     }
 
-    //Using JPA to create and execute a search
+
     @Transactional
     public List<Object> search(String searchText) {
         List resultList = new ArrayList<>();
-        try{
+        try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             FullTextEntityManager fullTextEntityManager =
                     Search.getFullTextEntityManager(entityManager);
@@ -52,17 +53,20 @@ public class SearchRepository {
                     .get();
 
             org.apache.lucene.search.Query query = qb
-                    .keyword().onFields("title", "description")
+                    .keyword().onFields("title", "description", "version")
                     .matching(searchText)
                     .createQuery();
 
             Query jpaQuery =
-                    fullTextEntityManager.createFullTextQuery(query, Issue.class, Project.class);
+                    fullTextEntityManager.createFullTextQuery(query,
+                            Issue.class,
+                            Project.class,
+                            ProjectRelease.class);
 
             resultList = jpaQuery.getResultList();
             return resultList;
-        } catch (Exception e){
-            LOGGER.info("search", e);
+        } catch (Exception e) {
+            LOGGER.error("search", e);
         }
         return resultList;
 

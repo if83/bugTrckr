@@ -2,8 +2,7 @@ package com.softserverinc.edu.controllers;
 
 import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
-import com.softserverinc.edu.repositories.IssueRepository;
-import com.softserverinc.edu.repositories.ProjectRepository;
+import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.repositories.SearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Controller
 public class SearchController {
 
@@ -25,36 +23,29 @@ public class SearchController {
     @Autowired
     private SearchRepository searchRepository;
 
-    @Autowired
-    private IssueRepository issueRepository;
-
-    @Autowired
-    private ProjectRepository projectRepository;
-
-    @PostMapping(value = "/search_text")
-    public String search(@RequestParam(value = "searchText") String searchText, Model model){
-
-        LOGGER.info(searchText);
+    @PostMapping("/search_text")
+    public String search(@RequestParam(value = "searchText") String searchText, Model model) {
 
         searchRepository.indexEntity();
 
         List<Object> searchResult = searchRepository.search(searchText);
         List<Project> projects = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();
-        LOGGER.info("length", searchText.length());
+        List<ProjectRelease> releases = new ArrayList<>();
+
         for (Object object : searchResult) {
             if (object instanceof Project) {
                 projects.add((Project) object);
-                LOGGER.info(((Project) object).getTitle());
-            } else {
+            } else if (object instanceof Issue) {
                 issues.add((Issue) object);
-
-                LOGGER.info(((Issue) object).getTitle());
+            } else {
+                releases.add((ProjectRelease) object);
             }
         }
-        System.out.println(issues.size());
         model.addAttribute("issues", issues);
         model.addAttribute("projects", projects);
+        model.addAttribute("releases", releases);
         return "search_result";
     }
+
 }

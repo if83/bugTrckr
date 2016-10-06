@@ -4,15 +4,17 @@ import com.softserverinc.edu.entities.enums.ReleaseStatus;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Indexed
 public class ProjectRelease {
 
     @Id
@@ -27,6 +29,7 @@ public class ProjectRelease {
     @NotEmpty(message = "")
     @Size(max = 32, message = "")
     @Column(nullable = false, length = 32)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String version;
 
     @Column(nullable = false, length = 11)
@@ -34,6 +37,7 @@ public class ProjectRelease {
     private ReleaseStatus releaseStatus = ReleaseStatus.OPEN;
 
     @Column(length = 10000)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
 
     @OneToMany(mappedBy = "projectRelease")
