@@ -75,17 +75,17 @@ public class Issue {
     @NotNull
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
+    @DateTimeFormat(pattern = PageConstant.ISSUE_DATE_FORMAT)
     private Date createTime = new Date();
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
+    @DateTimeFormat(pattern = PageConstant.ISSUE_DATE_FORMAT)
     private Date dueDate;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = PageConstant.DATE_FORMAT)
+    @DateTimeFormat(pattern = PageConstant.ISSUE_DATE_FORMAT)
     private Date lastUpdateDate;
 
     @NotNull(message = "Please enter estimated time")
