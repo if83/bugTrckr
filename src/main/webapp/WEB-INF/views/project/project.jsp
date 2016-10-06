@@ -16,7 +16,7 @@
             <ol class="pull-right breadcrumb">
                 <li><a href="<spring:url value='/' />">Home</a></li>
                 <li><a href="<spring:url value='/projects'/>">Projects</a></li>
-                <li class="active">${project.title} </li>
+                <li class="active"><a href="<spring:url value='/projects/project/${project.id}'/>">${project.title}</a></li>
             </ol>
         </div>
     </div>

@@ -20,7 +20,7 @@
             <add-attribute value="/css/bootstrap-theme.min.css"/>
             <add-attribute value="/css/select2.min.css"/>
             <add-attribute value="/css/font-awesome.min.css"/>
-            <add-attribute value="/css/login.css"></add-attribute>
+            <add-attribute value="/css/login.css"/>
             <add-attribute value="/css/site.css"/>
             <add-attribute value="/css/navbar-center.css"/>
             <add-attribute value="/css/bootstrap-select.min.css"/>
@@ -114,7 +114,7 @@
 
     <!--Project-->
     <definition name="projects" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Project page"/>
+        <put-attribute name="title" value="Projects"/>
         <put-attribute name="content" value="/WEB-INF/views/project/projects.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/user.css"/>
@@ -126,7 +126,7 @@
     </definition>
 
     <definition name="project" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Projects/project"/>
+        <put-attribute name="title" value="Project page"/>
         <put-attribute name="content" value="/WEB-INF/views/project/project.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/project.css"/>
@@ -137,7 +137,7 @@
     </definition>
 
     <definition name="project_form" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="Projects add/edit"/>
+        <put-attribute name="title" value="Projects form"/>
         <put-attribute name="content" value="/WEB-INF/views/project/project_form.jsp"/>
         <put-list-attribute name="stylesheets" inherit="true">
             <add-attribute value="/css/release.css"/>

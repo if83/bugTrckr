@@ -109,16 +109,14 @@
 
                                     <div class="input-group" id="email">
                                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                        <input path="username" name="username" type="username"
+                                        <input name="username"
                                                placeholder="Email" class="form-control"/>
-                                        <errors path="username"/>
                                     </div>
 
                                     <div class="input-group" id="password">
                                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                        <input path="password" name="password" type="password"
+                                        <input name="password" type="password"
                                                placeholder="Password" class="form-control"/>
-                                        <errors path="password"/>
                                     </div>
                                     <div class="form-group margin-bottom-40">
                                         <div class="controls pull-right">

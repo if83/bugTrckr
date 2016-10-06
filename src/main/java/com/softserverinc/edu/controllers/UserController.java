@@ -108,15 +108,7 @@ public class UserController {
         }
         userService.userRoleAndProjectValidator(user, user.getProject(), user.getRole());
         userService.saveUser(user);
-        if(user.getProject() != null){
-            if(user.getRole().isProjectManager()){
-                redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
-                        user.getProject().getTitle()));
-            }
-            else {
-                redirectAttributes.addFlashAttribute("msg", String.format("%s is added", user.getFullName()));
-            }
-        }
+        notificationOfAddingNewUser(user, redirectAttributes);
         return "redirect:/users";
     }
 
@@ -158,5 +150,15 @@ public class UserController {
         roles.add(UserRole.ROLE_PROJECT_MANAGER);
         model.addAttribute("roles", roles);
         model.addAttribute("projects", projectService.findAll());
+    }
+
+    private void notificationOfAddingNewUser(User user, RedirectAttributes redirectAttributes){
+        if(user.getRole().isProjectManager()){
+            redirectAttributes.addFlashAttribute("msg", String.format("%s is Project Manager of %s", user.getFullName(),
+                    user.getProject().getTitle()));
+        }
+        else {
+            redirectAttributes.addFlashAttribute("msg", String.format("%s is added", user.getFullName()));
+        }
     }
 }

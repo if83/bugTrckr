@@ -14,10 +14,16 @@ public class ProjectSecurityService extends BasicSecurityService {
         return isAuthenticated() ? true : projectService.findById(currentProjectId).getGuestView();
     }
 
+    /**
+     * Check user permission for editing users in project
+     *
+     * @param currentProjectId the id of current project
+     * @return True, if user is Admin or user is Project Manager and id od his project equal to currentProjectId,
+     * otherwise false
+     */
     public boolean hasPermissionToProjectManagement(Long currentProjectId) {
-        return getActiveUserRole().isAdmin() || (getActiveUserRole().isProjectManager() &&
-                getActiveUser().getProject().getId() == currentProjectId);
-
+        return getActiveUserRole().isAdmin() || getActiveUserRole().isProjectManager() &&
+                getActiveUser().getProject().getId() == currentProjectId;
     }
 
 }

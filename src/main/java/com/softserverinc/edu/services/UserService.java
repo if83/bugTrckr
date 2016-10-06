@@ -44,24 +44,6 @@ public class UserService {
         return userRepository.findByEmailIs(email);
     }
 
-    /**
-     * Returns user that added comment to issue.
-     * If comment was added by anonymous user, return mock user object.
-     *
-     * @param comment current comment
-     * @return author of issue comment
-     */
-    public User getAuthorOfIssueComment(IssueComment comment) {
-        // check if user is anonym
-        if (comment.getUser() == null) {
-            User mockUser = new User();
-            // set name, that anonym specified when added comment
-            mockUser.setFirstName(comment.getAnonymousName());
-            return mockUser;
-        }
-        return comment.getUser();
-    }
-
     public List<User> findUsersForRelease(ProjectRelease release) {
         Project project = projectService.findById(release.getProject().getId());
         return findUsersInProject(project, false, 1);
@@ -82,18 +64,6 @@ public class UserService {
         return users;
     }
 
-    /**
-     * Find all users in Project except Project Manager.
-     *
-     * @param project  the instance of Project entity
-     * @param pageable the paging information
-     * @return the paginated list of users in Project except Project Manager
-     */
-    public Page<User> findUsersByProjectPageable(Project project, Pageable pageable) {
-        return userRepository.findByProjectAndRoleNotAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false,
-                pageable);
-    }
-
     public Page<User> findByFullName(String firstName, String lastName, Pageable pageable) {
         return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName, pageable);
     }
@@ -108,36 +78,6 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
-    }
-
-    /**
-     * Set encoded password to the User instance.
-     *
-     * @param user the instance of User entity
-     */
-    public void passwordEncoder(User user) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-    }
-
-    /**
-     * Save created User into database.
-     * <p>invoke {@link #passwordEncoder(User user)}</p>
-     * <p>If user's role is ROLE_PROJECT_MANAGER it invokes {@link #saveProjectManager(User, Long)}</p>
-     *
-     * @param user the instance of User entity
-     */
-    @Transactional
-    public void saveUser(User user) {
-        if (user.getRole().isProjectManager()) {
-            passwordEncoder(user);
-            user.setEnabled(1);
-            userService.saveProjectManager(user, user.getProject().getId());
-            return;
-        }
-        passwordEncoder(user);
-        user.setEnabled(1);
-        userRepository.save(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -162,6 +102,72 @@ public class UserService {
 
     public Page<User> findAllUsers(Pageable pageable) {
         return userRepository.findByRoleNot(UserRole.ROLE_ADMIN, pageable);
+    }
+
+    public Page<User> search(String firstName, String lastName, String email, UserRole role, Pageable pageable) {
+        return userRepository.findByFirstNameContainingAndLastNameContainingAndEmailContainingAndRoleIs(firstName,
+                lastName, email, role, pageable);
+    }
+
+    /**
+     * Returns user that added comment to issue.
+     * If comment was added by anonymous user, return mock user object.
+     *
+     * @param comment current comment
+     * @return author of issue comment
+     */
+    public User getAuthorOfIssueComment(IssueComment comment) {
+        // check if user is anonym
+        if (comment.getUser() == null) {
+            User mockUser = new User();
+            // set name, that anonym specified when added comment
+            mockUser.setFirstName(comment.getAnonymousName());
+            return mockUser;
+        }
+        return comment.getUser();
+    }
+
+    /**
+     * Find all users in Project except Project Manager.
+     *
+     * @param project  the instance of Project entity
+     * @param pageable the paging information
+     * @return the paginated list of users in Project except Project Manager
+     */
+    public Page<User> findUsersByProjectPageable(Project project, Pageable pageable) {
+        return userRepository.findByProjectAndRoleNotAndIsDeleted(project, UserRole.ROLE_PROJECT_MANAGER, false,
+                pageable);
+    }
+
+    /**
+     * Set encoded password to the User instance.
+     *
+     * @param user the instance of User entity
+     */
+    public void passwordEncoder(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+
+    /**
+     * Save created User into database.
+     * <p>
+     * <p>invoke {@link #passwordEncoder(User user)}</p>
+     * <p>If user's role is ROLE_PROJECT_MANAGER method invokes {@link #saveProjectManager(User, Long)}</p>
+     *
+     * @param user the instance of User entity
+     */
+    @Transactional
+    public void saveUser(User user) {
+        if (user.getRole().isProjectManager()) {
+            passwordEncoder(user);
+            user.setEnabled(1);
+            userService.saveProjectManager(user, user.getProject().getId());
+            return;
+        }
+        passwordEncoder(user);
+        user.setEnabled(1);
+        userRepository.save(user);
     }
 
     /**
@@ -265,12 +271,11 @@ public class UserService {
 
     /**
      * Change user's role and project and save user into database
-     * <p>
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)} if passed role not null</p>
      *
      * @param userId    the id of user
      * @param projectId the id of project
-     * @param role      value of user role from UI, may be null
+     * @param role      the value of user role from UI, may be null
      */
     @Transactional
     public void changeUserRoleInProject(Long userId, Long projectId, UserRole role) {
@@ -289,16 +294,16 @@ public class UserService {
     }
 
     /**
-     * Remove user from project and set toDeleted in passed option
+     * Remove user from project and set isDeleted in passed option
      * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
      *
      * @param id       the id value of user's instance
-     * @param toDelete user's field that determines the existence of the user in the system
+     * @param isDelete user's field that determines the existence of the user in the system
      */
     @Transactional
-    public void setIsDeleted(long id, boolean toDelete) {
+    public void setIsDeleted(long id, boolean isDelete) {
         User user = userService.findOne(id);
-        user.setIsDeleted(toDelete);
+        user.setIsDeleted(isDelete);
         userService.userManagementInProject(user, null, UserRole.ROLE_USER);
     }
 
@@ -373,10 +378,5 @@ public class UserService {
             user.setRole(UserRole.ROLE_USER);
             user.setProject(null);
         }
-    }
-
-    public Page<User> search(String firstName, String lastName, String email, UserRole role, Pageable pageable) {
-        return userRepository.findByFirstNameContainingAndLastNameContainingAndEmailContainingAndRoleIs(firstName,
-                lastName, email, role, pageable);
     }
 }
