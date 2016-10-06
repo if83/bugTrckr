@@ -4,9 +4,7 @@ import com.softserverinc.edu.entities.Issue;
 import com.softserverinc.edu.entities.Project;
 import com.softserverinc.edu.entities.ProjectRelease;
 import com.softserverinc.edu.entities.User;
-import com.softserverinc.edu.entities.enums.IssuePriority;
-import com.softserverinc.edu.entities.enums.IssueStatus;
-import com.softserverinc.edu.entities.enums.IssueType;
+import com.softserverinc.edu.entities.enums.*;
 import com.softserverinc.edu.repositories.IssueRepository;
 import com.softserverinc.edu.repositories.ProjectReleaseRepository;
 import com.softserverinc.edu.repositories.ProjectRepository;
@@ -70,7 +68,7 @@ public class IssueServiceTest {
     public void testFindIssuesByRelease() throws Exception {
         id = 3L;
         issuePage = createTestIssuePage(id);
-        projectRelease = projectReleaseRepository.findOne(id);
+        projectRelease = createTestRelease(id);
         Mockito.when(issueRepository.findByProjectRelease(projectRelease, pageable)).thenReturn(issuePage);
 
         Page<Issue> retrievedIssue = issueService.findIssuesForRelease(projectRelease, pageable);
@@ -82,7 +80,7 @@ public class IssueServiceTest {
         id = 4L;
         searchedTitle = "First";
         issuePage = createTestIssuePage(id);
-        projectRelease = projectReleaseRepository.findOne(id);
+        projectRelease = createTestRelease(id);
         Mockito.when(issueRepository.findByProjectReleaseAndTitleContaining(projectRelease, searchedTitle, pageable))
                 .thenReturn(issuePage);
 
@@ -95,7 +93,7 @@ public class IssueServiceTest {
         id = 5L;
         searchedTitle = "First";
         issuePage = createTestIssuePage(id);
-        project = projectRepository.findOne(id);
+        project = createTestProject(id);
         Mockito.when(issueRepository.findByProjectAndTitleContaining(project, searchedTitle, pageable))
                 .thenReturn(issuePage);
 
@@ -103,25 +101,60 @@ public class IssueServiceTest {
         Assert.assertEquals(issuePage, retrievedIssue);
     }
 
-    private Issue createTestIssue(Long issueId) {
-        Issue issue = new Issue();
-        issue.setId(issueId);
-        issue.setTitle("First issue");
-        issue.setType(IssueType.BUG);
-        issue.setDescription("Test");
-        issue.setPriority(IssuePriority.BLOCKER);
-        issue.setStatus(IssueStatus.OPEN);
-        issue.setCreatedBy(new User());
-        issue.setAssignee(new User());
-        issue.setCreateTime(new Date());
-        issue.setDueDate(new Date());
-        issue.setProject(projectRepository.getOne(1L));
-        issue.setProjectRelease(projectReleaseRepository.getOne(1L));
-        issue.setLastUpdateDate(new Date());
-        return issue;
+    @Test
+    public void testFindAll() throws Exception {
+        id = 5L;
+        issuePage = createTestIssuePage(id);
+        Mockito.when(issueRepository.findAll(pageable)).thenReturn(issuePage);
+
+        Page<Issue> retrievedIssue = issueService.findAll(pageable);
+        Assert.assertEquals(issuePage, retrievedIssue);
     }
 
-    private Page<Issue> createTestIssuePage(Long id) {
+    @Test
+    public void testSave() throws Exception {
+        id = 1L;
+        issue = createTestIssue(id);
+        Mockito.when(issueRepository.findOne(0L)).thenReturn(issue);
+        issueService.save(issue);
+        Mockito.verify(issueRepository).saveAndFlush(issue);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        id = 1L;
+        issue = createTestIssue(id);
+        Mockito.when(issueRepository.findOne(0L)).thenReturn(issue);
+        issueService.delete(id);
+        Mockito.verify(issueRepository).delete(id);
+    }
+
+
+    @Test
+    public void testFindByTitleContaining() throws Exception {
+        id = 5L;
+        searchedTitle = "First";
+        issuePage = createTestIssuePage(id);
+        Mockito.when(issueRepository.findByTitleContaining(searchedTitle, pageable)).thenReturn(issuePage);
+
+        Page<Issue> retrievedIssue = issueService.findByTitleContaining(searchedTitle, pageable);
+        Assert.assertEquals(issuePage, retrievedIssue);
+    }
+
+    @Test
+    public void testFindAllList() throws Exception {
+        id = 1L;
+        issue = createTestIssue(id);
+        List<Issue> issues = new ArrayList<>();
+        issues.add(issue);
+        Mockito.when(issueRepository.findAll()).thenReturn(issues);
+
+        List<Issue> retrievedIssues = issueService.findAll();
+        Assert.assertEquals(issues, retrievedIssues);
+    }
+
+
+    private Issue createTestIssue(Long id) {
         Issue issue = new Issue();
         issue.setId(id);
         issue.setTitle("First issue");
@@ -129,16 +162,50 @@ public class IssueServiceTest {
         issue.setDescription("Test");
         issue.setPriority(IssuePriority.BLOCKER);
         issue.setStatus(IssueStatus.OPEN);
-        issue.setCreatedBy(new User());
-        issue.setAssignee(new User());
+        issue.setCreatedBy(createTestUser(id));
+        issue.setAssignee(createTestUser(id));
         issue.setCreateTime(new Date());
         issue.setDueDate(new Date());
-        issue.setProject(projectRepository.getOne(id));
-        issue.setProjectRelease(projectReleaseRepository.getOne(id));
+        issue.setProject(createTestProject(id));
+        issue.setProjectRelease(createTestRelease(id));
         issue.setLastUpdateDate(new Date());
+        return issue;
+    }
+
+    private Page<Issue> createTestIssuePage(Long id) {
+        Issue issue = createTestIssue(id);
         List<Issue> issues = new ArrayList<>();
         issues.add(issue);
         return new PageImpl<>(issues);
+    }
+
+    private Project createTestProject(Long id) {
+        Project project = new Project();
+        project.setId(id);
+        project.setTitle("Project");
+        project.setGuestAddComment(true);
+        project.setGuestCreateIssues(true);
+        project.setGuestView(true);
+        project.setDescription("Some text");
+        return project;
+    }
+
+    private ProjectRelease createTestRelease(Long id) {
+        ProjectRelease projectRelease = new ProjectRelease();
+        projectRelease.setId(id);
+        projectRelease.setVersion("New version");
+        projectRelease.setReleaseStatus(ReleaseStatus.OPEN);
+        return projectRelease;
+    }
+
+    private User createTestUser(Long id) {
+        User user = new User();
+        user.setId(id);
+        user.setFirstName("User");
+        user.setLastName("Test");
+        user.setEmail("user@user.com");
+        user.setRole(UserRole.ROLE_USER);
+        return user;
     }
 
 }

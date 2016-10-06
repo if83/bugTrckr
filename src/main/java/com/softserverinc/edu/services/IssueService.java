@@ -261,7 +261,7 @@ public class IssueService {
     }
 
     /**
-     * Removed specified issue
+     * Removes specified issue
      *
      * @param id Represents an issue id
      */
