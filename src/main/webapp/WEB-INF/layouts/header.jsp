@@ -51,19 +51,19 @@
 
                 <li class="margin-top-10">
 
-                        <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
-                            <a href="<spring:url value='/user/details'/>">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Hello, <sec:authentication property="principal.username"/>
-                            </a>
-                        </sec:authorize>
+                    <sec:authorize access="hasAnyRole('DEVELOPER', 'QA', 'USER', 'GUEST')">
+                        <a href="<spring:url value='/user/details'/>">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <c:out value="${firstName}"/>
+                        </a>
+                    </sec:authorize>
 
-                        <sec:authorize access="hasRole('ADMIN')">
-                            <a href="<spring:url value='/admin'/>">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Hello, <sec:authentication property="principal.username"/>
-                            </a>
-                        </sec:authorize>
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <a href="<spring:url value='/admin'/>">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <c:out value="${firstName}"/>
+                        </a>
+                    </sec:authorize>
                 </li>
 
                 <li>
