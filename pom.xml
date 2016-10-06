@@ -37,6 +37,8 @@
         <commons-lang3-version>3.0</commons-lang3-version>
         <!-- TestNG -->
         <testng-version>6.9.10</testng-version>
+        <!--Mockito-->
+        <mockito-version>1.10.19</mockito-version>
     </properties>
 
     <dependencies>
@@ -267,6 +269,14 @@
             <version>1.5.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito-version}</version>
+        </dependency>
+
+        <!--JUnit test library-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
