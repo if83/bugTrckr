@@ -40,7 +40,7 @@ public class WorkLogController {
      * Serve WorkLog saving requests
      *
      * @param issueId issue's id
-     * @param workLog instance of WorkLog entity accepted from UI
+     * @param workLog instance of WorkLog accepted from UI
      * @param result contains workLog validating results
      * @param redirectAttributes attributes for redirect requests
      * @return redirecting URL to previous page
@@ -63,7 +63,7 @@ public class WorkLogController {
     }
 
     /**
-     * Serve WorkLog instance removing requests
+     * Serve WorkLog removing requests
      *
      * @param worklogId WorkLog entry's id
      * @param redirectAttributes attributes for redirect requests

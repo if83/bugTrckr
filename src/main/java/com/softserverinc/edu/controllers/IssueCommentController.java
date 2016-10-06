@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
+/**
+ * Serve requests used for working with IssueComment entity
+ */
 @Controller
 public class IssueCommentController {
 
@@ -36,6 +39,14 @@ public class IssueCommentController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Serve IssueComment saving requests
+     *
+     * @param issueId issue's id
+     * @param issueComment instance of IssueComment accepted from UI
+     * @param result contains issueComment validating results
+     * @return redirecting URL to previous page
+     */
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToCreateIssueComment(#issueId)")
     @RequestMapping(value = "issue/{issueId}/comment/save", method = RequestMethod.POST)
     public String addIssueComment(@PathVariable @P("issueId")Long issueId,
@@ -52,6 +63,13 @@ public class IssueCommentController {
         return "redirect:/issue/" + issueId;
     }
 
+    /**
+     * Serve IssueComment removing requests
+     *
+     * @param issueCommentId IssueComment entry's id
+     * @param issueId  issue's id
+     * @return redirecting URL to previous page
+     */
     @PreAuthorize("@issueCommentSecurityService.hasPermissionToRemoveIssueComment(#issueCommentId)")
     @RequestMapping(value = "issue/{issueId}/comment/{issueCommentId}/remove", method = RequestMethod.GET)
     public String removeIssueComment(@PathVariable @P("issueCommentId") long issueCommentId,

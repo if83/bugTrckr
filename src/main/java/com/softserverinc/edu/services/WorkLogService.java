@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Contains methods for working with workLog database table and auxiliary methods
+ * Contain methods for working with workLog database table and auxiliary methods
  */
 @Service
 public class WorkLogService {
@@ -57,7 +57,7 @@ public class WorkLogService {
      * Find work log entry by issue
      *
      * @param issue issue instance
-     * @return List of WorkLog entry with specified issue or empty list if there is no such entries
+     * @return List of WorkLog entries with specified issue or empty list if there is no such entries
      */
     public List<WorkLog> findByIssue(Issue issue) {
         return workLogRepository.findByIssue(issue);

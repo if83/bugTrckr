@@ -37,7 +37,7 @@ public class WorkLogFormValidator {
     }
 
     /**
-     * Validates daily amount of working time
+     * Validate daily amount of working time
      * Prevents logging more than workday duration amount of working time
      *
      * @param workLog WorkLog instance accepted from UI
