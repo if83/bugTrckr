@@ -151,7 +151,6 @@ public class UserService {
 
     /**
      * Save created User into database.
-     * <p>
      * <p>invoke {@link #passwordEncoder(User user)}</p>
      * <p>If user's role is ROLE_PROJECT_MANAGER method invokes {@link #saveProjectManager(User, Long)}</p>
      *
@@ -241,9 +240,9 @@ public class UserService {
     /**
      * Save user into database with role ROLE_PROJECT_MANAGER.
      * <ul>
-     * <li>if project's id is null or, if there is project manager in the project and his id equals to userId then
-     * method does nothing</li>
-     * <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
+     *     <li>if project's id is null or, if there is project manager in the project and his id equals to userId then
+     *          method does nothing</li>
+     *     <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
      * </ul>
      *
      * @param user      the instance of User entity
@@ -351,8 +350,6 @@ public class UserService {
     /**
      * Change fields of role and project in User instance when user assigned or dropped from project or changed
      * his role in project
-     * <p>
-     * <p>invoke {@link #userRoleAndProjectValidator(User, Project, UserRole)}</p>
      *
      * @param user    the instance of User entity
      * @param project the instance of Project entity
@@ -362,7 +359,6 @@ public class UserService {
     public void userManagementInProject(User user, Project project, UserRole role) {
         user.setProject(project);
         user.setRole(role);
-        userService.userRoleAndProjectValidator(user, project, role);
         userRepository.save(user);
     }
 

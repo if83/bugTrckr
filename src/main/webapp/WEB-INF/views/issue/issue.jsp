@@ -59,7 +59,7 @@
     <%--Content of All Issues tab--%>
     <div role="tabpanel" class="tab-pane fade in active" id="allIssuesTab">
         <div class="margin-top-30">
-            <table class="table table-hover table-striped">
+            <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th class="text-center">Issue name</th>
@@ -332,7 +332,3 @@
         </div>
     </div>
 </div>
-
-
-
-

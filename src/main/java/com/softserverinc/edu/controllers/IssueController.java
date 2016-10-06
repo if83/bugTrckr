@@ -56,7 +56,7 @@ public class IssueController {
     private ProjectReleaseService projectReleaseService;
 
     /**
-     * This controller shows all possible issues
+     * Shows all possible issues
      *
      * @param model         holder for model attributes
      * @param principal     represents the user, who is authenticated
@@ -77,14 +77,6 @@ public class IssueController {
         return "issue";
     }
 
-    /**
-     * Search controller
-     *
-     * @param title    search by this issue title
-     * @param model    holder for model attributes
-     * @param pageable represents the total number of pages in the set of issues
-     * @return all issues, finded by title
-     */
     @PostMapping("/issue/search")
     public String issueSearchByTitle(@RequestParam(value = "title") String title, Model model,
                                      @PageableDefault(PageConstant.AMOUNT_ISSUE_ELEMENTS) Pageable pageable) {
@@ -164,7 +156,8 @@ public class IssueController {
     }
 
     /**
-     * Controller for removing issue by id
+     *  Remove issue by id
+     *  IssueSecurityService checks for permission of current user to remove this issue
      *
      * @param id                 represents issue by this id
      * @param redirectAttributes represents attributes for a redirect scenario
@@ -180,13 +173,6 @@ public class IssueController {
         return "redirect:/issue";
     }
 
-    /**
-     * Controller for edit issue form, method GET
-     *
-     * @param id    represents issue by this id
-     * @param model holder for model attributes
-     * @return issue edit form by id
-     */
     @PreAuthorize("@issueSecurityService.hasPermissionToEditIssue(#id)")
     @GetMapping("/issue/{id}/edit")
     public String editIssue(@PathVariable @P("id") long id, Model model) {
@@ -198,12 +184,6 @@ public class IssueController {
         return "issue_form";
     }
 
-    /**
-     * Controller for add issue form, method GET
-     *
-     * @param model holder for model attributes
-     * @return issue add form
-     */
     @GetMapping("/issue/add")
     public String addIssue(Model model) {
         populateDefaultModel(model);
@@ -213,15 +193,6 @@ public class IssueController {
         return "issue_form";
     }
 
-    /**
-     * Controller for add/edit issue form, method POST
-     *
-     * @param issue              represents specific issue
-     * @param result             represents binding results
-     * @param model              holder for model attributes
-     * @param redirectAttributes represents attributes for a redirect scenario
-     * @return list of all issues with information about issue add/edit operation
-     */
     @PostMapping("/issue/add")
     public String addIssuePost(@ModelAttribute("issue") @Valid Issue issue, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes) {

@@ -22,7 +22,6 @@ public class ProjectService {
     @Autowired
     private UserService userService;
 
-
     public Project findById(Long id) {
         return projectRepository.findOne(id);
     }

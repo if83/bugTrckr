@@ -38,10 +38,7 @@
                             </div>
                         </spring:bind>
                     </div>
-                </div>
-
-                <div class="col-sm-12">
-                    <div class="col-sm-6 pull-left row">
+                    <div class="col-sm-6 pull-right row">
                         <spring:bind path="firstName">
                             <div class="form-group">
                                 <label for="firstNameInput">First name</label>
@@ -51,8 +48,10 @@
                             </div>
                         </spring:bind>
                     </div>
+                </div>
 
-                    <div class="col-sm-6 pull-right row">
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row">
                         <spring:bind path="lastName">
                             <div class="form-group">
                                 <label for="lastNameInput">Last name</label>
@@ -62,10 +61,7 @@
                             </div>
                         </spring:bind>
                     </div>
-                </div>
-
-                <div class="col-sm-12">
-                    <div class="col-sm-6 pull-left row password">
+                    <div class="col-sm-6 pull-right row password">
                         <spring:bind path="password">
                             <div class="form-group">
                                 <label for="passwordInput">Password</label>
@@ -75,8 +71,10 @@
                             </div>
                         </spring:bind>
                     </div>
+                </div>
 
-                    <div class="col-sm-6 pull-right row password">
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row password">
                         <spring:bind path="confirmPassword">
                             <div class="form-group">
                                 <label for="confirmPasswordInput">Confirm password</label>
@@ -87,9 +85,12 @@
                             </div>
                         </spring:bind>
                     </div>
-                    <label class="margin-bottom-20 margin-top-20">
-                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspSelect Project and Role for User
-                    </label>
+
+                    <div class="col-sm-6 pull-right row password">
+                        <label class="margin-bottom-20 margin-top-30">
+                            <input type="checkbox" id="chooseProject"/>&nbsp&nbspSelect Project and Role for User
+                        </label>
+                    </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">

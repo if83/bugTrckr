@@ -16,7 +16,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 5,
                 maxlength: 15
-            },
+            }
         },
         messages: {
             "username": {
@@ -28,7 +28,7 @@ $(document).ready(function () {
                 required: "Please enter the password",
                 minlength: "Password must be at least 5 characters long",
                 maxlength: "Password must be not longer than 15 characters"
-            },
+            }
         },
         errorElement : 'div',
         errorLabelContainer: '#msg'

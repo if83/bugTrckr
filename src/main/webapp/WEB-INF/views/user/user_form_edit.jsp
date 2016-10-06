@@ -20,22 +20,10 @@
 </div>
 
 <div class="margin-top-30 row">
-    <div class="col-sm-8  col-md-offset-2">
+    <div class="col-sm-8  col-sm-offset-2">
         <div class="row">
 
             <form id="userForm" action="/user/${user.id}/edit" method="POST">
-                <div class="col-sm-12">
-                    <div class="col-sm-6 pull-left row">
-                        <div class="form-group">
-                            <label for="emailInput">E-mail</label>
-                            <input name="email" type="email" class="form-control" id="emailInput" value="${user.email}"/>
-                            <div class="help-block">
-                                <p class="error-msg has-error"><strong>${msg}</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">
                         <div class="form-group">
@@ -53,9 +41,22 @@
                     </div>
                 </div>
 
-                <label class="margin-bottom-20 margin-top-20 col-sm-12">
-                        <input type="checkbox" id="chooseProject"/>&nbsp&nbspChange Project and Role for User
-                </label>
+                <div class="col-sm-12">
+                    <div class="col-sm-6 pull-left row">
+                        <div class="form-group">
+                            <label for="emailInput">E-mail</label>
+                            <input name="email" type="email" class="form-control" id="emailInput" value="${user.email}"/>
+                            <div class="help-block">
+                                <p class="error-msg has-error"><strong>${msg}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group row pull-right">
+                        <label class="margin-bottom-20 margin-top-30">
+                            <input type="checkbox" id="chooseProject"/>&nbsp&nbspChange Project and Role for User
+                        </label>
+                    </div>
+                </div>
 
                 <div class="col-sm-12">
                     <div class="col-sm-6 pull-left row">

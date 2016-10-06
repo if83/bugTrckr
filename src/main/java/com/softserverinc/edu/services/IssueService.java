@@ -215,8 +215,6 @@ public class IssueService {
         return issueRepository.findByProjectRelease(projectRelease, pageable);
     }
 
-
-
     /**
      * Finds issues by title (or title substring) for selected release.
      *
@@ -230,109 +228,47 @@ public class IssueService {
         return issueRepository.findByProjectReleaseAndTitleContaining(projectRelease, searchedString, pageable);
     }
 
-    /**
-     * Finds an issue by project
-     *
-     * @param project        Represents project for search
-     * @param searchedString Represents issues title for search
-     * @param pageable       Represents the total number of pages in the set of issues
-     * @return Page of issues by project and by issue title
-     */
     @Transactional
     public Page<Issue> findIssuesByProject(Project project, String searchedString, Pageable pageable) {
         return issueRepository.findByProjectAndTitleContaining(project, searchedString, pageable);
     }
 
-    /**
-     * Finds all issues
-     *
-     * @return List of all issues
-     */
     public List<Issue> findAll() {
         return issueRepository.findAll();
     }
 
-    /**
-     * Saves specified issue
-     *
-     * @param issue Represents current issue
-     * @return Issue, that has been saved
-     */
     @Transactional
     public Issue save(Issue issue) {
         return issueRepository.saveAndFlush(issue);
     }
 
-    /**
-     * Removes specified issue
-     *
-     * @param id Represents an issue id
-     */
     @Transactional
     public void delete(Long id) {
         issueRepository.delete(id);
     }
 
-    /**
-     * Updates and saves specified issue
-     *
-     * @param issue Represents an issue
-     * @return Issue, that has been updated and saved
-     */
     @Transactional
     public Issue update(Issue issue) {
         return issueRepository.saveAndFlush(issue);
     }
 
-    /**
-     * Finds an issue by containing title
-     *
-     * @param title    Represents the title for search
-     * @param pageable Represents the total number of pages in the set of issues
-     * @return Page of issues with this title
-     */
     public Page<Issue> findByTitleContaining(String title, Pageable pageable) {
         return issueRepository.findByTitleContaining(title, pageable);
     }
 
-    /**
-     * Finds page of all issues
-     *
-     * @param pageable Represents the total number of pages in the set of issues
-     * @return Page of all issues
-     */
     public Page<Issue> findAll(Pageable pageable) {
         return issueRepository.findAll(pageable);
     }
 
-    /**
-     * Finds page of issues by project
-     *
-     * @param project  Represents the project
-     * @param pageable Represents the total number of pages in the set of issues
-     * @return Page of issue by a project
-     */
     @Transactional
     public Page<Issue> findByProject(Project project, Pageable pageable) {
         return issueRepository.findByProject(project, pageable);
     }
 
-    /**
-     * Finds page of issues by user
-     *
-     * @param principal Represents a user, who is authenticated right now
-     * @param pageable  Represents the total number of pages in the set of issues
-     * @return Page of issues by user
-     */
     public Page<Issue> findByUser(Principal principal, Pageable pageable) {
         return issueRepository.findByAssignee((userService.findByEmailIs(principal.getName())), pageable);
     }
 
-    /**
-     * Checks users authentication
-     *
-     * @return List of users, or list of Project managers, if user is not authenticated
-     */
     public List<User> checkAuthentication() {
         if (!issueSecurityService.isAuthenticated()) {
             return userService.findByRole(UserRole.ROLE_PROJECT_MANAGER);

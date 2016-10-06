@@ -85,6 +85,8 @@ public class UserController {
             return"redirect:/user/" + id + "/edit";
         }
         redirectAttributes.addFlashAttribute("msg", String.format("user %s %s is edited", firstName, lastName));
+        User user = userService.findOne(id);
+        userService.userRoleAndProjectValidator(user, projectService.findById(projectId), role);
         userService.saveEditedUser(id, email, firstName, lastName, projectId, role, description);
         return "redirect:/users";
     }
