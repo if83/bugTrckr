@@ -58,7 +58,7 @@ public class WorkLogController {
         }
         workLogService.save(workLog);
         LOGGER.info("Worklog saved, id= " + workLog.getId());
-        redirectAttributes.addFlashAttribute("msg", "Work log entry saved.");
+        redirectAttributes.addFlashAttribute("msg", "Successfully saved work log.");
         return "redirect:/issue/" + issueId;
     }
 

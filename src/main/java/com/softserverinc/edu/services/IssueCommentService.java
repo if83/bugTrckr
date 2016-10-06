@@ -90,9 +90,12 @@ public class IssueCommentService {
         if (issueComment.getId() == null) {
             issueComment.setTimeStamp(new Date());
         } else {
+            String text = findOne(issueComment.getId()).getText();
             Date timeStamp = findOne(issueComment.getId()).getTimeStamp();
             issueComment.setTimeStamp(timeStamp);
-            issueComment.setIsEdited(true);
+            if (!issueComment.getText().equals(text)) {
+                issueComment.setIsEdited(true);
+            }
         }
     }
 }

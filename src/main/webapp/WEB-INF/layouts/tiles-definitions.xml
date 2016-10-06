@@ -55,12 +55,6 @@
         </put-list-attribute>
     </definition>
 
-    <!--WorkLog-->
-    <definition name="worklog" extends="abstractDefaultTemplate">
-        <put-attribute name="title" value="WorkLog page"/>
-        <put-attribute name="content" value="/WEB-INF/views/worklog/worklog.jsp"/>
-    </definition>
-
     <!--Label-->
     <definition name="label" extends="abstractDefaultTemplate">
         <put-attribute name="title" value="Label page"/>

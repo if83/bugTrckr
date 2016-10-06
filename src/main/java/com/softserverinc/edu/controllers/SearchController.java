@@ -34,9 +34,10 @@ public class SearchController {
     @PostMapping("/search_text")
     public String search(@RequestParam("searchText") String searchText, Model model) {
 
-        //searchRepository.indexEntity();
+        searchRepository.indexEntity();
 
         List searchResult = searchRepository.search(searchText);
+
         List<Project> projects = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();
         List<ProjectRelease> releases = new ArrayList<>();

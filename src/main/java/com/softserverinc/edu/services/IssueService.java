@@ -153,16 +153,6 @@ public class IssueService {
     }
 
     /**
-     * Checks if current issue is new
-     *
-     * @param issue Represents current issue
-     * @return True, if an issue is new, false otherwise
-     */
-    boolean isNewIssue(Issue issue) {
-        return (issue.getId() == null || issue.getId() == 0L);
-    }
-
-    /**
      * Checks if changed status is valid for current issue.
      * Invokes {@see #getAvailableStatusesForStatus(IssueStatus status)}
      * and compare input status with available statuses for it.
@@ -180,18 +170,6 @@ public class IssueService {
             }
         }
         return false;
-    }
-
-    /**
-     * Finds an issue for release
-     *
-     * @param projectRelease Represents current release
-     * @param pageable       Represents the total number of pages in the set of issues
-     * @return Page of issues by release
-     */
-    @Transactional
-    public Page<Issue> findIssuesForRelease(ProjectRelease projectRelease, Pageable pageable) {
-        return issueRepository.findByProjectRelease(projectRelease, pageable);
     }
 
     /**
@@ -213,6 +191,31 @@ public class IssueService {
         }
         return false;
     }
+
+    /**
+     * Checks if current issue is new
+     *
+     * @param issue Represents current issue
+     * @return True, if an issue is new, false otherwise
+     */
+    boolean isNewIssue(Issue issue) {
+        return (issue.getId() == null || issue.getId() == 0L);
+    }
+
+
+    /**
+     * Finds an issue for release
+     *
+     * @param projectRelease Represents current release
+     * @param pageable       Represents the total number of pages in the set of issues
+     * @return Page of issues by release
+     */
+    @Transactional
+    public Page<Issue> findIssuesForRelease(ProjectRelease projectRelease, Pageable pageable) {
+        return issueRepository.findByProjectRelease(projectRelease, pageable);
+    }
+
+
 
     /**
      * Finds issues by title (or title substring) for selected release.
@@ -334,7 +337,10 @@ public class IssueService {
         if (!issueSecurityService.isAuthenticated()) {
             return userService.findByRole(UserRole.ROLE_PROJECT_MANAGER);
         }
-        return userService.findAll();
+        //Remove Admin from list of user
+        List<User> users = userService.findAll();
+        users.remove(userService.findOne(1L));
+        return users;
     }
 
 }

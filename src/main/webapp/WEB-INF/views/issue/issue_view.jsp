@@ -154,7 +154,7 @@
                 <label class="col-sm-4">Labels</label>
                 <div class="col-sm-8">
                     <c:forEach var="label" items="${issue.labels}">
-                        <span class="label label-default">
+                        <span class="label label-default ">
                             <c:out value="${label.title}"/>
                         </span>&nbsp;
                     </c:forEach>
@@ -260,7 +260,7 @@
                                                         Cancel
                                                     </button>
                                                     <a href="<spring:url value='/issue/${issue.id}/comment/${issueCommentsListIterator.id}/remove' />"
-                                                       class="btn btn-u">Delete</a>
+                                                       class="btn btn-default">Delete</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -311,8 +311,8 @@
                             <form:hidden path="isEdited"/>
                             <div class="col-sm-12" id="issueCommentButtons">
                                 <span class="pull-right">
-                                    <button id="issueCommentCancelButton" class="hidden">Cancel</button>
-                                    <input type="submit" value="Submit" class="margin-top-30 btn-u"
+                                    <button id="issueCommentCancelButton" class="hidden btn btn-default">Cancel</button>
+                                    <input type="submit" value="Submit" class="margin-top-30 btn btn-default"
                                            id="issueCommentSubmitButton"/>
                                 </span>
                             </div>
@@ -325,7 +325,7 @@
             <div role="tabpanel" class="tab-pane fade" id="tabs-worklog">
                 <div class="margin-top-10 text-center">
                     <sec:authorize access="hasRole('${permissionToUseWorkLogForm}')">
-                        <button class="workLogToggler btn-u row text-center">Add entry</button>
+                        <button class="workLogToggler btn btn-default row text-center">Add entry</button>
                     </sec:authorize>
                 </div>
                 <div class="margin-top-10" id="workLogTable">
@@ -390,7 +390,7 @@
                                                                     Cancel
                                                                 </button>
                                                                 <a href="<spring:url value='/issue/${workLogIterator.issue.id}/worklog/${workLogIterator.id}/remove' />"
-                                                                   class="btn btn-u">Delete</a>
+                                                                   class="btn btn-default">Delete</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -496,7 +496,7 @@
                             <div class="col-sm-8" id="workLogButtons">
                                 <span class="pull-right">
                                     <button id="workLogCancelButton" class="hidden">Cancel</button>
-                                    <input type="submit" value="Submit" class="margin-top-30 btn-u"
+                                    <input type="submit" value="Submit" class="margin-top-30 btn btn-default"
                                            id="workLogSubmitButton"/>
                                 </span>
                             </div>

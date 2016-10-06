@@ -61,7 +61,7 @@ $(document).ready(function () {
         $("#workLogTable").hide();
         $("#workLogForm").removeClass("hidden").addClass("active");
         $(".workLogToggler").hide();
-        $("#workLogCancelButton").removeClass("hidden").addClass("margin-top-30 btn-u").click(function(event){
+        $("#workLogCancelButton").removeClass("hidden").addClass("margin-top-30 btn btn-default").click(function(event){
             event.preventDefault();
             window.location.href = document.referrer;
         });

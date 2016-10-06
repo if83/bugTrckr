@@ -41,7 +41,7 @@ $(document).ready(function () {
         $(this).find('option').not(':selected').remove();
         queryObj.selectedStatus = selectedStatus;
         $.ajax({
-            url: "/getAvaliableIssueStatuses",
+            url: "/getAvailableIssueStatuses",
             data: queryObj,
             type: 'POST',
             success: function (statuses) {
