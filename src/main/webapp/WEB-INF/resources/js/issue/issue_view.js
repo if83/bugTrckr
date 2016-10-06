@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var location = window.location.href;
+    var submits = 0;
 
     //adds datepicker
     $( ".datepicker" ).datepicker({
@@ -61,7 +62,7 @@ $(document).ready(function () {
         $("#workLogTable").hide();
         $("#workLogForm").removeClass("hidden").addClass("active");
         $(".workLogToggler").hide();
-        $("#workLogCancelButton").removeClass("hidden").addClass("margin-top-30 btn btn-default").click(function(event){
+        $("#workLogCancelButton").removeClass("hidden").addClass("margin-top-30").click(function(event){
             event.preventDefault();
             window.location.href = document.referrer;
         });
@@ -95,7 +96,7 @@ $(document).ready(function () {
             return false;
         });
 
-        $("#issueCommentCancelButton").removeClass("hidden").addClass("margin-top-30 btn-u").click(function(event){
+        $("#issueCommentCancelButton").removeClass("hidden").addClass("margin-top-30").click(function(event){
             event.preventDefault();
             window.location.href = document.referrer;
         });
@@ -122,13 +123,63 @@ $(document).ready(function () {
         $("html,body").animate({scrollTop: $("#breadcrumbs").offset().top}, 1000);
     });
 
-    $("#anonymousName").keyup(function count(event){
-        var number = $("#anonymousName").val().length;
-
-        if(number < 8 || number >32){
-            $("#issueCommentSubmitButton").submit(function (ev) {
-               ev.preventDefault();
-            });
-        }
+    //validate anonymousName input field
+    $("#issueCommentForm").submit(function (event) {
+        var anonym = $("#anonymousName").val().length;
+        var text = $("#text").val().length;
+        if($("#anonymousName").attr("type") != "hidden" ) {
+            if (anonym < 8 || anonym > 32) {
+                $("#anonymousNameDiv").addClass("has-error");
+                $("#anonymousNameDiv .text-danger").removeClass("hidden");
+                event.preventDefault();
+            };
+            if (text < 1) {
+                $("#textDiv .text-danger").removeClass("hidden");
+                event.preventDefault();
+            };
+        };
+        if (text < 1) {
+            $("#textDiv .text-danger").removeClass("hidden");
+            event.preventDefault();
+        };
     });
+    $("#anonymousName").keyup(function (event) {
+        $("#anonymousNameDiv").removeClass("has-error");
+    });
+    
+    //validate workLog form
+    $("#workLogForm").submit(function (event) {
+        var start = $("#startDate").val().length;
+        var end = $("#endDate").val().length;
+        var amount = $("#amountOfTime").val().length;
+        if (start == 0) {
+            $("#startDateDiv").addClass("has-error");
+            $("#startDateDiv .text-danger").removeClass("hidden");
+            event.preventDefault();
+        };
+        if (end == 0) {
+            $("#endDateDiv").addClass("has-error");
+            $("#endDateDiv .text-danger").removeClass("hidden");
+            event.preventDefault();
+        };
+        if (amount == 0) {
+            $("#amountOfTimeDiv").addClass("has-error");
+            $("#amountOfTimeDiv .text-danger").removeClass("hidden");
+            event.preventDefault();
+        };
+    });
+
+    $("#startDate").keyup(function (event) {
+        $("#startDateDiv").removeClass("has-error");
+    });
+    $("#endDate").keyup(function (event) {
+        $("#endDateDiv").removeClass("has-error");
+    });
+    $("#amountOfTime").keyup(function (event) {
+        $("#amountOfTimeDiv").removeClass("has-error");
+    });
+    
+    if($("#tabs-comments").height() > 800){
+        $("#scrollButtons").removeClass("hidden");
+    }
 });

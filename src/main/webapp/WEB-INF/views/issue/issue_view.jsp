@@ -198,7 +198,7 @@
         <div class="tab-content">
             <%--comments--%>
             <div role="tabpanel" class="tab-pane fade in active" id="tabs-comments">
-                <div id="scrollButtons">
+                <div id="scrollButtons" class="hidden">
                     <a href=""><i class="fa fa-arrow-circle-up fa-2x icon-table-u" aria-hidden="true"></i></a><br>
                     <a href=""><i class="fa fa-arrow-circle-down fa-2x icon-table-u" aria-hidden="true"></i></a>
                 </div>
@@ -283,13 +283,13 @@
                             <c:choose>
                                 <c:when test="${currentUser == null}">
                                     <spring:bind path="anonymousName">
-                                        <div class="margin-top-10">
+                                        <div class="margin-top-10" id="anonymousNameDiv">
                                             <label for="anonymousName">Introduce yourself to comment</label>
                                             <form:input path="anonymousName" type="text" class="form-control"
                                                         id="anonymousName"
                                                         placeholder="Type your name here (8-32 characters)"
                                                         value="${issueComment.anonymousName}"/>
-                                            <form:errors path="anonymousName" class="control-label"/>
+                                            <div class="text-danger hidden">&nbsp;8-32 characters required</div>
                                         </div>
                                     </spring:bind>
                                 </c:when>
@@ -298,11 +298,12 @@
                                 </c:otherwise>
                             </c:choose>
                             <spring:bind path="text">
-                                <div class="form-group ${status.error ? 'has-error' : ''} margin-bottom-30">
+                                <div class="margin-bottom-30" id="textDiv">
                                     <form:textarea path="text" cols="100" id="text" rows="5"
                                                    value="${issueComment.text}"
                                                    class="ckeditor"></form:textarea>
                                     <form:errors path="text" class="control-label"/>
+				    <div class="text-danger hidden">&nbsp;At least one character required</div>
                                 </div>
                             </spring:bind>
                             <form:hidden path="user"/>
@@ -458,44 +459,44 @@
                         <form:form action="${workLogAction}" modelAttribute="workLog" method="POST">
                             <div class="col-sm-8">
                                 <spring:bind path="startDate">
-                                    <div class="margin-top-10">
+                                    <div class="margin-top-10" id="startDateDiv">
                                         <label for="startDate">Start date</label>
                                         <form:input path="startDate" type="text" class="form-control datepicker"
                                                     id="startDate"
                                                     value="${startDate}"/>
-                                        <form:errors path="startDate" class="control-label"/>
+                                        <div class="text-danger hidden">&nbsp;Required</div>
                                     </div>
                                 </spring:bind>
 
                                 <spring:bind path="endDate">
-                                    <div class="margin-top-20">
+                                    <div class="margin-top-20" id="endDateDiv">
                                         <label for="endDate">End date</label>
                                         <form:input path="endDate" type="text" class="form-control datepicker"
                                                     id="endDate"
                                                     value="${endDate}"/>
-                                        <form:errors path="endDate" class="control-label"/>
+                                        <div class="text-danger hidden">&nbsp;Required</div>
                                     </div>
                                 </spring:bind>
 
                                 <spring:bind path="amountOfTime">
-                                    <div class="margin-top-20">
+                                    <div class="margin-top-20" id="amountOfTimeDiv">
                                         <label for="amountOfTime">Amount (1-8 hrs per day range)</label>
                                             <%--may specify user or project workday duration instead--%>
                                         <form:input path="amountOfTime" type="text" class="form-control"
                                                     id="amountOfTime"
                                                     placeholder="Type your amount here"
                                                     value="${worklog.amountOfTime}"/>
-                                        <form:errors path="amountOfTime" class="control-label"/>
+                                        <div class="text-danger hidden">&nbsp;Required</div>
                                     </div>
                                 </spring:bind>
                             </div>
-                            <%--TODO: prokhorenkovkv fix same named paths--%>
-                            <form:hidden path="user"/>
+                                                        
+			    <form:hidden path="user"/>
                             <form:hidden path="issue"/>
                             <form:hidden path="id"/>
                             <div class="col-sm-8" id="workLogButtons">
                                 <span class="pull-right">
-                                    <button id="workLogCancelButton" class="hidden">Cancel</button>
+                                    <button id="workLogCancelButton" class="hidden btn btn-default">Cancel</button>
                                     <input type="submit" value="Submit" class="margin-top-30 btn btn-default"
                                            id="workLogSubmitButton"/>
                                 </span>
