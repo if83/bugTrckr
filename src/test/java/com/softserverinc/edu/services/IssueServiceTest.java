@@ -154,6 +154,17 @@ public class IssueServiceTest {
     }
 
 
+    @Test
+    public void testFindByProject() throws Exception {
+        id = 5L;
+        issuePage = createTestIssuePage(id);
+        project = createTestProject(id);
+        Mockito.when(issueRepository.findByProject(project, pageable)).thenReturn(issuePage);
+
+        Page<Issue> retrievedIssue = issueService.findByProject(project, pageable);
+        Assert.assertEquals(issuePage, retrievedIssue);
+    }
+
     private Issue createTestIssue(Long id) {
         Issue issue = new Issue();
         issue.setId(id);
@@ -162,8 +173,8 @@ public class IssueServiceTest {
         issue.setDescription("Test");
         issue.setPriority(IssuePriority.BLOCKER);
         issue.setStatus(IssueStatus.OPEN);
-        issue.setCreatedBy(createTestUser(id));
-        issue.setAssignee(createTestUser(id));
+        issue.setCreatedBy(new User());
+        issue.setAssignee(new User());
         issue.setCreateTime(new Date());
         issue.setDueDate(new Date());
         issue.setProject(createTestProject(id));
@@ -196,16 +207,6 @@ public class IssueServiceTest {
         projectRelease.setVersion("New version");
         projectRelease.setReleaseStatus(ReleaseStatus.OPEN);
         return projectRelease;
-    }
-
-    private User createTestUser(Long id) {
-        User user = new User();
-        user.setId(id);
-        user.setFirstName("User");
-        user.setLastName("Test");
-        user.setEmail("user@user.com");
-        user.setRole(UserRole.ROLE_USER);
-        return user;
     }
 
 }

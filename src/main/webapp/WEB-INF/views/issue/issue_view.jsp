@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-sm-2 col-sm-offset-1">
             <h1 class="pull-left"> ${issue.title}
-                <sec:authentication var="principal" property="principal" />
+                <sec:authentication var="principal" property="principal"/>
                 <c:choose>
                     <c:when test="${principal != null}">
                         <sec:authorize access="@issueSecurityService.hasPermissionToEditIssue('${issue.id}')">
@@ -313,7 +313,7 @@
                                 <span class="pull-right">
                                     <button id="issueCommentCancelButton" class="hidden">Cancel</button>
                                     <input type="submit" value="Submit" class="margin-top-30 btn-u"
-                                        id="issueCommentSubmitButton"/>
+                                           id="issueCommentSubmitButton"/>
                                 </span>
                             </div>
                         </form:form>
@@ -473,7 +473,7 @@
                                         <form:input path="endDate" type="text" class="form-control datepicker"
                                                     id="endDate"
                                                     value="${endDate}"/>
-                                 <form:errors path="endDate" class="control-label"/>
+                                        <form:errors path="endDate" class="control-label"/>
                                     </div>
                                 </spring:bind>
 

@@ -254,8 +254,8 @@ public class IssueController {
     /**
      * Returns all available issue statuses for current selected status..
      *
-     * @param   selectedStatus represents selected status
-     * @return  Map with issue statuses and their string representation (it's simpler for JSon parsing)
+     * @param selectedStatus represents selected status
+     * @return Map with issue statuses and their string representation (it's simpler for JSon parsing)
      */
     @PostMapping("/getAvailableIssueStatuses")
     @ResponseBody
