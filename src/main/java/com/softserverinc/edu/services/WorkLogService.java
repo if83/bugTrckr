@@ -77,11 +77,12 @@ public class WorkLogService {
     /**
      * Find work log entry by issue's id
      *
+	 * <p>invoke {@link #getCurrentIssue(Long)}</p>
      * @param issueId issue's id
      * @return List of WorkLog entry which issue's field id is specified or empty list if there is no such entries
      */
     public List<WorkLog> findByIssueId(Long issueId) {
-        return workLogRepository.findByIssue(issueService.findById(issueId));
+        return workLogRepository.findByIssue(getCurrentIssue(issueId));
     }
 
     /**
