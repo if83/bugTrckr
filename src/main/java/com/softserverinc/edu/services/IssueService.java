@@ -52,7 +52,7 @@ public class IssueService {
 
     /**
      * Saves issue changes, that come from ajax, into database.
-     * Before that checks is input data valid (for this it invokes
+     * Before that checks if input data is valid (for this it invokes
      * {@see #isIssueInputDataValid(Issue issue, String inputData, HistoryAction action)}).
      * Writes changes to the history.
      *
@@ -140,7 +140,7 @@ public class IssueService {
      * @param issue     Represents current issue
      * @param inputData Represents input data
      * @param action    Represents action (what's changed)
-     * @return True, if the data is valid, false otherwise
+     * @return          true, if the data is valid, false otherwise
      */
     private boolean isIssueInputDataValid(Issue issue, String inputData, HistoryAction action) {
         switch (action) {

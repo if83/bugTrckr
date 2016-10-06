@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 
+/**
+ * Determines access rights to resources related with release
+ */
 @Service
 public class ReleaseSecurityService extends BasicSecurityService {
 

@@ -4,6 +4,9 @@ import com.softserverinc.edu.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Determines access rights to resources related with project
+ */
 @Service
 public class ProjectSecurityService extends BasicSecurityService {
 
@@ -15,7 +18,7 @@ public class ProjectSecurityService extends BasicSecurityService {
     }
 
     /**
-     * Check user permission for editing users in project
+     * Checks user permission for editing users in project
      *
      * @param currentProjectId the id of current project
      * @return True, if user is Admin or user is Project Manager and id od his project equal to currentProjectId,
@@ -23,7 +26,7 @@ public class ProjectSecurityService extends BasicSecurityService {
      */
     public boolean hasPermissionToProjectManagement(Long currentProjectId) {
         return getActiveUserRole().isAdmin() || getActiveUserRole().isProjectManager() &&
-                getActiveUser().getProject().getId() == currentProjectId;
+                getActiveUser().getProject().getId().equals(currentProjectId);
     }
 
 }

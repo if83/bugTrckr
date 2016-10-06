@@ -208,8 +208,8 @@ public class IssueController {
     }
 
     /**
-     * This controller is invoking when somebody is changing issue status
-     * or assignee from release page (by ajax). It saves changed issue.
+     * This method is invoking when somebody is changing issue (status
+     * or assignee) from release page (by ajax). It checks if data is valid and saves changed issue.
      *
      * @param issueId   represents id of modified issue
      * @param action    represents the action (what's changed)
@@ -223,10 +223,12 @@ public class IssueController {
     }
 
     /**
-     * Returns all available issue statuses for current selected status..
+     * Returns all available issue statuses (as map of status constatnts and their string representations)
+     * for current selected status.
+     * Invokes {@see com.softserverinc.edu.services.UserService#getMapOfIssueStatuses(String selectedStatus)}
      *
      * @param selectedStatus represents selected status
-     * @return Map with issue statuses and their string representation (it's simpler for JSon parsing)
+     * @return               Map with issue statuses and their string representation (it's simpler for JSon parsing)
      */
     @PostMapping("/getAvailableIssueStatuses")
     @ResponseBody

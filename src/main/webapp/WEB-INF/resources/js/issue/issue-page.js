@@ -33,7 +33,7 @@ $(document).ready(function () {
         return false;
     });
 
-    // change status of issue and load avaliable statuses when open statuses dropdown on issue-form 
+    // change status of issue and load available statuses when open statuses dropdown on issue-form
     $("#status").on("show.bs.select", function () {
         var self = $(this);
         var queryObj = {};
