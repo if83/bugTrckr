@@ -36,7 +36,6 @@
                     </thead>
                     <tbody>
                     <c:forEach var="issue" items="${issues}">
-                        <c:if test="msg is "></c:if>
                         <tr>
                             <td class="text-center">
                                 <a class="viewLink"
@@ -95,7 +94,8 @@
                             <a class="viewLink" href="<spring:url value='projects/project/${release.project.id}'/>">
                                 <c:out value="${release.project.title}"/> </a></td>
                         <td class="text-center">
-                            <a class="viewLink" href="<spring:url value='projects/project/${release.version}'/>">
+                            <a class="viewLink"
+                               href="<spring:url value='project/${release.project.id}/release/${release.id}'/>">
                                 <c:out value="${release.version}"/> </a></td>
                         <td class="text-center"><c:out value="${release.releaseStatus}"/></td>
                         <td class="text-center"><c:out value="${release.description}"/></td>

@@ -18,6 +18,10 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Serve fot searching in Issue, Project, ProjectRelease entities
+ */
 @Repository
 public class SearchRepository {
 
@@ -26,7 +30,9 @@ public class SearchRepository {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SearchRepository.class);
 
-
+    /**
+     * indexed Issue, Project, ProjectRelease entities
+     */
     @Transactional
     public void indexEntity() {
         try {
@@ -38,9 +44,12 @@ public class SearchRepository {
         }
     }
 
-
+    /**
+     * @param searchText text to search information in Issue, Project, ProjectRelease
+     * @return result list of Issue, Project, ProjectRelease entity
+     */
     @Transactional
-    public List<Object> search(String searchText) {
+    public List search(String searchText) {
         List resultList = new ArrayList<>();
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -53,7 +62,7 @@ public class SearchRepository {
                     .get();
 
             org.apache.lucene.search.Query query = qb
-                    .keyword().onFields("title", "description", "version")
+                    .keyword().onFields("title", "description")
                     .matching(searchText)
                     .createQuery();
 

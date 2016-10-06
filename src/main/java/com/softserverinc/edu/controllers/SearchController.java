@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Serve for working with search requests
+ */
 @Controller
 public class SearchController {
 
@@ -23,12 +26,17 @@ public class SearchController {
     @Autowired
     private SearchRepository searchRepository;
 
+    /**
+     * @param searchText request text to searching information in entities
+     * @param model      holder for model attributes
+     * @return search_result page with list of find information
+     */
     @PostMapping("/search_text")
-    public String search(@RequestParam(value = "searchText") String searchText, Model model) {
+    public String search(@RequestParam("searchText") String searchText, Model model) {
 
-        searchRepository.indexEntity();
+        //searchRepository.indexEntity();
 
-        List<Object> searchResult = searchRepository.search(searchText);
+        List searchResult = searchRepository.search(searchText);
         List<Project> projects = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();
         List<ProjectRelease> releases = new ArrayList<>();

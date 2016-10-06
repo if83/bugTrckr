@@ -4,8 +4,6 @@ import com.softserverinc.edu.entities.enums.UserRole;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.search.annotations.*;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -14,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Indexed
 public class User {
 
     /**
@@ -31,13 +28,11 @@ public class User {
     @NotEmpty(message = "Enter first name")
     @Size(max = 20, message = "First name must be no longer than 20 characters")
     @Column(nullable = false, length = 20)
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String firstName;
 
     @NotEmpty(message = "Enter last name")
     @Size(max = 20, message = "Last name must be no longer than 20 characters")
     @Column(nullable = false, length = 20)
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String lastName;
 
     @NotEmpty(message = "Enter user's email")
@@ -58,7 +53,6 @@ public class User {
 
     @Size(max = 10000, message = "Description must be no longer than 10000 characters")
     @Column(length = 10000)
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String description;
 
     /**

@@ -22,6 +22,11 @@ public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
+    /**
+     *
+     * @param model holder for loginForm object
+     * @return about page
+     */
     @GetMapping("/")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -36,6 +41,5 @@ public class LoginController {
             model.addAttribute("loginForm", loginForm);
         }
         return "about";
-
     }
 }
