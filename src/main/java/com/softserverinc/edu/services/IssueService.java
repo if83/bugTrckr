@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contain methods for working with issue database table and auxiliary methods
+ */
 @Service
 public class IssueService {
 
@@ -166,7 +169,7 @@ public class IssueService {
      *
      * @param issue         current issue
      * @param updatedStatus selected status
-     * @return              true if status is valid, false otherwise
+     * @return true if status is valid, false otherwise
      */
     private boolean isStatusValidForIssue(Issue issue, IssueStatus updatedStatus) {
         IssueStatus previousStatus = issue.getStatus();
@@ -198,7 +201,7 @@ public class IssueService {
      *
      * @param issue  current issue
      * @param userId represents id of selected user
-     * @return       true, if the user is valid, false otherwise
+     * @return true, if the user is valid, false otherwise
      */
     private boolean isUserValidForIssue(Issue issue, Long userId) {
         User updatedUser = userService.findOne(userId);
@@ -217,7 +220,7 @@ public class IssueService {
      * @param projectRelease Represents release for search
      * @param searchedString Represents substring of title for search
      * @param pageable       Represents the total number of pages in the set of issues
-     * @return               Page of issues
+     * @return Page of issues
      */
     @Transactional
     public Page<Issue> findByReleaseAndIssueTitle(ProjectRelease projectRelease, String searchedString, Pageable pageable) {

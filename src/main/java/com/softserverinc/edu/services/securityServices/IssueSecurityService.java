@@ -6,6 +6,9 @@ import com.softserverinc.edu.services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Provide access control to controller methods and UI features
+ */
 @Service
 public class IssueSecurityService extends BasicSecurityService {
 

@@ -10,13 +10,13 @@ import com.softserverinc.edu.entities.enums.IssueType;
 import com.softserverinc.edu.repositories.IssueRepository;
 import com.softserverinc.edu.repositories.ProjectReleaseRepository;
 import com.softserverinc.edu.repositories.ProjectRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.junit.Assert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -73,7 +73,7 @@ public class IssueServiceTest {
         projectRelease = projectReleaseRepository.findOne(id);
         Mockito.when(issueRepository.findByProjectRelease(projectRelease, pageable)).thenReturn(issuePage);
 
-        Page<Issue> retrievedIssue = issueService.findIssuesByRelease(projectRelease, pageable);
+        Page<Issue> retrievedIssue = issueService.findIssuesForRelease(projectRelease, pageable);
         Assert.assertEquals(issuePage, retrievedIssue);
     }
 
@@ -86,7 +86,7 @@ public class IssueServiceTest {
         Mockito.when(issueRepository.findByProjectReleaseAndTitleContaining(projectRelease, searchedTitle, pageable))
                 .thenReturn(issuePage);
 
-        Page<Issue> retrievedIssue = issueService.findByReleaseAndIssueTitle(projectRelease, searchedTitle,pageable);
+        Page<Issue> retrievedIssue = issueService.findByReleaseAndIssueTitle(projectRelease, searchedTitle, pageable);
         Assert.assertEquals(issuePage, retrievedIssue);
     }
 
@@ -99,11 +99,11 @@ public class IssueServiceTest {
         Mockito.when(issueRepository.findByProjectAndTitleContaining(project, searchedTitle, pageable))
                 .thenReturn(issuePage);
 
-        Page<Issue> retrievedIssue = issueService.findIssuesByProject(project, searchedTitle,pageable);
+        Page<Issue> retrievedIssue = issueService.findIssuesByProject(project, searchedTitle, pageable);
         Assert.assertEquals(issuePage, retrievedIssue);
     }
 
-    private Issue createTestIssue(Long issueId){
+    private Issue createTestIssue(Long issueId) {
         Issue issue = new Issue();
         issue.setId(issueId);
         issue.setTitle("First issue");
@@ -121,7 +121,7 @@ public class IssueServiceTest {
         return issue;
     }
 
-    private Page<Issue> createTestIssuePage(Long id){
+    private Page<Issue> createTestIssuePage(Long id) {
         Issue issue = new Issue();
         issue.setId(id);
         issue.setTitle("First issue");

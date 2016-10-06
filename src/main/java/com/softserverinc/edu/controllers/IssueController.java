@@ -26,6 +26,9 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Serve requsets used for working with Issue entity
+ */
 @Controller
 public class IssueController {
 
