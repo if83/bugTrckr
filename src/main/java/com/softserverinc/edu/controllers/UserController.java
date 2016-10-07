@@ -68,8 +68,7 @@ public class UserController {
     @GetMapping("/user/{id}/edit")
     public String editUser(@PathVariable Long id, Model model) {
         populateDefaultModel(model);
-        User user = userService.findOne(id);
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.findOne(id));
         return "user_form_edit";
     }
 

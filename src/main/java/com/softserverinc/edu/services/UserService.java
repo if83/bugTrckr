@@ -64,18 +64,6 @@ public class UserService {
         return users;
     }
 
-    public Page<User> findByFullName(String firstName, String lastName, Pageable pageable) {
-        return userRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName, pageable);
-    }
-
-    public Page<User> findByFirstNameContaining(String firstName, Pageable pageable) {
-        return userRepository.findByFirstNameContaining(firstName, pageable);
-    }
-
-    public Page<User> findByLastNameContaining(String lastName, Pageable pageable) {
-        return userRepository.findByLastNameContaining(lastName, pageable);
-    }
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -144,7 +132,7 @@ public class UserService {
      *
      * @param user the instance of User entity
      */
-    public void passwordEncoder(User user) {
+    private void passwordEncoder(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
@@ -239,25 +227,21 @@ public class UserService {
 
     /**
      * Save user into database with role ROLE_PROJECT_MANAGER.
-     * <ul>
-     *     <li>if project's id is null or, if there is project manager in the project and his id equals to userId then
-     *          method does nothing</li>
-     *     <li>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)}</li>
-     * </ul>
+     *
+     * <p>if there is project manager in the project and his id equals to userId then method does nothing</p>
+     * <p>otherwise invoke {@link #userManagementInProject(User, Project, UserRole)} and existed Project Manager
+     * will be removed</p>
      *
      * @param user      the instance of User entity
      * @param projectId the id of project
      */
     @Transactional
     public void saveProjectManager(User user, Long projectId) {
-        if (projectId == 0) {
-            return;
-        }
         Project project = projectService.findById(projectId);
-        if (user.getId() != null && user.getRole().isProjectManager() && user.getProject() == project) {
+        User presentProjectManager = userService.getProjectManagerOfProject(projectId);
+        if (user.getId() != null && user.getId() == presentProjectManager.getId()) {
             return;
         }
-        User presentProjectManager = userService.getProjectManagerOfProject(projectId);
         if (!project.getUsers().isEmpty() && presentProjectManager != null) {
             userService.userManagementInProject(presentProjectManager, null, UserRole.ROLE_USER);
         }
@@ -308,8 +292,9 @@ public class UserService {
 
     /**
      * Set the following parameters that come from UI to user instance and save it into database.
-     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
      * <p>if role is ROLE_PROJECT_MANAGER invokes {@link #saveProjectManager(User, Long)}</p>
+     * <p>invoke {@link #userManagementInProject(User, Project, UserRole)}</p>
+     *
      *
      * @param userId      the id of the user
      * @param email       the email address of the user
