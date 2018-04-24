@@ -452,6 +452,7 @@
               </executions>
 
               <configuration>
+                <group>Application/Collectors</group>
                 <mappings>
                   <mapping>
                     <directoryIncluded>false</directoryIncluded>
