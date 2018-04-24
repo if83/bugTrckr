@@ -461,7 +461,7 @@
                     <groupname>tomcat</groupname>
                     <sources>
                       <source>
-                        <location>${project.build.directory}/${finalWarName}.war</location>
+                        <location>${project.basedir}/target/*.war</location>
                       </source>
                     </sources>
                   </mapping>
