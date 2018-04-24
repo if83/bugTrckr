@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.softserverinc.edu</groupId>
-    <artifactId>BugTrckr</artifactId>
+    <artifactId>bugtrckr</artifactId>
     <packaging>war</packaging>
     <version>0.5.0-SNAPSHOT</version>
     <name>BugTrckr Webapp</name>
@@ -435,7 +435,68 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- RPM maven plugin  -->
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>rpm-maven-plugin</artifactId>
+              <version>2.2.0</version>
+              <executions>
+                <execution>
+                  <id>generate-rpm</id>
+                  <goals>
+                    <goal>rpm</goal>
+                  </goals>
+                </execution>
+              </executions>
 
+              <configuration>
+
+
+
+                <mappings>
+                  <mapping>
+                    <directoryIncluded>false</directoryIncluded>
+                    <directory>/var/lib/tomcat/webapps</directory>
+                    <username>tomcat</username>
+                    <groupname>tomcat</groupname>
+                    <sources>
+                      <source>
+                        <location>${project.build.directory}/${finalWarName}.war</location>
+                      </source>
+                    </sources>
+                  </mapping>
+                </mappings>
+                    <!--<directory>/home/tomcat/wars</directory>
+                      <filemode>755</filemode>
+                      <username>${rpm.file.owner}</username>
+                      <groupname>${rpm.file.owner}</groupname>
+
+                      The following adtifact/classifiers/classifier voodoo is required to get the
+                      projects main artifact into the rpm (and only the main artifact, without the
+                      test artifact.
+                      See http://mojo.codehaus.org/rpm-maven-plugin/map-params.html#artifact
+
+                      <artifact>
+                        <classifiers>
+                          <classifier/>
+                        </classifiers>
+                      </artifact>
+                    </mapping>
+                  </mappings>
+                  <preinstallScriptlet>
+                    <script>/etc/init.d/tomcat5 stop</script>
+                  </preinstallScriptlet>
+                  <postinstallScriptlet>
+                    <script>
+                      echo "removing ${apps.deploy.directory}"
+                      rm -rf ${apps.deploy.directory}
+                      echo "removing ${tomcat.work.directory}/*"
+                      rm -rf ${tomcat.work.directory}/*
+                      /etc/init.d/tomcat5 start
+                    </script>
+                  </postinstallScriptlet> -->
+               </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

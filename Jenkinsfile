@@ -15,17 +15,22 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'dev', url: 'https://github.com/if83/bugTrckr.git'
+                git branch: 'rpmbuild', url: 'https://github.com/if83/bugTrckr.git'
             }
         }
         stage ('Build') {
             steps {
-                sh 'mvn -B -V -U -e clean package' 
+                sh 'mvn -B -V -U -e clean package'
             }
             post {
                 success {
-                    junit 'target/surefire-reports/**/*.xml' 
+                    junit 'target/surefire-reports/**/*.xml'
                 }
+            }
+        }
+        stage('RPM Build') {
+            steps {
+                sh 'mvn package rpm:rpm'
             }
         }
     }
