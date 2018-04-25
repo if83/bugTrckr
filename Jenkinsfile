@@ -20,7 +20,7 @@ pipeline {
         }
         stage ('Build') {
             steps {
-                sh 'mvn -B -V -U -e clean package'
+                sh 'mvn clean package'
             }
             post {
                 success {
