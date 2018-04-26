@@ -28,10 +28,5 @@ pipeline {
                 }
             }
         }
-        stage('RPM Build') {
-            steps {
-                sh 'mvn package rpm:rpm'
-            }
-        }
     }
 }
